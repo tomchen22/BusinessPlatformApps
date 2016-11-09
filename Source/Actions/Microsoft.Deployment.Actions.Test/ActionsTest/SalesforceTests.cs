@@ -15,6 +15,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     public class SalesforceTests
     {
         [TestMethod]
+        [Ignore]
         public void SalesforceSqlArtefactsDeploysSuccessful()
         {
             this.CleanDb();
