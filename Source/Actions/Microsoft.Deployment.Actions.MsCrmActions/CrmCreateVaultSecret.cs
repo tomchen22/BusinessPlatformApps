@@ -36,6 +36,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
             string _azureToken = request.DataStore.GetValue("AzureToken");
             string subscriptionID = request.DataStore.GetValue("SubscriptionID");
             string resourceGroup = request.DataStore.GetValue("ResourceGroup");
+            string vaultName = request.DataStore.GetAllValues("VaultName")[0];
             string secretName = request.DataStore.GetValue("SecretName") ?? "pbicms";
             string connectionString = request.DataStore.GetValue("ConnectionString");
             string organizationId = request.DataStore.GetValue("OrganizationId");
