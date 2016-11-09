@@ -72,9 +72,9 @@
             List<string> invalidEntities = RetrieveInvalidEntities(entities);
 
             if (invalidEntities.Count > 0)
-                return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(),
-                    new ArgumentException("The following entities are not provisioned for replication: " + string.Join(", ", invalidEntities)),
-                    "MsCrm_ErrorCreateProfile");
+                return new ActionResponse(ActionStatus.Failure, null,
+                                          new ArgumentException("The following entities are not provisioned for replication: " + string.Join(", ", invalidEntities)),
+                                          "MsCrm_ErrorCreateProfile");
 
             try
             {
