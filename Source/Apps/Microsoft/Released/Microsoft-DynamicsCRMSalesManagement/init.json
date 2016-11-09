@@ -23,12 +23,12 @@
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "displayname": "Target",
                 "isAzureSql": true,
+                "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))",
                 "showAzureSql": true,
                 "showNewSqlOption": true,
+                "sqlInstance": "NewSql",
                 "subtitle": "Set up a connection to SQL so we can bring in your Dynamics CRM data.",
-                "title": "Connect to your SQL Database",
-                "sqlInstance": "DynamicsCRMDB",
-                "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))"
+                "title": "Connect to your SQL Database"
             },
             {
                 "displayname": "Dynamics CRM Login",
