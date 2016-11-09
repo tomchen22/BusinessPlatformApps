@@ -20,7 +20,7 @@
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             _token = request.DataStore.GetAllValues("Token")[0];
-            _orgId = request.DataStore.GetAllValues("organizationId")[0];
+            _orgId = request.DataStore.GetAllValues("OrganizationId")[0];
             string name = request.DataStore.GetAllValues("ProfileName")[0];
 
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", _token);
