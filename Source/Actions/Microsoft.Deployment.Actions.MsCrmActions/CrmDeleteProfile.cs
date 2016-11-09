@@ -20,8 +20,8 @@
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             _token = request.DataStore.GetValue("MsCrmToken");
-            _orgId = request.DataStore.GetValue("organizationId");
-            string name = request.DataStore.GetValue("ProfileName");
+            _orgId = request.DataStore.GetValue("OrganizationId");
+            string name = request.DataStore.GetValue("ProfileName") ?? "bpst-mscrm-profile";
 
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", _token);
             _rc = new RestClient(request.DataStore.GetValue("ConnectorUrl"), bearer);

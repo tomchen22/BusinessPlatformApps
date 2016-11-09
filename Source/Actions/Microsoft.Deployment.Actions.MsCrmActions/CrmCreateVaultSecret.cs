@@ -27,13 +27,13 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string _azureToken = request.DataStore.GetValue("AzureToken");
-            string subscriptionID = request.DataStore.GetValue("SubscriptionID");
-            string resourceGroup = request.DataStore.GetValue("ResourceGroup");
-            string vaultName = request.DataStore.GetAllValues("VaultName")[0];
-            string secretName = request.DataStore.GetValue("SecretName") ?? "pbicms";
-            string connectionString = request.DataStore.GetValue("ConnectionString");
+            string subscriptionID = request.DataStore.GetValue("SelectedSubscription");
+            string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
+            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
+            string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
+            string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[0];
             string organizationId = request.DataStore.GetValue("OrganizationId");
-            string tenantId = request.DataStore.GetValue("TenantId");
+            string tenantId = request.DataStore.GetValue("TenantId") ?? "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
             SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
             KeyVaultManagementClient client = new KeyVaultManagementClient(credentials);

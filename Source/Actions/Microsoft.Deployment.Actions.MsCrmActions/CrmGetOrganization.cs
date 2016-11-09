@@ -16,7 +16,7 @@
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string token = request.DataStore.GetValue("MsCrmToken");
-            string orgURL = request.DataStore.GetValue("organizationUrl");
+            string orgURL = request.DataStore.GetValue("OrganizationUrl");
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", token);
 
             RestClient rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);

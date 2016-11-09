@@ -49,8 +49,8 @@
 
             _orgUrl = request.DataStore.GetValue("OrganizationUrl");
             _orgId = request.DataStore.GetValue("OrganizationId");
-            string name = request.DataStore.GetValue("ProfileName");
-            string kV = request.DataStore.GetValue("kV");
+            string name = request.DataStore.GetValue("ProfileName") ?? "bpst-mscrm-profile";
+            string kV = request.DataStore.GetValue("KeyVault");
             string[] entities = request.DataStore.GetValue("Entities").Split(new[] {',', ' ', '\t'}, StringSplitOptions.RemoveEmptyEntries);
 
             MsCrmProfile profile = new MsCrmProfile
