@@ -23,6 +23,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     public class CrmCreateVaultSecret : BaseAction
     {
         private string _azureToken = "NO_TOKEN";
+        private string _vaultGuid;
 
         public async Task<string> GetAccessToken(string authority, string resource, string scope)
         {
@@ -32,14 +33,13 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
         [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string _azureToken = request.DataStore.GetAllValues("Token")[0];
-            string subscriptionID = request.DataStore.GetAllValues("SubscriptionID")[0];
-            string resourceGroup = request.DataStore.GetAllValues("ResourceGroup")[0];
-            string vaultName = request.DataStore.GetAllValues("VaultLine")[0];
-            string secretName = request.DataStore.GetAllValues("SecretName")[0] ?? "pbicms";
-            string connectionString = request.DataStore.GetAllValues("ConnectionString")[0];
-            string organizationId = request.DataStore.GetAllValues("OrganizationId")[0];
-            string tenantId = request.DataStore.GetAllValues("TenantId")[0];
+            string _azureToken = request.DataStore.GetValue("AzureToken");
+            string subscriptionID = request.DataStore.GetValue("SubscriptionID");
+            string resourceGroup = request.DataStore.GetValue("ResourceGroup");
+            string secretName = request.DataStore.GetValue("SecretName") ?? "pbicms";
+            string connectionString = request.DataStore.GetValue("ConnectionString");
+            string organizationId = request.DataStore.GetValue("OrganizationId");
+            string tenantId = request.DataStore.GetValue("TenantId");
 
             SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
             KeyVaultManagementClient client = new KeyVaultManagementClient(credentials);
