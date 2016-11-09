@@ -12,7 +12,7 @@ export class AzureLogin extends ViewModelBase {
     showAdvanced: boolean = false;
     subscriptionsList: any[] = [];
     showPricingConfirmation: boolean = false;
-    isDynamicsCRM: boolean = false;
+    isMsCrm: boolean = false;
     isPricingChecked: boolean = false;
 
     // Variables to override
@@ -36,16 +36,13 @@ export class AzureLogin extends ViewModelBase {
                 var tokenObj = { code: token };
                 this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
                 if (this.authToken.IsSuccess) {
-                    if (this.isDynamicsCRM) {
-                        this.MS.DataStore.addToDataStore('AzureToken', this.authToken.Body.AzureToken, DataStoreType.Private);
+                    if (this.isMsCrm) {
+                        this.MS.DataStore.addToDataStore('MsCrmToken', this.authToken.Body.AzureToken, DataStoreType.Private);
+                        this.isValidated = true;
                     } else {
-                        this.MS.DataStore.addToDataStore('DynamicsCRMToken', this.authToken.Body.AzureToken, DataStoreType.Private);
-                    }
-                    let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
-                    if (subscriptions.IsSuccess) {
-                        if (this.isDynamicsCRM) {
-                            this.isValidated = true;
-                        } else {
+                        this.MS.DataStore.addToDataStore('AzureToken', this.authToken.Body.AzureToken, DataStoreType.Private);
+                        let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
+                        if (subscriptions.IsSuccess) {
                             this.showPricingConfirmation = true;
                             //this.isValidated = false;
                             //this.showValidation = false;
@@ -82,14 +79,16 @@ export class AzureLogin extends ViewModelBase {
             this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
         }
 
-        this.MS.DataStore.addToDataStore('AADClientId', this.isDynamicsCRM, DataStoreType.Public);
+        if (this.isMsCrm) {
+            this.MS.DataStore.addToDataStore('AADClientId', this.isMsCrm, DataStoreType.Public);
+        }
 
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});
         window.location.href = response.Body.value;
     }
 
     public async NavigatingNext(): Promise<boolean> {
-        if (this.isDynamicsCRM) {
+        if (this.isMsCrm) {
             return true;
         }
 

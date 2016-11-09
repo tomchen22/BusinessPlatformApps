@@ -26,14 +26,14 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
         [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string _azureToken = request.DataStore.GetAllValues("Token")[0];
-            string subscriptionID = request.DataStore.GetAllValues("SubscriptionID")[0];
-            string resourceGroup = request.DataStore.GetAllValues("ResourceGroup")[0];
-            string vaultName = request.DataStore.GetAllValues("VaultLine")[0];
-            string secretName = request.DataStore.GetAllValues("SecretName")[0] ?? "pbicms";
-            string connectionString = request.DataStore.GetAllValues("ConnectionString")[0];
-            string organizationId = request.DataStore.GetAllValues("OrganizationId")[0];
-            string tenantId = request.DataStore.GetAllValues("TenantId")[0];
+            string _azureToken = request.DataStore.GetValue("AzureToken");
+            string subscriptionID = request.DataStore.GetValue("SelectedSubscription");
+            string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
+            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
+            string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
+            string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[0];
+            string organizationId = request.DataStore.GetValue("OrganizationId");
+            string tenantId = request.DataStore.GetValue("TenantId") ?? "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
             SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
             KeyVaultManagementClient client = new KeyVaultManagementClient(credentials);

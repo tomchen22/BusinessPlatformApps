@@ -20,7 +20,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
         [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string token = request.DataStore.GetAllValues("Token")[0];
+            string token = request.DataStore.GetValue("MsCrmToken");
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", token);
 
             RestClient rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);

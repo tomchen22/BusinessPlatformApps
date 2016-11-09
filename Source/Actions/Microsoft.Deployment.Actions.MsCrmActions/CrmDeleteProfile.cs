@@ -19,12 +19,12 @@
         [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            _token = request.DataStore.GetAllValues("Token")[0];
-            _orgId = request.DataStore.GetAllValues("OrganizationId")[0];
-            string name = request.DataStore.GetAllValues("ProfileName")[0];
+            _token = request.DataStore.GetValue("MsCrmToken");
+            _orgId = request.DataStore.GetValue("OrganizationId");
+            string name = request.DataStore.GetValue("ProfileName") ?? "bpst-mscrm-profile";
 
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", _token);
-            _rc = new RestClient(request.DataStore.GetAllValues("ConnectorUrl")[0], bearer);
+            _rc = new RestClient(request.DataStore.GetValue("ConnectorUrl"), bearer);
 
             string response = _rc.Get(MsCrmEndpoints.URL_PROFILES, $"organizationId={WebUtility.UrlEncode(_orgId)}");
             MsCrmProfile[] profiles = JsonConvert.DeserializeObject<MsCrmProfile[]>(response);
