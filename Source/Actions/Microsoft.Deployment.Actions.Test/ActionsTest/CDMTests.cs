@@ -18,6 +18,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     {
 
         [TestMethod]
+        [Ignore]
         public async Task GetAllEnvironments()
         {
             var dataStore = await AAD.GetUserTokenFromPopup();
@@ -25,6 +26,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
+        [Ignore]
         public async Task CreateEnvironment()
         {
             //Create Environment
@@ -40,6 +42,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
+        [Ignore]
         public async Task CreateDatabase()
         {
             //Create Environment
@@ -57,6 +60,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
+        [Ignore]
         public async Task ProvisionCDM()
         {
             //Create Environment
@@ -73,6 +77,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
+        [Ignore]
         public async Task CheckCDMEntities()
         {
             //Get Token
@@ -91,6 +96,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
+        [Ignore]
         public async Task CreateCDMEntity()
         {
             var dataStore = await AAD.GetUserTokenFromPopup();

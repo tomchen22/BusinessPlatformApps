@@ -24,6 +24,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public string sqlPassword = Credential.Instance.Sql.Password;
 
         [TestMethod]
+        [Ignore]
         public void SalesforceSqlArtefactsDeploysSuccessful()
         {
             this.CleanDb();
