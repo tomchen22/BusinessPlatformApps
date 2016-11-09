@@ -75,13 +75,13 @@ export default class MainService {
                 case ExperienceType.uninstall: {
                     pages = 'UninstallPages';
                     actions = 'UninstallActions';
-                    this.DeploymentService.type = this.experienceType;
+                    this.DeploymentService.experienceType = this.experienceType;
                     break;
                 }
                 default: {
                     pages = 'Pages';
                     actions = 'Actions';
-                    this.DeploymentService.type = ExperienceType.install;
+                    this.DeploymentService.experienceType = ExperienceType.install;
                     break;
                 }
             }

@@ -13,17 +13,17 @@ export class DeploymentService {
     hasError: boolean = false;
     isFinished: boolean = false;
     message: string = '';
-    type: ExperienceType;
+    experienceType: ExperienceType;
 
     constructor(MainService) {
         this.MS = MainService;
     }
 
     async ExecuteActions(): Promise<boolean> {
-        if (this.type === ExperienceType.uninstall) {
+        if (this.experienceType === ExperienceType.uninstall) {
             this.MS.LoggerService.TrackUninstallStart();
         }
-        if (this.type === ExperienceType.install) {
+        if (this.experienceType === ExperienceType.install) {
             this.MS.LoggerService.TrackDeploymentStart();
         }
 
@@ -70,10 +70,10 @@ export class DeploymentService {
             this.message = 'Error';
         }
 
-        if (this.type === ExperienceType.uninstall) {
+        if (this.experienceType === ExperienceType.uninstall) {
             this.MS.LoggerService.TrackUninstallEnd(!this.hasError);
         }
-        if (this.type === ExperienceType.install) {
+        if (this.experienceType === ExperienceType.install) {
             this.MS.LoggerService.TrackDeploymentEnd(!this.hasError);
         }
         this.isFinished = true;
