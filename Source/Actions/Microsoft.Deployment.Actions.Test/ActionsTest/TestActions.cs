@@ -20,6 +20,7 @@ namespace Microsoft.Deployment.Actions.Test.CommonActions
         }
 
         [TestMethod]
+        [Ignore]
         public void RunSalesforceCredentialValidation()
         {
             DataStore dataStore = new DataStore();
