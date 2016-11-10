@@ -97,6 +97,7 @@
     <Compile Include="TestHelpers\Credential.cs" />
     <Compile Include="TestHelpers\SalesforceCreds.cs" />
     <Compile Include="TestHelpers\SqlCreds.cs" />
+    <Compile Include="TestHelpers\ObjectExtensionMethods.cs" />
     <Compile Include="TestHelpers\TestHarness.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -107,6 +108,12 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Apps\TestApps\TestApp\init.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\Arm\ArmParam.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\Arm\armtemplate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Apps\TestApps\TestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
