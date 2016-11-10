@@ -81,7 +81,7 @@
                 string response = _rc.Post(MsCrmEndpoints.URL_PROFILES, JsonConvert.SerializeObject(profile));
                 MsCrmProfile createdProfile = JsonConvert.DeserializeObject<MsCrmProfile>(response);
 
-                return new ActionResponse(ActionStatus.Success, new JObject(createdProfile));
+                return new ActionResponse(ActionStatus.Success, createdProfile.Id);
             }
             catch (Exception e)
             {
