@@ -50,12 +50,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", datastore);
             Assert.IsTrue(resourceGroupResult.IsSuccess);
 
-
-        
             datastore.AddToDataStore("AzureArmFile", "Service/Arm/armtemplate.json");
             var paramFile = JsonUtility.GetJsonObjectFromJsonString(System.IO.File.ReadAllText(@"Apps/TestApps/TestApp/Service/Arm/armparam.json"));
-            
-
+            paramFile["AzureArmParameters"]["SqlServerName"] = "sqltestserver" + RandomGenerator.GetRandomLowerCaseCharacters(10);
             datastore.AddToDataStore("AzureArmParameters", paramFile["AzureArmParameters"]);
             var armResult = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureArmTemplate", datastore);
             Assert.IsTrue(armResult.IsSuccess);
