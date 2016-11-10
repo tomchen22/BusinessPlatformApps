@@ -10,13 +10,13 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
+    [Export(typeof(IAction))]
     public class CrmDeleteProfile : BaseAction
     {
         private RestClient _rc;
         private string _token;
         private string _orgId;
 
-        [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             _token = request.DataStore.GetValue("MsCrmToken");
