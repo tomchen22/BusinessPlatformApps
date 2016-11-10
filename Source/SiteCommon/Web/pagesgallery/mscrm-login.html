@@ -4,7 +4,7 @@
         We now need to set up a connection to Dynamics CRM.
     </p>
 
-    <div if.bind="isActivated && !isValidated && !showPricingConfirmation">
+    <div if.bind="isActivated && !hasToken">
         <p class="st-text">Would you like to connect to Dynamics CRM through an organizational account or a Microsoft account?</p>
         <div class="st-float">
             <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" value.bind="connectionType">

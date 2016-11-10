@@ -3,6 +3,8 @@ import { DataStoreType } from '../services/datastore';
 import { ActionResponse } from '../services/actionresponse';
 
 export class MsCrmLogin extends AzureLogin {
+    hasToken: boolean = false;
+
     constructor() {
         super();
     }
@@ -22,8 +24,12 @@ export class MsCrmLogin extends AzureLogin {
                 };
                 this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
                 if (this.authToken.IsSuccess) {
-                    this.MS.DataStore.addToDataStore('MsCrmToken', this.authToken.Body.AzureToken, DataStoreType.Private);
-                    this.isValidated = true;
+                    this.hasToken = true;
+
+                    this.MS.DataStore.addToDataStore('MsCrmToken', this.authToken.Body.AzureToken.access_token, DataStoreType.Private);
+
+                    var response = await this.MS.HttpService.executeAsync('Microsoft-CrmGetOrgs', {});
+                    console.log(response);
                 }
                 this.MS.UtilityService.RemoveItem('queryUrl');
             }
