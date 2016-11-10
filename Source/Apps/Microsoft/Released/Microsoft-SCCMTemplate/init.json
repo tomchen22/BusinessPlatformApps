@@ -94,7 +94,8 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Progress",
         "finishedActionName": "Microsoft-GetTaskStatus",
-        "targetSchema": "pbist_sccm"
+        "targetSchema": "pbist_sccm",
+        "filename": "$('SCCMSolutionTemplate.pbix', isSaved=true)"
       }
     ],
 
