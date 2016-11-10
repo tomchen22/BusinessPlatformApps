@@ -136,6 +136,7 @@
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
     <Compile Include="Arm\DeployArmTemplate.cs" />
+    <Compile Include="Arm\DeployAzureArmTemplate.cs" />
     <Compile Include="Arm\GetArmDeploymentStatus.cs" />
     <Compile Include="Arm\WaitForArmDeploymentStatus.cs" />
     <Compile Include="AzureSql\CreateAzureSql.cs" />
