@@ -1,6 +1,4 @@
-﻿
-
-namespace Microsoft.Deployment.Common.Actions.MsCrm
+﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
 
     using Microsoft.Deployment.Common.ActionModel;
@@ -15,9 +13,9 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
+    [Export(typeof(IAction))]
     public class CrmGetOrgs : BaseAction
     {
-        [Export(typeof(IAction))]
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string token = request.DataStore.GetValue("MsCrmToken");
