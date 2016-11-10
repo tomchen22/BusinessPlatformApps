@@ -7,8 +7,8 @@
     <ProjectGuid>{5951A918-2234-4963-80B6-66F27962B41F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MsCrmActions</RootNamespace>
-    <AssemblyName>MsCrmActions</AssemblyName>
+    <RootNamespace>Microsoft.Deployment.Common.Actions.MsCrm</RootNamespace>
+    <AssemblyName>Microsoft.Deployment.Actions.MsCrm</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>SAK</SccProjectName>
@@ -96,6 +96,7 @@
     <Compile Include="..\..\Shared\SharedVersion.cs">
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
+    <Compile Include="CrmGetProfileStatus.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CrmCreateVaultSecret.cs" />
     <Compile Include="CrmStartProfile.cs" />
