@@ -26,13 +26,13 @@
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", _token);
             _rc = new RestClient(request.DataStore.GetValue("ConnectorUrl"), bearer);
 
-            string response = _rc.Get(MsCrmEndpoints.URL_PROFILES, $"organizationId={WebUtility.UrlEncode(_orgId)}");
+            string response = await _rc.Get(MsCrmEndpoints.URL_PROFILES, $"organizationId={WebUtility.UrlEncode(_orgId)}");
             MsCrmProfile[] profiles = JsonConvert.DeserializeObject<MsCrmProfile[]>(response);
 
             foreach (MsCrmProfile p in profiles)
             {
                 if (p.Name.EqualsIgnoreCase(name) && !p.State.EqualsIgnoreCase("3"))
-                    _rc.Delete(MsCrmEndpoints.URL_PROFILES + "/" + p.Id);
+                    await _rc.Delete(MsCrmEndpoints.URL_PROFILES + "/" + p.Id);
             }
 
             return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
