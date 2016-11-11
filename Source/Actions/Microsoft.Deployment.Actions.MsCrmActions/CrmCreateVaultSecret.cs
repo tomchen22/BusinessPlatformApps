@@ -22,7 +22,6 @@
             return _azureToken;
         }
 
-
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string _azureToken = request.DataStore.GetValue("AzureToken");
@@ -60,7 +59,6 @@
             ape.ApplicationId = _crmServicePrincipal;
 
             vault.Properties.AccessPolicies.Add(ape);
-            
 
             // Create the secret
             KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
