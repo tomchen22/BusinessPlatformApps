@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
+    using Azure.Management.Resources;
     using Microsoft.Azure;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.Management.KeyVault;
@@ -35,38 +36,47 @@
             string tenantId = request.DataStore.GetValue("TenantId") ?? "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
             SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
-            KeyVaultManagementClient client = new KeyVaultManagementClient(credentials);
 
-            // Check if a vault already exists
-            Vault vault = null;
-            VaultListResponse vaults = client.Vaults.List(resourceGroup, 100);
-            foreach (var v in vaults.Vaults)
+            using (KeyVaultManagementClient client = new KeyVaultManagementClient(credentials))
             {
-                if (v.Name.EqualsIgnoreCase(vaultName))
+                // Check if a vault already exists
+                Vault vault = null;
+                VaultListResponse vaults = client.Vaults.List(resourceGroup, 100);
+                foreach (var v in vaults.Vaults)
                 {
-                    vault = (Vault)v;
-                    break;
+                    if (v.Name.EqualsIgnoreCase(vaultName))
+                    {
+                        vault = (Vault)v;
+                        break;
+                    }
                 }
-            }
 
-            // Create the vault
-            if (vault == null)
-            {
-                vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, new VaultCreateOrUpdateParameters()).Vault;
-            }
+                // Create the vault
+                if (vault == null)
+                {
+                    using (ResourceManagementClient resourceClient = new ResourceManagementClient(credentials))
+                    {
+                        VaultCreateOrUpdateParameters vaultParams = new VaultCreateOrUpdateParameters()
+                        {
+                            Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location
+                        };
+                        vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams).Vault;
+                    }
+                }
 
-            AccessPolicyEntry ape = new AccessPolicyEntry();
-            ape.PermissionsToSecrets = new [] { "get" };
-            ape.ApplicationId = _crmServicePrincipal;
+                // Set who has permission to read this
+                AccessPolicyEntry ape = new AccessPolicyEntry();
+                ape.PermissionsToSecrets = new[] { "get" };
+                ape.ApplicationId = _crmServicePrincipal;
+                vault.Properties.AccessPolicies.Add(ape);
 
-            vault.Properties.AccessPolicies.Add(ape);
-            
-
-            // Create the secret
-            KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
-            Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() {{organizationId, tenantId}},
+                // Create the secret
+                KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
+                Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() {{organizationId, tenantId}},
                                                  null, new SecretAttributes() {Enabled = true});
-            return new ActionResponse(ActionStatus.Success, secret.Id, true);
+
+                return new ActionResponse(ActionStatus.Success, secret.Id, true);
+            }
         }
     }
 }
