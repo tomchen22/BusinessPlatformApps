@@ -53,6 +53,7 @@
         [TestMethod]
         public void RemoveFilesSuccess()
         {
+            this.InstallSCCMSuccess();
             var dataStore = new DataStore();
 
             var result = TestHarness.ExecuteAction("Microsoft-RemoveFiles", dataStore);
