@@ -20,7 +20,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             var aadTenant = request.DataStore.GetValue("AADTenant");
             string authBase = string.Format(Constants.AzureAuthUri, aadTenant);
 
-            string clientId = !string.IsNullOrEmpty(request.DataStore.GetValue("AADClientId"))
+            string clientId = !string.IsNullOrEmpty(request.DataStore.GetValue("IsMsCrm"))
                 ? Constants.DynamicsCRMClientId
                 : Constants.MicrosoftClientId;
 
