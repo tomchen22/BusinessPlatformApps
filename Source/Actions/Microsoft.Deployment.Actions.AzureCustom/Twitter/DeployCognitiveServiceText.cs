@@ -20,7 +20,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Twitter
         {
             var cognitiveServiceKey = request.DataStore.GetValue("CognitiveServiceKey");
 
-            if (!string.IsNullOrEmpty(cognitiveServiceKey))
+            if (cognitiveServiceKey != string.Empty)
             {
                 return new ActionResponse(ActionStatus.Success);
             }

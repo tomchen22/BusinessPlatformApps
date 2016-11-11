@@ -83,7 +83,6 @@
     </Compile>
     <Compile Include="ActionsTest\AzureCommonTests.cs" />
     <Compile Include="ActionsTest\CDMTests.cs" />
-    <Compile Include="ActionsTest\CognitiveTests.cs" />
     <Compile Include="ActionsTest\CommonTests.cs" />
     <Compile Include="ActionsTest\OnPremiseTests.cs" />
     <Compile Include="ActionsTest\SalesforceTests.cs" />
@@ -115,9 +114,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Apps\TestApps\TestApp\Service\Arm\armtemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\sentimentCognitiveService.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Apps\TestApps\TestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
