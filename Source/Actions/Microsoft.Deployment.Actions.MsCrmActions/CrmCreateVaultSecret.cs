@@ -1,5 +1,4 @@
-﻿
-namespace Microsoft.Deployment.Common.Actions.MsCrm
+﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
     using Microsoft.Azure;
     using Microsoft.Azure.KeyVault;
@@ -12,7 +11,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
 
-
+    [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
     {
         private string _azureToken = "NO_TOKEN";
@@ -23,7 +22,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
             return _azureToken;
         }
 
-        [Export(typeof(IAction))]
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string _azureToken = request.DataStore.GetValue("AzureToken");
