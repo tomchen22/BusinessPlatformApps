@@ -54,6 +54,8 @@ export class SqlServer extends ViewModelBase {
             return false;
         }
 
+        this.isValidated = false;
+
         this.sqlServer = this.sqlServer.toLowerCase();
         if (this.sqlInstance === 'ExistingSql') {
             let databasesResponse = await this.GetDatabases();
