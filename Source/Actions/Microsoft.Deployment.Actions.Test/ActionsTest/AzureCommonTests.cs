@@ -28,6 +28,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var responseBody = JObject.FromObject(result.Body);
         }
 
+        [Ignore]
         [TestMethod]
         public async Task DeployArmTemplateTest()
         {
