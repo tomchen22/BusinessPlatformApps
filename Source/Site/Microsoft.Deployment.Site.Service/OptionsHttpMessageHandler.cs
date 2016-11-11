@@ -22,8 +22,8 @@ namespace Microsoft.Deployment.Site.Service
                     .Where(d =>
                     {
                         var controller = d.ActionDescriptor.ControllerDescriptor.ControllerName;
-                        return string.Equals(controller, controllerRequested, StringComparison.OrdinalIgnoreCase);
-                    })
+                        return string.Equals(controller, controllerRequested , StringComparison.OrdinalIgnoreCase);
+                    }) 
                     .Select(d => d.HttpMethod.Method)
                     .Distinct();
 
