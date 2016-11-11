@@ -34,7 +34,7 @@ namespace Microsoft.Deployment.Actions.Common.PBI
                 wrangler.ReplaceKnownVariableinMashup("STSqlDatabase", creds.Database);
             }
 
-            string serverPath = request.Info.SerivceRootUrl + "/bin"+request.Info.App.AppRelativeFilePath + $"/Temp/{tempfileName}/{filename}";
+            string serverPath = request.Info.ServiceRootUrl + "/bin"+request.Info.App.AppRelativeFilePath + $"/Temp/{tempfileName}/{filename}";
             return new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(serverPath));
         }
     }
