@@ -24,8 +24,8 @@
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string _azureToken = request.DataStore.GetValue("AzureToken");
-            string subscriptionID = request.DataStore.GetValue("SelectedSubscription");
+            string _azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
+            string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
