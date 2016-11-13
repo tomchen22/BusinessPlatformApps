@@ -26,8 +26,8 @@
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string _azureToken = request.DataStore.GetValue("AzureToken");
-            string subscriptionID = request.DataStore.GetValue("SelectedSubscription");
+            string _azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
+            string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
@@ -51,30 +51,46 @@
                     }
                 }
 
+                AccessPolicyEntry ape = new AccessPolicyEntry
+                {
+                    PermissionsToSecrets = new[] { "get" },
+                    ApplicationId = _crmServicePrincipal,
+                    ObjectId = _crmServicePrincipal
+                };
+
                 // Create the vault
                 if (vault == null)
                 {
                     using (ResourceManagementClient resourceClient = new ResourceManagementClient(credentials))
                     {
+                        // Set properties
+                        VaultProperties p = new VaultProperties();
+                        p.Sku = new Sku() { Family = "A", Name = "standard" };
+                        p.TenantId = new Guid(tenantId);
+
+                        // Set who has permission to read this
+                        p.AccessPolicies.Add(ape);
+
                         VaultCreateOrUpdateParameters vaultParams = new VaultCreateOrUpdateParameters()
                         {
-                            Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location
+                            Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location,
+                            Properties = p
                         };
                         vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams).Vault;
                     }
                 }
-
-                // Set who has permission to read this
-                AccessPolicyEntry ape = new AccessPolicyEntry();
-                ape.PermissionsToSecrets = new[] { "get" };
-                ape.ApplicationId = _crmServicePrincipal;
-                vault.Properties.AccessPolicies.Add(ape);
+                else
+                {
+                    // Set who has permission to read this
+                    vault.Properties.AccessPolicies.Add(ape);
+                }
 
                 // Create the secret
                 KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
-                Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() {{organizationId, tenantId}},
-                                                 null, new SecretAttributes() {Enabled = true});
+                Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
+                                                 null, new SecretAttributes() { Enabled = true });
 
+                request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
                 return new ActionResponse(ActionStatus.Success, secret.Id, true);
             }
         }

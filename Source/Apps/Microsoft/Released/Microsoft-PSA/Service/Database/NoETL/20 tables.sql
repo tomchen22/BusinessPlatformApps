@@ -470,7 +470,7 @@ CREATE TABLE dbo.bookableresourcecategory
     modifiedonbehalfby_entitytype        NVARCHAR(4000) NULL,
     ownerid                              UNIQUEIDENTIFIER NULL,
     ownerid_entitytype                   NVARCHAR(4000) NULL,
-    CONSTRAINT pk.bookableresourcecategory PRIMARY KEY CLUSTERED (id)
+    CONSTRAINT pk_bookableresourcecategory PRIMARY KEY CLUSTERED (id)
 );
 
 
@@ -531,7 +531,7 @@ CREATE TABLE dbo.bookableresourcecategoryassn
     modifiedonbehalfby_entitytype    NVARCHAR(4000) NULL,
     ownerid                          UNIQUEIDENTIFIER NULL,
     ownerid_entitytype               NVARCHAR(4000) NULL,
-    CONSTRAINT [EPKdbo].bookableresourcecategoryassn]] PRIMARY KEY CLUSTERED (id)
+    CONSTRAINT pk_bookableresourcecategoryassn PRIMARY KEY CLUSTERED (id)
 );
 
 CREATE TABLE dbo.bookingstatus
@@ -594,7 +594,7 @@ CREATE TABLE dbo.bookingstatus
 CREATE TABLE dbo.globaloptionsetmetadata
 (
     optionsetname              NVARCHAR(64) NOT NULL,
-    option                     INT NOT NULL,
+    [option]                   INT NOT NULL,
     isuserlocalizedlabel       BIT NOT NULL,
     localizedlabellanguagecode INT NOT NULL,
     localizedlabel             NVARCHAR(256) NULL,
@@ -869,7 +869,7 @@ CREATE TABLE dbo.msdyn_estimateline
     modifiedonbehalfby_entitytype                 NVARCHAR(4000) NULL,
     ownerid                                       UNIQUEIDENTIFIER NULL,
     ownerid_entitytype                            NVARCHAR(4000) NULL,
-    CONSTRAINT pk_.msdyn_estimateline PRIMARY KEY CLUSTERED (id)
+    CONSTRAINT pk_msdyn_estimateline PRIMARY KEY CLUSTERED (id)
 );
 
 CREATE TABLE dbo.msdyn_orderlineresourcecategory
@@ -1635,7 +1635,7 @@ CREATE TABLE dbo.opportunity
     ownerid_entitytype                            NVARCHAR(4000) NULL,
     customerid                                    UNIQUEIDENTIFIER NULL,
     customerid_entitytype                         NVARCHAR(4000) NULL,
-    CONSTRAINT pk_.opportunity PRIMARY KEY CLUSTERED (id)
+    CONSTRAINT pk_opportunity PRIMARY KEY CLUSTERED (id)
 );
 
 
@@ -1643,7 +1643,7 @@ CREATE TABLE dbo.optionsetmetadata
 (
      entityname                 NVARCHAR(64) NOT NULL,
      optionsetname              NVARCHAR(64) NOT NULL,
-     option                     INT NOT NULL,
+     [option]                   INT NOT NULL,
      isuserlocalizedlabel       BIT NOT NULL,
      localizedlabellanguagecode INT NOT NULL,
      localizedlabel             NVARCHAR(256) NULL,
