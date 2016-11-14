@@ -21,7 +21,7 @@ namespace Microsoft.Bpst.Actions.AzureActions.News
 
 
     [Export(typeof(IAction))]
-    public class DeployAzyreMLWorkspace : BaseAction
+    public class DeployAzureMLWorkspace : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
@@ -49,7 +49,6 @@ namespace Microsoft.Bpst.Actions.AzureActions.News
 
             SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription, azureToken);
             Microsoft.Azure.Management.Resources.ResourceManagementClient client = new ResourceManagementClient(creds);
-            var registeration = client.Providers.RegisterAsync("Microsoft.CognitiveServices").Result;
 
             var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/azureml.json")));
             var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
