@@ -15,13 +15,13 @@
     <script src="javascripts/marked.js"></script>
     
     <script type="text/javascript">
-    var githubApiUrlConst = 'https://api.github.com/repos/Microsoft/Businessplatformapps/';
+    var githubApiUrlConst = 'https://api.github.com/repos/Microsoft/Businessplatformapps/contents/';
     
     var contentContainerId = "#readmeContent";
       
   function getParameterByName(name, url) {
       if (!name) {
-       return 'readme';
+       return 'readme.md';
       }
       
       if (!url) {
@@ -30,8 +30,8 @@
       name = name.replace(/[\[\]]/g, "\\$&");
       var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
           results = regex.exec(url);
-      if (!results) return 'readme';
-      if (!results[2]) return 'readme';
+      if (!results) return 'readme.md';
+      if (!results[2]) return 'readme.md';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
