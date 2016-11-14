@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,34 +13,10 @@ using Newtonsoft.Json.Linq;
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {
     [TestClass]
-    public class SalesforceActionTests
+    public class CommonTests
     {
         [TestMethod]
-        public void SalesforceSqlArtefactsDeploysSuccessful()
-        {
-            this.CleanDb();
-
-            DataStore dataStore = new DataStore();
-            dataStore.AddToDataStore("SalesforceUser", "", DataStoreType.Public);
-            dataStore.AddToDataStore("SalesforcePassword", "", DataStoreType.Private);
-            dataStore.AddToDataStore("SalesforceToken", "", DataStoreType.Private);
-            dataStore.AddToDataStore("SalesforceUrl", "https://login.salesforce.com/", DataStoreType.Public);
-            dataStore.AddToDataStore("ObjectTables", "Opportunity,Account,Lead,Product2,OpportunityLineItem,OpportunityStage,User,UserRole", DataStoreType.Public);
-
-            ActionResponse sqlResponse = GetSqlPagePayload();
-            dataStore.AddToDataStore("SqlConnectionString", (sqlResponse.Body as JObject)["value"].ToString(), DataStoreType.Private);
-
-            var response = TestHarness.ExecuteAction("Microsoft-SalesforceGetObjectMetadata", dataStore);
-
-            dataStore.AddObjectDataStore("Objects", JsonUtility.GetJObjectFromObject(response.Body), DataStoreType.Any);
-
-            response = TestHarness.ExecuteAction("Microsoft-SalesforceSqlArtefacts", dataStore);
-
-            Assert.IsTrue(response.Status == ActionStatus.Success);
-        }
-
-        [TestMethod]
-        public void CleanDb()
+        public void WranglePBIXSuccess()
         {
             ActionResponse sqlResponse = GetSqlPagePayload();
 
@@ -48,9 +25,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("SqlServerIndex", 0, DataStoreType.Any);
             dataStore.AddToDataStore("SqlScriptsFolder", "Service/Database/Cleanup", DataStoreType.Any);
             dataStore.AddToDataStore("SqlConnectionString", (sqlResponse.Body as JObject)["value"].ToString(), DataStoreType.Private);
-
-            var response = TestHarness.ExecuteAction("Microsoft-DeploySQLScripts", dataStore);
-
+            dataStore.AddToDataStore("FileName", "SCCMSolutionTemplate.pbix");
+            var response = TestHarness.ExecuteAction("Microsoft-WranglePBI", dataStore);
+            
             Assert.IsTrue(response.Status == ActionStatus.Success);
         }
 
@@ -72,6 +49,5 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(sqlResponse.Status == ActionStatus.Success);
             return sqlResponse;
         }
-
     }
 }

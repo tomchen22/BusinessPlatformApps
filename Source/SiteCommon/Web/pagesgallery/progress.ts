@@ -12,6 +12,7 @@ export class ProgressViewModel extends ViewModelBase {
     successMessage: string = 'All done! You can now download your Power BI report and start exploring your data.';
     targetSchema: string = '';
     filename: string = 'report.pbix';
+    isUninstall: boolean = false;
 
     constructor() {
         super();
@@ -21,20 +22,22 @@ export class ProgressViewModel extends ViewModelBase {
     async OnLoaded() {
         if (!this.MS.DeploymentService.isFinished) {
             // Run all actions
-            let sucess:boolean = await this.MS.DeploymentService.ExecuteActions();
+            let success: boolean = await this.MS.DeploymentService.ExecuteActions();
 
-            if (!sucess) {
+            if (!success) {
                 return;
             }
 
-            let body: any = {};
-            body.FileName = this.filename;
-            let response = await this.MS.HttpService.executeAsync('Microsoft-WranglePBI', body);
-            if (response.IsSuccess) {
-                this.pbixDownloadLink = response.Body.value;
-                this.isPbixReady = true;
+            if (!this.isUninstall) {
+                let body: any = {};
+                body.FileName = this.filename;
+                let response = await this.MS.HttpService.executeAsync('Microsoft-WranglePBI', body);
+                if (response.IsSuccess) {
+                    this.pbixDownloadLink = response.Body.value;
+                    this.isPbixReady = true;
+                }
+                this.QueryRecordCounts();
             }
-            this.QueryRecordCounts();
         }
     }
 

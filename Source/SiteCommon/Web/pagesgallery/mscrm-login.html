@@ -1,0 +1,15 @@
+﻿<template>
+    <h1 class="st-title">Connect to Dynamics CRM</h1>
+    <p class="st-subtitle">We now need to set up a connection to Dynamics CRM.</p>
+
+    <div class="st-float" if.bind="!hasToken">
+        <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy">Connect</button>
+    </div>
+
+    <div class="st-float" if.bind="msCrmOrganizations && msCrmOrganizations.length > 0">
+        <p class="st-text">Dynamics CRM Organization:</p>
+        <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" value.bind="msCrmOrganizationId">
+            <option repeat.for="msCrmOrganization of msCrmOrganizations" value.bind="msCrmOrganization.OrganizationId">${msCrmOrganization.OrganizationName}</option>
+        </select>
+    </div>
+</template>

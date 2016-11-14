@@ -9,6 +9,7 @@
     public class OnPremiseTests
     {
         [TestMethod]
+        [Ignore]
         public void CreateTaskWithCorrectCredentialsSuccess()
         {
             var dataStore = new DataStore();
@@ -30,6 +31,7 @@
         }
 
         [TestMethod]
+        [Ignore]
         public void RemoveTaskSuccess()
         {
             var dataStore = new DataStore();
@@ -51,6 +53,7 @@
         [TestMethod]
         public void RemoveFilesSuccess()
         {
+            this.InstallSCCMSuccess();
             var dataStore = new DataStore();
 
             var result = TestHarness.ExecuteAction("Microsoft-RemoveFiles", dataStore);

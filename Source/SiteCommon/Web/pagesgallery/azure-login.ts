@@ -1,6 +1,6 @@
 ﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from "../services/datastore";
-import { ActionResponse } from "../services/actionresponse";
+import { DataStoreType } from '../services/datastore';
+import { ActionResponse } from '../services/actionresponse';
 
 export class AzureLogin extends ViewModelBase {
     authToken: any = {};
@@ -39,8 +39,6 @@ export class AzureLogin extends ViewModelBase {
                     let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
                     if (subscriptions.IsSuccess) {
                         this.showPricingConfirmation = true;
-                        //this.isValidated = false;
-                        //this.showValidation = false;
                         this.subscriptionsList = subscriptions.Body.value;
                         if (!this.subscriptionsList || (this.subscriptionsList && this.subscriptionsList.length === 0)) {
                             this.MS.ErrorService.message = 'You do not have any Azure subscriptions linked to your account. You can get started with a free trial by clicking the link at the top of the page.';
@@ -81,7 +79,6 @@ export class AzureLogin extends ViewModelBase {
         let subscriptionObject = this.subscriptionsList.find(x => x.SubscriptionId === this.selectedSubscriptionId);
         this.MS.DataStore.addToDataStore('SelectedSubscription', subscriptionObject, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('SelectedResourceGroup', this.selectedResourceGroup, DataStoreType.Public);
-
 
         let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
         if (locationsResponse.IsSuccess) {
