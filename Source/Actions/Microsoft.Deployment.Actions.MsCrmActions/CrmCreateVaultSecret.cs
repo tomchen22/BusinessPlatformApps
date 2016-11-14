@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
+    using Azure.Management.Resources;
     using Microsoft.Azure;
     using Microsoft.Azure.KeyVault;
     using Microsoft.Azure.Management.KeyVault;
@@ -22,6 +23,7 @@
             return _azureToken;
         }
 
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string _azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
@@ -34,37 +36,64 @@
             string tenantId = request.DataStore.GetValue("TenantId") ?? "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
             SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
-            KeyVaultManagementClient client = new KeyVaultManagementClient(credentials);
 
-            // Check if a vault already exists
-            Vault vault = null;
-            VaultListResponse vaults = client.Vaults.List(resourceGroup, 100);
-            foreach (var v in vaults.Vaults)
+            using (KeyVaultManagementClient client = new KeyVaultManagementClient(credentials))
             {
-                if (v.Name.EqualsIgnoreCase(vaultName))
+                // Check if a vault already exists
+                Vault vault = null;
+                VaultListResponse vaults = client.Vaults.List(resourceGroup, 100);
+                foreach (var v in vaults.Vaults)
                 {
-                    vault = (Vault)v;
-                    break;
+                    if (v.Name.EqualsIgnoreCase(vaultName))
+                    {
+                        vault = (Vault)v;
+                        break;
+                    }
                 }
+
+                AccessPolicyEntry ape = new AccessPolicyEntry
+                {
+                    PermissionsToSecrets = new[] { "get" },
+                    ApplicationId = _crmServicePrincipal,
+                    ObjectId = _crmServicePrincipal
+                };
+
+                // Create the vault
+                if (vault == null)
+                {
+                    using (ResourceManagementClient resourceClient = new ResourceManagementClient(credentials))
+                    {
+                        // Set properties
+                        VaultProperties p = new VaultProperties();
+                        p.Sku = new Sku() { Family = "A", Name = "standard" };
+                        p.TenantId = new Guid(tenantId);
+
+                        // Set who has permission to read this
+                        p.AccessPolicies.Add(ape);
+
+                        VaultCreateOrUpdateParameters vaultParams = new VaultCreateOrUpdateParameters()
+                        {
+                            Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location,
+                            Properties = p
+                        };
+                        vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams).Vault;
+                    }
+                }
+                else
+                {
+                    // Set who has permission to read this
+                    vault.Properties.AccessPolicies.Add(ape);
+                }
+                
+                // Create the secret
+                KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
+                
+                Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
+                                                 null, new SecretAttributes() { Enabled = true });
+
+                request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
+                return new ActionResponse(ActionStatus.Success, secret.Id, true);
             }
-
-            // Create the vault
-            if (vault == null)
-            {
-                vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, new VaultCreateOrUpdateParameters()).Vault;
-            }
-
-            AccessPolicyEntry ape = new AccessPolicyEntry();
-            ape.PermissionsToSecrets = new [] { "get" };
-            ape.ApplicationId = _crmServicePrincipal;
-
-            vault.Properties.AccessPolicies.Add(ape);
-
-            // Create the secret
-            KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
-            Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() {{organizationId, tenantId}},
-                                                 null, new SecretAttributes() {Enabled = true});
-            return new ActionResponse(ActionStatus.Success, secret.Id, true);
         }
     }
 }
