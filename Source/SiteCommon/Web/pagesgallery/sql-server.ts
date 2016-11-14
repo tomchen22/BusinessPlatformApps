@@ -77,8 +77,8 @@ export class SqlServer extends ViewModelBase {
             }
         }
 
-        let didOtherValidateActionsPass: boolean = await super.OnValidate();
-        this.isValidated = this.isValidated && didOtherValidateActionsPass;
+        let isInitValid: boolean = await super.OnValidate();
+        this.isValidated = this.isValidated && isInitValid;
 
         return this.isValidated;
     }
