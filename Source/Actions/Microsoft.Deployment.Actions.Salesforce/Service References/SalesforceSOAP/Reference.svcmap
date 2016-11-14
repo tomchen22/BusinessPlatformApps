@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="8304b66a-767c-44d3-ad79-c7dc5f2a1d5d" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="f6aba8a7-c0af-4804-9e09-53742d84c469" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
   <ClientOptions>
     <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
     <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
@@ -22,7 +22,7 @@
     <MetadataSource Address="C:\Repos\BusinessPlatformApps\Source\Actions\Microsoft.Deployment.Actions.Salesforce\PartnerServiceWSDL\partner.xml" Protocol="file" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="partner.wsdl" MetadataType="Wsdl" ID="003b8598-b726-4a98-8e0f-12a1a13d64b4" SourceId="1" SourceUrl="file:///C:/Repos/BusinessPlatformApps/Source/Actions/Microsoft.Deployment.Actions.Salesforce/PartnerServiceWSDL/partner.xml" />
+    <MetadataFile FileName="partner.wsdl" MetadataType="Wsdl" ID="25064720-d0d4-4ecf-9060-5241ebd46733" SourceId="1" SourceUrl="file:///C:/Repos/BusinessPlatformApps/Source/Actions/Microsoft.Deployment.Actions.Salesforce/PartnerServiceWSDL/partner.xml" />
   </Metadata>
   <Extensions>
     <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
