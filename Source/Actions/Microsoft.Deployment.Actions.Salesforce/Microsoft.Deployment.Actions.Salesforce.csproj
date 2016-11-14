@@ -125,9 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="PartnerServiceWSDL\partner.xml" />
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="Service References\SalesforceSOAP\Microsoft.Deployment.Actions.Salesforce.SalesforceSOAP.convertLeadResponse.datasource">
       <DependentUpon>Reference.svcmap</DependentUpon>
     </None>
@@ -455,13 +452,18 @@
     </None>
     <None Include="Service References\SalesforceSOAP\configuration.svcinfo" />
     <None Include="Service References\SalesforceSOAP\configuration91.svcinfo" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Service References\SalesforceSOAP\partner.wsdl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Service References\SalesforceSOAP\partner.wsdl" />
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\SalesforceSOAP\" />

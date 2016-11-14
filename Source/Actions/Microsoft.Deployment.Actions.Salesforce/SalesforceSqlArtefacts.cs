@@ -35,6 +35,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
                 adfFields.Add(new Tuple<string, List<ADFField>>(obj.name, simpleMetadata));
 
                 CreateSqlTableAndTableType(simpleMetadata, obj.fields, schema, obj.name, connString);
+                CreateIndexes(simpleMetadata, schema, obj.name, connString);
                 CreateStoredProcedure(simpleMetadata, string.Concat("spMerge", obj.name), schema, string.Concat(obj.name, "Type"), obj.name, connString);
             }
 
@@ -108,6 +109,25 @@ namespace Microsoft.Deployment.Actions.Salesforce
             return true;
         }
 
+        private void CreateIndexes(List<ADFField> fields, string schemaName, string tableName, string connString)
+        {
+            string commandFormat = string.Empty;
+
+            if (fields.Exists(f => f.name.ToLowerInvariant() == "isdeleted"))
+            {
+                commandFormat = $"CREATE INDEX idx_{tableName}_isDeleted ON [{schemaName}].[{tableName}] (isDeleted)";
+
+                SqlUtility.InvokeSqlCommand(connString, commandFormat, null);
+            }
+
+            if (fields.Exists(f => f.name.ToLowerInvariant() == "lastmodifieddate"))
+            {
+                commandFormat = $"CREATE INDEX idx_lmd_{tableName} ON [{schemaName}].[{tableName}] (LastModifiedDate) include(id)";
+
+                SqlUtility.InvokeSqlCommand(connString, commandFormat, null);
+            }
+
+        }
 
         public void CreateSqlTableAndTableType(List<ADFField> fields, SalesforceSOAP.Field[] sfFields, string schemaName, string tableName, string connString)
         {
@@ -137,7 +157,18 @@ namespace Microsoft.Deployment.Actions.Salesforce
                         size = "255";
                     }
 
-                    sb.AppendLine(string.Format("[{0}] [{1}]({2}) NULL,",
+                    string commandFormat = string.Empty;
+
+                    if (field.name == "Id")
+                    {
+                        commandFormat = "[{0}] [{1}]({2}),";
+                    }
+                    else
+                    {
+                        commandFormat = "[{0}] [{1}]({2}) NULL,";
+                    }
+
+                    sb.AppendLine(string.Format(commandFormat,
                         field.name,
                         string.IsNullOrEmpty(sqlType.Value) ? field.type.ToString() : sqlType.Value,
                         !string.IsNullOrEmpty(size) ? size : nvarcharSize.ToString()));
@@ -148,13 +179,16 @@ namespace Microsoft.Deployment.Actions.Salesforce
                 }
             }
 
-            sb.Remove(sb.Length - 3, 1);
-            sb.AppendLine(")");
+            var tableType = sb.ToString();
 
-            SqlUtility.InvokeSqlCommand(connString, sb.ToString(), null);
+            tableType = tableType.Remove(sb.Length - 3, 1);
+            tableType = tableType + ")";
 
-            sb.Replace(createTable, createTableType);
+            tableType = tableType.Replace(createTable, createTableType);
+            SqlUtility.InvokeSqlCommand(connString, tableType, null);
 
+            sb.AppendLine($"CONSTRAINT [PK_{tableName}] PRIMARY KEY CLUSTERED ([Id]))");
+            var createTableCmd = sb.ToString();
             SqlUtility.InvokeSqlCommand(connString, sb.ToString(), null);
         }
 
