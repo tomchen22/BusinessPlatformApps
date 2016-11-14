@@ -21,7 +21,7 @@
       
   function getParameterByName(name, url) {
       if (!name) {
-       return 'readme.md';
+       return 'README.md';
       }
       
       if (!url) {
@@ -30,8 +30,8 @@
       name = name.replace(/[\[\]]/g, "\\$&");
       var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
           results = regex.exec(url);
-      if (!results) return 'readme.md';
-      if (!results[2]) return 'readme.md';
+      if (!results) return 'README.md';
+      if (!results[2]) return 'README.md';
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
