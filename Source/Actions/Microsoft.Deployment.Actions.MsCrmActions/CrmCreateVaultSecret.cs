@@ -84,9 +84,10 @@
                     // Set who has permission to read this
                     vault.Properties.AccessPolicies.Add(ape);
                 }
-
+                
                 // Create the secret
                 KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
+                
                 Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
                                                  null, new SecretAttributes() { Enabled = true });
 
