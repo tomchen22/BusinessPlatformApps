@@ -1,6 +1,11 @@
 ﻿{
     "Install": {
-        "Actions": [],
+        "Actions": [
+            {
+                "displayname": "Configure Azure Key Vault",
+                "name": "Microsoft-CrmCreateVaultSecret"
+            }
+        ],
         "Pages": [
             {
                 "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-DynamicsCRMSalesManagement/Web/Images/dynamicsCRMArchitectureDiagram.png",
@@ -32,6 +37,7 @@
             },
             {
                 "displayname": "Dynamics CRM Login",
+                "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
                 "pricingUrl": "SalesforcePricingURL"
