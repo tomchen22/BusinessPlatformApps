@@ -22,9 +22,9 @@ export class ProgressViewModel extends ViewModelBase {
     async OnLoaded() {
         if (!this.MS.DeploymentService.isFinished) {
             // Run all actions
-            let sucess:boolean = await this.MS.DeploymentService.ExecuteActions();
+            let success: boolean = await this.MS.DeploymentService.ExecuteActions();
 
-            if (!sucess) {
+            if (!success) {
                 return;
             }
 

@@ -15,7 +15,7 @@ export class SqlServer extends ViewModelBase {
     hideSqlAuth: boolean = false;
     isAzureSql: boolean = false;
     isWindowsAuth: boolean = true;
-   
+
     newSqlDatabase: string = null;
     password: string = '';
     passwordConfirmation: string = '';
@@ -50,9 +50,7 @@ export class SqlServer extends ViewModelBase {
     }
 
     async OnValidate(): Promise<boolean> {
-        if (!super.OnValidate()) {
-            return false;
-        }
+        this.isValidated = false;
 
         this.sqlServer = this.sqlServer.toLowerCase();
         if (this.sqlInstance === 'ExistingSql') {
@@ -79,13 +77,16 @@ export class SqlServer extends ViewModelBase {
             }
         }
 
+        let isInitValid: boolean = await super.OnValidate();
+        this.isValidated = this.isValidated && isInitValid;
+
         return this.isValidated;
     }
 
     async NavigatingNext(): Promise<boolean> {
 
         let body = this.GetBody(true);
-        let response:ActionResponse = null;
+        let response: ActionResponse = null;
 
         if (this.sqlInstance === 'ExistingSql') {
             response = await this.MS.HttpService.executeAsync('Microsoft-GetSqlConnectionString', body);
