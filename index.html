@@ -19,7 +19,7 @@
     
     var contentContainerId = "#readmeContent";
       
-    function getParameterByName(name, url) {
+'    function getParameterByName(name, url) {
       if (!name) {
        return 'readme';
       }
@@ -35,7 +35,7 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var githubApiUrl = githubApiUrlConst + 'readme';
+    var githubApiUrl = githubApiUrlConst + getParameterByName('file');
     $.ajax({
       url: githubApiUrl,
       dataType: 'jsonp',
