@@ -35,7 +35,7 @@
       return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var githubApiUrl = githubApiUrlConst + getParameterByName(path);
+    var githubApiUrl = githubApiUrlConst + 'readme';
     $.ajax({
       url: githubApiUrl,
       dataType: 'jsonp',
