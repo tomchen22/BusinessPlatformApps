@@ -14,46 +14,11 @@
     <script src="javascripts/base64.js"></script>
     <script src="javascripts/marked.js"></script>
     
-    <script type="text/javascript">
-    var githubApiUrlConst = 'https://api.github.com/repos/Microsoft/Businessplatformapps/contents/';
-    
-    var contentContainerId = "#readmeContent";
-      
-  function getParameterByName(name, url) {
-      if (!name) {
-       return 'README.md';
-      }
-      
-      if (!url) {
-        url = window.location.href;
-      }
-      name = name.replace(/[\[\]]/g, "\\$&");
-      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-          results = regex.exec(url);
-      if (!results) return 'README.md';
-      if (!results[2]) return 'README.md';
-      return decodeURIComponent(results[2].replace(/\+/g, " "));
-    }
-
-    var githubApiUrl = githubApiUrlConst + getParameterByName('file');
-    $.ajax({
-      url: githubApiUrl,
-      dataType: 'jsonp',
-      success: function(response)
-      {
-        var encodedContent = response.data.content;
-        var markdownText = Base64.decode(encodedContent);
-        var renderedHtml = marked(markdownText);
-
-        $(contentContainerId).html(renderedHtml);
-      }
-    });
-</script>
   </head>
   <body>
     <section class="page-header">
       <h1 class="project-name">Business Platform Apps</h1>
-      <h2 class="project-tagline"></h2>
+      <h2 class="project-tagline">Documentation for the templates and framework</h2>
       <a href="https://github.com/Microsoft/BusinessPlatformApps" class="btn">View on GitHub</a>
     </section>
 
