@@ -1,0 +1,70 @@
+  
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Business Platform Apps by Microsoft</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="javascripts/base64.js"></script>
+    <script src="javascripts/marked.js"></script>
+    
+    <script type="text/javascript">
+    var githubApiUrlConst = 'https://api.github.com/repos/Microsoft/Businessplatformapps/contents/';
+    
+    var contentContainerId = "#readmeContent";
+      
+  function getParameterByName(name, url) {
+      if (!name) {
+       return 'README.md';
+      }
+      
+      if (!url) {
+        url = window.location.href;
+      }
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return 'README.md';
+      if (!results[2]) return 'README.md';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+
+    var githubApiUrl = githubApiUrlConst + getParameterByName('file');
+    $.ajax({
+      url: githubApiUrl,
+      dataType: 'jsonp',
+      success: function(response)
+      {
+        var encodedContent = response.data.content;
+        var markdownText = Base64.decode(encodedContent);
+        var renderedHtml = marked(markdownText);
+
+        $(contentContainerId).html(renderedHtml);
+      }
+    });
+</script>
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Business Platform Apps</h1>
+      <h2 class="project-tagline"></h2>
+      <a href="https://github.com/Microsoft/BusinessPlatformApps" class="btn">View on GitHub</a>
+    </section>
+
+    <section class="main-content">
+      <div id="readmeContent"></div>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/Microsoft/BusinessPlatformApps">Business platform apps</a> is maintained by <a href="https://github.com/Microsoft">Microsoft</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
