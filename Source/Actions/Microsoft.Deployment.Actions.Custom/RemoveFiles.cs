@@ -14,15 +14,17 @@ namespace Microsoft.Deployment.Actions.Custom
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string path = FileUtility.GetLocalTemplatePath(request.Info.AppName) + "\\..";
-            
-            if (Directory.Exists(path))
+            string targetPath = request.DataStore.GetValue("TargetPath") == null
+                                ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
+                                : request.DataStore.GetValue("TargetPath");
+
+            if (Directory.Exists(targetPath))
             {
                 try
                 {
                     RetryUtility.Retry(5, () =>
                     {
-                        Directory.Delete(path, true);
+                        Directory.Delete(targetPath, true);
                         Thread.Sleep(500);
                     });
 
