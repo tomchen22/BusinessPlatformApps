@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.Composition;
+﻿using System;
+using System.ComponentModel.Composition;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
@@ -12,15 +14,28 @@ namespace Microsoft.Deployment.Actions.Custom
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string path = FileUtility.GetLocalTemplatePath(request.Info.AppName);
+            string targetPath = request.DataStore.GetValue("TargetPath") == null
+                                ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
+                                : request.DataStore.GetValue("TargetPath");
 
-            if (Directory.Exists(path))
+            if (Directory.Exists(targetPath))
             {
-                Directory.Delete(path, true);
-                return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
-            }
+                try
+                {
+                    RetryUtility.Retry(5, () =>
+                    {
+                        Directory.Delete(targetPath, true);
+                        Thread.Sleep(500);
+                    });
 
-            return new ActionResponse(ActionStatus.Failure, "Target directory not found.");
+                    return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+                }
+                catch (Exception ex)
+                {
+                    return new ActionResponse(ActionStatus.Failure, ex);
+                }
+            }
+            return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
         }
     }
 }
