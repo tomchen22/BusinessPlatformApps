@@ -18,6 +18,8 @@ namespace Microsoft.Deployment.Actions.Custom
                                 ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
                                 : request.DataStore.GetValue("TargetPath");
 
+            ActionResponse response = null;
+
             if (Directory.Exists(targetPath))
             {
                 try
@@ -27,15 +29,14 @@ namespace Microsoft.Deployment.Actions.Custom
                         Directory.Delete(targetPath, true);
                         Thread.Sleep(500);
                     });
-
-                    return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+                    response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
                 }
                 catch (Exception ex)
                 {
-                    return new ActionResponse(ActionStatus.Failure, ex);
+                    response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);
                 }
             }
-            return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+            return response;
         }
     }
 }
