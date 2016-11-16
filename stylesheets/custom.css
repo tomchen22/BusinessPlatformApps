@@ -1,0 +1,40 @@
+﻿ul.boxes li {
+    display: inline;
+    width: 500px;
+    height: 410px;
+    float: left;
+    margin: 30px;
+    overflow:hidden;
+}
+
+
+.boxes-wrapper {
+    clear: right;
+    float: left;
+    
+}
+
+.boxes-wrapper p {
+    font-size: 14px;
+}
+
+.boxes-wrapper a {
+    background-color: #27857E;
+    text-align: center;
+}
+
+.boxes-wrapper a:hover {
+    background-color: #439293;
+    text-align: center;
+}
+
+.boxes-content {
+    height: 200px;
+}
+
+
+.boxes-button {
+    margin-top: 20px;
+    /*text-align: center;*/
+    font-size: 12px;
+}
