@@ -1,0 +1,99 @@
+﻿<template>
+    <h1 class="st-title">SAP Source System Connection Information</h1>
+
+    <div class="st-two-columns">
+        <div class="st-input-column">
+            <p class="st-text">
+                <span>Application Server: </span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="Name of the host to which you want to connect."></span>
+            </p>
+            <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.applicationServer" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">
+                <span>Client: </span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="Always three numeric characters."></span>
+            </p>
+            <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.client" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">User:</p>
+            <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.user" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">Password:</p>
+            <input class="st-input" type="password" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.password" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">
+                <span>System ID: </span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="System ID of the SAP system to which you want to connect."></span>
+            </p>
+            <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.systemId" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">
+                <span>Instance Number: </span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="Instance number of the SAP system to which you want to connect. Always two numeric digits. Formerly called System Number."></span>
+            </p>
+            <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.instanceNumber" />
+        </div>
+
+        <div class="st-input-column">
+            <p class="st-text">Language:</p>
+            <select class="btn btn-default dropdown-toggle st-input" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.language">
+                <option repeat.for="option of viewmodel.languages" value.bind="option">${option}</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="st-float">
+        <div class="st-label-wrapper">
+            <label class="st-label">
+                <input type="checkbox" tabindex="-1" change.delegate="viewmodel.Invalidate()" checked.bind="viewmodel.executeAsCurrentUser" disabled.bind="viewmodel.MS.HttpService.isServiceBusy">
+                <span class="smallFontSize">Execute as current Windows user?</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="st-float">
+        <p class="st-text" if.bind="!viewmodel.executeAsCurrentUser">
+            <span>Windows Username: </span>
+            <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="Must be in <domain>\<username> or <machinename>\<username> format"></span>
+        </p>
+        <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="viewmodel.MS.HttpService.isServiceBusy" if.bind="!viewmodel.executeAsCurrentUser" value.bind="viewmodel.windowsUsername" />
+        <p class="st-text">
+            <span>Windows Password: </span>
+            <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="The password for the chosen windows account. This is required to pull data in an unattended mode."></span>
+        </p>
+        <input class="st-input" type="password" change.delegate="viewmodel.Invalidate()" disabled.bind="viewmodel.MS.HttpService.isServiceBusy" value.bind="viewmodel.windowsPassword" />
+        <p>
+    </div>
+
+    <p class="st-float st-text" click.trigger="viewmodel.showAdvanced = !viewmodel.showAdvanced" if.bind="!MS.HttpService.isServiceBusy">
+        <span class="glyphicon pbi-glyph-circlering glyph-small st-toggle" if.bind="viewmodel.showAdvanced"></span>
+        <span class="st-toggle-collapse" if.bind="viewmodel.showAdvanced">-</span>
+        <span class="glyphicon pbi-glyph-addcircle glyph-small st-toggle" if.bind="!viewmodel.showAdvanced"></span>
+        <span>Advanced (optional)</span>
+    </p>
+
+    <div class="st-float" if.bind="viewmodel.showAdvanced">
+        <p class="st-text">SAP Router String:</p>
+        <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.sapRouterString" />
+
+        <p class="st-text">Row Batch Size:</p>
+        <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.rowBatchSize" />
+
+        <!--<p class="st-text">AR Postings From:</p>
+        <input class="st-input" type="date" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.arPostingsFrom" />-->
+    </div>
+
+    <p class="st-float">
+        <button class="primary" click.delegate="viewmodel.OnValidate()" if.bind="!MS.HttpService.isServiceBusy">Validate</button>
+    </p>
+</template>
