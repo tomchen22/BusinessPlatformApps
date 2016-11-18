@@ -10,18 +10,18 @@
             {
                 "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
                 "displayname": "Getting Started",
-                "features": [
+                "list1": [
                     "Scalable and extensible solution with minimum set up and maintenance considerations",
                     "Data pulled daily from SAP & stored in a database optimized for reporting",
                     "Import data into powerful Power BI reports"
                 ],
-                "name": "$SiteCommon$/pagesgallery/getting-started.html",
-                "requirements": [
+                "list2": [
                     "Read access to the SAP Database",
                     "Azure Subscription (to use Azure SQL)",
                     "Power BI Pro (to share the template with your organization)",
                     "Power BI Desktop (latest version)"
                 ],
+                "name": "$SiteCommon$/pagesgallery/getting-started.html",
                 "templateName": "Accounts Receivable for SAP"
             }
         ]

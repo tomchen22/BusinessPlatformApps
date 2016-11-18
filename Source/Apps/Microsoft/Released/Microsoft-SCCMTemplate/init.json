@@ -11,12 +11,12 @@
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
         "displayname": "Getting Started",
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
-        "features": [
+        "list1": [
           "Scalable and extensible solution with minimum set up and maintenance considerations",
           "Data pulled daily from System Center Configuration Manager & stored in a SQL database optimized for reporting",
           "Import data into powerful Power BI reports"
         ],
-        "requirements": [
+        "list2": [
           "System Center 2012 Configuration Manager R2 SP1 or later. Read access to System Center Configuration Manager database is required.",
           "Destination database: Azure SQL database or SQL Server database (SQL Server 2008 R2 SP3 or later).",
           "For the machine where the installation is run, Microsoft .NET Framework 4.5 or later & PowerShell version 3.0 or later.",

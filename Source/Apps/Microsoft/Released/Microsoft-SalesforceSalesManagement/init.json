@@ -5,7 +5,7 @@
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
         "displayname": "Getting Started",
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SalesforceSalesManagement/Web/Images/salesforceArchitectureDiagram.png",
-        "features": [
+        "list1": [
           "Full cloud solution with minimum set up and maintenance considerations",
           "Data pulled from Salesforce into an Azure SQL Database using Azure Data Factory",
           "Connect to Azure SQL and import data into Power BI"
