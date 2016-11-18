@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
@@ -15,8 +16,13 @@ namespace Microsoft.Deployment.Actions.Custom
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string targetPath = request.DataStore.GetValue("TargetPath") == null
-                                ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
-                                : request.DataStore.GetValue("TargetPath");
+                            ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
+                            : request.DataStore.GetValue("TargetPath");
+
+            if (Directory.GetDirectories(FileUtility.GetLocalTemplatePath(request.Info.AppName) + "\\..").Length <= 1)
+            {
+                targetPath = targetPath + "\\..";
+            }
 
             ActionResponse response = null;
 
