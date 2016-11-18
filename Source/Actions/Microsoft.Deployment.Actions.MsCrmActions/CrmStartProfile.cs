@@ -15,10 +15,9 @@
     public class CrmStartProfile : BaseAction
     {
         private RestClient _rc;
-        private string _orgUrl;
+        //private string _orgUrl;
         private string _token;
         private string _orgId;
-
 
         private async Task<string> GetProfileId(string organizationId, string name)
         {

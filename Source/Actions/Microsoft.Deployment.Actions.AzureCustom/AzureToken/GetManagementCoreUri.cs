@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
@@ -13,9 +14,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
     [Export(typeof(IAction))]
     public class GetManagementCoreUri : BaseAction
     {
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             string authBase = Constants.AzureAuthUri;
 
