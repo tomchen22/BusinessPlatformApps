@@ -7,7 +7,7 @@ export class Gettingstarted extends ViewModelBase {
     list1: string[] = [];
     list2: string[] = [];
     list1Title: string = 'To set up this solution template you will need:';
-    list2Title: string = 'Features of this architecture';
+    list2Title: string = 'Features of this architecture:';
     showPrivacy: boolean = true;
     subtitle: string = '';
     templateName: string = '';
