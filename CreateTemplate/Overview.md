@@ -53,4 +53,11 @@ feedback on which ones we should prioritize next.
 
 
 #Tutorials <a name="tutorials"></a>
+All the tutorials are saved in the Source/Apps/SampleApps location. in order to create a new App, your App folder must contain a file called init.json, this registers the app during build and deployment. Before getting started, make sure you can sucessfully build the project and ensure when you run the project you are shwon the following snippet
+
+
+
+
+
 ##Tutorial1 <a name="tutorial1"></a>
+
