@@ -8,7 +8,7 @@
         ],
         "Pages": [
             {
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-DynamicsCRMSalesManagement/Web/Images/dynamicsCRMArchitectureDiagram.png",
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-DynamicsCRMSalesManagement/Web/Images/dynamics-crm-sales-management.png",
                 "displayname": "Getting Started",
                 "features": [
                     "Full cloud solution with minimum set up and maintenance considerations",
