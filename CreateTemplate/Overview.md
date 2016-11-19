@@ -59,7 +59,7 @@ feedback on which ones we should prioritize next.
 # Tutorials <a name="tutorials"></a>
 All the tutorials are saved in the Source/Apps/SampleApps location. in order to create a new App, your App folder must contain a file called init.json, this registers the app during build and deployment. Before getting started, make sure you can sucessfully build the project and ensure when you run the project you are shwon the following snippet
 
-to run a tutorial or navigate to a template, when you debug the web project (found inside DeploymentAppService solution) Navigate to localhost:1503/?name=Tutorial1. the name parameter defines which solution template do you wish to load
+to run a tutorial or navigate to a template, First debug the web project (found inside DeploymentAppService solution), then Navigate to localhost:1503/?name=Tutorial1. the name parameter defines which solution template you wish to load
 
 ## Tutorial 1 <a name="tutorial1"></a>
 To create a new template create an init.json file underneat a folder name. ensure the foldername is unique as the foldername will decide the template name. 
