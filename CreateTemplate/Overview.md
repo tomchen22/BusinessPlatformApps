@@ -93,10 +93,10 @@ Finally the ```displayname``` tag is used to define the freindly name that appea
 
 Debug the Web project and you should be shown the website below load
 
-![HomePageNoTemplate](./Images/HomePageNoTemplate.png)
+![HomePageNoTemplate](./Images/HomePageNoTemplate.PNG)
 
 Navigate to Tutorial 1 (http://localhost:1503/?name=Tutorial1)
 You will now be shown a window which  loads a default getting started page.
-![HomePageTutorial1](./Images/HomePageTutorial1.png)
+![HomePageTutorial1](./Images/HomePageTutorial1.PNG)
 
 You have now sucessfully created your first template.
