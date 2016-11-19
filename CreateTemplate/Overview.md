@@ -2,11 +2,11 @@
 
 1. [Overview](#Overview)
 2. [Set up a developer build](#devbuild)
-3. [Tutorials](#tutorials)
-    [Tutorial 1](#tutorial1)
+3. [Tutorials](#tutorials) --
+   [Tutorial 1](#tutorial1)
 
 
-#Overview <a name="Overview"></a>
+# Overview <a name="Overview"></a>
 
 The solution template framework allows you to quickly and easily create your own templates or applications. 
 These templates can provision multiple components including Azure Services such as Logic Apps, Azure Functions 
@@ -45,19 +45,58 @@ They require minimal coding and it is super easy to integrate into a new templat
 feedback on which ones we should prioritize next. 
 
 
-#Setting up your machine <a name="devbuild"></a>
+# Setting up your machine <a name="devbuild"></a>
 -- Visual Studio 2015 Update 3 required
 -- Node JS Tools
 -- Set Node to the path variable
 -- Install git for windows
 
+## Project structure
+(Coming soon)
 
-#Tutorials <a name="tutorials"></a>
+<br/>
+
+# Tutorials <a name="tutorials"></a>
 All the tutorials are saved in the Source/Apps/SampleApps location. in order to create a new App, your App folder must contain a file called init.json, this registers the app during build and deployment. Before getting started, make sure you can sucessfully build the project and ensure when you run the project you are shwon the following snippet
 
+to run a tutorial or navigate to a template, when you debug the web project (found inside DeploymentAppService solution) Navigate to localhost:1503/?name=Tutorial1. the name parameter defines which solution template do you wish to load
+
+## Tutorial 1 <a name="tutorial1"></a>
+To create a new template create an init.json file underneat a folder name. ensure the foldername is unique as the foldername will decide the template name. 
+
+Copy and paste the following text in the contents of the init.json
+
+```json
+{
+  "Install": {
+    "Pages": [
+      {
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "displayname": "Getting Started"
+      }
+    ]
+  }
+}
+```
 
 
+Lets break down the init.json. the ```Install``` tag tells the framework
+that we are describing the process for the installation flow. the other supported  flow is uninstall
+
+Next comes ```Pages``` the pages tag is an array of all the pages you wish to show to the user. a page
+is usually designed to collect information from the user such as credentials or customizations. the pages themselves are 
+made from HTML and Typescript. The ```name``` tag defines the path of the page. in general, alot of the pages are available for you to consume from the pages gallery.
+The list of pages in the pages gallery is always growing and can be found in Source/SiteCommon/Web/PagesGallery. in this case the $SiteCommon$ refers to the SiteCommon/Web folder.
 
 
-##Tutorial1 <a name="tutorial1"></a>
+Finally the ```displayname``` tag is used to define the freindly name that appears in the navigation menu when you navigate to the website.
 
+Debug the Web project and you should be shown the website below load
+
+![HomePageNoTemplate](./Images/HomePageNoTemplate.png)
+
+Navigate to Tutorial 1 (http://localhost:1503/?name=Tutorial1)
+You will now be shown a window which  loads a default getting started page.
+![HomePageTutorial1](./Images/HomePageTutorial1.png)
+
+You have now sucessfully created your first template.
