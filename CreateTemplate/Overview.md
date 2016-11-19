@@ -1,6 +1,4 @@
-﻿# Creating Solution Templates
-
-1. [Overview](#Overview)
+﻿1. [Overview](#Overview)
 2. [Set up a developer build](#devbuild)
 3. [Tutorials](#tutorials) --
    [Tutorial 1](#tutorial1)
