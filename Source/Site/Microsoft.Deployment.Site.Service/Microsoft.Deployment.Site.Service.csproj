@@ -135,7 +135,7 @@
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.MsCrm, Version=1.0.6166.27773, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Actions\Microsoft.Deployment.Actions.MsCrmActions\bin\Debug\Microsoft.Deployment.Actions.MsCrm.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.MsCrm.1.4.3-CI201611161256\lib\net452\Microsoft.Deployment.Actions.MsCrm.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.OnPremise, Version=1.0.6164.1725, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Deployment.Actions.OnPremise.1.4.3-CI201611161256\lib\net452\Microsoft.Deployment.Actions.OnPremise.dll</HintPath>
