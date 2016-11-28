@@ -133,7 +133,7 @@
       <HintPath>..\packages\Microsoft.Deployment.Actions.Custom.1.4.3-CI201611161256\lib\net452\Microsoft.Deployment.Actions.Custom.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Actions.MsCrm, Version=1.0.6166.27773, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Deployment.Actions.MsCrm, Version=1.0.6164.1725, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.Deployment.Actions.MsCrm.1.4.3-CI201611161256\lib\net452\Microsoft.Deployment.Actions.MsCrm.dll</HintPath>
     </Reference>
