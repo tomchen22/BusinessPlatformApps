@@ -23,6 +23,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public string sqlDatabase = Credential.Instance.Sql.Database;
         public string sqlPassword = Credential.Instance.Sql.Password;
 
+        [Ignore]
         [TestMethod]
         public void SalesforceSqlArtefactsDeploysSuccessful()
         {
@@ -96,6 +97,5 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(sqlResponse.Status == ActionStatus.Success);
             return sqlResponse;
         }
-
     }
 }

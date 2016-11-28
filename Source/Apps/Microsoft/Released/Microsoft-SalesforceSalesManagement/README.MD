@@ -59,7 +59,7 @@ Installing the Sales Management solution template for Salesforce configures the 
 -	Power BI Desktop file (SalesManagement.pbix)
 The detailed description of each component of the architecture is below. To get started, navigate to the Power BI solution templates from the Solutions menu on powerbi.com:
 
-![Solutions Menu](../Common/Resources/Images/SolutionsMenu.png)
+![Solutions Menu](Resources/Images/SolutionsMenu.png)
 From there, select the Sales Management for Salesforce solution template and click the "Install now" button.
 
 There are three distinct flows for the installation:
@@ -97,13 +97,13 @@ No software need be installed when the data is moved to a SQL Azure DB. There ar
 - Scribe -  Uses Scribe’s cloud-based platform for Salesforce connectivity
 
 For ADF, simply connect to Azure and the necessary services are automatically created and configured for you:
-![AzureConnect](../Common/Resources/Images/ConnectAzure.png)
+![AzureConnect](Resources/Images/ConnectAzure.png)
 
 For Informatica and Scribe, a cloud agent is automatically set up and used to move the data. This makes for a simpler installation and administration in the future.
 
 ![Get Started](Resources/Images/ConnectInformatica.png)
 
-The screenshot above shows the page for creating a new Informatica account. The experience for creating a new Scribe account is the same. 
+The screenshot above shows the page for creating a new Informatica account. The experience for creating a new Scribe account is the same.
 
 For new accounts, enter the required information. Learn more about Informatica accounts [here](https://www.informatica.com/informaticaforpowerbi) and new Scribe accounts [here](http://www.scribesoft.com/solutions/analyticsbusiness-intelligence/microsoft-power-bi/). Select "Create Account". For existing accounts, enter your credentials and click "Validate".
 
@@ -161,7 +161,7 @@ _Follow this step for an Azure SQL database destination; otherwise, follow step 
 
 Provide your Azure SQL Database credentials to gain access to the destination Azure SQL Database.
 
-![ConnectAzureSQL](../Common/Resources/Images/ConnectAzureSQL.png)
+![ConnectAzureSQL](Resources/Images/ConnectAzureSQL.png)
 
 Important note: You **_must_** safelist the IP addresses shown on this page in the Azure portal before you continue. Do not use the values from the screenshot above, but the values in the actual page. If you do not, the process will fail.
 The IP addresses must be safe-listed inside Azure SQL for the following reasons:
@@ -184,7 +184,7 @@ Provide your Azure SQL Database credentials to gain access to the destination SQ
 
 If SQL Server Analysis Services (SSAS) is used, enter an existing SSAS server name and the name of a new Analysis Services database. This SSAS database will be created on your behalf.
 
-![Connect to SQL And SSAS](../Common/Resources/Images/ConnectSQLandSSAS.png)
+![Connect to SQL And SSAS](Resources/Images/ConnectSQLandSSAS.png)
 
 ## Step 5: Tailor your Sales Management solution template for Salesforce
 Provide the starting month of your fiscal calendar. This is required for fiscal year calculations in the Power BI file.
@@ -220,22 +220,22 @@ Click the "Download PBIX" button to download a Power BI file, SalesManagementRep
 If the data was imported directly into Power BI, proceed; otherwise skip to step 8b.
 Open the downloaded Power BI file and take the following steps:
 a)	Click "Apply Changes"
-![Apply Changes](../Common/Resources/Images/ApplyChanges.png)
+![Apply Changes](Resources/Images/ApplyChanges.png)
 b)	Windows Credentials
 On the windows tab, select "Use my current credentials":
-![Use my current credentials](../Common/Resources/Images/WindowsCredentials.png)
+![Use my current credentials](Resources/Images/WindowsCredentials.png)
 c)	Database Credentials
 Click the Database item in the left-hand pane and enter the username and password you provided for the Azure SQL database:
-![Database Credentials](../Common/Resources/Images/DatabaseCredentials.png)
+![Database Credentials](Resources/Images/DatabaseCredentials.png)
 Click "Save".
 
 ### Step 8b: Power BI Live Connection to Analysis Services
 _If the Power BI file is connected to SQL Server Analysis Service, proceed; otherwise follow the instructions in step 8a._
 
 Open the Power BI file. ON the Home menu tab, select Edit Queries, then Data Source Settings:
-![SSASDB](../Common/Resources/Images/SSASServerDatabase.png)
+![SSASDB](Resources/Images/SSASServerDatabase.png)
 Enter the Server and Database name entered in the previous step and click OK. The Navigator dialog will appear:
-![SSASNav](../Common/Resources/Images/SSASNavigator.png)
+![SSASNav](Resources/Images/SSASNavigator.png)
 Click OK to view the report.
 ## Step 9: View the Report
 At this point Power BI Desktop will connect and retrieve the data. Note that it may take some time for the initial data pull to finish.  
@@ -256,9 +256,26 @@ Connect to your ETL provider:
 
 Edit the replication task and change the schedule. Instructions for your ETL provider are beyond the scope of this document, but this is a simple matter of altering a schedule.
 
+## Azure Data Factory Pricing
+
+Below is an estimated cost of the Azure resources (Azure Data Factory, Azure SQL) based on the number of rows copied from Salesforce:
+
+- 800k rows will cost approximately $0.25
+- 1.5M rows will cost approximately $0.50
+-	3M rows will cost approximately $1
+
+In addition to the actual cost of number of rows moved, additional cost will be incurred as follows:
+
+-	Each high frequency (Every 15/30 minutes, Hourly) activity in ADF will have a monthly charge of $1
+-	Each low frequency (Daily, Weekly, Monthly) activity in ADF will have a monthly charge of $0.6
+-	The first 5 low-frequency activities in a month are free of charge
+-	Each hour of actual data movement will cost $0.25
+
+These are all estimated costs. For a more detailed breakdown of pricing you can refer to the [Azure Data Factory pricing calculator](https://azure.microsoft.com/en-gb/pricing/calculator/?service=data-factory) and calculate a price based on your needs.
+
+
 # Technical Description
 This section describes each component of the solution template in detail.
-
 
 ## Azure Data Factory
 When Azure Data Factory is selected as the extraction and load option, a number of resources are provisioned in the selected subscription:
