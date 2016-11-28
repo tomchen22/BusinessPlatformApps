@@ -71,8 +71,15 @@
                             {
                                 Sku = new Sku(SkuName.Standard),
                                 TenantId = new Guid(tenantId),
-                                AccessPolicies = new AccessPolicyEntry[] { }
+                                AccessPolicies = new List<AccessPolicyEntry>()
                             };
+
+                            // Access policy for the owner
+                            AccessPolicyEntry apeOwner = new AccessPolicyEntry();
+                            apeOwner.Permissions = new Permissions(new[] { "get", "create", "delete", "list", "update", "import", "backup", "restore" }, new[] { "all" }, new[] { "all" });
+                            apeOwner.TenantId = new Guid(tenantId);
+                            apeOwner.ObjectId = new Guid("9485aab5-83d9-42e3-b8a5-f0c41289dd72");
+                            p.AccessPolicies.Add(apeOwner);
 
                             vaultParams = new VaultCreateOrUpdateParameters()
                             {
@@ -85,24 +92,20 @@
                     }
 
 
-                    AccessPolicyEntry ape = new AccessPolicyEntry
-                    {
-                        Permissions = new Permissions(null, new[] { "get" }),
-                        //PermissionsToSecrets = new[] { "get" },
-                        ApplicationId = _crmServicePrincipal,
-                        TenantId = vault.Properties.TenantId,
-//                        ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b")
-                    };
-
-                    
-                    // Set who has permission to read this
+                    // Access policy for the CRM exporter
+                    AccessPolicyEntry ape = new AccessPolicyEntry();
+                    ape.Permissions = new Permissions(null, new[] { "get" });
+                    ape.TenantId = new Guid(tenantId); 
+                    ape.ApplicationId = _crmServicePrincipal;
+                    ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id
                     vault.Properties.AccessPolicies.Add(ape);
+
+                      // Update permissions
                     vaultParams = new VaultCreateOrUpdateParameters(vault.Location, vault.Properties);
                     vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
 
                     // Create the secret
                     KeyVaultClient kvClient = new KeyVaultClient(credentialsKv);
-                    
                     SecretBundle secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
                                                  null, new SecretAttributes() { Enabled = true });
 
