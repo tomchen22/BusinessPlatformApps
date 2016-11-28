@@ -3,12 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Microsoft.Deployment.Common;
+
 using Microsoft.Deployment.Common.ActionModel;
-using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Controller;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Site.Service.Controllers
 {

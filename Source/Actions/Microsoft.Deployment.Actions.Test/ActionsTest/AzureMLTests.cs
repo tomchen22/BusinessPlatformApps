@@ -29,7 +29,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("SelectedResourceGroup", "UnitTest");
             dataStore.AddToDataStore("SelectedSubscription", subscriptionId);
             dataStore.AddToDataStore("WorkspaceName", "testazuremlworkspace");
-            dataStore.AddToDataStore("StorageAccountName", "testazuremlstorage" +RandomGenerator.GetRandomLowerCaseCharacters(5));
+            dataStore.AddToDataStore("StorageAccountName", "testazuremlstorage" + RandomGenerator.GetRandomLowerCaseCharacters(5));
             dataStore.AddToDataStore("DeploymentName", "MLWorkspaceDeployment");
             dataStore.AddToDataStore("PlanName", "testazuremlplan");
             dataStore.AddToDataStore("SkuName", "S1");

@@ -13,7 +13,6 @@ export class HttpService {
     MS: MainService;
 
     constructor(MainService, HttpClient) {
-
         if (window.location.href.startsWith('http://localhost') || window.location.href.startsWith('https://localhost')) {
             this.baseUrl = 'http://localhost:2305/api/';
         } else {
