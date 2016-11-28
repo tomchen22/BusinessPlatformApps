@@ -21,7 +21,7 @@ namespace Microsoft.Bpst.Actions.AzureActions.News
 
 
     [Export(typeof(IAction))]
-    public class DeployAzyreMLWorkspace : BaseAction
+    public class DeployAzureMLWorkspace : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
