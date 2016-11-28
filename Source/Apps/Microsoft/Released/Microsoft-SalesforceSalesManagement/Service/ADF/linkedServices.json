@@ -50,6 +50,12 @@
         "description": "Salesforce login username"
       }
     },
+    "environmentUrl": {
+      "type": "string",
+      "metadata": {
+        "description": "Salesforce environment url"
+      }
+    },
     "salesforcePassword": {
       "type": "securestring",
       "metadata": {
@@ -158,7 +164,8 @@
             "typeProperties": {
               "username": "[parameters('salesforceUsername')]",
               "password": "[parameters('salesforcePassword')]",
-              "securityToken": "[parameters('salesforceSecurityToken')]"
+              "securityToken": "[parameters('salesforceSecurityToken')]",
+              "environmentUrl": "[parameters('environmentUrl')]"
             }
           }
         },
@@ -184,7 +191,7 @@
             },
             "action": {
               "odata.type": "Microsoft.Azure.Management.Insights.Models.RuleEmailAction",
-              "customEmails":"EMAILS"
+              "customEmails": "EMAILS"
             }
           }
         }

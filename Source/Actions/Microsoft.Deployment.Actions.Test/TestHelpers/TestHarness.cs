@@ -15,6 +15,7 @@ namespace Microsoft.Deployment.Actions.Test
     public class TestHarness
     {
         private static CommonController Controller { get; set; }
+        public static string TemplateName = "TestApp";
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -37,7 +38,7 @@ namespace Microsoft.Deployment.Actions.Test
         {
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
-            info.AppName = "TestApp";
+            info.AppName = TemplateName;
             return Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore }).Result;
         }
 
@@ -45,7 +46,7 @@ namespace Microsoft.Deployment.Actions.Test
         {
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
-            info.AppName = "TestApp";
+            info.AppName = TemplateName;
             return await Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore });
         }
 
