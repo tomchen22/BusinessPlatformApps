@@ -11,7 +11,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     [TestClass]
     public class OnPremiseTests
     {
-        public string targetPath = Path.GetRandomFileName();
+        public static string rootAppPath = FileUtility.GetLocalTemplatePath(TestHarness.TemplateName);
+        public static string targetPath = rootAppPath + "\\" + Path.GetRandomFileName();
 
         [TestMethod]
         [Ignore]
@@ -46,7 +47,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(result.IsSuccess);
         }
 
-        [TestMethod]
         public void InstallSCCMSuccess()
         {
             var dataStore = new DataStore();

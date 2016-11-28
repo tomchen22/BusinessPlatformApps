@@ -37,6 +37,10 @@ namespace Microsoft.Deployment.Actions.Custom
                     });
                     response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
                 }
+                catch (DirectoryNotFoundException)
+                {
+                    response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+                }
                 catch (Exception ex)
                 {
                     response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);

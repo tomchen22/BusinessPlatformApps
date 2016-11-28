@@ -23,7 +23,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public string sqlDatabase = Credential.Instance.Sql.Database;
         public string sqlPassword = Credential.Instance.Sql.Password;
 
-        [Ignore]
         [TestMethod]
         public void SalesforceSqlArtefactsDeploysSuccessful()
         {
@@ -46,6 +45,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = TestHarness.ExecuteAction("Microsoft-SalesforceSqlArtefacts", dataStore);
 
             Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            this.CleanDb();
         }
 
 
@@ -62,7 +63,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(result.Status == ActionStatus.Success);
         }
 
-        [TestMethod]
         public void CleanDb()
         {
             ActionResponse sqlResponse = GetSqlPagePayload();
@@ -74,7 +74,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("SqlConnectionString", (sqlResponse.Body as JObject)["value"].ToString(), DataStoreType.Private);
 
             var response = TestHarness.ExecuteAction("Microsoft-DeploySQLScripts", dataStore);
-
+            
             Assert.IsTrue(response.Status == ActionStatus.Success);
         }
 
