@@ -22,11 +22,12 @@
     [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
     {
+        private string _azureToken = "NO_TOKEN";
         private readonly Guid _crmServicePrincipal = new Guid("b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"); // DO NOT CHANGE THIS
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString() ?? "NO_TOKEN";
+            string _azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
@@ -39,8 +40,8 @@
 
             try
             {
-                SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, azureToken);
-                TokenCredentials credentialsKv = new TokenCredentials(azureToken);
+                SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
+                TokenCredentials credentialsKv = new TokenCredentials(_azureToken);
 
                 using (KeyVaultManagementClient client = new KeyVaultManagementClient(credentialsKv))
                 {
