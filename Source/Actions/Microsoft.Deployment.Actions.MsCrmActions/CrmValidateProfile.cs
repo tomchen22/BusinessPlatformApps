@@ -11,7 +11,6 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
-
     [Export(typeof(IAction))]
     public class CrmValidateProfile : BaseAction
     {
@@ -20,10 +19,10 @@
         private string _token;
         private string _orgId;
 
-        private List<string> RetrieveInvalidEntities(string[] entities)
+        private async Task<List<string>> RetrieveInvalidEntities(string[] entities)
         {
             List<string> result = new List<string>();
-            string response = _rc.Get(MsCrmEndpoints.URL_ENTITIES, "organizationurl=" + _orgUrl);
+            string response = await _rc.Get(MsCrmEndpoints.URL_ENTITIES, "organizationurl=" + _orgUrl);
             MsCrmEntity[] provisionedEntities = JsonConvert.DeserializeObject<MsCrmEntity[]>(response);
 
             for (int i = 0; i < entities.Length; i++)
@@ -69,7 +68,7 @@
                 profile.Entities[i] = e;
             }
 
-            List<string> invalidEntities = RetrieveInvalidEntities(entities);
+            List<string> invalidEntities = await RetrieveInvalidEntities(entities);
 
             if (invalidEntities.Count > 0)
                 return new ActionResponse(ActionStatus.Failure, null,
@@ -78,7 +77,7 @@
 
             try
             {
-                _rc.Post(MsCrmEndpoints.URL_PROFILES_VALIDATE, JsonConvert.SerializeObject(profile));
+                await _rc.Post(MsCrmEndpoints.URL_PROFILES_VALIDATE, JsonConvert.SerializeObject(profile));
                 
                 return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
             }

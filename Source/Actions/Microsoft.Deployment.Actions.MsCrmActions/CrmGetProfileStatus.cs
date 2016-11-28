@@ -10,7 +10,6 @@
     using System.Net.Http.Headers;
     using System.Threading.Tasks;
 
-
     [Export(typeof(IAction))]
     public class CrmGetProfileStatus : BaseAction
     {
@@ -23,7 +22,7 @@
 
             try
             {
-                string response = rc.Get(MsCrmEndpoints.URL_PROFILES + "/" + profileId, "status=true");
+                string response = await rc.Get(MsCrmEndpoints.URL_PROFILES + "/" + profileId, "status=true");
                 MsCrmProfile profile = JsonConvert.DeserializeObject<MsCrmProfile>(response);
 
                 bool done = true;
