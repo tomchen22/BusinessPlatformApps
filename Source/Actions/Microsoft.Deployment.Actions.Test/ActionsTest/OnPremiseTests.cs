@@ -55,6 +55,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(result.IsSuccess);
         }
 
+        [Ignore]
         [TestMethod]
         public void RemoveFilesSuccess()
         {
