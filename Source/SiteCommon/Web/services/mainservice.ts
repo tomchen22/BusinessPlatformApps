@@ -3,41 +3,43 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient } from 'aurelia-http-client';
 
+import { DataStore } from './datastore';
 import { DeploymentService } from './deploymentservice';
 import { ErrorService } from './errorservice';
+import { HttpService } from './httpservice';
 import { LoggerService } from './loggerservice';
 import { NavigationService } from './navigationservice';
-import { HttpService } from './httpservice';
-import { DataStore } from './DataStore';
+import { TranslateService } from './translate-service';
 import { UtilityService } from './utilityservice';
 import { ViewModelBase } from './viewmodelbase';
 
-import {ExperienceType} from '../base/ExperienceType';
+import { ExperienceType } from '../base/ExperienceType';
+import { QueryParameter } from '../base/query-parameter';
 
 @inject(Router, HttpClient)
 export default class MainService {
-    Router: Router;
-    MS: MainService;
-    ErrorService: ErrorService;
-    LoggerService: LoggerService;
-    HttpService: HttpService;
-    NavigationService: NavigationService;
+    appName: string;
+    experienceType: ExperienceType;
     DataStore: DataStore;
     DeploymentService: DeploymentService;
+    ErrorService: ErrorService;
+    HttpService: HttpService;
+    LoggerService: LoggerService;
+    MS: MainService;
+    NavigationService: NavigationService;
+    Router: Router;
+    Translate: any;
     UtilityService: UtilityService;
-    appName: string;
     templateData: any;
-    experienceType: ExperienceType;
 
     constructor(router, httpClient) {
         this.Router = router;
         (<any>window).MainService = this;
 
-
         this.UtilityService = new UtilityService(this);
-        this.appName = this.UtilityService.GetQueryParameter('name'); 
+        this.appName = this.UtilityService.GetQueryParameter(QueryParameter.NAME); 
 
-        let experienceTypeString: string = this.UtilityService.GetQueryParameter('type');
+        let experienceTypeString: string = this.UtilityService.GetQueryParameter(QueryParameter.TYPE);
         this.experienceType = ExperienceType[<string>experienceTypeString];
 
         this.ErrorService = new ErrorService(this);
@@ -45,6 +47,9 @@ export default class MainService {
         this.NavigationService = new NavigationService(this);
         this.NavigationService.appName = this.appName;
         this.DataStore = new DataStore(this);
+
+        let translate: TranslateService = new TranslateService(this, this.UtilityService.GetQueryParameter(QueryParameter.LANG));
+        this.Translate = translate.language;
 
         if (this.UtilityService.GetItem('App Name') !== this.appName) {
             this.UtilityService.ClearSessionStorage();

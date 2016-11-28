@@ -1,5 +1,5 @@
 ﻿<template>
-    <h1 class="st-title">Get started with ${templateName}</h1>
+    <h1 class="st-title">${MS.Translate.GET_STARTED_WITH} ${templateName}</h1>
 
     <p class="st-subtitle">${subtitle}</p>
 
@@ -11,8 +11,7 @@
                 <li repeat.for="list1Text of list1">${list1Text}</li>
             </ul>
             <p if.bind="showDownload">
-                Since you are copying your data into SQL Server, you will need to use our local installer to set up the template.
-                In order to download the solution template installer, please click the Download button below.
+                ${MS.Translate.SHOW_DOWNLOAD}
             </p>
         </div>
     </div>

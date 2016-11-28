@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
@@ -12,8 +14,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         private string baseURL = "https://bpsolutiontemplates.com/?name=Microsoft-TwitterTemplate";
         private RemoteWebDriver driver;
-        private string browser;
-
+        //private string browser;
 
         [TestMethod]
         public void TestNavigateToAzurePage()
