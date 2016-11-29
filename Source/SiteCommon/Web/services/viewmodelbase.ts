@@ -152,6 +152,10 @@ export class ViewModelBase {
 
     // Called when object is validating user input
     async OnValidate(): Promise<boolean> {
+        if (!this.isValidated) {
+            return false;
+        }
+
         this.isValidated = false;
         this.showValidation = false;
         this.MS.ErrorService.Clear();
