@@ -6,6 +6,7 @@
 4. [How to Install](#how-to-install)
 5. [Technical Description](#technical-description)
 6. [Report Walkthrough](#report-walkthrough)
+7. [Azure Data Factory Pricing](#azure-data-factory-pricing)
 
 # Introduction
 Create a scalable, secure and flexible PowerBI dashboard on Salesforce with the Power BI Sales Management solution template for Salesforce. The template creates everything required for an end-to-end analytics solution on your Salesforce org including the data extraction, database constructs, and a Power BI report bound to the database. You can extend or customize the result to accommodate your own business requirements.
@@ -255,24 +256,6 @@ Connect to your ETL provider:
 - Scribe: <https://online.scribesoft.com/ScribeOnline.aspx#/Logon>.
 
 Edit the replication task and change the schedule. Instructions for your ETL provider are beyond the scope of this document, but this is a simple matter of altering a schedule.
-
-## Azure Data Factory Pricing
-
-Below is an estimated cost of the Azure resources (Azure Data Factory, Azure SQL) based on the number of rows copied from Salesforce:
-
-- 800k rows will cost approximately $0.25
-- 1.5M rows will cost approximately $0.50
--	3M rows will cost approximately $1
-
-In addition to the actual cost of number of rows moved, additional cost will be incurred as follows:
-
--	Each high frequency (Every 15/30 minutes, Hourly) activity in ADF will have a monthly charge of $1
--	Each low frequency (Daily, Weekly, Monthly) activity in ADF will have a monthly charge of $0.6
--	The first 5 low-frequency activities in a month are free of charge
--	Each hour of actual data movement will cost $0.25
-
-These are all estimated costs. For a more detailed breakdown of pricing you can refer to the [Azure Data Factory pricing calculator](https://azure.microsoft.com/en-gb/pricing/calculator/?service=data-factory) and calculate a price based on your needs.
-
 
 # Technical Description
 This section describes each component of the solution template in detail.
@@ -850,7 +833,7 @@ The purpose of the Daily report is for Sales Managers to view detailed informati
 
 The "Daily View" page is split into two key sections: "Retrospective" and "Looking Ahead".
 
-![DailyView](../Common/Resources/Images/PBI_SM_DailyView.png)
+![DailyView](../../../../SiteCommon/Resources/Images/PBI_SM_DailyView.png)
 
 The "Retrospective" View is concerned about reporting on things that have already happened this quarter. There are two key tables to focus on " the revenue a team has brought in this quarter and the opportunities that have been lost this quarter. On the left hand side one can see the "Variance to Prior Day" metric. This provides a quick indicator of how sales have changed since yesterday.
 
@@ -858,12 +841,12 @@ The "Retrospective" View is concerned about reporting on things that have alread
 
 An important aim of the "Daily View" however, is to give a Sales Manager the finest level of granularity they may wish to view their data by. Whilst the default report page looks at things on a quarter level, a Sales Manager may be interested in seeing the opportunities that were lost this week or the opportunities that are expecting to close tomorrow. By using the time slicers present on the page, a Sales Manager can view their data at a month, week or day level. The slicers at the top of the page update the "Retrospective view (i.e. the past), whereas the slicers in the second half of the page update everything "Looking Ahead".
 
-![DailyViewF](../Common/Resources/Images/PBI_SM_DailyViewFiltered.png)
+![DailyViewF](../../../../SiteCommon/Resources/Images/PBI_SM_DailyViewFiltered.png)
 
 ## Sales Performance
 The purpose of the Sales Manager page is to use historical data to evaluate the current performance of one or more sales teams.
 
-![SalesPerf](../Common/Resources/Images/PBI_SM_SalesPerformance.png)
+![SalesPerf](../../../../SiteCommon/Resources/Images/PBI_SM_SalesPerformance.png)
 
 
 The Sales Performance view helps Sales Managers answer questions about how their teams are performing compared to previous years. The right-hand side of the page looks at Year to Date sales (i.e. all sales that have occurred between today and the beginning of the year). It then contrasts these sales with sales for the same time period but in previous years. In the screenshot one can thus see sales for the first 7 weeks of the year compared to the first 7 weeks in 2015 and 214. One can then also view important high level metrics around revenue made this year as well as growth compared to last year.
@@ -873,19 +856,19 @@ The middle graph shows the same information at a quarter view whereas the left-h
 Finally, the slicers at the top of the page include all of the Sales Managers direct reports (salespeople or sales team managers). A Sales Manager is thus able to select a specific sales team and look at their sales performance compared to not only their previous year performances but also the global average for the Sales Manager's teams.
 
 
-![SalesPerfF](../Common/Resources/Images/PBI_SM_SalesPerformanceFiltered.png)
+![SalesPerfF](../../../../SiteCommon/Resources/Images/PBI_SM_SalesPerformanceFiltered.png)
 
 ## Pipeline View
 The purpose of the Pipeline view is to monitor the health of the sales pipeline
 
-![Pipeline](../Common/Resources/Images/PBI_SM_Pipeline.png)
+![Pipeline](../../../../SiteCommon/Resources/Images/PBI_SM_Pipeline.png)
 
 This view focuses on the health of the sales pipeline. The main way pipeline health is evaluated is by measuring pipeline coverage (i.e. by summing up actual sales with all my open opportunities, does that compare to quota). Some sales mangers like to use percentages higher than 100% (e.g. 120%) to indicate a healthy pipeline as they assume not all opportunities will be closed. In our report, any pipeline coverage above 100% appears as green. On the report pipeline coverage is also split by sales team/salesperson and product to provide a more detailed understanding of pipeline.
 
 In the sample report, one can see that while there is a very impressive pipeline coverage for Server Platform (nearly 500%), some of the other products have much lower pipeline coverage. As a Sales Manager, one could investigate why certain products are not generating as much interest and reprioritize the focus of the sales teams away from Server Platform to other areas. We have also enabled drilling down capabilities in the  owner and product pipeline coverage bar graphs. This means that clicking on a particular sales team will uncover all of the sales people that belong to the team, whereas clicking on a product family will uncover all the products associated with it. For example, "drilling" into Server Platform will allow one to see whether there is one product that has resulted in the huge surge of pipeline coverage for Server Platform, or whether all Server Platform products extremely popular. As one can see below, it appears to be the latter with all apart from one Server Platform product having very good pipeline coverage:
 
 
-![PipelineCoverage](../Common/Resources/Images/PBI_SM_PipelineCoverage.png)
+![PipelineCoverage](../../../../SiteCommon/Resources/Images/PBI_SM_PipelineCoverage.png)
 
 Another metric that complements pipeline coverage is "Gap to Green". Gap to green looks at how much more revenue needed in the pipeline is required to reach quota. A negative gap to green (as shown above in green) indicates one has already surpassed the amount required. The other card metrics on the report look at the amount of opportunities that have a high, medium and low likelihood of closing.
 
@@ -893,4 +876,21 @@ The cumulative graph in the bottom right hand corner provides some insights on t
 
 Finally, a slicer above the cumulative graph depicts the probability with which an opportunity will close. 10% indicates an low probability of closing whereas 100% indicates the opposite. A Sales Manager can thus start with 100% and continue incrementing downwards until they find out which opportunities need to close in order to reach their target. In the example below, opportunities that have 100% close probability for Azure are viewed:
 
-![PipelineCoverageF](../Common/Resources/Images/PBI_SM_PipelineCoverage100Filter.png)
+![PipelineCoverageF](../../../../SiteCommon/Resources/Images/PBI_SM_PipelineCoverage100Filter.png)
+
+# Azure Data Factory Pricing
+
+Below is an estimated cost of Azure Data Factory based on the number of rows copied from Salesforce:
+
+- 800k rows will cost approximately $0.25
+- 1.5M rows will cost approximately $0.50
+-	3M rows will cost approximately $1
+
+In addition to the actual cost of number of rows moved, additional cost will be incurred as follows:
+
+-	Each high frequency (Every 15/30 minutes, Hourly) activity in ADF will have a monthly charge of $1
+-	Each low frequency (Daily, Weekly, Monthly) activity in ADF will have a monthly charge of $0.6
+-	The first 5 low-frequency activities in a month are free of charge
+-	Each hour of actual data movement will cost $0.25
+
+These are all estimated costs. For a more detailed breakdown of pricing you can refer to the [Azure Data Factory pricing calculator](https://azure.microsoft.com/en-gb/pricing/calculator/?service=data-factory) and calculate a price based on your needs.
