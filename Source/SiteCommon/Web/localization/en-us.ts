@@ -19,6 +19,8 @@
         have one, you can get started with a free`,
     COMMON_ADVANCED_OPTIONAL: `Advanced (optional)`,
     COMMON_HERE: `here`,
+    GETTING_STARTED_LIST_1: `To set up this solution template you will need:`,
+    GETTING_STARTED_LIST_2: `Features of this architecture:`,
     GETTING_STARTED_SHOW_DOWNLOAD: `Since you are copying your data into SQL
         Server, you will need to use our local installer to set up the
         template. In order to download the solution template installer, please
