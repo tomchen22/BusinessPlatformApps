@@ -183,10 +183,6 @@
       <HintPath>..\packages\Microsoft.Net.Http.Headers.1.0.0\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Owin, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Owin.2.0.2\lib\net45\Microsoft.Owin.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="Microsoft.Owin.Host.HttpListener, Version=2.0.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Owin.Host.HttpListener.2.0.2\lib\net45\Microsoft.Owin.Host.HttpListener.dll</HintPath>
       <Private>True</Private>
@@ -394,14 +390,7 @@
   </Target>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="OnCleanOnly" AfterTargets="Clean">
-    <Exec Command="$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.AzureCustom -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Common -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Custom -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.MsCrm -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.OnPremise -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Salesforce -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.SQL -prerelease
-$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Common -prerelease" />
+    <Exec Command="$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.AzureCustom -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Common -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Custom -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.MsCrm -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.OnPremise -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.Salesforce -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Actions.SQL -prerelease&#xD;&#xA;$(ProjectDir)\..\..\Shared\nuget.exe update $(ProjectDir)\packages.config -id Microsoft.Deployment.Common -prerelease" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
