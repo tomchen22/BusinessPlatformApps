@@ -16,8 +16,6 @@ namespace Microsoft.Deployment.Actions.Salesforce
     [Export(typeof(IAction))]
     class SalesforceGetObjectMetadata : BaseAction
     {
-        private string sandboxUrl = "https://test.salesforce.com/";
-
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string objects = request.DataStore.GetValue("ObjectTables");
@@ -29,7 +27,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
 
             SoapClient binding = new SoapClient("Soap");
 
-            if (!string.IsNullOrEmpty(sfTestUrl) && sfTestUrl == this.sandboxUrl)
+            if (!string.IsNullOrEmpty(sfTestUrl) && sfTestUrl.Contains("test"))
             {
                 binding.Endpoint.Address = new System.ServiceModel.EndpointAddress(binding.Endpoint.Address.ToString().Replace("login", "test"));
             }
