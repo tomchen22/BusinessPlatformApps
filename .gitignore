@@ -31,3 +31,4 @@
 *.sqlite
 /.vs/slnx.sqlite
 /.vs/slnx.sqlite
+*.vspscc
