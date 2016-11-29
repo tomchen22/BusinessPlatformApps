@@ -8,6 +8,7 @@
         BatchWithState,
         UserInteractionRequired,
         Success,
+        Invisible,
 
         // Used for when you encounter an Error - these should never be returned
         Retry,
@@ -43,6 +44,9 @@
 
                 case ActionStatus.FailureExpected:
                     return "250";
+
+                case ActionStatus.Invisible:
+                    return "251";
 
                 case ActionStatus.Retry:
                     return "300";
