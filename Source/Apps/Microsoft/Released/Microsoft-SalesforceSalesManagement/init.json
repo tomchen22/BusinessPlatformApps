@@ -24,7 +24,7 @@
       {
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "displayname": "Azure",
-        "pricingUrl": "SalesforcePricingURL",
+        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-SalesforceSalesManagement#azure-data-factory-pricing",
         "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')"
       },
       {
