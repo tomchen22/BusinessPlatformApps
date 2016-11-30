@@ -21,19 +21,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         [TestMethod]
         public async Task DeployAzureFunction()
         {
-            var dataStore = await AAD.GetTokenWithDataStore();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
-            Assert.IsTrue(result.IsSuccess);
-            var responseBody = JObject.FromObject(result.Body);
-            var subscriptionId = responseBody["value"][0];
-
-            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Private);
-            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
-
-            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
-            Assert.IsTrue(locationResult.IsSuccess);
-            var location = locationResult.Body.GetJObject()["value"][5];
-            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+            var dataStore = await TestHarness.GetCommonDataStore();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
@@ -43,26 +31,14 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
 
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
-            Assert.IsTrue(response.IsSuccess);
+           Assert.IsTrue(response.IsSuccess);
         }
 
         [TestMethod]
         public async Task DeployAzureFunctionAssets()
         {
             await this.DeployAzureFunction();
-            var dataStore = await AAD.GetTokenWithDataStore();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
-            Assert.IsTrue(result.IsSuccess);
-            var responseBody = JObject.FromObject(result.Body);
-            var subscriptionId = responseBody["value"][0];
-
-            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Private);
-            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
-
-            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
-            Assert.IsTrue(locationResult.IsSuccess);
-            var location = locationResult.Body.GetJObject()["value"][5];
-            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+            var dataStore = await TestHarness.GetCommonDataStore();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
@@ -80,19 +56,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public async Task DeployTwitterCSharpFunctionAssetsTest()
         {
             await this.DeployAzureFunction();
-            var dataStore = await AAD.GetUserTokenFromPopup();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
-            Assert.IsTrue(result.IsSuccess);
-            var responseBody = JObject.FromObject(result.Body);
-            var subscriptionId = responseBody["value"][5];
-
-            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Private);
-            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
-
-            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
-            Assert.IsTrue(locationResult.IsSuccess);
-            var location = locationResult.Body.GetJObject()["value"][5];
-            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+            var dataStore = await TestHarness.GetCommonDataStore();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");

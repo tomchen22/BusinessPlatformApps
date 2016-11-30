@@ -47,7 +47,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             dynamic tokenObj = new ExpandoObject();
 #if DEBUG
             AuthenticationContext context = new AuthenticationContext("https://login.windows.net/" + Credential.Instance.AAD.TenantId);
-            var token = await context.AcquireTokenAsync(Constants.AzureManagementCoreApi, Constants.MicrosoftClientId, new Uri("https://unittest/redirect.html"), new PlatformParameters(PromptBehavior.Auto
+            var token = await context.AcquireTokenAsync(Constants.AzureManagementCoreApi, Constants.MicrosoftClientId, new Uri("https://unittest/redirect.html"), new PlatformParameters(PromptBehavior.Always
                 ));
             tokenObj.access_token = token.AccessToken;
 #endif

@@ -67,7 +67,14 @@ namespace Microsoft.Deployment.Actions.Test
 
         public static async Task<bool> SetUp()
         {
-            CommonDataStore = await AAD.GetTokenWithDataStore();
+            if(!System.Diagnostics.Debugger.IsAttached)
+            {
+                CommonDataStore = await AAD.GetTokenWithDataStore();
+            }
+            else
+            {
+                CommonDataStore = await AAD.GetUserTokenFromPopup();
+            }
 
             var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", CommonDataStore);
             Assert.IsTrue(subscriptionResult.IsSuccess);
@@ -80,7 +87,11 @@ namespace Microsoft.Deployment.Actions.Test
             CommonDataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
 
             CommonDataStore.AddToDataStore("SelectedResourceGroup", "Test");
-            var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", CommonDataStore);
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", CommonDataStore);
+            }
 
             var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", CommonDataStore);
             Assert.IsTrue(resourceGroupResult.IsSuccess);
