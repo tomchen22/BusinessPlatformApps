@@ -118,7 +118,7 @@ export class HttpService {
             body = content;
         }
 
-        body.ImpersonateAction = true;
+        body.useImpersonation = true;
         return this.executeAsync(method, content);
     }
 

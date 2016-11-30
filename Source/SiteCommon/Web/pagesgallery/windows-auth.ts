@@ -29,6 +29,7 @@ export class SearchTerms extends ViewModelBase {
     }
 
     async OnValidate(): Promise<boolean> {
+
         this.isValidated = false;
         let usernameError: string = this.MS.UtilityService.validateUsername(this.username);
         if (usernameError) {
@@ -44,16 +45,12 @@ export class SearchTerms extends ViewModelBase {
         this.MS.DataStore.addToDataStore('ImpersonationPassword', this.password, DataStoreType.Private);
 
         let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateNtCredential', {});
-        if (!response.IsSuccess) {
-            return false;
+        if (response.IsSuccess) {
+            this.isValidated = true;
         }
 
-        if (!super.OnValidate()) {
-            return false;
-        }
-
-        this.isValidated = true;
-        return true;
+        super.OnValidate();
+        return this.isValidated;
     }
 
    async OnLoaded(): Promise<void> {
