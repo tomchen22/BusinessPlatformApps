@@ -48,9 +48,8 @@
       <HintPath>..\packages\Hyak.Common.1.1.0\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0-beta2\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.ApplicationInsights">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0-beta4\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.DataProtection.Abstractions">
       <HintPath>..\packages\Microsoft.AspNet.DataProtection.Abstractions.1.0.0-rc1-final\lib\net451\Microsoft.AspNet.DataProtection.Abstractions.dll</HintPath>
@@ -76,17 +75,15 @@
       <HintPath>..\packages\Microsoft.Azure.Common.2.1.0\lib\net45\Microsoft.Azure.Common.NetFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.KeyVault, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.KeyVault.2.0.4-preview\lib\net45\Microsoft.Azure.KeyVault.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.KeyVault">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.2.0.5-preview\lib\net45\Microsoft.Azure.KeyVault.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.KeyVault.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.KeyVault.Core.2.0.3-preview\lib\net45\Microsoft.Azure.KeyVault.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Azure.KeyVault.WebKey, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.KeyVault.WebKey.2.0.2-preview\lib\net45\Microsoft.Azure.KeyVault.WebKey.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Azure.KeyVault.WebKey">
+      <HintPath>..\packages\Microsoft.Azure.KeyVault.WebKey.2.0.3-preview\lib\net45\Microsoft.Azure.KeyVault.WebKey.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Management.DataFactories, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Azure.Management.DataFactories.4.11.0\lib\net45\Microsoft.Azure.Management.DataFactories.dll</HintPath>
@@ -122,28 +119,28 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.AzureCustom">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.AzureCustom.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.AzureCustom.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.AzureCustom.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.AzureCustom.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.Common">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.Common.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.Common.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.Custom">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.Custom.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.Custom.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.Custom.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.Custom.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.MsCrm">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.MsCrm.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.MsCrm.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.MsCrm.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.MsCrm.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.OnPremise">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.OnPremise.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.OnPremise.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.OnPremise.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.OnPremise.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.Salesforce">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.Salesforce.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.Salesforce.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.Salesforce.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.Salesforce.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.SQL">
-      <HintPath>..\packages\Microsoft.Deployment.Actions.SQL.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.SQL.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Actions.SQL.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Actions.SQL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Common">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611301439\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611301534\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>
@@ -177,6 +174,12 @@
       <HintPath>..\packages\Microsoft.Extensions.WebEncoders.Core.1.0.0-rc1-final\lib\net451\Microsoft.Extensions.WebEncoders.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.0\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Net.Http.Headers">
       <HintPath>..\packages\Microsoft.Net.Http.Headers.1.0.0\lib\netstandard1.1\Microsoft.Net.Http.Headers.dll</HintPath>
       <Private>True</Private>
@@ -189,13 +192,11 @@
       <HintPath>..\packages\Microsoft.Owin.Hosting.2.0.2\lib\net45\Microsoft.Owin.Hosting.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.3\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Rest.ClientRuntime">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.4\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Rest.ClientRuntime.Azure, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.3\lib\net45\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Microsoft.Rest.ClientRuntime.Azure">
+      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.4\lib\net45\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks">
       <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
@@ -255,6 +256,9 @@
     <Reference Include="System.ComponentModel.TypeConverter">
       <HintPath>..\packages\System.ComponentModel.TypeConverter.4.1.0\lib\net45\System.ComponentModel.TypeConverter.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="System.IdentityModel.Tokens.Jwt">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.1.0\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
     </Reference>
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
