@@ -5,10 +5,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
@@ -55,9 +57,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             return builder;
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<InterceptorStatus> CanInterceptAsync(IAction actionToExecute, ActionRequest request)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             //TODO - fix to ensure it only works when token has expired
             //if (request.DataStore.GetValue("AzureToken") != null)

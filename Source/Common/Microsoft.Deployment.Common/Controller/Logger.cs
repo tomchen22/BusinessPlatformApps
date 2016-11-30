@@ -173,6 +173,15 @@ namespace Microsoft.Deployment.Common.Controller
             this.ClearTraceId();
         }
 
+        public void LogEmailSubscription(string emailAddress, string nameFirst, string nameLast)
+        {
+            Dictionary<string, string> emailSubscription = new Dictionary<string, string>();
+            emailSubscription.Add("Email Address", emailAddress);
+            emailSubscription.Add("First Name", nameFirst);
+            emailSubscription.Add("Last Name", nameLast);
+            this.LogEvent("Email-Subscription", emailSubscription);
+        }
+
         internal void LogRequest(string request, TimeSpan duration, bool sucess, ActionRequest requestBody, ActionResponse responseToReturn)
         {
             if (responseToReturn == null)
