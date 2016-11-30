@@ -6,20 +6,24 @@ export const EN_US = {
     AZURE_LOGIN_CONNECTION: `Would you like to connect to Azure through an
         organizational account or a Microsoft account?`,
     AZURE_LOGIN_DIRECTORY: `Azure Directory:`,
+    AZURE_LOGIN_DIRECTORY_ADDRESS: `directoryname.onmicrosoft.com`,
     AZURE_LOGIN_DIRECTORY_DESCRIPTION: `guide`,
     AZURE_LOGIN_DIRECTORY_LINK: `http://community.powerbi.com/t5/Power-BI-Solution-Templates/Guide-for-using-Microsoft-accounts-with-Twitter-template/m-p/60088#M31`,
-    AZURE_LOGIN_DIRECTORY_TEXT: `In order to connect to your Microsoft account we will
-        need to know your Azure directory. To figure this out please refer to
-        our `,
+    AZURE_LOGIN_DIRECTORY_TEXT: `In order to connect to your Microsoft account
+        we will need to know your Azure directory. To figure this out please
+        refer to our `,
     AZURE_LOGIN_LINK: `https://azure.microsoft.com/en-us/free/`,
     AZURE_LOGIN_LINK_DESCRIPTION: `Azure subscription trial`,
     AZURE_LOGIN_MICROSOFT: `Microsoft Account (Hotmail, Outlook, etc.)`,
     AZURE_LOGIN_ORGANIZATIONAL: `Organizational Account (Work or School)`,
     AZURE_LOGIN_PRICING_TEXT: `You can learn more about pricing`,
     AZURE_LOGIN_RESOURCE_GROUP: `Azure Resource Group Name:`,
-    AZURE_LOGIN_SUBTITLE: `To create the solution we will be using a number of Azure
-        Services which require an Azure subscription. Don't worry if you don't
-        have one, you can get started with a free`,
+    AZURE_LOGIN_SUBSCRIPTION_ERROR: `You do not have any Azure subscriptions
+        linked to your account. You can get started with a free trial by
+        clicking the link at the top of the page.`,
+    AZURE_LOGIN_SUBTITLE: `To create the solution we will be using a number of
+        Azure Services which require an Azure subscription. Don't worry if you
+        don't have one, you can get started with a free`,
     COMMON_ADVANCED_OPTIONAL: `Advanced (optional)`,
     COMMON_FOR_DETAILS: `for details.`,
     COMMON_HERE: `here`,

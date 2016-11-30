@@ -1,20 +1,20 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from '../services/datastore';
-import { ActionResponse } from '../services/actionresponse';
+﻿import { QueryParameter } from '../base/query-parameter';
 
-import { QueryParameter } from '../base/query-parameter';
+import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class AzureLogin extends ViewModelBase {
     authToken: any = {};
     azureConnection = AzureConnection;
     azureDirectory: string = '';
     connectionType: AzureConnection = AzureConnection.Organizational;
+    isPricingChecked: boolean = false;
     selectedResourceGroup: string = `SolutionTemplate-${this.MS.UtilityService.GetUniqueId(5)}`;
     selectedSubscriptionId: string = '';
     showAdvanced: boolean = false;
-    subscriptionsList: any[] = [];
     showPricingConfirmation: boolean = false;
-    isPricingChecked: boolean = false;
+    subscriptionsList: any[] = [];
 
     // Variables to override
     pricingUrl: string='';
@@ -40,10 +40,11 @@ export class AzureLogin extends ViewModelBase {
                     this.MS.DataStore.addToDataStore('AzureToken', this.authToken.Body.AzureToken, DataStoreType.Private);
                     let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
                     if (subscriptions.IsSuccess) {
-                        this.showPricingConfirmation = true;
                         this.subscriptionsList = subscriptions.Body.value;
                         if (!this.subscriptionsList || (this.subscriptionsList && this.subscriptionsList.length === 0)) {
-                            this.MS.ErrorService.message = 'You do not have any Azure subscriptions linked to your account. You can get started with a free trial by clicking the link at the top of the page.';
+                            this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
+                        } else {
+                            this.showPricingConfirmation = true;
                         }
                     }
                 }
