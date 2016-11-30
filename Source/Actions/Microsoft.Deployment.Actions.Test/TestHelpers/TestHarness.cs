@@ -8,6 +8,8 @@ using Microsoft.Deployment.Common.AppLoad;
 using Microsoft.Deployment.Common.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Deployment.Actions.Test.TestHelpers;
+using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json;
 
 namespace Microsoft.Deployment.Actions.Test
 {
@@ -16,7 +18,7 @@ namespace Microsoft.Deployment.Actions.Test
     {
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
-        public static DataStore CommonDataStore = null;
+        private static DataStore CommonDataStore = null;
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -33,10 +35,6 @@ namespace Microsoft.Deployment.Actions.Test
 
             Controller = new CommonController(model);
             Credential.Load();
-            if (!SetUp().Result)
-            {
-                //throw new Exception("Unable to get Azure Token");
-            }
         }
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
@@ -57,7 +55,14 @@ namespace Microsoft.Deployment.Actions.Test
 
         public static async Task<DataStore> GetCommonDataStore()
         {
-            return CommonDataStore;
+            if (CommonDataStore == null)
+            {
+                await SetUp();
+            }
+
+            DataStore store =
+                JsonConvert.DeserializeObject<DataStore>(JsonUtility.GetJsonStringFromObject(CommonDataStore));
+            return store;
         }
 
         public static async Task<bool> SetUp()
