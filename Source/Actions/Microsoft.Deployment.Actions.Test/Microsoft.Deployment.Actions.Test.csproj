@@ -128,6 +128,7 @@
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\azureml.json" />
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\cognitiveServices.json" />
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\function.json" />
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json" />
     <None Include="Apps\TestApps\TestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

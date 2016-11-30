@@ -156,6 +156,7 @@
     <Compile Include="CDM\ProvisionCDM.cs" />
     <Compile Include="Common\CheckAzureWebsiteExists.cs" />
     <Compile Include="Common\ConsentConnectorToLogicApp.cs" />
+    <Compile Include="Common\CreateAzureStorageAccount.cs" />
     <Compile Include="Common\CreateConnectorToLogicApp.cs" />
     <Compile Include="Common\CreateResourceGroup.cs" />
     <Compile Include="Common\DeleteResourceGroup.cs" />
