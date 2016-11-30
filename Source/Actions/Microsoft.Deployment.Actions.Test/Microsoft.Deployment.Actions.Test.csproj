@@ -95,7 +95,11 @@
     <Compile Include="ActionsTest\LogicAppTests.cs" />
     <Compile Include="ActionsTest\OnPremiseTests.cs" />
     <Compile Include="ActionsTest\SalesforceTests.cs" />
+    <Compile Include="ActionsTest\StorageAccountTests.cs" />
     <Compile Include="ActionsTest\TestActions.cs" />
+    <None Include="Apps\TestApps\TestApp\Service\Data\TweetFunctionCSharp.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\SalesforceSOAP\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -125,10 +129,15 @@
     <None Include="Apps\TestApps\TestApp\Service\Arm\armtemplate.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\azureml.json" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\cognitiveServices.json" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\function.json" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json" />
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\azureml.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\cognitiveServices.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\function.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Apps\TestApps\TestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

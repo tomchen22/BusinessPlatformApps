@@ -23,17 +23,20 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var location = request.DataStore.GetJson("SelectedLocation")["Name"].ToString();
 
             var deploymentName = request.DataStore.GetValue("DeploymentName");
-            var functionAppHostingPlan = request.DataStore.GetValue("FunctionAppHostingPlan");
-            var sitename = request.DataStore.GetValue("SiteName");
+            var name = request.DataStore.GetValue("StorageAccountName");
+            var accountType = request.DataStore.GetValue("StorageAccountType");
+            var encryptionEnabled = request.DataStore.GetValue("StorageAccountEncryptionEnabled");
+
+
 
             var param = new AzureArmParameterGenerator();
             param.AddStringParam("storageaccountname", "solutiontemplate" + Path.GetRandomFileName().Replace(".", "").Substring(0, 8));
-            param.AddStringParam("sitename", sitename);
-            param.AddStringParam("AppHostingPlan", functionAppHostingPlan);
-            param.AddStringParam("resourcegroup", resourceGroup);
-            param.AddStringParam("subscription", subscription);
+            param.AddStringParam("encryptionEnabled", encryptionEnabled);
+            param.AddStringParam("accountType", accountType);
+            param.AddStringParam("location", location);
+            param.AddStringParam("name", name);
 
-            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/function.json")));
+            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/storageAccount.json")));
             var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
             armTemplate.Remove("parameters");
             armTemplate.Add("parameters", armParamTemplate["parameters"]);

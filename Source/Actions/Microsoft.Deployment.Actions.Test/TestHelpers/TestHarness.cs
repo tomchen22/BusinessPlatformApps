@@ -18,7 +18,9 @@ namespace Microsoft.Deployment.Actions.Test
     {
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
-        private static DataStore CommonDataStore = null;
+        private static DataStore CommonDataStoreServicePrincipal = null;
+        private static DataStore CommonDataStoreUserToken = null;
+        private static string ResourceGroup = "UnitTest" + RandomGenerator.GetRandomLowerCaseCharacters(5);
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -35,6 +37,12 @@ namespace Microsoft.Deployment.Actions.Test
 
             Controller = new CommonController(model);
             Credential.Load();
+        }
+
+        [AssemblyCleanup()]
+        public static async void AssemblyCleanup()
+        { 
+            var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);
         }
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
@@ -55,48 +63,63 @@ namespace Microsoft.Deployment.Actions.Test
 
         public static async Task<DataStore> GetCommonDataStore()
         {
-            if (CommonDataStore == null)
+            if (CommonDataStoreServicePrincipal == null)
             {
-                await SetUp();
+                CommonDataStoreServicePrincipal = await SetUp();
             }
 
             DataStore store =
-                JsonConvert.DeserializeObject<DataStore>(JsonUtility.GetJsonStringFromObject(CommonDataStore));
+                JsonConvert.DeserializeObject<DataStore>(JsonUtility.GetJsonStringFromObject(CommonDataStoreServicePrincipal));
             return store;
         }
 
-        public static async Task<bool> SetUp()
+        public static async Task<DataStore> GetCommonDataStoreWithUserToken()
         {
-            if(!System.Diagnostics.Debugger.IsAttached)
+            if (CommonDataStoreUserToken == null)
             {
-                CommonDataStore = await AAD.GetTokenWithDataStore();
+                CommonDataStoreUserToken = await SetUp(true);
+            }
+
+            DataStore store =
+                JsonConvert.DeserializeObject<DataStore>(JsonUtility.GetJsonStringFromObject(CommonDataStoreUserToken));
+            return store;
+        }
+
+        public static async Task<DataStore> SetUp(bool getUserToken = false)
+        {
+            DataStore dataStore = null;
+            if(getUserToken)
+            {
+                dataStore = await AAD.GetUserTokenFromPopup();
             }
             else
             {
-                CommonDataStore = await AAD.GetUserTokenFromPopup();
+                dataStore = await AAD.GetTokenWithDataStore();
             }
 
-            var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", CommonDataStore);
+            var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
             Assert.IsTrue(subscriptionResult.IsSuccess);
-            var subscriptionId = subscriptionResult.Body.GetJObject()["value"][0];
-            CommonDataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
+            var subscriptionId =
+                subscriptionResult.Body.GetJObject()["value"].SingleOrDefault(
+                    p => p["DisplayName"].ToString() == "Power BI Solution Template Development");
+            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
 
-            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", CommonDataStore);
+            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
             Assert.IsTrue(locationResult.IsSuccess);
             var location = locationResult.Body.GetJObject()["value"][5];
-            CommonDataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
 
-            CommonDataStore.AddToDataStore("SelectedResourceGroup", "Test");
+            dataStore.AddToDataStore("SelectedResourceGroup", ResourceGroup);
 
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (!System.Diagnostics.Debugger.IsAttached)
             {
-                var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", CommonDataStore);
+                var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", dataStore);
             }
 
-            var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", CommonDataStore);
+            var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", dataStore);
             Assert.IsTrue(resourceGroupResult.IsSuccess);
 
-            return true;
+            return dataStore;
         }
 
     }

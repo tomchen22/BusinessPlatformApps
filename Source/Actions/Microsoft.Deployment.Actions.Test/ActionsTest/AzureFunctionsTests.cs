@@ -21,7 +21,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         [TestMethod]
         public async Task DeployAzureFunction()
         {
-            var dataStore = await TestHarness.GetCommonDataStore();
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
@@ -38,7 +38,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public async Task DeployAzureFunctionAssets()
         {
             await this.DeployAzureFunction();
-            var dataStore = await TestHarness.GetCommonDataStore();
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
@@ -56,7 +56,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public async Task DeployTwitterCSharpFunctionAssetsTest()
         {
             await this.DeployAzureFunction();
-            var dataStore = await TestHarness.GetCommonDataStore();
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
