@@ -158,7 +158,11 @@
     <Compile Include="Common\CreateConnectorToLogicApp.cs" />
     <Compile Include="Common\CreateResourceGroup.cs" />
     <Compile Include="Common\DeleteResourceGroup.cs" />
+    <Compile Include="Common\DeployAzureFunction.cs" />
+    <Compile Include="Common\DeployAzureFunctionAssets.cs" />
+    <Compile Include="Common\DeployCognitiveService.cs" />
     <Compile Include="Common\GetAzureSubscriptions.cs" />
+    <Compile Include="Common\GetCognitiveKey.cs" />
     <Compile Include="Common\GetLocations.cs" />
     <Compile Include="Common\GetResource.cs" />
     <Compile Include="News\DeployAzureMLWorkspace.cs" />

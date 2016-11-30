@@ -87,6 +87,7 @@
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
     <Compile Include="ActionsTest\AzureCommonTests.cs" />
+    <Compile Include="ActionsTest\AzureFunctionsTests.cs" />
     <Compile Include="ActionsTest\AzureMLTests.cs" />
     <Compile Include="ActionsTest\CDMTests.cs" />
     <Compile Include="ActionsTest\CognitiveServiceTests.cs" />
