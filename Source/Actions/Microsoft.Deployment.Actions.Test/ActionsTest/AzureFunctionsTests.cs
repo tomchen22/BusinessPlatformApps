@@ -16,6 +16,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     [TestClass]
     public class AzureFunctionsTests
     {
+        public static string randomString = RandomGenerator.GetRandomLowerCaseCharacters(5);
+
         [TestMethod]
         public async Task DeployAzureFunction()
         {
@@ -35,18 +37,19 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
-            dataStore.AddToDataStore("SiteName", "UnitTest" + RandomGenerator.GetRandomLowerCaseCharacters(5));
+            dataStore.AddToDataStore("SiteName", "UnitTestTrialbpst" + randomString);
 
-            var response = TestHarness.ExecuteAction("Microsoft-CreateResourceGroup", dataStore);
+            var response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
-            response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
-            Assert.IsTrue(response.Status == ActionStatus.Success);
-
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
         }
 
         [TestMethod]
         public async Task DeployAzureFunctionAssets()
         {
+            await this.DeployAzureFunction();
             var dataStore = await AAD.GetTokenWithDataStore();
             var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
             Assert.IsTrue(result.IsSuccess);
@@ -63,15 +66,42 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
-            dataStore.AddToDataStore("SiteName", "UnitTestfcrow");
+            dataStore.AddToDataStore("SiteName", "UnitTestTrialbpst" + randomString);
 
             dataStore.AddToDataStore("FunctionName", "TestA");
             dataStore.AddToDataStore("FunctionFileName", "TweetFunctionCSharp.cs" );
 
+            var response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunctionAssets", dataStore);
+            Assert.IsTrue(response.Status == ActionStatus.Success);
 
-            var response = TestHarness.ExecuteAction("Microsoft-CreateResourceGroup", dataStore);
+        }
 
-            response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunctionAssets", dataStore);
+        [TestMethod]
+        public async Task DeployTwitterCSharpFunctionAssetsTest()
+        {
+            await this.DeployAzureFunction();
+            var dataStore = await AAD.GetUserTokenFromPopup();
+            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
+            Assert.IsTrue(result.IsSuccess);
+            var responseBody = JObject.FromObject(result.Body);
+            var subscriptionId = responseBody["value"][5];
+
+            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Private);
+            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
+
+            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
+            Assert.IsTrue(locationResult.IsSuccess);
+            var location = locationResult.Body.GetJObject()["value"][5];
+            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+
+            dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
+            dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
+            dataStore.AddToDataStore("SiteName", "UnitTestTrialbpst" + randomString);
+
+            dataStore.AddToDataStore("FunctionName", "TestA");
+            dataStore.AddToDataStore("FunctionFileName", "TweetFunctionCSharp.cs");
+
+            var response = TestHarness.ExecuteAction("Microsoft-DeployTwitterCSharpFunctionAssets", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
         }
