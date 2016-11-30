@@ -16,6 +16,7 @@ namespace Microsoft.Deployment.Actions.Test
     {
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
+        public static DataStore CommonDataStore = null;
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -32,6 +33,10 @@ namespace Microsoft.Deployment.Actions.Test
 
             Controller = new CommonController(model);
             Credential.Load();
+            if (!SetUp().Result)
+            {
+                //throw new Exception("Unable to get Azure Token");
+            }
         }
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
@@ -48,6 +53,34 @@ namespace Microsoft.Deployment.Actions.Test
             info.ActionName = actionName;
             info.AppName = TemplateName;
             return await Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore });
+        }
+
+        public static async Task<DataStore> GetCommonDataStore()
+        {
+            return CommonDataStore;
+        }
+
+        public static async Task<bool> SetUp()
+        {
+            CommonDataStore = await AAD.GetTokenWithDataStore();
+
+            var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", CommonDataStore);
+            Assert.IsTrue(subscriptionResult.IsSuccess);
+            var subscriptionId = subscriptionResult.Body.GetJObject()["value"][0];
+            CommonDataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
+
+            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", CommonDataStore);
+            Assert.IsTrue(locationResult.IsSuccess);
+            var location = locationResult.Body.GetJObject()["value"][5];
+            CommonDataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+
+            CommonDataStore.AddToDataStore("SelectedResourceGroup", "Test");
+            var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", CommonDataStore);
+
+            var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", CommonDataStore);
+            Assert.IsTrue(resourceGroupResult.IsSuccess);
+
+            return true;
         }
 
     }
