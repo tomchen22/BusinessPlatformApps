@@ -2,6 +2,8 @@
 import { DataStoreType } from '../services/datastore';
 import { ActionResponse } from '../services/actionresponse';
 
+import { QueryParameter } from '../base/query-parameter';
+
 export class MsCrmLogin extends AzureLogin {
     entities: string = '';
     hasToken: boolean = false;
@@ -10,6 +12,7 @@ export class MsCrmLogin extends AzureLogin {
 
     constructor() {
         super();
+        this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login-', 'oauthType', 'mscrm', DataStoreType.Public);
     }
 
     async OnLoaded() {
@@ -21,7 +24,7 @@ export class MsCrmLogin extends AzureLogin {
         } else {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
-                let token = this.MS.UtilityService.GetQueryParameterFromUrl('code', queryParam);
+                let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
                 var tokenObj = {
                     code: token
                 };

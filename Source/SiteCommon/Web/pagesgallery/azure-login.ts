@@ -2,6 +2,8 @@
 import { DataStoreType } from '../services/datastore';
 import { ActionResponse } from '../services/actionresponse';
 
+import { QueryParameter } from '../base/query-parameter';
+
 export class AzureLogin extends ViewModelBase {
     authToken: any = {};
     azureConnection = AzureConnection;
@@ -15,11 +17,13 @@ export class AzureLogin extends ViewModelBase {
     isPricingChecked: boolean = false;
 
     // Variables to override
-    pricingUrl: string='';
+    pricingUrl: string = '';
     pricingCost: string = '';
 
     constructor() {
         super();
+        this.MS.DataStore.addToDataStore('oauthType', 'keyvault', DataStoreType.Public);
+
     }
 
     async OnLoaded() {
@@ -31,7 +35,7 @@ export class AzureLogin extends ViewModelBase {
         } else {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
-                let token = this.MS.UtilityService.GetQueryParameterFromUrl('code', queryParam);
+                let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
                 var tokenObj = { code: token };
                 this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
                 if (this.authToken.IsSuccess) {

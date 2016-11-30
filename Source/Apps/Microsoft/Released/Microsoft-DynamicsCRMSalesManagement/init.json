@@ -8,9 +8,9 @@
         ],
         "Pages": [
             {
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-DynamicsCRMSalesManagement/Web/Images/dynamicsCRMArchitectureDiagram.png",
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-DynamicsCRMSalesManagement/Web/Images/dynamics-crm-sales-management.png",
                 "displayname": "Getting Started",
-                "features": [
+                "list1": [
                     "Full cloud solution with minimum set up and maintenance considerations",
                     "Data pulled from Dynamics CRM into an Azure SQL Database using the Dynamics CRM Export Service",
                     "Connect to Azure SQL and import data into Power BI"
@@ -22,7 +22,8 @@
                 "displayname": "Login",
                 "name": "$SiteCommon$/pagesgallery/azure-login.html",
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
-                "pricingUrl": "SalesforcePricingURL"
+                "pricingUrl": "SalesforcePricingURL",
+                "oauthType": "keyvault"
             },
             {
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
@@ -40,7 +41,8 @@
                 "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
-                "pricingUrl": "SalesforcePricingURL"
+                "pricingUrl": "SalesforcePricingURL",
+                "oauthType": "mscrm"
             },
             {
                 "displayname": "Progress",

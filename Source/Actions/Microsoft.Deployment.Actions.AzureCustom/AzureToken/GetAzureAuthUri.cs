@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
@@ -13,27 +14,34 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
     [Export(typeof(IAction))]
     public class GetAzureAuthUri : BaseAction
     {
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             var aadTenant = request.DataStore.GetValue("AADTenant");
 
             string authBase;
             string clientId;
             string resource;
-            if (!string.IsNullOrEmpty(request.DataStore.GetValue("IsMsCrm")))
+
+            string oauthType = request.DataStore.GetValue("oauthType").ToLowerInvariant();
+            switch (oauthType)
             {
-                authBase = Constants.MsCrmAuthority;
-                clientId = Constants.MsCrmClientId;
-                resource = Constants.MsCrmResource;
+                case "mscrm":
+                    authBase = Constants.MsCrmAuthority;
+                    clientId = Constants.MsCrmClientId;
+                    resource = Constants.MsCrmResource;
+                    break;
+                case "keyvault":
+                    authBase = string.Format(Constants.AzureAuthUri, aadTenant);
+                    clientId = Constants.MicrosoftClientIdCrm;
+                    resource = Constants.AzureManagementApi;
+                    break;
+                default:
+                    authBase = string.Format(Constants.AzureAuthUri, aadTenant);
+                    clientId = Constants.MicrosoftClientId;
+                    resource = Constants.AzureManagementApi;
+                    break;
             }
-            else
-            {
-                authBase = string.Format(Constants.AzureAuthUri, aadTenant);
-                clientId = Constants.MicrosoftClientId;
-                resource = Constants.AzureManagementApi;
-            }
+
 
             Dictionary<string, string> message = new Dictionary<string, string>
             {
