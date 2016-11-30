@@ -17,7 +17,7 @@
         <div class="st-float" if.bind="connectionType == azureConnection.Microsoft">
             <p class="st-text">
                 <span>${MS.Translate.AZURE_LOGIN_DIRECTORY_TEXT}</span>
-                <a href.bind="${MS.Translate.AZURE_LOGIN_DIRECTORY_LINK}" target="_blank">${MS.Translate.AZURE_LOGIN_DIRECTORY_DESCRIPTION}</a>.
+                <a href.bind="MS.Translate.AZURE_LOGIN_DIRECTORY_LINK" target="_blank">${MS.Translate.AZURE_LOGIN_DIRECTORY_DESCRIPTION}</a>.
             </p>
             <p class="st-text">${MS.Translate.AZURE_LOGIN_DIRECTORY}</p>
             <input class="st-input" placeholder="MS.Translate.AZURE_LOGIN_DIRECTORY_ADDRESS" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="azureDirectory" />

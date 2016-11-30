@@ -1,15 +1,11 @@
 ﻿{
     "Install": {
-        "Actions": [
-            {
-                "displayname": "Configure Azure Key Vault",
-                "name": "Microsoft-CrmCreateVaultSecret"
-            }
-        ],
+        "Actions": [],
         "Pages": [
             {
                 "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
                 "displayname": "Getting Started",
+                "isDownload": "$(!this.MS.HttpService.isOnPremise)",
                 "list1": [
                     "Read access to the SAP Database",
                     "Azure Subscription (to use Azure SQL)",

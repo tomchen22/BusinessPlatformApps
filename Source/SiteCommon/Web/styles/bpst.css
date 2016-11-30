@@ -254,6 +254,11 @@ ul {
     padding-left: 12px;
 }
 
+.st-icon-progress-index-large {
+    font-size: 15px;
+    padding-left: 8px;
+}
+
 .st-icon-tab {
     font-size: 12px;
     padding-left: 8px;
@@ -276,10 +281,13 @@ ul {
     border-color:inherit;
 }
 
-
 .st-input-column {
     float: left;
     margin-right: 10px;
+}
+
+.st-input-small {
+    width: 200px;
 }
 
 .st-label {
@@ -615,9 +623,9 @@ ul {
 ********************************************************************************************/
 
 @media only screen and (max-height: 900px) {
-  .st-section-wrapper {
-      min-height: 94%;
-  }
+    .st-section-wrapper {
+        min-height: 94%;
+    }
 }
 
 @media only screen and (max-width: 1075px) {
