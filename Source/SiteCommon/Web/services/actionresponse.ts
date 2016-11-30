@@ -1,9 +1,9 @@
-﻿import {DataStore} from "./datastore";
+﻿import { DataStore } from "./datastore";
 
 export class ActionResponse {
-    Body:any;
+    Body: any;
     Status: ActionStatus;
-    DataStore:any;
+    DataStore: any;
     DoesResponseContainsCredentials: boolean;
     ExceptionDetail: ActionResponseExceptionDetail;
     IsSuccess: boolean;
@@ -16,6 +16,7 @@ export enum ActionStatus {
     BatchWithState,
     UserInteractionRequired,
     Success,
+    Invisible
 }
 
 export class ActionResponseExceptionDetail {

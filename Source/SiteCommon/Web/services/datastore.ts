@@ -56,7 +56,6 @@ export class DataStore {
             }
         }
     }
-   
 
     public currentRoute(): string {
         return this.CurrentRoutePage + "-" + this.DeploymentIndex;
@@ -73,11 +72,9 @@ export class DataStore {
         }
     }
 
-
     private cacheDataStores() {
         this.MS.UtilityService.SaveItem(this.MS.NavigationService.appName + " datastore", this);
     }
-
 
     public routeExists(route: string, dataStoreType: DataStoreType = DataStoreType.Any): boolean {
         var found: boolean = false;
