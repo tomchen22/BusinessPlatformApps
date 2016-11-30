@@ -33,6 +33,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
             string sfUsername = request.DataStore.GetValue("SalesforceUser");
             string sfPassword = request.DataStore.GetValue("SalesforcePassword");
             string sfToken = request.DataStore.GetValue("SalesforceToken");
+            string sfUrl = request.DataStore.GetValue("SalesforceUrl");
 
             string fullServerUrl = request.DataStore.GetValue("SalesforceBaseUrl");
             string connString = request.DataStore.GetValue("SqlConnectionString");
@@ -41,7 +42,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
             string emails = request.DataStore.GetValue("EmailAddresses");
 
             string baseUrl = string.Empty;
-            if(!string.IsNullOrEmpty(fullServerUrl))
+            if (!string.IsNullOrEmpty(fullServerUrl))
             {
                 var uri = new Uri(fullServerUrl);
                 baseUrl = uri.Scheme + "://" + uri.Host + "/";
@@ -58,10 +59,11 @@ namespace Microsoft.Deployment.Actions.Salesforce
             param.AddStringParam("targetDatabaseName", sqlCreds.Database);
             param.AddStringParam("salesforceUsername", sfUsername);
             param.AddStringParam("subscriptionId", subscription);
+            param.AddStringParam("environmentUrl", sfUrl);
             param.AddParameter("salesforcePassword", "securestring", sfPassword);
             param.AddParameter("sqlServerPassword", "securestring", sqlCreds.Password);
             param.AddParameter("salesforceSecurityToken", "securestring", sfToken);
-            
+
             var armTemplate = JsonUtility.GetJsonObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/ADF/linkedServices.json")));
             var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
 

@@ -13,7 +13,7 @@ export class Salesforce extends ViewModelBase {
         super();
         this.isValidated = false;
         this.showValidation = false;
-        this.salesforceUrl = "https://login.salesforce.com/";
+        this.salesforceUrl = "login.salesforce.com";
     }
 
     async OnLoaded() {

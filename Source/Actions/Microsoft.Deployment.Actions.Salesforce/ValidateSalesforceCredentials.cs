@@ -12,8 +12,6 @@ namespace Microsoft.Deployment.Actions.Salesforce
     [Export(typeof(IAction))]
     public class ValidateSalesforceCredentials : BaseAction
     {
-        public string sandboxUrl = "https://test.salesforce.com/";
-
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string sfUsername = request.DataStore.GetValue("SalesforceUser");
@@ -29,7 +27,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
             binding.ClientCredentials.UserName.UserName = sfUsername;
             binding.ClientCredentials.UserName.Password = sfPassword;
 
-            if (!string.IsNullOrEmpty(sfTestUrl) && sfTestUrl == this.sandboxUrl)
+            if (!string.IsNullOrEmpty(sfTestUrl) && sfTestUrl.Contains("test"))
             {
                 binding.Endpoint.Address = new System.ServiceModel.EndpointAddress(binding.Endpoint.Address.ToString().Replace("login", "test"));
             }

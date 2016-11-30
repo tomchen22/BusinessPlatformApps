@@ -159,7 +159,8 @@
         "uninstallList": [
           "The task used to move data between the SCCM database and the target database",
           "The scripts used to create the initial tables in the target database"
-        ]
+        ],
+        "showBack": "$(false)"
       },
       {
         "name": "$SiteCommon$/pagesgallery/progress.html",
@@ -177,6 +178,11 @@
       {
         "name": "Microsoft-RemoveFiles",
         "displayname": "Remove files"
+      },
+      {
+        "name": "Microsoft-RemoveFiles",
+        "displayname": "Finishing cleanup",
+        "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
       }
     ]
   }

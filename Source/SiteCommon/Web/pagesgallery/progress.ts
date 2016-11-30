@@ -1,12 +1,17 @@
 ﻿import { ViewModelBase } from '../services/viewmodelbase';
+import { DataStoreType } from '../services/datastore';
 
 export class ProgressViewModel extends ViewModelBase {
+    emailAddress: string = '';
     finishedActionName: string = '';
     isDataPullDone: boolean = false;
     isPbixReady: boolean = false;
+    nameFirst: string = '';
+    nameLast: string = '';
     pbixDownloadLink: string = '';
     recordCounts: any[] = [];
     showCounts: boolean = false;
+    showEmailSubmission: boolean = true;
     sliceStatus: any[] = [];
     sqlServerIndex: number = 0;
     successMessage: string = 'All done! You can now download your Power BI report and start exploring your data.';
@@ -61,5 +66,25 @@ export class ProgressViewModel extends ViewModelBase {
                 this.MS.DeploymentService.hasError = true;
             }
         }
+    }
+
+    SubmitEmailAddress() {
+        if (this.emailAddress && this.emailAddress.length > 0 && this.emailAddress.indexOf('@') !== -1) {
+            this.showEmailSubmission = false;
+            try {
+                this.MS.DataStore.addToDataStore('EmailAddress', this.emailAddress, DataStoreType.Public);
+                this.MS.DataStore.addToDataStore('NameFirst', this.nameFirst, DataStoreType.Public);
+                this.MS.DataStore.addToDataStore('NameLast', this.nameLast, DataStoreType.Public);
+                this.MS.HttpService.executeAsync('Microsoft-EmailSubscription', {
+                    isInvisible: true
+                });
+            } catch (emailSubscriptionException) {
+                // Email subscription failed
+            }
+        }
+    }
+
+    SubmitEmailLink() {
+        window.open('https://www.microsoft.com/en-us/privacystatement/OnlineServices/Default.aspx', '_blank');
     }
 }

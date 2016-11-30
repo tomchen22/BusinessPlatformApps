@@ -2,11 +2,12 @@ import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Gettingstarted extends ViewModelBase {
     architectureDiagram: string = '';
-    downloadLink: string;
-    features: string[] = [];
+    downloadLink: string = '';
     isDownload: boolean = false;
-    pricing: string[] = [];
-    requirements: string[] = [];
+    list1: string[] = [];
+    list2: string[] = [];
+    list1Title: string = this.MS.Translate.GETTING_STARTED_LIST_1;
+    list2Title: string = this.MS.Translate.GETTING_STARTED_LIST_2;
     showPrivacy: boolean = true;
     subtitle: string = '';
     templateName: string = '';

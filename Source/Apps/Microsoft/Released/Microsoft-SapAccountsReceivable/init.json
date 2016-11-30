@@ -1,0 +1,34 @@
+﻿{
+    "Install": {
+        "Actions": [
+            {
+                "displayname": "Configure Azure Key Vault",
+                "name": "Microsoft-CrmCreateVaultSecret"
+            }
+        ],
+        "Pages": [
+            {
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
+                "displayname": "Getting Started",
+                "list1": [
+                    "Read access to the SAP Database",
+                    "Azure Subscription (to use Azure SQL)",
+                    "Power BI Pro (to share the template with your organization)",
+                    "Power BI Desktop (latest version)"
+                ],
+                "list2": [
+                    "Scalable and extensible solution with minimum set up and maintenance considerations",
+                    "Data pulled daily from SAP & stored in a database optimized for reporting",
+                    "Import data into powerful Power BI reports"
+                ],
+                "name": "$SiteCommon$/pagesgallery/getting-started.html",
+                "subtitle": "Welcome to the public preview of the Accounts Receivable Reporting for SAP solution template. During the public preview, the solution template is for evaluation purposes only and is not intended for production use.",
+                "templateName": "Accounts Receivable Reporting for SAP"
+            }
+        ]
+    },
+    "Uninstall": {
+        "Pages": [],
+        "Actions": []
+    }
+}

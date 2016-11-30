@@ -52,8 +52,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6162.34851, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611140721\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6177.30976, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611291712\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=3.13.7.964, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -69,6 +69,11 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial, Version=5.8.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -82,7 +87,9 @@
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
     <Compile Include="ActionsTest\AzureCommonTests.cs" />
+    <Compile Include="ActionsTest\AzureMLTests.cs" />
     <Compile Include="ActionsTest\CDMTests.cs" />
+    <Compile Include="ActionsTest\CognitiveServiceTests.cs" />
     <Compile Include="ActionsTest\CommonTests.cs" />
     <Compile Include="ActionsTest\OnPremiseTests.cs" />
     <Compile Include="ActionsTest\SalesforceTests.cs" />
@@ -487,13 +494,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Deployment.Actions.ADF\Microsoft.Deployment.Actions.ADF.csproj">
-      <Project>{5bc1475c-bc02-431a-96c7-86c84585d3f7}</Project>
-      <Name>Microsoft.Deployment.Actions.ADF</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.AzureCustom\Microsoft.Deployment.Actions.AzureCustom.csproj">
       <Project>{0b8db384-f28c-4c1d-9e21-b0957aa9a736}</Project>
       <Name>Microsoft.Deployment.Actions.AzureCustom</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.Common\Microsoft.Deployment.Actions.Common.csproj">
       <Project>{4e627186-0cb1-4ade-8b17-9513b690a854}</Project>
@@ -502,18 +506,22 @@
     <ProjectReference Include="..\Microsoft.Deployment.Actions.Custom\Microsoft.Deployment.Actions.Custom.csproj">
       <Project>{db4fc606-2664-4777-8072-0d354dbc7633}</Project>
       <Name>Microsoft.Deployment.Actions.Custom</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.OnPremise\Microsoft.Deployment.Actions.OnPremise.csproj">
       <Project>{34d595e2-3c6f-422b-a863-a7e8e1baae06}</Project>
       <Name>Microsoft.Deployment.Actions.OnPremise</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.Salesforce\Microsoft.Deployment.Actions.Salesforce.csproj">
       <Project>{5bd9a308-4df3-4402-99b6-bda9945e025e}</Project>
       <Name>Microsoft.Deployment.Actions.Salesforce</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.SQL\Microsoft.Deployment.Actions.SQL.csproj">
       <Project>{e8162254-3b16-4509-bdb8-994a024bdf92}</Project>
       <Name>Microsoft.Deployment.Actions.SQL</Name>
+      <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

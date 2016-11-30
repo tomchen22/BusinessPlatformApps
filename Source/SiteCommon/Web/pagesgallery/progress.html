@@ -1,6 +1,6 @@
 ﻿<template>
-    <h1 class="st-title">Track your progress</h1>
-    <p class="st-subtitle">This might take a while. We'll show you progress while you wait. Please don't close the browser until all the steps are completed. The setup could take 10-15 minutes.</p>
+    <h1 class="st-title">${MS.Translate.PROGRESS_TITLE}</h1>
+    <p class="st-subtitle">${MS.Translate.PROGRESS_SUBTITLE}</p>
 
     <!-- Progress -->
     <div class="st-float st-text st-text-progress">
@@ -21,9 +21,6 @@
             <span class="semiboldFont st-progress-text">${successMessage}</span>
         </div>
 
-        
-        
-        
         <!-- Get Status -->
         <ul class="smallFontSize st-tabs" if.bind="recordCounts && recordCounts.length > 0 && !MS.DeploymentService.hasError">
             <li class="st-import" repeat.for="recordCount of recordCounts">
@@ -33,7 +30,6 @@
                 <span>${recordCount.EntityName} (${recordCount.Count} <span if.bind="recordCount.Count==1">Row</span><span if.bind="recordCount.Count!=1">Rows</span>)</span>
             </li>
         </ul>
-        
 
         <!-- Get Slice Status -->
         <ul class="smallFontSize st-tabs" if.bind="sliceStatus && sliceStatus.length > 0 && !MS.DeploymentService.hasError">
@@ -47,17 +43,37 @@
     </div>
 
     <!-- PBIX Download -->
-    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError">
+    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError  && !isUninstall">
         <p class="smallFontSize" if.bind="isPbixReady">
             <a href.bind="pbixDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
-                <button class="primary">Download PBIX</button>
+                <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_PBIX}</button>
             </a>
         </p>
         <div class="smallFontSize" if.bind="!isPbixReady">
             <span class="st-loader st-loader-tiny st-loader-pbi"></span>
-            <span>Getting your Power BI file ready...</span>
+            <span>${MS.Translate.PROGRESS_GETTING_READY}</span>
         </div>
     </div>
-    
 
+    <!-- Emails -->
+    <div class="st-email-background if.bind="showEmailSubmission"></div>
+    <div class="st-email-background st-email-wrapper" click.delegate="showEmailSubmission = false" if.bind="showEmailSubmission">
+        <div class="st-email-submission" click.delegate="$event.stopPropagation()">
+            <span class="glyphicon pbi-glyph-close st-contact-us-close" click.delegate="showEmailSubmission = false"></span>
+            <div class="st-email-centered st-email-heading">${MS.Translate.PROGRESS_OKAY}</div>
+            <div class="st-email-centered st-text">${MS.Translate.PROGRESS_SIGN_UP}</div>
+            <div class="st-email-fields">
+                <input class="st-input" placeholder="First Name" type="text" value.bind="viewmodel.nameFirst" />
+                <input class="st-input" placeholder="Last Name" type="text" value.bind="viewmodel.nameLast" />
+                <input class="st-input" placeholder="Email" type="text" value.bind="viewmodel.emailAddress" />
+            </div>
+            <div class="st-email-centered st-text">
+                <span>${MS.Translate.PROGRESS_UNSUBSCRIBE}</span>
+                <span>${MS.Translate.COMMON_SEE}</span>
+                <span class="st-email-link" click.delegate="viewmodel.SubmitEmailLink()">${MS.Translate.COMMON_MS_PRIVACY_POLICY}</span>
+                <span>${MS.Translate.COMMON_FOR_DETAILS}</span>
+            </div>
+            <button class="primary" click.delegate="viewmodel.SubmitEmailAddress()">${MS.Translate.COMMON_SUBSCRIBE}</button>
+        </div>
+    </div>
 </template>

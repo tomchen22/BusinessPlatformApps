@@ -8,6 +8,8 @@ using Microsoft.Deployment.Common.AppLoad;
 using Microsoft.Deployment.Common.Controller;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Microsoft.Deployment.Actions.Test.TestHelpers;
+using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json;
 
 namespace Microsoft.Deployment.Actions.Test
 {
@@ -15,6 +17,8 @@ namespace Microsoft.Deployment.Actions.Test
     public class TestHarness
     {
         private static CommonController Controller { get; set; }
+        public static string TemplateName = "TestApp";
+        private static DataStore CommonDataStore = null;
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -37,7 +41,7 @@ namespace Microsoft.Deployment.Actions.Test
         {
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
-            info.AppName = "TestApp";
+            info.AppName = TemplateName;
             return Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore }).Result;
         }
 
@@ -45,8 +49,43 @@ namespace Microsoft.Deployment.Actions.Test
         {
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
-            info.AppName = "TestApp";
+            info.AppName = TemplateName;
             return await Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore });
+        }
+
+        public static async Task<DataStore> GetCommonDataStore()
+        {
+            if (CommonDataStore == null)
+            {
+                await SetUp();
+            }
+
+            DataStore store =
+                JsonConvert.DeserializeObject<DataStore>(JsonUtility.GetJsonStringFromObject(CommonDataStore));
+            return store;
+        }
+
+        public static async Task<bool> SetUp()
+        {
+            CommonDataStore = await AAD.GetTokenWithDataStore();
+
+            var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", CommonDataStore);
+            Assert.IsTrue(subscriptionResult.IsSuccess);
+            var subscriptionId = subscriptionResult.Body.GetJObject()["value"][0];
+            CommonDataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
+
+            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", CommonDataStore);
+            Assert.IsTrue(locationResult.IsSuccess);
+            var location = locationResult.Body.GetJObject()["value"][5];
+            CommonDataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
+
+            CommonDataStore.AddToDataStore("SelectedResourceGroup", "Test");
+            var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", CommonDataStore);
+
+            var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", CommonDataStore);
+            Assert.IsTrue(resourceGroupResult.IsSuccess);
+
+            return true;
         }
 
     }
