@@ -143,7 +143,7 @@
       <HintPath>..\packages\Microsoft.Deployment.Actions.SQL.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Actions.SQL.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Deployment.Common">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611301234\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201611301439\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Configuration">
       <HintPath>..\packages\Microsoft.Extensions.Configuration.1.0.0\lib\netstandard1.1\Microsoft.Extensions.Configuration.dll</HintPath>

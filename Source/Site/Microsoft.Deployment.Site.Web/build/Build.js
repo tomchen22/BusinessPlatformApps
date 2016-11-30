@@ -1,11 +1,7 @@
 require('babel-polyfill');
 
-var gulp = require('gulp');
-
-var bundler = require('aurelia-bundler');
-var path = require('path');
-
 var babel = require('gulp-babel');
+var gulp = require('gulp');
 var sourcemaps = require('gulp-sourcemaps');
 var typescript = require('gulp-typescript');
 
