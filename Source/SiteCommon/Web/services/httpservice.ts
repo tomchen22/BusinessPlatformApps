@@ -45,9 +45,9 @@ export class HttpService {
         let uniqueId = this.MS.UtilityService.GetUniqueId(20);
         this.MS.LoggerService.TrackStartRequest('GetApp-name', uniqueId);
         if (this.isOnPremise) {
-            response = await this.command.gettemplate(this.MS.LoggerService.UserId,this.MS.LoggerService.UserGenId, '', this.MS.LoggerService.OperationId,uniqueId, name);
+            response = await this.command.gettemplate(this.MS.LoggerService.UserId, this.MS.LoggerService.UserGenId, '', this.MS.LoggerService.OperationId, uniqueId, name);
         } else {
-            response = await this.getRequestObject('get',`/App/${name}`).send();
+            response = await this.getRequestObject('get', `/App/${name}`).send();
             response = response.response;
         }
         if (!response) {
@@ -59,14 +59,15 @@ export class HttpService {
         return responseParsed;
     }
 
-    async executeAsync(method, content = {}): Promise<ActionResponse> {
+    async executeAsync(method, content: any = {}): Promise<ActionResponse> {
         this.isServiceBusy = true;
         var actionResponse: ActionResponse = null;
 
-        this.MS.ErrorService.Clear();
-        let uniqueId = this.MS.UtilityService.GetUniqueId(20);
+        if (!content.isInvisible) {
+            this.MS.ErrorService.Clear();
+        }
 
-        
+        let uniqueId = this.MS.UtilityService.GetUniqueId(20);
 
         try {
             var actionRequest: ActionRequest = new ActionRequest(content, this.MS.DataStore);
@@ -74,7 +75,7 @@ export class HttpService {
             var response = null;
 
             if (this.isOnPremise) {
-                response = await this.command.executeaction(this.MS.LoggerService.UserId,this.MS.LoggerService.UserGenId,'',this.MS.LoggerService.OperationId,uniqueId,this.MS.NavigationService.appName,
+                response = await this.command.executeaction(this.MS.LoggerService.UserId, this.MS.LoggerService.UserGenId, '', this.MS.LoggerService.OperationId, uniqueId, this.MS.NavigationService.appName,
                     method,
                     JSON.stringify(actionRequest));
             } else {
@@ -88,7 +89,6 @@ export class HttpService {
 
             this.MS.LoggerService.TrackEndRequest(method, uniqueId, !actionResponse.IsSuccess);
             this.MS.DataStore.loadDataStoreFromJson(actionResponse.DataStore);
-            
 
             // Handle any errors here
             if (actionResponse.Status === ActionStatus.Failure || actionResponse.Status === ActionStatus.FailureExpected) {
@@ -96,12 +96,11 @@ export class HttpService {
                 this.MS.ErrorService.logLocation = actionResponse.ExceptionDetail.LogLocation;
                 this.MS.ErrorService.message = actionResponse.ExceptionDetail.FriendlyErrorMessage;
                 this.MS.ErrorService.showContactUs = actionResponse.Status === ActionStatus.Failure;
-            } else {
+            } else if (actionResponse.Status !== ActionStatus.Invisible) {
                 this.MS.ErrorService.Clear();
             }
-            
         } catch (e) {
-            this.MS.ErrorService.message = 'Unknown Error has occured';
+            this.MS.ErrorService.message = this.MS.Translate.COMMON_UNKNOWN_ERROR;
             this.MS.ErrorService.showContactUs = true;
             throw e;
         } finally {
@@ -110,9 +109,9 @@ export class HttpService {
 
         return actionResponse;
     }
-    
 
-    async executeAsyncWithImpersonation(method, content): Promise<ActionResponse>  {
+
+    async executeAsyncWithImpersonation(method, content): Promise<ActionResponse> {
         let body: any = {};
 
         if (content) {
@@ -123,10 +122,9 @@ export class HttpService {
         return this.executeAsync(method, content);
     }
 
-    private getRequestObject(method: string, relatgiveUrl: string, body:any = {}) {
-
+    private getRequestObject(method: string, relativeUrl: string, body: any = {}) {
         let uniqueId = this.MS.UtilityService.GetUniqueId(20);
-        var request = this.HttpClient.createRequest(relatgiveUrl);
+        var request = this.HttpClient.createRequest(relativeUrl);
         request = request
             .withBaseUrl(this.baseUrl)
             .withHeader('Content-Type', 'application/json; charset=utf-8')

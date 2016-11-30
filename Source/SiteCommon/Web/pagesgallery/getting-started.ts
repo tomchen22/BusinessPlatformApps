@@ -6,8 +6,8 @@ export class Gettingstarted extends ViewModelBase {
     isDownload: boolean = false;
     list1: string[] = [];
     list2: string[] = [];
-    list1Title: string = 'To set up this solution template you will need:';
-    list2Title: string = 'Features of this architecture:';
+    list1Title: string = this.MS.Translate.GETTING_STARTED_LIST_1;
+    list2Title: string = this.MS.Translate.GETTING_STARTED_LIST_2;
     showPrivacy: boolean = true;
     subtitle: string = '';
     templateName: string = '';

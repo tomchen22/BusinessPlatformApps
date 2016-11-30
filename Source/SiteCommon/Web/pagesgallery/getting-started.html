@@ -1,5 +1,5 @@
 ﻿<template>
-    <h1 class="st-title">${MS.Translate.GET_STARTED_WITH} ${templateName}</h1>
+    <h1 class="st-title">${MS.Translate.GETTING_STARTED_TITLE} ${templateName}</h1>
 
     <p class="st-subtitle">${subtitle}</p>
 
@@ -11,7 +11,7 @@
                 <li repeat.for="list1Text of list1">${list1Text}</li>
             </ul>
             <p if.bind="showDownload">
-                ${MS.Translate.SHOW_DOWNLOAD}
+                ${MS.Translate.GETTING_STARTED_SHOW_DOWNLOAD}
             </p>
         </div>
     </div>
