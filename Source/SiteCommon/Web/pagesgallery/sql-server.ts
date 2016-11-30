@@ -124,7 +124,7 @@ export class SqlServer extends ViewModelBase {
     private GetBody(withDatabase: boolean) {
         let body: any = {};
 
-        body.UseImpersonation = this.useImpersonation;
+        body.useImpersonation = this.useImpersonation;
         body['SqlCredentials'] = {};
         body['SqlCredentials']['Server'] = this.getSqlServer();
         body['SqlCredentials']['User'] = this.username;

@@ -153,6 +153,7 @@ export class ViewModelBase {
     // Called when object is validating user input
     async OnValidate(): Promise<boolean> {
         if (!this.isValidated) {
+            this.showValidation = true;
             return false;
         }
 

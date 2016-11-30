@@ -17,11 +17,12 @@ export class AzureLogin extends ViewModelBase {
     subscriptionsList: any[] = [];
 
     // Variables to override
-    pricingUrl: string='';
+    pricingUrl: string = '';
     pricingCost: string = '';
 
     constructor() {
         super();
+        //this.MS.DataStore.addToDataStore('oauthType', 'keyvault', DataStoreType.Public);
     }
 
     async OnLoaded() {
