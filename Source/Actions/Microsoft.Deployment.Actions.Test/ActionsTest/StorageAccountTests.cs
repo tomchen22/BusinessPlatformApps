@@ -34,5 +34,39 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
             Assert.IsTrue(response.IsSuccess);
         }
+
+        [TestMethod]
+        public async Task GetStorageAccountKey()
+        {
+            await this.DeployAzureStorageAccount();
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+
+            dataStore.AddToDataStore("DeploymentName", "StorageDeploymentTest");
+            dataStore.AddToDataStore("StorageAccountName", "unittesttrialbpst" + randomString);
+
+            var response = TestHarness.ExecuteAction("Microsoft-GetStorageAccountKey", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+        }
+
+        [TestMethod]
+        public async Task DeployStorageAccountBlob()
+        {
+
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+
+            dataStore.AddToDataStore("StorageAccountKey", "1zwf5K6duNcivYmIs+xjKp1Pqdd/uR3ZslO/H2SUreY/v275VnuPATeKOX9NqbfMGMeROyFx+Xl9vBsQDWuKlw==");
+            dataStore.AddToDataStore("StorageAccountName", "solutiontemplateazgyzfds");
+            dataStore.AddToDataStore("StorageAccountContainer", "mycontainer" + randomString);
+            dataStore.AddToDataStore("DeploymentName", "mydeployment");
+
+
+            var response = TestHarness.ExecuteAction("Microsoft-DeployStorageAccountContainer", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+        }
+
     }
 }
