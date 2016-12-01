@@ -55,8 +55,22 @@
                 "templateName": "Accounts Receivable Reporting for SAP"
             },
             {
+                "name": "$SiteCommon$/pagesgallery/windows-auth.html",
+                "displayname": "Login",
+                "subtitle": "Specify your windows credentials to create a recurring schedule. The credentials you specify will be used to also connect to SAP",
+                "onValidate": [
+                    {
+                        "name": "Microsoft-ValidateAdminPrivileges"
+                    },
+                    {
+                        "name": "Microsoft-ValidatePowerShellVersion"
+                    }
+                ]
+            },
+            {
+                "displayname": "SAP",
                 "name": "$SiteCommon$/pagesgallery/sap.html",
-                "displayname": "SAP"
+                "useImpersonation": true
             },
             {
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
