@@ -23,21 +23,17 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public string sqlDatabase = Credential.Instance.Sql.Database;
         public string sqlPassword = Credential.Instance.Sql.Password;
 
-        [Ignore]
         [TestMethod]
         public void SalesforceSqlArtefactsDeploysSuccessful()
         {
-            this.CleanDb();
-
-            DataStore dataStore = new DataStore();
+            DataStore dataStore = TestHarness.GetCommonDataStoreWithSql().Result;
             dataStore.AddToDataStore("SalesforceUser", this.sfUsername, DataStoreType.Public);
             dataStore.AddToDataStore("SalesforcePassword", this.sfPassword, DataStoreType.Private);
             dataStore.AddToDataStore("SalesforceToken", this.sfToken, DataStoreType.Private);
             dataStore.AddToDataStore("SalesforceUrl", "https://login.salesforce.com/", DataStoreType.Public);
             dataStore.AddToDataStore("ObjectTables", "Opportunity,Account,Lead,Product2,OpportunityLineItem,OpportunityStage,User,UserRole", DataStoreType.Public);
 
-            ActionResponse sqlResponse = GetSqlPagePayload();
-            dataStore.AddToDataStore("SqlConnectionString", (sqlResponse.Body as JObject)["value"].ToString(), DataStoreType.Private);
+            this.CleanDb(dataStore);
 
             var response = TestHarness.ExecuteAction("Microsoft-SalesforceGetObjectMetadata", dataStore);
 
@@ -46,10 +42,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = TestHarness.ExecuteAction("Microsoft-SalesforceSqlArtefacts", dataStore);
 
             Assert.IsTrue(response.Status == ActionStatus.Success);
-
-            this.CleanDb();
         }
-
 
         [TestMethod]
         public void RunSalesforceCredentialValidation()
@@ -64,38 +57,14 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(result.Status == ActionStatus.Success);
         }
 
-        public void CleanDb()
+        public void CleanDb(DataStore dataStore)
         {
-            ActionResponse sqlResponse = GetSqlPagePayload();
-
-            var dataStore = new DataStore();
-
             dataStore.AddToDataStore("SqlServerIndex", 0, DataStoreType.Any);
             dataStore.AddToDataStore("SqlScriptsFolder", "Service/Database/Cleanup", DataStoreType.Any);
-            dataStore.AddToDataStore("SqlConnectionString", (sqlResponse.Body as JObject)["value"].ToString(), DataStoreType.Private);
 
             var response = TestHarness.ExecuteAction("Microsoft-DeploySQLScripts", dataStore);
             
             Assert.IsTrue(response.Status == ActionStatus.Success);
-        }
-
-        private ActionResponse GetSqlPagePayload()
-        {
-            var dataStore = new DataStore();
-
-            dynamic sqlPayload = new ExpandoObject();
-            sqlPayload.SqlCredentials = new ExpandoObject();
-            sqlPayload.SqlCredentials.Server = this.sqlServer;
-            sqlPayload.SqlCredentials.AuthType = "azuresql";
-            sqlPayload.SqlCredentials.User = this.sqlUsername;
-            sqlPayload.SqlCredentials.Password = this.sqlPassword;
-            sqlPayload.SqlCredentials.Database = this.sqlDatabase;
-
-            dataStore.AddObjectDataStore("SqlCredentials", JsonUtility.GetJObjectFromObject(sqlPayload), DataStoreType.Any);
-
-            ActionResponse sqlResponse = TestHarness.ExecuteAction("Microsoft-GetSqlConnectionString", dataStore);
-            Assert.IsTrue(sqlResponse.Status == ActionStatus.Success);
-            return sqlResponse;
         }
     }
 }
