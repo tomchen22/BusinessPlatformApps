@@ -21,8 +21,6 @@
     public class CrmCreateVaultSecret : BaseAction
     {
         private const string _crmServicePrincipal = "b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"; // DO NOT CHANGE THIS
-        private string token = null;
-
         private async Task<string> GetCrmConnectorObjectID(string graphToken, string tenantId)
         {
             Uri servicePointUri = new Uri("https://graph.windows.net");
@@ -33,7 +31,6 @@
             // NO NO NO! Null p should not happen!
             return p?.ObjectId;
         }
-
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
