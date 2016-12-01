@@ -27,7 +27,10 @@
                 <span class="glyphicon glyph-small pbi-glyph-circlering st-icon st-loader-check" if.bind="isDataPullDone"></span>
                 <span class="powervisuals-glyph checkmark st-icon st-icon-checkmark st-loader-check" if.bind="isDataPullDone"></span>
                 <span class="st-loader st-loader-tiny st-loader-line" if.bind="!isDataPullDone"></span>
-                <span>${recordCount.EntityName} (${recordCount.Count} <span if.bind="recordCount.Count==1">Row</span><span if.bind="recordCount.Count!=1">Rows</span>)</span>
+                <span>${recordCount.EntityName} (${recordCount.Count}</span>
+                <span if.bind="recordCount.Count==1">${MS.Translate.COMMON_ROW}</span>
+                <span if.bind="recordCount.Count!=1">${MS.Translate.COMMON_ROWS}</span>
+                <span>)</span>
             </li>
         </ul>
 
