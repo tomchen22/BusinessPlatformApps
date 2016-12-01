@@ -9,8 +9,8 @@ export class AzureLogin extends ViewModelBase {
     azureConnection = AzureConnection;
     azureDirectory: string = '';
     connectionType: AzureConnection = AzureConnection.Organizational;
-    isKeyVault: boolean = false;
     isPricingChecked: boolean = false;
+    oauthType: string = '';
     selectedResourceGroup: string = `SolutionTemplate-${this.MS.UtilityService.GetUniqueId(5)}`;
     selectedSubscriptionId: string = '';
     showAdvanced: boolean = false;
@@ -23,9 +23,6 @@ export class AzureLogin extends ViewModelBase {
 
     constructor() {
         super();
-        if (this.isKeyVault) {
-            this.MS.DataStore.addToDataStore('oauthType', 'keyvault', DataStoreType.Public);
-        }
     }
 
     async OnLoaded() {
@@ -72,6 +69,8 @@ export class AzureLogin extends ViewModelBase {
     }
 
     async connect() {
+        this.MS.DataStore.addToDataStore('oauthType', this.oauthType, DataStoreType.Public);
+
         if (this.connectionType.toString() === AzureConnection.Microsoft.toString()) {
             this.MS.DataStore.addToDataStore('AADTenant', this.azureDirectory, DataStoreType.Public);
         } else {

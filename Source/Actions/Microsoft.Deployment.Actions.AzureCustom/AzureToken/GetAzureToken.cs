@@ -21,7 +21,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
         {
             string code = request.DataStore.GetValue("code");
             string aadTenant = request.DataStore.GetValue("AADTenant");
-            string oauthType = request.DataStore.GetValue("oauthType").ToLowerInvariant();
+            string oauthType = (request.DataStore.GetValue("oauthType") ?? string.Empty).ToLowerInvariant();
             string api;
             string clientId;
             string tokenUrl;

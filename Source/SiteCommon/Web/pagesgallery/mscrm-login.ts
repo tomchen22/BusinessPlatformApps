@@ -12,7 +12,6 @@ export class MsCrmLogin extends AzureLogin {
 
     constructor() {
         super();
-        this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login.html-', 'oauthType', 'mscrm', DataStoreType.Public);
     }
 
     async OnLoaded() {
@@ -51,8 +50,8 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     async connect() {
+        this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
-        this.MS.DataStore.addToDataStore('IsMsCrm', true, DataStoreType.Public);
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});
         window.location.href = response.Body.value;
     }
