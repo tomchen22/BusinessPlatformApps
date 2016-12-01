@@ -15,12 +15,25 @@
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
     using System.IdentityModel.Tokens.Jwt;
-    
+    using Microsoft.Azure.ActiveDirectory.GraphClient;
+
     [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
     {
-        private readonly Guid _crmServicePrincipal = new Guid("b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"); // DO NOT CHANGE THIS
+        private const string _crmServicePrincipal = "b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"; // DO NOT CHANGE THIS
         private string token = null;
+
+        private async Task<string> GetCrmConnectorObjectID(string graphToken, string tenantId)
+        {
+            Uri servicePointUri = new Uri("https://graph.windows.net");
+            Uri serviceRoot = new Uri(servicePointUri, tenantId);
+            ActiveDirectoryClient adClient = new ActiveDirectoryClient(serviceRoot, async () => { return graphToken; });
+            IServicePrincipal p  = await adClient.ServicePrincipalsByAppId.Where(sp => sp.AppId.EqualsIgnoreCase(_crmServicePrincipal)).ExecuteSingleAsync();
+
+            // NO NO NO! Null p should not happen!
+            return p?.ObjectId;
+        }
+
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
@@ -76,7 +89,7 @@
                     {
                         if (v.Name.EqualsIgnoreCase(vaultName))
                         {
-                            vault = v;
+                            client.Vaults.Delete(resourceGroup, vaultName);
                             break;
                         }
                     }
@@ -117,8 +130,9 @@
                     AccessPolicyEntry ape = new AccessPolicyEntry();
                     ape.Permissions = new Permissions(null, new[] { "get" });
                     ape.TenantId = new Guid(tenantId);
-                    ape.ApplicationId = _crmServicePrincipal;
+                    ape.ApplicationId = new Guid(_crmServicePrincipal);
                     ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id
+                    // ape.ObjectId = new Guid(GetCrmConnectorObjectID(token, tenantId).Result);
                     vault.Properties.AccessPolicies.Add(ape);
 
                     // Update permissions
