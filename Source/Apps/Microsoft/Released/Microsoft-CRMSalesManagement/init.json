@@ -2,8 +2,38 @@
     "Install": {
         "Actions": [
             {
+                "name": "Microsoft-DeploySQLScripts",
+                "displayname": "Deploy DB Scripts",
+                "SqlServerIndex": "0",
+                "SqlScriptsFolder": "Database"
+            },
+            {
                 "displayname": "Configure Azure Key Vault",
                 "name": "Microsoft-CrmCreateVaultSecret"
+            },
+            {
+                "displayname": "Cleaning CRM Environment",
+                "name": "Microsoft-CrmDeleteProfile"
+            },
+            {
+                "displayname": "Creating CRM Profile",
+                "name": "Microsoft-CrmCreateProfile"
+            },
+            {
+                "displayname": "Validating CRM Profile",
+                "name": "Microsoft-CrmValidateProfile"
+            },
+            {
+                "displayname": "Starting CRM Profile",
+                "name": "Microsoft-CrmStartProfile"
+            },
+            {
+                "name": "Microsoft-GetDataPullStatus",
+                "displayname": "Checking data exists in target",
+                "SqlServerIndex": 0,
+                "TargetSchema": "dbo",
+                "IsWaiting": true,
+                "FinishedActionName": "Microsoft-CrmGetProfileStatus"
             }
         ],
         "Pages": [

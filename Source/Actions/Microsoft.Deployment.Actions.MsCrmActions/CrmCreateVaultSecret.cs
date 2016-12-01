@@ -20,7 +20,6 @@
     public class CrmCreateVaultSecret : BaseAction
     {
         private readonly Guid _crmServicePrincipal = new Guid("b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"); // DO NOT CHANGE THIS
-        private string token = null;
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
