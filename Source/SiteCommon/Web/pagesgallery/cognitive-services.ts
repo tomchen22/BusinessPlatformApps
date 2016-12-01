@@ -1,11 +1,11 @@
-import {ViewModelBase} from "../services/viewmodelbase";
-import {DataStoreType} from "../services/datastore";
+import { DataStoreType } from "../services/datastore";
+import { ViewModelBase } from "../services/viewmodelbase";
 
 export class CognitiveService extends ViewModelBase {
-
     cognitiveServiceKey: string = '';
     cognitiveSelectedType: string = 'NewKey';
     cognitiveServiceName: string = 'SolutionTemplateCognitiveService';
+
     constructor() {
         super();
         this.isValidated = true;
@@ -23,13 +23,11 @@ export class CognitiveService extends ViewModelBase {
         }
     }
 
-
     Invalidate() {
         super.Invalidate();
     }
 
-
-    async OnValidate(): Promise<boolean>  {
+    async OnValidate(): Promise<boolean> {
         if (!super.OnValidate()) {
             return false;
         }
@@ -49,7 +47,6 @@ export class CognitiveService extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-
         if (!super.NavigatingNext()) {
             return false;
         }
@@ -57,8 +54,7 @@ export class CognitiveService extends ViewModelBase {
         this.MS.DataStore.addToDataStore('CognitiveServiceKey', this.cognitiveServiceKey, DataStoreType.Private);
         this.MS.DataStore.addToDataStore('CognitiveServiceName', this.cognitiveServiceName, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('CognitiveSkuName', "S1", DataStoreType.Public);
-        
+
         return true;
     }
 }
-

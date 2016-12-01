@@ -26,14 +26,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             string clientId;
             string tokenUrl;
 
-            /*
-                 var builder = GetTokenUri(refreshToken, Constants.AzureManagementCoreApi, request.Info.WebsiteRootUrl);
-            var content = new StringContent(builder.ToString());
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            var response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
-
-             */
-
             switch (oauthType)
             {
                 case "mscrm":
@@ -53,7 +45,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                     break;
             }
 
-
             HttpClient client = new HttpClient();
 
             var builder = GetTokenUri(code, api, request.Info.WebsiteRootUrl, clientId);
@@ -70,12 +61,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                 content = new StringContent(builder.ToString());
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
                 response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
-
                 var secondaryResponse = JsonUtility.GetJsonObjectFromJsonString(response);
-
                 request.DataStore.AddToDataStore("kvToken", secondaryResponse);
             }
-
 
             if (primaryResponse.SelectToken("error") != null)
             {
@@ -114,7 +102,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
         {
             Dictionary<string, string> message = new Dictionary<string, string>
             {
-                { "refresh_token", code},
+                {"refresh_token", code},
                 {"client_id", clientId},
                 {"client_secret", Uri.EscapeDataString(Constants.MicrosoftClientSecret)},
                 {"resource", Uri.EscapeDataString(uri)},

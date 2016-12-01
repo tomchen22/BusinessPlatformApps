@@ -1,12 +1,6 @@
-var gulp = require('gulp');
-
-var typescript = require('gulp-typescript');
-
-var babel = require('gulp-babel');
-
-var runSequence = require('run-sequence');
-
 var del = require('del');
+var gulp = require('gulp');
+var runSequence = require('run-sequence');
 
 gulp.task('Copy-Build-App', function () {
     return gulp.src('../../Apps/**/Web/**/*').pipe(gulp.dest('wwwroot/dist/Apps/'));

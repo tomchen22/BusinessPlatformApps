@@ -1,4 +1,5 @@
 ﻿import MainService from './mainservice';
+
 import { ActionRequest } from './actionrequest';
 import { ActionResponse } from './actionresponse';
 import { ActionStatus } from './actionresponse';
@@ -109,7 +110,6 @@ export class HttpService {
 
         return actionResponse;
     }
-
 
     async executeAsyncWithImpersonation(method, content): Promise<ActionResponse> {
         let body: any = {};
