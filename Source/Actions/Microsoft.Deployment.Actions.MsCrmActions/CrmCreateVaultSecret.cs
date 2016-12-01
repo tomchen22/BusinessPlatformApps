@@ -65,7 +65,7 @@
 
             string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
-            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
+            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpstv-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
             string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[0];
             string organizationId = request.DataStore.GetValue("OrganizationId");
