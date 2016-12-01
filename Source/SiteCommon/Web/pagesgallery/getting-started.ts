@@ -46,7 +46,7 @@ export class Gettingstarted extends ViewModelBase {
 
         this.registrationNameFirst = this.registrationNameFirst.trim();
         this.registrationNameLast = this.registrationNameLast.trim();
-        this.registrationCompany = this.registrationCompancy.trim();
+        this.registrationCompany = this.registrationCompany.trim();
         this.registrationEmail = this.registrationEmail.trim();
         this.registrationEmailConfirmation = this.registrationEmailConfirmation.trim();
 
