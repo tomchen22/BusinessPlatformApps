@@ -1,13 +1,13 @@
-﻿import {Dictionary} from "../base/Dictionary"
-import MainService from "./mainservice";
+﻿import MainService from "./mainservice";
 
+import { Dictionary } from "../base/Dictionary"
 
 export class DataStore {
     PublicDataStore: Dictionary<Dictionary<any>>;
     PrivateDataStore: Dictionary<Dictionary<any>>;
     private MS: MainService;
 
-    CurrentRoutePage: string ='';
+    CurrentRoutePage: string = '';
     DeploymentIndex: string = '';
 
     constructor(MainService) {
@@ -18,7 +18,7 @@ export class DataStore {
     }
 
     toJSON() {
-        var toConvert:any = {};
+        var toConvert: any = {};
         toConvert.PublicDataStore = this.PublicDataStore;
         toConvert.PrivateDataStore = this.PrivateDataStore;
         toConvert.CurrentRoutePage = this.CurrentRoutePage;
@@ -44,7 +44,7 @@ export class DataStore {
                 this.PrivateDataStore.add(route, valueToAdd);
             }
         }
-       
+
         if (publicStore) {
             this.PublicDataStore = new Dictionary<Dictionary<any>>();
             for (let route in publicStore) {
@@ -63,7 +63,7 @@ export class DataStore {
 
     /// This method will be used on startup from the main service
     private loadDataStores() {
-        let datastore:any = this.MS.UtilityService.GetItem(this.MS.NavigationService.appName + " datastore");
+        let datastore: any = this.MS.UtilityService.GetItem(this.MS.NavigationService.appName + " datastore");
         if (!datastore) {
             this.PublicDataStore = new Dictionary<Dictionary<any>>();
             this.PrivateDataStore = new Dictionary<Dictionary<any>>();
@@ -97,7 +97,7 @@ export class DataStore {
         return this.getValueAndRoutesFromDataStore(dataStoreType, key).length > 0;
     }
 
-    public routeAndKeyExists(route: string, key:string, dataStoreType: DataStoreType = DataStoreType.Any): boolean {
+    public routeAndKeyExists(route: string, key: string, dataStoreType: DataStoreType = DataStoreType.Any): boolean {
         var found: boolean = false;
 
         if (dataStoreType === DataStoreType.Private || dataStoreType === DataStoreType.Any) {
@@ -118,25 +118,24 @@ export class DataStore {
         return found;
     }
 
-    public addToDataStoreWithCustomRoute(route:string, key: string, value: any, dataStoreType: DataStoreType) {
+    public addToDataStoreWithCustomRoute(route: string, key: string, value: any, dataStoreType: DataStoreType) {
         this.updateValue(dataStoreType, this.currentRoute(), key, value);
         this.cacheDataStores();
     }
 
-    public addToDataStore(key:string, value: any, dataStoreType: DataStoreType) {
+    public addToDataStore(key: string, value: any, dataStoreType: DataStoreType) {
         this.updateValue(dataStoreType, this.currentRoute(), key, value);
         this.cacheDataStores();
     }
 
-    public addObjectToDataStore(value: any, dataStoreType: DataStoreType)
-    {
+    public addObjectToDataStore(value: any, dataStoreType: DataStoreType) {
         for (let propertyName in value) {
             this.updateValue(dataStoreType, this.currentRoute(), propertyName, value[propertyName]);
         }
         this.cacheDataStores();
     }
 
-    public addObjectToDataStoreWithCustomRoute(route:string, value: any, dataStoreType: DataStoreType) {
+    public addObjectToDataStoreWithCustomRoute(route: string, value: any, dataStoreType: DataStoreType) {
         for (let propertyName in value) {
             this.updateValue(dataStoreType, route, propertyName, value[propertyName]);
         }
@@ -147,7 +146,7 @@ export class DataStore {
         return this.getFirstValueFromDataStore(key, dataStoreType);
     }
 
-    public getJsonWithRoute(route:string, key: string, dataStoreType: DataStoreType = DataStoreType.Any): any {
+    public getJsonWithRoute(route: string, key: string, dataStoreType: DataStoreType = DataStoreType.Any): any {
         return this.getValueWithRouteAndKey(dataStoreType, route, key);
     }
 
@@ -159,31 +158,31 @@ export class DataStore {
         return this.getValueWithRouteAndKey(dataStoreType, route, key).toString();
     }
 
-    public getAllJson(key: string, dataStoreType: DataStoreType = DataStoreType.Any):any[] {
+    public getAllJson(key: string, dataStoreType: DataStoreType = DataStoreType.Any): any[] {
         return this.getAllValueFromDataStore(key, dataStoreType);
     }
 
-    public getAllValues(key: string, dataStoreType: DataStoreType = DataStoreType.Any):string[] {
+    public getAllValues(key: string, dataStoreType: DataStoreType = DataStoreType.Any): string[] {
         return this.getAllValueFromDataStore(key, dataStoreType).map(p => p.toString());
     }
 
-    public getAllDataStoreItems(key: string, dataStoreType: DataStoreType = DataStoreType.Any):DataStoreItem[] {
+    public getAllDataStoreItems(key: string, dataStoreType: DataStoreType = DataStoreType.Any): DataStoreItem[] {
         return this.getValueAndRoutesFromDataStore(dataStoreType, key);
     }
 
-    private getFirstValueFromDataStore(key: string, dataStoreType: DataStoreType = DataStoreType.Any):any {
+    private getFirstValueFromDataStore(key: string, dataStoreType: DataStoreType = DataStoreType.Any): any {
         var values: DataStoreItem[];
 
         if (dataStoreType === DataStoreType.Private || dataStoreType === DataStoreType.Any) {
             values = DataStore.getValueAndRoutesFromDataStore(this.PrivateDataStore, key, DataStoreType.Private);
-            if (values.length >0 ) {
+            if (values.length > 0) {
                 return values[0].value;
             }
         }
 
         if (dataStoreType === DataStoreType.Public || dataStoreType === DataStoreType.Any) {
             values = DataStore.getValueAndRoutesFromDataStore(this.PublicDataStore, key, DataStoreType.Private);
-            if (values.length > 0 ) {
+            if (values.length > 0) {
                 return values[0].value;
             }
         }
@@ -191,8 +190,8 @@ export class DataStore {
         return null;
     }
 
-    private getAllValueFromDataStore(key: string, dataStoreType: DataStoreType = DataStoreType.Any):any[] {
-        var items: DataStoreItem[]  = this.getValueAndRoutesFromDataStore(dataStoreType, key);
+    private getAllValueFromDataStore(key: string, dataStoreType: DataStoreType = DataStoreType.Any): any[] {
+        var items: DataStoreItem[] = this.getValueAndRoutesFromDataStore(dataStoreType, key);
 
         return items.map((value, index, array) => { return value.value });
     }
