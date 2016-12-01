@@ -166,7 +166,8 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Uninstall Progress",
         "successMessage": "Uninstall complete",
-        "isUninstall": true
+        "isUninstall": true,
+        "showEmailSubmission": false
       }
     ],
     "Actions": [

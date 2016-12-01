@@ -1,7 +1,8 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from '../services/datastore';
-import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+
 import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class SqlServer extends ViewModelBase {
     subtitle: string = '';
@@ -150,7 +151,7 @@ export class SqlServer extends ViewModelBase {
     }
 
     private async CreateDatabaseServer() {
-        this.navigationMessage = 'Creating a new SQL database, this may take 2-3 minutes';
+        this.navigationMessage = this.MS.Translate.SQL_SERVER_CREATING_NEW;
         let body = this.GetBody(true);
         body['SqlCredentials']['Database'] = this.newSqlDatabase;
         return await this.MS.HttpService.executeAsync('Microsoft-CreateAzureSql', body);

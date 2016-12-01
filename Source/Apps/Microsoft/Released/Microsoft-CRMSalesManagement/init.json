@@ -2,8 +2,38 @@
     "Install": {
         "Actions": [
             {
+                "name": "Microsoft-DeploySQLScripts",
+                "displayname": "Deploy DB Scripts",
+                "SqlServerIndex": "0",
+                "SqlScriptsFolder": "Database"
+            },
+            {
                 "displayname": "Configure Azure Key Vault",
                 "name": "Microsoft-CrmCreateVaultSecret"
+            },
+            {
+                "displayname": "Cleaning CRM Environment",
+                "name": "Microsoft-CrmDeleteProfile"
+            },
+            {
+                "displayname": "Creating CRM Profile",
+                "name": "Microsoft-CrmCreateProfile"
+            },
+            {
+                "displayname": "Validating CRM Profile",
+                "name": "Microsoft-CrmValidateProfile"
+            },
+            {
+                "displayname": "Starting CRM Profile",
+                "name": "Microsoft-CrmStartProfile"
+            },
+            {
+                "name": "Microsoft-GetDataPullStatus",
+                "displayname": "Checking data exists in target",
+                "SqlServerIndex": 0,
+                "TargetSchema": "dbo",
+                "IsWaiting": true,
+                "FinishedActionName": "Microsoft-CrmGetProfileStatus"
             }
         ],
         "Pages": [
@@ -21,6 +51,7 @@
             {
                 "displayname": "Login",
                 "name": "$SiteCommon$/pagesgallery/azure-login.html",
+                "oauthType": "keyvault",
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
                 "pricingUrl": "SalesforcePricingURL"
             },
@@ -39,6 +70,7 @@
                 "displayname": "Dynamics CRM Login",
                 "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
+                "oauthType": "mscrm",
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
                 "pricingUrl": "SalesforcePricingURL"
             },

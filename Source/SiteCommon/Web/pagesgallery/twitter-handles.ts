@@ -1,11 +1,10 @@
-﻿
-import {ViewModelBase} from "../services/viewmodelbase";
-import {DataStoreType} from "../services/datastore";
+﻿import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class TwitterHandles extends ViewModelBase {
     accounts: string = '';
-    twitterHandleName: string = '';
     twitterHandleId: string = '';
+    twitterHandleName: string = '';
 
     constructor() {
         super();

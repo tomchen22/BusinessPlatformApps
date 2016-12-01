@@ -9,10 +9,8 @@ export class SummaryViewModel extends ViewModelBase {
         super();
     }
 
-    
-
     loadSummaryObjectIntoRows() {
-        this.textNext = 'Run';
+        this.textNext = this.MS.Translate.COMMON_RUN;
         this.summaryRows = new Array<EntryRow>();
         let entryRow: EntryRow = new EntryRow();
         for (let text in this.values) {
@@ -34,8 +32,7 @@ export class SummaryViewModel extends ViewModelBase {
     }
 }
 
-
-export class Entry {
+class Entry {
     text: string;
     value: string;
 
@@ -45,7 +42,6 @@ export class Entry {
     }
 }
 
-export class EntryRow {
+class EntryRow {
     entries: Entry[] = [];
 }
-
