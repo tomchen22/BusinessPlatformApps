@@ -119,7 +119,7 @@ export class DataStore {
     }
 
     public addToDataStoreWithCustomRoute(route: string, key: string, value: any, dataStoreType: DataStoreType) {
-        this.updateValue(dataStoreType, this.currentRoute(), key, value);
+        this.updateValue(dataStoreType, route, key, value);
         this.cacheDataStores();
     }
 

@@ -5,7 +5,7 @@
         <div class="st-input-column">
             <p class="st-text">
                 <span>${MS.Translate.SAP_APPLICATION_SERVER}</span>
-                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title.bind="MS.Translate.SAP_APPLICATION_SERVER_DESCRIPTION"></span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="${MS.Translate.SAP_APPLICATION_SERVER_DESCRIPTION}"></span>
             </p>
             <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.applicationServer" />
         </div>
@@ -13,7 +13,7 @@
         <div class="st-input-column">
             <p class="st-text">
                 <span>${MS.Translate.SAP_CLIENT}</span>
-                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title.bind="MS.Translate.SAP_CLIENT_DESCRIPTION"></span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="${MS.Translate.SAP_CLIENT_DESCRIPTION}"></span>
             </p>
             <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.client" />
         </div>
@@ -31,7 +31,7 @@
         <div class="st-input-column">
             <p class="st-text">
                 <span>${MS.Translate.SAP_SYSTEM_ID}</span>
-                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title.bind="MS.Translate.SAP_SYSTEM_ID_DESCRIPTION"></span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="${MS.Translate.SAP_SYSTEM_ID_DESCRIPTION}"></span>
             </p>
             <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.systemId" />
         </div>
@@ -39,7 +39,7 @@
         <div class="st-input-column">
             <p class="st-text">
                 <span>${MS.Translate.SAP_INSTANCE_NUMBER}</span>
-                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title.bind="MS.Translate.SAP_INSTANCE_NUMBER_DESCRIPTION"></span>
+                <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="${MS.Translate.SAP_INSTANCE_NUMBER_DESCRIPTION}"></span>
             </p>
             <input class="st-input" type="text" change.delegate="viewmodel.Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="viewmodel.instanceNumber" />
         </div>
