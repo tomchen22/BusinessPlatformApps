@@ -43,7 +43,8 @@
                     "Read access to the SAP Database",
                     "Azure Subscription (to use Azure SQL)",
                     "Power BI Pro (to share the template with your organization)",
-                    "Power BI Desktop (latest version)"
+                    "Power BI Desktop (latest version)",
+                    "A Simplement Trial Account"
                 ],
                 "list2": [
                     "Scalable and extensible solution with minimum set up and maintenance considerations",
@@ -51,6 +52,13 @@
                     "Import data into powerful Power BI reports"
                 ],
                 "name": "$SiteCommon$/pagesgallery/getting-started.html",
+                "registration": "$(this.MS.HttpService.isOnPremise ? '' : 'To use this solution template you need a trial with account with Simplement. Enter your information below to register with Simplement for 30 days. To extend the trial account with Simplement or arrange a proof of concept in your environment, contact Simplement.')",
+                "registrationAction": "Microsoft-PushToSimplement",
+                "registrationEmailsToBlock": "gmail.com,.me,yahoo.com,hotmail.com,msn.com,.ba,.bf,.cd,.cq,.iq,.ir,.kr",
+                "registrationLink": "http://www.simplement.us/privacy",
+                "registrationPrivacy": "By using this Simplement trial account, you agree to the",
+                "registrationPrivacyTitle": "Simplement Privacy Statement",
+                "registrationValidation": "Yes, I want to hear from Simplement on how I can extend this trial account or new offers",
                 "subtitle": "Welcome to the public preview of the Accounts Receivable Reporting for SAP solution template. During the public preview, the solution template is for evaluation purposes only and is not intended for production use.",
                 "templateName": "Accounts Receivable Reporting for SAP"
             },
@@ -82,7 +90,7 @@
                 "onNext": [
                     {
                         "name": "Microsoft-CredentialManagerWrite",
-                        "CredentialTarget": "$('pbi_sccm', isSaved=true)",
+                        "CredentialTarget": "$('sap', isSaved=true)",
                         "CredentialUsername": "$(this.username, isSaved=true)",
                         "CredentialPassword": "$(this.password, isSaved=true)",
                         "useImpersonation": true
@@ -93,8 +101,8 @@
                 "name": "$SiteCommon$/pagesgallery/progress.html",
                 "displayname": "Progress",
                 "finishedActionName": "Microsoft-GetTaskStatus",
-                "targetSchema": "pbist_sccm",
-                "filename": "$('SAPARTemplate.pbix', isSaved=true)"
+                "targetSchema": "sap",
+                "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)"
             }
         ]
     },
