@@ -12,7 +12,7 @@ export class MsCrmLogin extends AzureLogin {
 
     constructor() {
         super();
-        //this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login-', 'oauthType', 'mscrm', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login.html-', 'oauthType', 'mscrm', DataStoreType.Public);
     }
 
     async OnLoaded() {

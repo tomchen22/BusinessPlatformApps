@@ -9,6 +9,7 @@ export class AzureLogin extends ViewModelBase {
     azureConnection = AzureConnection;
     azureDirectory: string = '';
     connectionType: AzureConnection = AzureConnection.Organizational;
+    isKeyVault: boolean = false;
     isPricingChecked: boolean = false;
     selectedResourceGroup: string = `SolutionTemplate-${this.MS.UtilityService.GetUniqueId(5)}`;
     selectedSubscriptionId: string = '';
@@ -22,7 +23,9 @@ export class AzureLogin extends ViewModelBase {
 
     constructor() {
         super();
-        //this.MS.DataStore.addToDataStore('oauthType', 'keyvault', DataStoreType.Public);
+        if (this.isKeyVault) {
+            this.MS.DataStore.addToDataStore('oauthType', 'keyvault', DataStoreType.Public);
+        }
     }
 
     async OnLoaded() {
