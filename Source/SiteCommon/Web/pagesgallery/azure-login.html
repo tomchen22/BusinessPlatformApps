@@ -1,7 +1,7 @@
 ﻿<template>
     <h1 class="st-title">${MS.Translate.AZURE_LOGIN_CONNECT}</h1>
     <p class="st-subtitle">
-        ${MS.Translate.AZURE_LOGIN_SUBTITLE}
+        <span>${MS.Translate.AZURE_LOGIN_SUBTITLE}</span>
         <a href="${MS.Translate.AZURE_LOGIN_LINK}" target="_blank">${MS.Translate.AZURE_LOGIN_LINK_DESCRIPTION}</a>.
     </p>
 
@@ -16,11 +16,11 @@
 
         <div class="st-float" if.bind="connectionType == azureConnection.Microsoft">
             <p class="st-text">
-                ${MS.Translate.AZURE_LOGIN_DIRECTORY_TEXT}
+                <span>${MS.Translate.AZURE_LOGIN_DIRECTORY_TEXT}</span>
                 <a href="${MS.Translate.AZURE_LOGIN_DIRECTORY_LINK}" target="_blank">${MS.Translate.AZURE_LOGIN_DIRECTORY_DESCRIPTION}</a>.
             </p>
             <p class="st-text">${MS.Translate.AZURE_LOGIN_DIRECTORY}</p>
-            <input class="st-input" placeholder="directoryname.onmicrosoft.com" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="azureDirectory" />
+            <input class="st-input" placeholder="${MS.Translate.AZURE_LOGIN_DIRECTORY_ADDRESS}" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="azureDirectory" />
         </div>
 
         <div class="st-float">
@@ -48,18 +48,14 @@
     </div>
 
     <!-- Pricing Confirmation -->
-    <div>
-        <div if.bind="showPricingConfirmation">
-            <label class="st-float st-text">
-                <input type="checkbox" tabindex="-1" change.delegate="verifyPricing()" checked.bind="isPricingChecked" disabled.bind="MS.HttpService.isServiceBusy">
-                <span class="st-text">
-                    ${pricingCost}
-                </span>
-            </label>
-            <p class="st-float st-text">
-                ${MS.Translate.AZURE_LOGIN_PRICING_TEXT}
-                <a href="${pricingUrl}" target="_blank">${MS.Translate.COMMON_HERE}</a>.
-            </p>
-        </div>
+    <div if.bind="showPricingConfirmation">
+        <label class="st-float st-text">
+            <input type="checkbox" tabindex="-1" change.delegate="verifyPricing()" checked.bind="isPricingChecked" disabled.bind="MS.HttpService.isServiceBusy">
+            <span class="st-text">${pricingCost}</span>
+        </label>
+        <p class="st-float st-text">
+            <span>${MS.Translate.AZURE_LOGIN_PRICING_TEXT}</span>
+            <a href="${pricingUrl}" target="_blank">${MS.Translate.COMMON_HERE}</a>
+        </p>
     </div>
 </template>

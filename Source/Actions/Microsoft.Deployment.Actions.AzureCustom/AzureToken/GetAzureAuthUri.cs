@@ -42,7 +42,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                     break;
             }
 
-
             Dictionary<string, string> message = new Dictionary<string, string>
             {
                 { "client_id", clientId },

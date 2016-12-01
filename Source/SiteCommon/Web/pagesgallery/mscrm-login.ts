@@ -1,8 +1,8 @@
-﻿import { AzureLogin } from './azure-login';
-import { DataStoreType } from '../services/datastore';
-import { ActionResponse } from '../services/actionresponse';
+﻿import { QueryParameter } from '../base/query-parameter';
 
-import { QueryParameter } from '../base/query-parameter';
+import { AzureLogin } from './azure-login';
+import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
 
 export class MsCrmLogin extends AzureLogin {
     entities: string = '';
@@ -12,7 +12,7 @@ export class MsCrmLogin extends AzureLogin {
 
     constructor() {
         super();
-        this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login-', 'oauthType', 'mscrm', DataStoreType.Public);
+        //this.MS.DataStore.addToDataStoreWithCustomRoute('azure-login-', 'oauthType', 'mscrm', DataStoreType.Public);
     }
 
     async OnLoaded() {

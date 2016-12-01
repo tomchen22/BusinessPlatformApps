@@ -1,5 +1,5 @@
-import {ViewModelBase} from '../services/viewmodelbase';
-import {DataStoreType} from '../services/datastore';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class SearchTerms extends ViewModelBase {
     username: string = '';
@@ -29,7 +29,6 @@ export class SearchTerms extends ViewModelBase {
     }
 
     async OnValidate(): Promise<boolean> {
-
         this.isValidated = false;
         let usernameError: string = this.MS.UtilityService.validateUsername(this.username);
         if (usernameError) {

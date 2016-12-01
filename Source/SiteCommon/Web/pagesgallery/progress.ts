@@ -1,5 +1,5 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from '../services/datastore';
+﻿import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class ProgressViewModel extends ViewModelBase {
     emailAddress: string = '';
@@ -14,7 +14,7 @@ export class ProgressViewModel extends ViewModelBase {
     showEmailSubmission: boolean = true;
     sliceStatus: any[] = [];
     sqlServerIndex: number = 0;
-    successMessage: string = 'All done! You can now download your Power BI report and start exploring your data.';
+    successMessage: string = this.MS.Translate.PROGRESS_ALL_DONE;
     targetSchema: string = '';
     filename: string = 'report.pbix';
     isUninstall: boolean = false;
