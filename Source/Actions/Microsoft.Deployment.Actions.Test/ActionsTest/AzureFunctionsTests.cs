@@ -44,10 +44,16 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
             dataStore.AddToDataStore("SiteName", "UnitTestTrialbpst" + randomString);
 
-            dataStore.AddToDataStore("FunctionName", "TestA");
-            dataStore.AddToDataStore("FunctionFileName", "TweetFunctionCSharp.cs" );
+            dataStore.AddToDataStore("FunctionName", "ASCIICleanser");
+            dataStore.AddToDataStore("FunctionFileName", "ASCIICleanser.csx");
 
             var response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunctionAssets", dataStore);
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            dataStore.AddToDataStore("FunctionName", "StringUtilities");
+            dataStore.AddToDataStore("FunctionFileName", "StringUtilities.csx");
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunctionAssets", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
         }
