@@ -14,9 +14,9 @@ namespace Microsoft.Deployment.Actions.OnPremise.CredentialManager
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string targetName = request.DataStore.GetValue("CredentialTarget");
-            string userName = request.DataStore.GetValue("CredentialUsername");
-            string password = request.DataStore.GetValue("CredentialPassword");
+            string targetName = request.DataStore.GetValue("CredentialTarget2") ?? request.DataStore.GetValue("CredentialTarget");
+            string userName = request.DataStore.GetValue("CredentialUsername2") ?? request.DataStore.GetValue("CredentialUsername");
+            string password = request.DataStore.GetValue("CredentialPassword2") ?? request.DataStore.GetValue("CredentialPassword");
 
             Credential c = new Credential(userName, password, targetName, CredentialType.Generic);
             c.PersistenceType = PersistenceType.LocalComputer;
