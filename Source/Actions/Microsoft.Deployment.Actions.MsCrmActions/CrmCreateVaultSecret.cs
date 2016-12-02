@@ -26,16 +26,34 @@
             Uri servicePointUri = new Uri("https://graph.windows.net");
             Uri serviceRoot = new Uri(servicePointUri, tenantId);
             ActiveDirectoryClient adClient = new ActiveDirectoryClient(serviceRoot, async () => { return graphToken; });
-            IServicePrincipal p  = await adClient.ServicePrincipalsByAppId.Where(sp => sp.AppId.EqualsIgnoreCase(_crmServicePrincipal)).ExecuteSingleAsync();
+            var princs = await adClient.ServicePrincipals.ExecuteAsync().ConfigureAwait(false);
+            
+
+            for (;;)
+            {
+                var currentPage = princs.CurrentPage;
+
+                foreach (var p in currentPage)
+                {
+                    if (p.AppId.EqualsIgnoreCase(_crmServicePrincipal))
+                        return p.ObjectId;
+                }
+
+                if (!princs.MorePagesAvailable)
+                    break;
+
+                princs = await princs.GetNextPageAsync().ConfigureAwait(false);
+            } 
 
             // NO NO NO! Null p should not happen!
-            return p?.ObjectId;
+            return null;
         }
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string kvToken = request.DataStore.GetJson("kvToken")["access_token"].ToString();
+            string graphToken = request.DataStore.GetJson("graphToken")["access_token"].ToString();
             string crmToken = request.DataStore.GetValue("MsCrmToken");
 
 
@@ -144,7 +162,7 @@
                     ape.TenantId = new Guid(tenantId);
                     // ape.ApplicationId = new Guid(_crmServicePrincipal);
                     ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id {a1685f9d-abab-4c93-957c-32ffd34cba2b}
-                    // ape.ObjectId = new Guid(GetCrmConnectorObjectID(token, tenantId).Result);
+                    ape.ObjectId = new Guid(GetCrmConnectorObjectID(graphToken, tenantId).Result);
                     vault.Properties.AccessPolicies.Add(ape);
 
                     // Update permissions
