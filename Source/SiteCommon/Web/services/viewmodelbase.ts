@@ -2,6 +2,7 @@
 import { JsonCustomParser } from "../base/JsonCustomParser";
 import { DataStoreType } from "./datastore";
 import { ActionResponse } from "./actionresponse";
+import {activationStrategy} from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
@@ -112,16 +113,14 @@ export class ViewModelBase {
     }
 
     async activate(params, navigationInstruction) {
+        this.isValidated = false;
         this.isActivated = false;
-        this.loadParameters();
         this.MS.UtilityService.SaveItem('Current Page', window.location.href);
-        let currentRoute = this.MS.NavigationService
-            .getCurrentSelectedPage()
-            .RoutePageName.toLowerCase();
+        let currentRoute = this.MS.NavigationService.getCurrentSelectedPage().RoutePageName.toLowerCase();
         this.MS.UtilityService.SaveItem('Current Route', currentRoute);
         let viewmodelPreviousSave = window.sessionStorage.getItem(currentRoute);
 
-        // Restore view model state
+        // Restore view model state or load new state
         if (viewmodelPreviousSave) {
             let jsonParsed = JSON.parse(viewmodelPreviousSave);
             for (let propertyName in jsonParsed) {
@@ -130,10 +129,24 @@ export class ViewModelBase {
 
             this.viewmodel = this;
             this.viewmodel.MS = (<any>window).MainService;
+        } else {
+            this.loadParameters();
         }
 
         this.MS.NavigationService.currentViewModel = this;
         this.isActivated = true;
+    }
+
+    // Called when object has navigated next -only simple cleanup logic should go here
+    NavigatedNext(): void {
+    }
+
+    async attached() {
+        await this.OnLoaded();
+    }
+
+    determineActivationStrategy() {
+        return activationStrategy.replace; //replace the viewmodel with a new instance
     }
 
 
@@ -170,13 +183,7 @@ export class ViewModelBase {
         return true;
     }
 
-    // Called when object has navigated next -only simple cleanup logic should go here
-    NavigatedNext(): void {
-    }
 
-    async attached() {
-        await this.OnLoaded();
-    }
 
     // Called when the view model is attached completely
     async OnLoaded() {
@@ -216,7 +223,7 @@ export class ViewModelBase {
             
             objToChange[propertyName] = val;
 
-            if (val && typeof (val) === 'object') {
+            if (val && typeof (val) === 'object' && propertyName !== 'onNext' && propertyName!== 'onValidate') {
                 this.loadVariables(objToChange[propertyName], val);
             }
         }

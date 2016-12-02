@@ -35,7 +35,6 @@ export class SqlServer extends ViewModelBase {
 
     constructor() {
         super();
-        this.isValidated = false;
     }
 
     Invalidate() {
@@ -49,6 +48,8 @@ export class SqlServer extends ViewModelBase {
     onAuthChange() {
         this.isWindowsAuth = this.auth.toLowerCase() === 'windows';
     }
+
+    
 
     async OnValidate(): Promise<boolean> {
         this.isValidated = false;
@@ -160,5 +161,10 @@ export class SqlServer extends ViewModelBase {
     private async ValidateAzureServerIsAvailable() {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
+    }
+
+
+    async OnLoaded() {
+        this.isValidated = false;
     }
 }
