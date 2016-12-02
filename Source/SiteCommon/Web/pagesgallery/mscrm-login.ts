@@ -17,7 +17,7 @@ export class MsCrmLogin extends AzureLogin {
     async OnLoaded() {
         this.isValidated = false;
         this.showValidation = false;
-        if (this.subscriptionsList.length > 0) {
+        if (this.msCrmOrganizations.length > 0) {
             this.isValidated = true;
             this.showValidation = true;
         } else {

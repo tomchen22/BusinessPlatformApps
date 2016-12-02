@@ -15,14 +15,16 @@ namespace Microsoft.Deployment.Actions.Custom.SAP
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            var rowBatchSize = request.DataStore.GetValue("RowBatchSize");
-            var sapClient = request.DataStore.GetValue("SapClient");
-            var sapHost = request.DataStore.GetValue("SapHost");
-            var sapLanguage = request.DataStore.GetValue("SapLanguage");
-            var sapRouterString = request.DataStore.GetValue("SapRouterString");
-            var sapSystemId = request.DataStore.GetValue("SapSystemId");
-            var sapSystemNumber = request.DataStore.GetValue("SapSystemNumber");
-            var sqlConnectionString = request.DataStore.GetValue("SqlConnectionString");
+            string rowBatchSize = request.DataStore.GetValue("RowBatchSize");
+            string sapClient = request.DataStore.GetValue("SapClient");
+            string sapHost = request.DataStore.GetValue("SapHost");
+            string sapLanguage = request.DataStore.GetValue("SapLanguage");
+            string sapRouterString = request.DataStore.GetValue("SapRouterString");
+            string sapSystemId = request.DataStore.GetValue("SapSystemId");
+            string sapSystemNumber = request.DataStore.GetValue("SapSystemNumber");
+
+            var sqlConnectionStrings = request.DataStore.GetAllValues("SqlConnectionString");
+            string sqlConnectionString = sqlConnectionStrings != null ? sqlConnectionStrings[0] : string.Empty;
 
             string jsonDestination = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), JSON_PATH);
             (new FileInfo(jsonDestination)).Directory.Create();
