@@ -146,7 +146,7 @@ export class SqlServer extends ViewModelBase {
         body['SqlCredentials']['Server'] = this.getSqlServer();
         body['SqlCredentials']['User'] = this.username;
         body['SqlCredentials']['Password'] = this.password;
-        body['SqlCredentials']['AuthType'] = this.isWindowsAuth ? 'windows' : 'sql';
+        body['SqlCredentials']['AuthType'] = this.isWindowsAuth && !this.isAzureSql ? 'windows' : 'sql';
 
         if (this.isAzureSql) {
             body['SqlCredentials']['AuthType'] = 'sql';
