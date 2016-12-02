@@ -41,6 +41,7 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
+        this.isValidated = true;
         if (this.isDownload) {
             this.GetDownloadLink();
         } else {
