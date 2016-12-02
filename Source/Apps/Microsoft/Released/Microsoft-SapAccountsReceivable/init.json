@@ -90,12 +90,16 @@
                 "onNext": [
                     {
                         "name": "Microsoft-CredentialManagerWrite",
-                        "CredentialTarget": "$('sap', isSaved=true)",
+                        "CredentialTarget": "$('Simplement.SolutionTemplate.AR.SQL', isSaved=true)",
                         "CredentialUsername": "$(this.username, isSaved=true)",
                         "CredentialPassword": "$(this.password, isSaved=true)",
                         "useImpersonation": true
                     }
                 ]
+            },
+            {
+                "name": "customize.html",
+                "displayname": "Customize"
             },
             {
                 "name": "$SiteCommon$/pagesgallery/progress.html",
