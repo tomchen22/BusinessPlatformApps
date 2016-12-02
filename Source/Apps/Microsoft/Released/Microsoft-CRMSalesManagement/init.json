@@ -16,12 +16,12 @@
                 "name": "Microsoft-CrmDeleteProfile"
             },
             {
-                "displayname": "Creating CRM Profile",
-                "name": "Microsoft-CrmCreateProfile"
-            },
-            {
                 "displayname": "Validating CRM Profile",
                 "name": "Microsoft-CrmValidateProfile"
+            },
+            {
+                "displayname": "Creating CRM Profile",
+                "name": "Microsoft-CrmCreateProfile"
             },
             {
                 "displayname": "Starting CRM Profile",
