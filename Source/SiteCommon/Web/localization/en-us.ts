@@ -107,7 +107,7 @@
     TWITTER_VALIDATED: `Validated`,
     UNINSTALL_SUBTITLE: `The uninstaller will remove:`,
     WINDOWS_AUTH_CURRENT: `Log in as current user?`,
-    WINDOWS_AUTH_PASSWORD: `Log in as current user?`,
+    WINDOWS_AUTH_PASSWORD: `Password:`,
     WINDOWS_AUTH_TITLE: `Connect to Windows`,
     WINDOWS_AUTH_USERNAME: `Windows Username:`,
     WINDOWS_AUTH_USERNAME_DESCRIPTION: `Must be in <domain>\<username> or <machinename>\<username> format`
