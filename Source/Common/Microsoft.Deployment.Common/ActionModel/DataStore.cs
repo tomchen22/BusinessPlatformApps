@@ -167,14 +167,17 @@ namespace Microsoft.Deployment.Common.ActionModel
             return this.GetValueAndRoutesFromDataStore(dataStoreType,key);
         }
 
-        private JToken GetFirstValueFromDataStore( string key, DataStoreType dataStoreType = DataStoreType.Any) 
+        private JToken GetFirstValueFromDataStore( string key, DataStoreType dataStoreType = DataStoreType.Any)
         {
+            List<DataStoreItem> itemsList = null;
+            JToken itemToReturn = null;
+
             if (dataStoreType == DataStoreType.Private || dataStoreType == DataStoreType.Any)
             {
                 var values = GetValueAndRoutesFromDataStore(this.PrivateDataStore, key, DataStoreType.Private);
                 if (values.Any())
                 {
-                    return values.First().Value;
+                    itemsList =  values;
                 }
             }
 
@@ -183,11 +186,18 @@ namespace Microsoft.Deployment.Common.ActionModel
                 var values = GetValueAndRoutesFromDataStore(this.PublicDataStore, key, DataStoreType.Private);
                 if (values.Any())
                 {
-                    return values.First().Value;
+                    itemsList = values;
                 }
             }
 
-            return null;
+            if (itemsList != null)
+            {
+                itemToReturn = itemsList.Any(p => p.Route == "RequestParameters") 
+                    ? itemsList.Single(p => p.Route == "RequestParameters").Value 
+                    : itemsList.First().Value;
+            }
+
+            return itemToReturn;
         }
 
         private IList<JToken> GetAllValueFromDataStore(string key, DataStoreType dataStoreType = DataStoreType.Any)
