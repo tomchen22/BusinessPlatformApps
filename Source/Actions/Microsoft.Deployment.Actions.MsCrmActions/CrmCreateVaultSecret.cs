@@ -26,26 +26,13 @@
             Uri servicePointUri = new Uri("https://graph.windows.net");
             Uri serviceRoot = new Uri(servicePointUri, tenantId);
             ActiveDirectoryClient adClient = new ActiveDirectoryClient(serviceRoot, async () => { return graphToken; });
-            var princs = await adClient.ServicePrincipals.ExecuteAsync().ConfigureAwait(false);
-            
 
-            for (;;)
-            {
-                var currentPage = princs.CurrentPage;
+            var princs = await adClient.ServicePrincipals.Where( p => p.AppId.Equals(_crmServicePrincipal)).ExecuteAsync().ConfigureAwait(false);
+            var currentPage = princs.CurrentPage;
 
-                foreach (var p in currentPage)
-                {
-                    if (p.AppId.EqualsIgnoreCase(_crmServicePrincipal))
-                        return p.ObjectId;
-                }
+            if (currentPage.Count > 0)
+                return currentPage[0].ObjectId;
 
-                if (!princs.MorePagesAvailable)
-                    break;
-
-                princs = await princs.GetNextPageAsync().ConfigureAwait(false);
-            } 
-
-            // NO NO NO! Null p should not happen!
             return null;
         }
 
@@ -150,8 +137,8 @@
                             };
 
                             vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
-                            System.Threading.Thread.Sleep(3000);
                             vault.Validate();
+                            System.Threading.Thread.Sleep(3000);
                         }
                     }
 
@@ -161,7 +148,7 @@
                     ape.Permissions = new Permissions(null, new[] { "get" });
                     ape.TenantId = new Guid(tenantId);
                     // ape.ApplicationId = new Guid(_crmServicePrincipal);
-                    ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id {a1685f9d-abab-4c93-957c-32ffd34cba2b}
+                    // ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id {a1685f9d-abab-4c93-957c-32ffd34cba2b}
                     ape.ObjectId = new Guid(GetCrmConnectorObjectID(graphToken, tenantId).Result);
                     vault.Properties.AccessPolicies.Add(ape);
 
