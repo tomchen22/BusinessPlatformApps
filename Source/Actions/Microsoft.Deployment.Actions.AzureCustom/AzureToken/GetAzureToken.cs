@@ -57,12 +57,21 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 
             if (oauthType.EqualsIgnoreCase("keyvault"))
             {
+                // Key vault token
                 builder = GetTokenUri2(primaryResponse["refresh_token"].ToString(), Constants.AzureKeyVaultApi, request.Info.WebsiteRootUrl, clientId);
                 content = new StringContent(builder.ToString());
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
                 response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
                 var secondaryResponse = JsonUtility.GetJsonObjectFromJsonString(response);
                 request.DataStore.AddToDataStore("kvToken", secondaryResponse);
+
+                // Token for graph API
+                builder = GetTokenUri2(primaryResponse["refresh_token"].ToString(), "https://graph.windows.net/", request.Info.WebsiteRootUrl, clientId);
+                content = new StringContent(builder.ToString());
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
+                var thirdResponse = JsonUtility.GetJsonObjectFromJsonString(response);
+                request.DataStore.AddToDataStore("graphToken", thirdResponse);
             }
 
             if (primaryResponse.SelectToken("error") != null)
