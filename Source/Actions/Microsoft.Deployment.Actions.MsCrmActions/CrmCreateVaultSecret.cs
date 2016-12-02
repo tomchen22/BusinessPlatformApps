@@ -15,18 +15,36 @@
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
     using System.IdentityModel.Tokens.Jwt;
-    
+    using Microsoft.Azure.ActiveDirectory.GraphClient;
+
     [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
     {
-        private readonly Guid _crmServicePrincipal = new Guid("b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"); // DO NOT CHANGE THIS
+        private const string _crmServicePrincipal = "b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"; // DO NOT CHANGE THIS
+        private async Task<string> GetCrmConnectorObjectID(string graphToken, string tenantId)
+        {
+            Uri servicePointUri = new Uri("https://graph.windows.net");
+            Uri serviceRoot = new Uri(servicePointUri, tenantId);
+            ActiveDirectoryClient adClient = new ActiveDirectoryClient(serviceRoot, async () => { return graphToken; });
+
+            var princs = await adClient.ServicePrincipals.Where( p => p.AppId.Equals(_crmServicePrincipal)).ExecuteAsync().ConfigureAwait(false);
+            var currentPage = princs.CurrentPage;
+
+            if (currentPage.Count > 0)
+                return currentPage[0].ObjectId;
+
+            return null;
+        }
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string kvToken = request.DataStore.GetJson("kvToken")["access_token"].ToString();
+            string graphToken = request.DataStore.GetJson("graphToken")["access_token"].ToString();
+            string crmToken = request.DataStore.GetValue("MsCrmToken");
 
 
+            // Get user's object ID and tenant ID (in the Azure subscription where the vault is created)
             string oid = null;
             string tenantId = null;
             int propCount = 0;
@@ -49,9 +67,20 @@
             }
 
 
+            // Get user's tenant ID in the CRM implicit subscription
+            string crmtenantId = null;
+            foreach (var c in new JwtSecurityToken(crmToken).Claims)
+            {
+                if (c.Type.EqualsIgnoreCase("tid"))
+                {
+                        crmtenantId = c.Value;
+                        break;
+                }
+            }
+
             string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
-            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
+            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpstv-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
             string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[0];
             string organizationId = request.DataStore.GetValue("OrganizationId");
@@ -75,7 +104,7 @@
                     {
                         if (v.Name.EqualsIgnoreCase(vaultName))
                         {
-                            vault = v;
+                            client.Vaults.Delete(resourceGroup, vaultName);
                             break;
                         }
                     }
@@ -108,6 +137,8 @@
                             };
 
                             vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                            vault.Validate();
+                            System.Threading.Thread.Sleep(3000);
                         }
                     }
 
@@ -116,18 +147,26 @@
                     AccessPolicyEntry ape = new AccessPolicyEntry();
                     ape.Permissions = new Permissions(null, new[] { "get" });
                     ape.TenantId = new Guid(tenantId);
-                    ape.ApplicationId = _crmServicePrincipal;
-                    ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id
+                    // ape.ApplicationId = new Guid(_crmServicePrincipal);
+                    // ape.ObjectId = new Guid("a1685f9d-abab-4c93-957c-32ffd34cba2b"); // CRM object id {a1685f9d-abab-4c93-957c-32ffd34cba2b}
+                    ape.ObjectId = new Guid(GetCrmConnectorObjectID(graphToken, tenantId).Result);
                     vault.Properties.AccessPolicies.Add(ape);
 
                     // Update permissions
                     vaultParams = new VaultCreateOrUpdateParameters(vault.Location, vault.Properties);
                     vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                    vault.Validate();
+                    System.Threading.Thread.Sleep(3000);
+
 
                     // Create the secret
                     KeyVaultClient kvClient = new KeyVaultClient( new TokenCredentials(kvToken));
-                    SecretBundle secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
-                                                 null, new SecretAttributes() { Enabled = true });
+                    SecretBundle secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri,
+                                                                        secretName,
+                                                                        connectionString,
+                                                                        new Dictionary<string, string>() { { organizationId, crmtenantId } },
+                                                                        null /* Do I need to set a content type? */,
+                                                                        new SecretAttributes() { Enabled = true });
 
                     request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
                     secretId = secret.Id;
