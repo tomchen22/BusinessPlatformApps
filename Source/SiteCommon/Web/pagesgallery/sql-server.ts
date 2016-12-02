@@ -35,6 +35,7 @@ export class SqlServer extends ViewModelBase {
 
     constructor() {
         super();
+        this.isValidated = false;
     }
 
     Invalidate() {
@@ -49,7 +50,7 @@ export class SqlServer extends ViewModelBase {
         this.isWindowsAuth = this.auth.toLowerCase() === 'windows';
     }
 
-    
+
 
     async OnValidate(): Promise<boolean> {
         this.isValidated = false;
@@ -112,6 +113,17 @@ export class SqlServer extends ViewModelBase {
             }
         }
 
+        if (this.useImpersonation) {
+            this.MS.DataStore.addToDataStore('CredentialTarget', 'pbi_sccm', DataStoreType.Private);
+            this.MS.DataStore.addToDataStore('CredentialUsername', this.username, DataStoreType.Private);
+            this.MS.DataStore.addToDataStore('CredentialPassword', this.password, DataStoreType.Private);
+
+            let responseVersion = await this.MS.HttpService.executeAsync('Microsoft-CredentialManagerWrite', body);
+            if (!responseVersion.IsSuccess) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -165,6 +177,5 @@ export class SqlServer extends ViewModelBase {
 
 
     async OnLoaded() {
-        this.isValidated = false;
     }
 }

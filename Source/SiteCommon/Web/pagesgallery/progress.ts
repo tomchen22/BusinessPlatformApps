@@ -36,6 +36,7 @@ export class ProgressViewModel extends ViewModelBase {
             if (!this.isUninstall) {
                 let body: any = {};
                 body.FileName = this.filename;
+                body.SqlServerIndex = this.sqlServerIndex;
                 let response = await this.MS.HttpService.executeAsync('Microsoft-WranglePBI', body);
                 if (response.IsSuccess) {
                     this.pbixDownloadLink = response.Body.value;
