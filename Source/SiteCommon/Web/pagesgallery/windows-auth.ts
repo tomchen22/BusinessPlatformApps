@@ -1,7 +1,7 @@
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 
-export class SearchTerms extends ViewModelBase {
+export class WindowsAuth extends ViewModelBase {
     username: string = '';
     password: string = '';
 
@@ -52,9 +52,11 @@ export class SearchTerms extends ViewModelBase {
         return this.isValidated;
     }
 
-   async OnLoaded(): Promise<void> {
-       var response = await this.MS.HttpService.executeAsync('Microsoft-GetCurrentUserAndDomain', {});
-       this.discoveredUsername = response.Body.Value;
-       this.loginSelectionChanged();
+    async OnLoaded(): Promise<void> {
+        if (!this.username) {
+            var response = await this.MS.HttpService.executeAsync('Microsoft-GetCurrentUserAndDomain', {});
+            this.discoveredUsername = response.Body.Value;
+            this.loginSelectionChanged();
+        }
    }
 }
