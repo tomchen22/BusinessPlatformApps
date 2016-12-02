@@ -22,6 +22,10 @@ export class SapSource extends ViewModelBase {
 
     async OnValidate(): Promise<boolean> {
         super.OnValidate();
+
+        this.isValidated = false;
+        this.showValidation = false;
+
         this.storeCredentials();
 
         await this.MS.HttpService.executeAsync('Microsoft-CredentialManagerWrite');

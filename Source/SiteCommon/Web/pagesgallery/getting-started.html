@@ -30,7 +30,7 @@
     </div>
 
     <!-- Registration -->
-    <div if.bind="registration">
+    <div class="st-text" if.bind="registration">
         <p class"st-text">${registration}</p>
 
         <p class="st-text">${MS.Translate.GETTING_STARTED_FIRST_NAME}</p>
@@ -61,7 +61,7 @@
 
         <p class="smallFontSize">
             <span>${registrationPrivacy}</span>
-            <span><a href.bind="registrationLink">${registrationPrivacyTitle}</a></span>
+            <span><a href.bind="registrationLink" target="_blank">${registrationPrivacyTitle}</a></span>
         <p>
     </div>
 </template>

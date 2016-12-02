@@ -39,6 +39,13 @@
           },
           {
             "name": "Microsoft-ValidatePowerShellVersion"
+          },
+          {
+            "name": "Microsoft-CredentialManagerWrite",
+            "CredentialTarget": "$('pbi_sccm', isSaved=true)",
+            "CredentialUsername": "$(this.username, isSaved=true)",
+            "CredentialPassword": "$(this.password, isSaved=true)",
+            "useImpersonation": true
           }
         ]
       },
@@ -56,7 +63,8 @@
         "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
         "onNext": [
           {
-            "name": "Microsoft-CheckSCCMVersion"
+            "name": "Microsoft-CheckSCCMVersion",
+            "useImpersonation": true
           },
           {
             "name": "Microsoft-ValidatePowerShellVersion"
@@ -71,16 +79,7 @@
         "checkSqlVersion": true,
         "useImpersonation": true,
         "title": "Connect to your SQL database",
-        "subtitle": "Set up a connection to your target database so we can transfer your data.",
-        "onNext": [
-          {
-            "name": "Microsoft-CredentialManagerWrite",
-            "CredentialTarget": "$('pbi_sccm', isSaved=true)",
-            "CredentialUsername": "$(this.username, isSaved=true)",
-            "CredentialPassword": "$(this.password, isSaved=true)",
-            "useImpersonation": true
-          }
-        ]
+        "subtitle": "Set up a connection to your target database so we can transfer your data."
       },
 
       // Customize
@@ -95,7 +94,8 @@
         "displayname": "Progress",
         "finishedActionName": "Microsoft-GetTaskStatus",
         "targetSchema": "pbist_sccm",
-        "filename": "$('SCCMSolutionTemplate.pbix', isSaved=true)"
+        "filename": "$('SCCMSolutionTemplate.pbix', isSaved=true)",
+        "showCounts": true
       }
     ],
 
