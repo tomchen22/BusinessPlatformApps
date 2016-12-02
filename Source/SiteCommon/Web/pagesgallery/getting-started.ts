@@ -12,6 +12,7 @@ export class Gettingstarted extends ViewModelBase {
     registrationAccepted: boolean = false;
     registrationAction: string = '';
     registrationCompany: string = '';
+    registrationDownload: string = '';
     registrationEmail: string = '';
     registrationEmailConfirmation: string = '';
     registrationEmailsToBlock: string = '';
@@ -32,12 +33,18 @@ export class Gettingstarted extends ViewModelBase {
 
     async GetDownloadLink() {
         let response = await this.MS.HttpService.executeAsync('Microsoft-GetMsiDownloadLink');
-        this.downloadLink = response.Body.value;
+        if (this.registration) {
+            this.registrationDownload = response.Body.value;
+        } else {
+            this.downloadLink = response.Body.value;
+        }
     }
 
     async OnLoaded() {
-        if (this.isDownload && !this.registration) {
+        if (this.isDownload) {
             this.GetDownloadLink();
+        } else {
+            this.registration = '';
         }
     }
 
@@ -62,7 +69,8 @@ export class Gettingstarted extends ViewModelBase {
         if (!this.registrationError) {
             let emailsToBlock: string[] = this.registrationEmailsToBlock.split(',');
             for (let i = 0; i < emailsToBlock.length && !this.registrationError; i++) {
-                let pattern: any = new RegExp(`.*${emailsToBlock[i]}`);
+                let emailToBlock: string = emailsToBlock[i].replace('.', '\\.');
+                let pattern: any = new RegExp(`.*${emailToBlock}`);
                 if (pattern.test(this.registrationEmail)) {
                     this.registrationError = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR_EMAIL;
                 }
@@ -72,7 +80,7 @@ export class Gettingstarted extends ViewModelBase {
         if (!this.registrationError) {
             await this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
             this.registration = '';
-            this.GetDownloadLink();
+            this.downloadLink = this.registrationDownload;
         }
     }
 }

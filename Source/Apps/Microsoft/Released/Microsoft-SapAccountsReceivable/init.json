@@ -52,7 +52,7 @@
                     "Import data into powerful Power BI reports"
                 ],
                 "name": "$SiteCommon$/pagesgallery/getting-started.html",
-                "registration": "$(this.MS.HttpService.isOnPremise ? '' : 'To use this solution template you need a trial with account with Simplement. Enter your information below to register with Simplement for 30 days. To extend the trial account with Simplement or arrange a proof of concept in your environment, contact Simplement.')",
+                "registration": "To use this solution template you need a trial account with Simplement. Enter your information below to register with Simplement for 30 days. To extend the trial account with Simplement or arrange a proof of concept in your environment, contact Simplement.",
                 "registrationAction": "Microsoft-PushToSimplement",
                 "registrationEmailsToBlock": "gmail.com,.me,yahoo.com,hotmail.com,msn.com,.ba,.bf,.cd,.cq,.iq,.ir,.kr",
                 "registrationLink": "http://www.simplement.us/privacy",
@@ -89,13 +89,20 @@
                 "subtitle": "Set up a connection to your target database so we can transfer your data.",
                 "onNext": [
                     {
+                        "name": "Microsoft-WriteSAPJson"
+                    },
+                    {
                         "name": "Microsoft-CredentialManagerWrite",
-                        "CredentialTarget": "$('sap', isSaved=true)",
-                        "CredentialUsername": "$(this.username, isSaved=true)",
-                        "CredentialPassword": "$(this.password, isSaved=true)",
+                        "CredentialTarget2": "$('Simplement.SolutionTemplate.AR.SQL', isSaved=true)",
+                        "CredentialUsername2": "$(this.username, isSaved=true)",
+                        "CredentialPassword2": "$(this.password, isSaved=true)",
                         "useImpersonation": true
                     }
                 ]
+            },
+            {
+                "name": "customize.html",
+                "displayname": "Customize"
             },
             {
                 "name": "$SiteCommon$/pagesgallery/progress.html",
