@@ -2,9 +2,12 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+using Microsoft.Deployment.Common.Model;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -25,6 +28,13 @@ namespace Microsoft.Deployment.Actions.Custom.SAP
 
             var sqlConnectionStrings = request.DataStore.GetAllValues("SqlConnectionString");
             string sqlConnectionString = sqlConnectionStrings != null ? sqlConnectionStrings[0] : string.Empty;
+            if (!string.IsNullOrEmpty(sqlConnectionString))
+            {
+                SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+                sqlCredentials.Username = string.Empty;
+                sqlCredentials.Password = string.Empty;
+                sqlConnectionString = SqlUtility.GetConnectionString(sqlCredentials);
+            }
 
             string jsonDestination = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), JSON_PATH);
             (new FileInfo(jsonDestination)).Directory.Create();
