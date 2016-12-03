@@ -28,6 +28,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var responseBody = JObject.FromObject(result.Body);
         }
 
+        [Ignore]
         [TestMethod]
         public async Task GetAzureTokenAndRefresh()
         {
@@ -37,8 +38,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             tokenObj.expires_on = ticks;
             DataStore datastore = new DataStore();
             datastore.AddToDataStore("AzureToken", JObject.FromObject(tokenObj), DataStoreType.Private);
-
-
 
             var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
         }
