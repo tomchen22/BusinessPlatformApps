@@ -145,6 +145,7 @@
     <Compile Include="AzureToken\GetAzureToken.cs" />
     <Compile Include="AzureToken\GetManagementCoreUri.cs" />
     <Compile Include="AzureToken\RefreshAzureToken.cs" />
+    <Compile Include="AzureUtility.cs" />
     <Compile Include="CDM\CheckCDMEntities.cs" />
     <Compile Include="CDM\CreateCDMEntity.cs" />
     <Compile Include="CDM\CreateDatabase.cs" />
