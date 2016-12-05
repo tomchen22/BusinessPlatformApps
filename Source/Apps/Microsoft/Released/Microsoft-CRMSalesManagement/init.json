@@ -74,10 +74,11 @@
                 "pricingCost": "$('By deploying the template you authorize the creation of Azure resources on your subscription. The base cost of these services is approximately $1.50 a day. The cost will vary with the amount of data that will be moved.')",
                 "pricingUrl": "SalesforcePricingURL"
             },
-            {
-                "displayname": "Progress",
-                "name": "$SiteCommon$/pagesgallery/progress.html"
-            }
+          {
+            "displayname": "Progress",
+            "name": "$SiteCommon$/pagesgallery/progress.html",
+            "filename": "$('SalesManagementReport.pbix', isSaved=true)"
+          }
         ]
     },
     "Uninstall": {
