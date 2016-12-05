@@ -117,11 +117,11 @@
             {
                 "name": "$SiteCommon$/pagesgallery/uninstall.html",
                 "displayname": "Uninstall",
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
-                "templateName": "System Center Configuration Manager",
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
+                "templateName": "Accounts Receivable Reporting for SAP",
                 "isDownload": "$(!this.MS.HttpService.isOnPremise)",
                 "uninstallList": [
-                    "The task used to move data between the SCCM database and the target database",
+                    "The task used to move data between the SAP application server and the target database",
                     "The scripts used to create the initial tables in the target database"
                 ],
                 "showBack": "$(false)"
@@ -137,16 +137,17 @@
             {
                 "name": "Microsoft-RemoveTask",
                 "displayname": "Remove task",
-                "TaskName": "Power BI Solution Template - SCCM"
-            },
-            {
-                "name": "Microsoft-RemoveFiles",
-                "displayname": "Remove files"
+                "TaskName": "Power BI Solution Template - Simplement SAP AR"
             },
             {
                 "name": "Microsoft-RemoveFiles",
                 "displayname": "Finishing cleanup",
-                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
+                "TargetPath": "C:\\ProgramData\\Simplement, Inc"
+            },
+            {
+                "name": "Microsoft-RemoveFiles",
+                "displayname": "Finishing cleanup",
+                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
             }
         ]
     }

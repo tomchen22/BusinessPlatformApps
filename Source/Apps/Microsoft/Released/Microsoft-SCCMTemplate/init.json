@@ -39,13 +39,6 @@
           },
           {
             "name": "Microsoft-ValidatePowerShellVersion"
-          },
-          {
-            "name": "Microsoft-CredentialManagerWrite",
-            "CredentialTarget": "$('pbi_sccm', isSaved=true)",
-            "CredentialUsername": "$(this.username, isSaved=true)",
-            "CredentialPassword": "$(this.password, isSaved=true)",
-            "useImpersonation": true
           }
         ]
       },
@@ -79,7 +72,8 @@
         "checkSqlVersion": true,
         "useImpersonation": true,
         "title": "Connect to your SQL database",
-        "subtitle": "Set up a connection to your target database so we can transfer your data."
+        "subtitle": "Set up a connection to your target database so we can transfer your data.",
+        
       },
 
       // Customize
@@ -95,7 +89,8 @@
         "finishedActionName": "Microsoft-GetTaskStatus",
         "targetSchema": "pbist_sccm",
         "filename": "$('SCCMSolutionTemplate.pbix', isSaved=true)",
-        "showCounts": true
+        "showCounts": true,
+        "sqlServerIndex": 1 
       }
     ],
 
