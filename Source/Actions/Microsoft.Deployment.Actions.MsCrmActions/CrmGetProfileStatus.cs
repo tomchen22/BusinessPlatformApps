@@ -28,7 +28,7 @@
                 bool done = true;
                 for (int i=0; done && i<profile.Entities.Length; i++)
                 {
-                    done = done && profile.Entities[i].Status.InitialSyncState.EqualsIgnoreCase("Completed");
+                    done = done && (profile.Entities[i].Status.InitialSyncState.EqualsIgnoreCase("Completed") || profile.Entities[i].Status.InitialSyncState.EqualsIgnoreCase("CompletedWithFailures"));
                 }
                 
                 if (done)

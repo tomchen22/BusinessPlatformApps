@@ -46,7 +46,7 @@ The flow of the SCCM solution template is as follows:
 
     -   Microsoft .NET Framework 4.5 or later.
 
-    -   PowerShell version 3.0 or later.
+    -   PowerShell version 5.0 or later.
 
     -   For Operating System: Windows Server 2008 R2 SP1, or later. Windows 7 Professional, Enterprise, or later. Note that Windows 10 anniversary update (1607 or later) is not supported at this moment because of a bug in credential guard.
 
