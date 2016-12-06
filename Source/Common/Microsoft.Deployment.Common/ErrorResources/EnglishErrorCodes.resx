@@ -222,4 +222,7 @@
   <data name="SalesforceLoginInvalid" xml:space="preserve">
     <value>Login failed, check that you have entered the correct username, password and token.</value>
   </data>
+  <data name="MsCrm_ErrorRegisterKv" xml:space="preserve">
+    <value>Cannot register the KeyVault as a provider in this subscription</value>
+  </data>
 </root>
