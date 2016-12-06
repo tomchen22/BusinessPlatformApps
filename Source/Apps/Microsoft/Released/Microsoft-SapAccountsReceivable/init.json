@@ -103,13 +103,14 @@
                 "name": "customize.html",
                 "displayname": "Customize"
             },
-            {
-                "name": "$SiteCommon$/pagesgallery/progress.html",
-                "displayname": "Progress",
-                "finishedActionName": "Microsoft-GetTaskStatus",
-                "targetSchema": "sap",
-                "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)"
-            }
+          {
+            "name": "$SiteCommon$/pagesgallery/progress.html",
+            "displayname": "Progress",
+            "finishedActionName": "Microsoft-GetTaskStatus",
+            "targetSchema": "sap",
+            "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)",
+            "showEmailSubmission": false
+          }
         ]
     },
     "Uninstall": {
