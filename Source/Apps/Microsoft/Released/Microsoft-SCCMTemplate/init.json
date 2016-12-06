@@ -90,7 +90,8 @@
         "targetSchema": "pbist_sccm",
         "filename": "$('SCCMSolutionTemplate.pbix', isSaved=true)",
         "showCounts": true,
-        "sqlServerIndex": 1 
+        "sqlServerIndex": 1,
+        "showEmailSubmission": false
       }
     ],
 
