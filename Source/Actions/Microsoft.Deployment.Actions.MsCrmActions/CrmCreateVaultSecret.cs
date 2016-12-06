@@ -87,8 +87,8 @@
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
-            string refreshToken = request.DataStore.GetJson("AzureToken")["refresh_token"].ToString();
+            string azureToken = request.DataStore.GetJson("AzureTokenKV")["access_token"].ToString();
+            string refreshToken = request.DataStore.GetJson("AzureTokenKV")["refresh_token"].ToString();
             string crmToken = request.DataStore.GetValue("MsCrmToken");
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             string vaultName = request.DataStore.GetValue("VaultName") ?? "bpstv-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
@@ -97,31 +97,6 @@
             string organizationId = request.DataStore.GetValue("OrganizationId");
 
             _subscriptionId = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
-
-            // Make sure the Key Vault is registered
-
-            SubscriptionCloudCredentials creds = new TokenCloudCredentials(_subscriptionId, azureToken);
-            ResourceManagementClient managementClient = new ResourceManagementClient(creds);
-            ProviderListResult providersResult = managementClient.Providers.List(null);
-            
-            bool kvExists = false;
-            foreach (var p in providersResult.Providers)
-            {
-                if (p.Namespace.EqualsIgnoreCase("Microsoft.KeyVault"))
-                {
-                    kvExists = p.RegistrationState.EqualsIgnoreCase("Registered");
-                    break;
-                }
-            }
-
-            if (!kvExists)
-            {
-                ProviderRegistionResult result = await managementClient.Providers.RegisterAsync("Microsoft.KeyVault");
-                if (result.StatusCode != System.Net.HttpStatusCode.OK)
-                {
-                    return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
-                }
-            }
 
             RetrieveKVToken(refreshToken, request.Info.WebsiteRootUrl, request.DataStore);
             RetrieveGraphToken(refreshToken, request.Info.WebsiteRootUrl, request.DataStore);
