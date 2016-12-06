@@ -19,11 +19,6 @@ namespace Microsoft.Deployment.Actions.Custom
                             ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
                             : request.DataStore.GetValue("TargetPath");
 
-            if (Directory.GetDirectories(FileUtility.GetLocalTemplatePath(request.Info.AppName) + "\\..").Length <= 1)
-            {
-                targetPath = targetPath + "\\..";
-            }
-
             ActionResponse response = null;
 
             if (Directory.Exists(targetPath))
