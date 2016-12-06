@@ -28,13 +28,14 @@
                 bool done = true;
                 for (int i=0; done && i<profile.Entities.Length; i++)
                 {
-                    done = done && profile.Entities[i].Status.InitialSyncState.EqualsIgnoreCase("done");
+                    done = done && profile.Entities[i].Status.InitialSyncState.EqualsIgnoreCase("Completed");
                 }
                 
                 if (done)
                     return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
                 else
                     return new ActionResponse(ActionStatus.BatchNoState, JsonUtility.GetEmptyJObject());
+
             }
             catch (Exception e)
             {
