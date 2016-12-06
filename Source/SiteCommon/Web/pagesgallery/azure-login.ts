@@ -35,14 +35,25 @@ export class AzureLogin extends ViewModelBase {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
                 let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
+                if (!token) {
+                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
+                    this.MS.ErrorService.details = queryParam;
+                    this.MS.ErrorService.showContactUs = true;
+                }
+
                 var tokenObj = { code: token };
                 this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
                 if (this.authToken.IsSuccess) {
-                    this.MS.DataStore.addToDataStore('AzureToken', this.authToken.Body.AzureToken, DataStoreType.Private);
-                    let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
+                    this.MS.DataStore.addToDataStore('AzureToken',
+                        this.authToken.Body.AzureToken,
+                        DataStoreType.Private);
+                    let subscriptions: ActionResponse = await this.MS.HttpService
+                        .executeAsync('Microsoft-GetAzureSubscriptions', {});
                     if (subscriptions.IsSuccess) {
                         this.subscriptionsList = subscriptions.Body.value;
-                        if (!this.subscriptionsList || (this.subscriptionsList && this.subscriptionsList.length === 0)) {
+                        if (!this
+                            .subscriptionsList ||
+                            (this.subscriptionsList && this.subscriptionsList.length === 0)) {
                             this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
                         } else {
                             this.showPricingConfirmation = true;
@@ -51,7 +62,7 @@ export class AzureLogin extends ViewModelBase {
                 }
 
                 this.MS.UtilityService.RemoveItem('queryUrl');
-            }
+            } 
         }
     }
 

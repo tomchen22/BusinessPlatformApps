@@ -30,6 +30,20 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
         [Ignore]
         [TestMethod]
+        public async Task GetAzureTokenAndRefresh()
+        {
+            string ticks = "1480723773";
+            dynamic tokenObj = new ExpandoObject();
+            tokenObj.access_token = "FAKE";
+            tokenObj.expires_on = ticks;
+            DataStore datastore = new DataStore();
+            datastore.AddToDataStore("AzureToken", JObject.FromObject(tokenObj), DataStoreType.Private);
+
+            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
+        }
+
+        [Ignore]
+        [TestMethod]
         public async Task DeployArmTemplateTest()
         {
             var datastore = await TestHarness.GetCommonDataStore();

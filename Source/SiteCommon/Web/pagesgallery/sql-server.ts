@@ -118,6 +118,10 @@ export class SqlServer extends ViewModelBase {
             this.MS.DataStore.addToDataStore('CredentialUsername', this.username, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('CredentialPassword', this.password, DataStoreType.Private);
 
+            body.CredentialTarget = 'pbi_sccm';
+            body.CredentialUsername = this.username;
+            body.CredentialPassword = this.password;
+
             let responseVersion = await this.MS.HttpService.executeAsync('Microsoft-CredentialManagerWrite', body);
             if (!responseVersion.IsSuccess) {
                 return false;
@@ -142,7 +146,7 @@ export class SqlServer extends ViewModelBase {
         body['SqlCredentials']['Server'] = this.getSqlServer();
         body['SqlCredentials']['User'] = this.username;
         body['SqlCredentials']['Password'] = this.password;
-        body['SqlCredentials']['AuthType'] = this.isWindowsAuth ? 'windows' : 'sql';
+        body['SqlCredentials']['AuthType'] = this.isWindowsAuth && !this.isAzureSql ? 'windows' : 'sql';
 
         if (this.isAzureSql) {
             body['SqlCredentials']['AuthType'] = 'sql';

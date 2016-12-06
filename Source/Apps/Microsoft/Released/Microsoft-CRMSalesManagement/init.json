@@ -72,10 +72,11 @@
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "oauthType": "mscrm"
             },
-            {
-                "displayname": "Progress",
-                "name": "$SiteCommon$/pagesgallery/progress.html"
-            }
+          {
+            "displayname": "Progress",
+            "name": "$SiteCommon$/pagesgallery/progress.html",
+            "filename": "$('SalesManagementReport.pbix', isSaved=true)"
+          }
         ]
     },
     "Uninstall": {
