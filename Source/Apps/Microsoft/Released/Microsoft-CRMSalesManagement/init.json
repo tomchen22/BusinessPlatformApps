@@ -42,18 +42,22 @@
                 "displayname": "Getting Started",
                 "list1": [
                     "Full cloud solution with minimum set up and maintenance considerations",
-                    "Data pulled from Dynamics CRM into an Azure SQL Database using the Dynamics CRM Export Service",
+                    "Data pulled from Dynamics 365 into an Azure SQL Database using the Dynamics 365 Export Service",
                     "Connect to Azure SQL and import data into Power BI"
                 ],
                 "name": "$SiteCommon$/pagesgallery/getting-started.html",
-                "templateName": "Sales Management for Dynamics CRM"
+                "templateName": "Sales Management for Dynamics 365"
             },
             {
                 "displayname": "Login",
                 "name": "$SiteCommon$/pagesgallery/azure-login.html",
-                "oauthType": "keyvault",
                 "pricingCost": "By deploying the template you authorize the creation of Azure resources on your subscription. On top of the database, the Key Vault adds an extra $1 per month. The cost will vary with the amount of data that will be moved.",
                 "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
+            },
+            {
+                "displayname": "Login to the Key Vault",
+                "name": "$SiteCommon$/pagesgallery/keyvault-login.html",
+                "oauthType": "keyvault"
             },
             {
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
@@ -63,20 +67,21 @@
                 "showAzureSql": true,
                 "showNewSqlOption": true,
                 "sqlInstance": "NewSql",
-                "subtitle": "Set up a connection to SQL so we can bring in your Dynamics CRM data.",
+                "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
                 "title": "Connect to your SQL Database"
             },
             {
-                "displayname": "Dynamics CRM Login",
+                "displayname": "Dynamics 365 Login",
                 "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "oauthType": "mscrm"
             },
-          {
-            "displayname": "Progress",
-            "name": "$SiteCommon$/pagesgallery/progress.html",
-            "filename": "$('SalesManagementReport.pbix', isSaved=true)"
-          }
+            {
+                "displayname": "Progress",
+                "name": "$SiteCommon$/pagesgallery/progress.html",
+                "filename": "$('SalesManagementReport.pbix', isSaved=true)",
+                "showCounts": true
+            }
         ]
     },
     "Uninstall": {
