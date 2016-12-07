@@ -164,6 +164,8 @@
     <Compile Include="Arm\DeployAzureArmTemplate.cs" />
     <Compile Include="Arm\GetArmDeploymentStatus.cs" />
     <Compile Include="Arm\WaitForArmDeploymentStatus.cs" />
+    <Compile Include="AzureAS\DeployAzureASScheduler.cs" />
+    <Compile Include="AzureAS\DeployAzureASModel.cs" />
     <Compile Include="AzureSql\CreateAzureSql.cs" />
     <Compile Include="AzureToken\GetAzureAuthUri.cs" />
     <Compile Include="AzureToken\GetAzureToken.cs" />
@@ -193,6 +195,7 @@
     <Compile Include="Common\GetCognitiveKey.cs" />
     <Compile Include="Common\GetLocations.cs" />
     <Compile Include="Common\GetResource.cs" />
+    <Compile Include="AzureAS\DeployAzureAnalysisServices.cs" />
     <Compile Include="Common\GetStorageAccountKey.cs" />
     <Compile Include="News\DeployAzureMLWorkspace.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
