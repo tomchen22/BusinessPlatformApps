@@ -48,7 +48,10 @@ namespace Microsoft.Deployment.Actions.Test
         [AssemblyCleanup]
         public static void Cleanup()
         {
-            RemoveTempDB();
+            if (!string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
+                RemoveTempDB();
+            }
         }
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
@@ -83,7 +86,10 @@ namespace Microsoft.Deployment.Actions.Test
         {
             var dataStore = await GetCommonDataStore();
 
-            CreateTempDB();
+            if (string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
+                CreateTempDB();
+            }
 
             var connString = (GetSqlPagePayload(CurrentDatabase).Body as JObject)["value"].ToString();
 
