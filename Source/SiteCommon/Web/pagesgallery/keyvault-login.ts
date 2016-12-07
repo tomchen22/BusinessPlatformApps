@@ -15,29 +15,34 @@ export class KeyVaultLogin extends AzureLogin {
         this.isValidated = false;
         this.showValidation = false;
 
-        let queryParam = this.MS.UtilityService.GetItem('queryUrl');
-        if (queryParam) {
-            let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
-            if (token === '') {
-                this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
-                this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
-                this.MS.ErrorService.showContactUs = true;
-                return;
-            }
-            var tokenObj = {
-                code: token
-            };
-            this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
-            if (this.authToken.IsSuccess) {
-                this.MS.DataStore.addToDataStore('AzureTokenKV',
-                    this.authToken.Body.AzureToken,
-                    DataStoreType.Private);
+        if (this.hasToken) {
+            this.isValidated = true;
+            this.showValidation = true;
+        } else {
+            let queryParam = this.MS.UtilityService.GetItem('queryUrl');
+            if (queryParam) {
+                let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
+                if (token === '') {
+                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
+                    this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
+                    this.MS.ErrorService.showContactUs = true;
+                    return;
+                }
+                var tokenObj = {
+                    code: token
+                };
+                this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
+                if (this.authToken.IsSuccess) {
+                    this.MS.DataStore.addToDataStore('AzureTokenKV',
+                        this.authToken.Body.AzureToken,
+                        DataStoreType.Private);
 
-                this.hasToken = true;
-                this.isValidated = true;
-                this.showValidation = true;
+                    this.hasToken = true;
+                    this.isValidated = true;
+                    this.showValidation = true;
+                }
+                this.MS.UtilityService.RemoveItem('queryUrl');
             }
-            this.MS.UtilityService.RemoveItem('queryUrl');
         }
     }
 
