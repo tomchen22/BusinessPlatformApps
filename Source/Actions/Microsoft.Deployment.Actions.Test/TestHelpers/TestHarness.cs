@@ -28,6 +28,8 @@ namespace Microsoft.Deployment.Actions.Test
         private static DataStore CommonDataStoreServicePrincipal = null;
         private static DataStore CommonDataStoreUserToken = null;
         private static string ResourceGroup = "UnitTest" + RandomGenerator.GetRandomLowerCaseCharacters(5);
+        private static string CurrentDatabase = string.Empty;
+
 
         [AssemblyInitialize()]
         public static void AssemblyInit(TestContext context)
@@ -73,7 +75,7 @@ namespace Microsoft.Deployment.Actions.Test
         {
             if (CommonDataStoreServicePrincipal == null)
             {
-                CommonDataStoreServicePrincipal = await SetUp();
+                CommonDataStoreServicePrincipal = await SetUp(false);
             }
 
             DataStore store =
@@ -96,7 +98,7 @@ namespace Microsoft.Deployment.Actions.Test
         public static async Task<DataStore> SetUp(bool getUserToken = false)
         {
             DataStore dataStore = null;
-            if(getUserToken)
+            if (getUserToken)
             {
                 dataStore = await AAD.GetUserTokenFromPopup();
             }
@@ -104,6 +106,11 @@ namespace Microsoft.Deployment.Actions.Test
             {
                 dataStore = await AAD.GetTokenWithDataStore();
             }
+            
+            dataStore = await SetupDatastore(dataStore);
+            return dataStore;
+        }
+
         public static async Task<DataStore> GetCommonDataStoreWithSql()
         {
             var dataStore = await GetCommonDataStore();
@@ -117,10 +124,8 @@ namespace Microsoft.Deployment.Actions.Test
             return dataStore;
         }
 
-        public static async Task<bool> SetUp()
+        public static async Task<DataStore> SetupDatastore(DataStore dataStore)
         {
-            CommonDataStore = await AAD.GetTokenWithDataStore();
-
             var subscriptionResult = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
             Assert.IsTrue(subscriptionResult.IsSuccess);
             var subscriptionId =
@@ -142,7 +147,6 @@ namespace Microsoft.Deployment.Actions.Test
 
             var resourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-CreateResourceGroup", dataStore);
             Assert.IsTrue(resourceGroupResult.IsSuccess);
-
             return dataStore;
         }
 
