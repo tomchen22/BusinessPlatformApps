@@ -1,0 +1,49 @@
+﻿{
+  "Install": {
+    "Pages": [
+      {
+        "displayname": "Getting Started",
+        "list1": [
+          "Full cloud solution with minimum set up and maintenance considerations",
+          "Data pulled from Dynamics 365 into an Azure SQL Database using the Dynamics 365 Export Service",
+          "Connect to Azure SQL and import data into Power BI"
+        ],
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "templateName": ""
+      }
+    ],
+    "Actions": [
+      {
+        "name": "Microsoft-DeploySQLScripts",
+        "displayname": "Deploy DB Scripts",
+        "SqlServerIndex": "0",
+        "SqlScriptsFolder": "Service/Database"
+      },
+      {
+        "name": "Microsoft-CreateConnectorToLogicApp",
+        "displayname": "Create Azure ML Connector",
+        "ConnectorName": "azureml"
+      },
+      {
+        "name": "Microsoft-CreateConnectorToLogicApp",
+        "displayname": "Create Azure Blob Connector",
+        "ConnectorName": "azureblob"
+      },
+      {
+        "name": "Microsoft-CreateConnectorToLogicApp",
+        "displayname": "Create SQL Connector",
+        "ConnectorName": "sql"
+      },
+      {
+        "name": "Microsoft-CreateConnectorToLogicApp",
+        "displayname": "Create Bing News Connector",
+        "ConnectorName": "bingnews"
+      },
+      {
+        "name": "Microsoft-CreateConnectorToLogicApp",
+        "displayname": "Create Cognitive Text Analytics Connector",
+        "ConnectorName": "cognitiveservicetextanalytics"
+      }
+    ]
+  }
+}
