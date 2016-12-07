@@ -24,19 +24,19 @@
     },
     "variables": {},
     "resources": [
-      {
-        "comments": "",
-        "type": "Microsoft.CognitiveServices/accounts",
-        "sku": {
-          "name": "[parameters('skuName')]"
-        },
-        "kind": "TextAnalytics",
-        "name": "[parameters('CognitiveServiceName')]",
-        "apiVersion": "2016-02-01-preview",
-        "location": "[resourceGroup().location]",
-        "properties": {},
-        "resources": [],
-        "dependsOn": []
-      }
+        {
+            "comments": "",
+            "type": "Microsoft.CognitiveServices/accounts",
+            "sku": {
+                "name": "[parameters('skuName')]"
+            },
+            "kind": "[parameters('cognitiveServiceType')]",
+            "name": "[parameters('CognitiveServiceName')]",
+            "apiVersion": "2016-02-01-preview",
+          "location": "[parameters('location')]",
+            "properties": {},
+            "resources": [],
+            "dependsOn": []
+        }
     ]
 }
