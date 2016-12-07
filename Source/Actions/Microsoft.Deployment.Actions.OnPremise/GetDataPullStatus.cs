@@ -67,8 +67,10 @@ namespace Microsoft.Deployment.Actions.OnPremise
 
             ActionResponse finishedResponse = await RequestUtility.CallAction(request, finishedActionName);
 
-            var content = JObject.FromObject(finishedResponse.Body)["value"]?.ToString();
+            if (response.Status == ActionStatus.BatchNoState && finishedResponse.Status == ActionStatus.BatchNoState)
+                return response;
 
+            var content = JObject.FromObject(finishedResponse.Body)["value"]?.ToString();
             if ((isPullingData && finishedResponse.Status != ActionStatus.Failure) || finishedResponse.Status == ActionStatus.Success)
             {
                 var resp = new ActionResponse();
@@ -104,7 +106,7 @@ namespace Microsoft.Deployment.Actions.OnPremise
                      "\",status:" + JsonUtility.Serialize(recordCounts) +
                     ", slices:" + JObject.FromObject(finishedResponse.Body)["value"]?.ToString() + "}"));
                 }
-                else
+                else 
                 {
                     resp = new ActionResponse(ActionStatus.Success,
                         JsonUtility.GetJsonObjectFromJsonString(

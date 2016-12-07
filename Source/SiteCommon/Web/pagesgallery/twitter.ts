@@ -1,8 +1,8 @@
+import { QueryParameter } from '../base/query-parameter';
+
+import { ActionStatus } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
-import { ActionStatus } from '../services/actionresponse';
-
-import { QueryParameter } from '../base/query-parameter';
 
 export class Twitter extends ViewModelBase {
     authToken: any = {};
@@ -46,7 +46,6 @@ export class Twitter extends ViewModelBase {
                     this.showValidation = true;
                 }
             }
-
 
             this.MS.UtilityService.RemoveItem('queryUrl');
         } else {

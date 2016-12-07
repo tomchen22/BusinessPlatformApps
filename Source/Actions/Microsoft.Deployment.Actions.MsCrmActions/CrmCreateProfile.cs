@@ -5,7 +5,6 @@
     using Microsoft.Deployment.Common.Helpers;
     using Model;
     using Newtonsoft.Json;
-    using Newtonsoft.Json.Linq;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
@@ -81,6 +80,9 @@
                 string response = await _rc.Post(MsCrmEndpoints.URL_PROFILES, JsonConvert.SerializeObject(profile));
                 MsCrmProfile createdProfile = JsonConvert.DeserializeObject<MsCrmProfile>(response);
 
+                request.DataStore.AddToDataStore("ProfileName", createdProfile.Name, DataStoreType.Public);
+                request.DataStore.AddToDataStore("ProfileId", createdProfile.Id, DataStoreType.Public);
+                
                 return new ActionResponse(ActionStatus.Success, createdProfile.Id);
             }
             catch (Exception e)

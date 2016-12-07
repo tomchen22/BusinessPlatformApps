@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
+using Microsoft.Deployment.Common.Helpers;
 using Newtonsoft.Json.Linq;
 using Simple.CredentialManager;
 
@@ -14,17 +15,27 @@ namespace Microsoft.Deployment.Actions.OnPremise.CredentialManager
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string targetName = request.DataStore.GetValue("CredentialTarget");
-            string userName = request.DataStore.GetValue("CredentialUsername");
-            string password = request.DataStore.GetValue("CredentialPassword");
+            string targetName = request.DataStore.GetValue("CredentialTarget2") ?? request.DataStore.GetValue("CredentialTarget");
+            string userName = request.DataStore.GetValue("CredentialUsername2") ?? request.DataStore.GetValue("CredentialUsername");
+            string password = request.DataStore.GetValue("CredentialPassword2") ?? request.DataStore.GetValue("CredentialPassword");
 
-            Credential c = new Credential(userName, password, targetName, CredentialType.Generic);
-            c.PersistenceType = PersistenceType.LocalComputer;
+            ActionResponse response = await RequestUtility.CallAction(request, "Microsoft-CredentialManagerDelete");
+            if (response.Status == ActionStatus.Failure)
+                return response;
+
+            if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
+                return new ActionResponse(ActionStatus.Success, new JObject());
+
+            Credential c = new Credential(userName, password, targetName, CredentialType.Generic)
+            {
+                PersistenceType = PersistenceType.LocalComputer
+            };
 
             if (c.Save())
                 return new ActionResponse(ActionStatus.Success, new JObject());
             else
-                return new ActionResponse(ActionStatus.Failure, new JObject(), new Win32Exception(Marshal.GetLastWin32Error()), "CredMgrWriteError");
+                return new ActionResponse(ActionStatus.Failure, new JObject(),
+                    new Win32Exception(Marshal.GetLastWin32Error()), "CredMgrWriteError");
         }
     }
 }

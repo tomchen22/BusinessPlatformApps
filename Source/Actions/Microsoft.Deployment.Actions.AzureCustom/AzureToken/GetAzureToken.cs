@@ -12,6 +12,7 @@ using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
 using Newtonsoft.Json.Linq;
 
+
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 {
     [Export(typeof(IAction))]
@@ -20,45 +21,58 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string code = request.DataStore.GetValue("code");
-            var aadTenant = request.DataStore.GetValue("AADTenant");
-
+            string aadTenant = request.DataStore.GetValue("AADTenant");
+            string oauthType = (request.DataStore.GetValue("oauthType") ?? string.Empty).ToLowerInvariant();
             string api;
             string clientId;
             string tokenUrl;
-            if (!string.IsNullOrEmpty(request.DataStore.GetValue("IsMsCrm")))
+
+            switch (oauthType)
             {
-                api = Constants.MsCrmResource;
-                clientId = Constants.MsCrmClientId;
-                tokenUrl = Constants.MsCrmToken;
+                case "mscrm":
+                    api = Constants.MsCrmResource;
+                    clientId = Constants.MsCrmClientId;
+                    tokenUrl = Constants.MsCrmToken;
+                    break;
+                case "keyvault":
+                    api = Constants.AzureManagementCoreApi;
+                    clientId = Constants.MicrosoftClientIdCrm;
+                    tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
+                    break;
+                default:
+                    api = Constants.AzureManagementCoreApi;
+                    clientId = Constants.MicrosoftClientId;
+                    tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
+                    break;
             }
-            else
+
+            JObject primaryResponse = null;
+            JObject obj = null;
+
+            using (HttpClient client = new HttpClient())
             {
-                api = Constants.AzureManagementCoreApi;
-                clientId = Constants.MicrosoftClientId;
-                tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
+
+                var builder = GetTokenUri(code, api, request.Info.WebsiteRootUrl, clientId);
+                var content = new StringContent(builder.ToString());
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                var response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
+
+                primaryResponse = JsonUtility.GetJsonObjectFromJsonString(response);
+                obj = new JObject(new JProperty("AzureToken", primaryResponse));
+
+                if (primaryResponse.SelectToken("error") != null)
+                {
+                    return new ActionResponse(ActionStatus.Failure, obj, null,
+                        DefaultErrorCodes.DefaultLoginFailed,
+                        primaryResponse.SelectToken("error_description")?.ToString());
+                }
             }
 
-            HttpClient client = new HttpClient();
-
-            var builder = GetTokenUri(code, api, request.Info.WebsiteRootUrl, clientId);
-            var content = new StringContent(builder.ToString());
-            content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
-            var response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
-
-            var primaryResponse = JsonUtility.GetJsonObjectFromJsonString(response);
-
-            var obj = new JObject(new JProperty("AzureToken", primaryResponse));
-
-            if (primaryResponse.SelectToken("error") != null)
-            {
-                return new ActionResponse(ActionStatus.Failure, obj, null, 
-                    DefaultErrorCodes.DefaultLoginFailed, 
-                    primaryResponse.SelectToken("error_description")?.ToString());
-            }
 
             request.DataStore.AddToDataStore("AzureToken", primaryResponse);
 
             return new ActionResponse(ActionStatus.Success, obj, true);
+
         }
 
         private static StringBuilder GetTokenUri(string code, string uri, string rootUrl, string clientId)

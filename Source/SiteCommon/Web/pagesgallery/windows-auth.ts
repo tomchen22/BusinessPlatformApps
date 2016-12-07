@@ -1,7 +1,7 @@
-import {ViewModelBase} from '../services/viewmodelbase';
-import {DataStoreType} from '../services/datastore';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
-export class SearchTerms extends ViewModelBase {
+export class WindowsAuth extends ViewModelBase {
     username: string = '';
     password: string = '';
 
@@ -44,21 +44,19 @@ export class SearchTerms extends ViewModelBase {
         this.MS.DataStore.addToDataStore('ImpersonationPassword', this.password, DataStoreType.Private);
 
         let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateNtCredential', {});
-        if (!response.IsSuccess) {
-            return false;
+        if (response.IsSuccess) {
+            this.isValidated = true;
         }
 
-        if (!super.OnValidate()) {
-            return false;
-        }
-
-        this.isValidated = true;
-        return true;
+        super.OnValidate();
+        return this.isValidated;
     }
 
-   async OnLoaded(): Promise<void> {
-       var response = await this.MS.HttpService.executeAsync('Microsoft-GetCurrentUserAndDomain', {});
-       this.discoveredUsername = response.Body.Value;
-       this.loginSelectionChanged();
+    async OnLoaded(): Promise<void> {
+        if (!this.username) {
+            var response = await this.MS.HttpService.executeAsync('Microsoft-GetCurrentUserAndDomain', {});
+            this.discoveredUsername = response.Body.Value;
+            this.loginSelectionChanged();
+        }
    }
 }

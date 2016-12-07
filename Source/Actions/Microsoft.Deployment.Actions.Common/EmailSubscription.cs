@@ -1,10 +1,8 @@
 ﻿using System.ComponentModel.Composition;
-using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
-using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
 
 namespace Microsoft.Deployment.Actions.Common
@@ -14,15 +12,13 @@ namespace Microsoft.Deployment.Actions.Common
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string emailAddress = request.DataStore.GetValue("EmailAddress") == null
-                 ? string.Empty
-                 : request.DataStore.GetValue("EmailAddress");
-            if (!string.IsNullOrEmpty(emailAddress))
-            {
-                request.Logger.LogCustomProperty("Email", emailAddress);
-            }
+            string emailAddress = request.DataStore.GetValue("EmailAddress");
+            string nameFirst = request.DataStore.GetValue("NameFirst");
+            string nameLast = request.DataStore.GetValue("NameLast");
 
-            return new ActionResponse(ActionStatus.Success);
+            request.Logger.LogEmailSubscription(emailAddress, nameFirst, nameLast);
+
+            return new ActionResponse(ActionStatus.Invisible, JsonUtility.GetEmptyJObject());
         }
     }
 }

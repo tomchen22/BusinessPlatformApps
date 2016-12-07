@@ -1,11 +1,6 @@
 ﻿<template bindable="viewmodel">
-    <h1 class="st-title">Verify and run solution</h1>
-
-    <p class="st-subtitle">
-        Please verify that the information provided below is correct. If you are ready click Run to begin
-        building the solution template. This will also download the pbix file which you can begin exploring as
-        soon as the setup finishes.
-    </p>
+    <h1 class="st-title">${MS.Translate.SUMMARY_TITLE}</h1>
+    <p class="st-subtitle">${MS.Translate.SUMMARY_SUBTITLE}</p>
 
     <div class="st-text">
         <div class="st-verify" repeat.for="row of summaryRows">

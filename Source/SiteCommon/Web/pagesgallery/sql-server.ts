@@ -1,7 +1,8 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from '../services/datastore';
-import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+
 import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class SqlServer extends ViewModelBase {
     subtitle: string = '';
@@ -48,6 +49,8 @@ export class SqlServer extends ViewModelBase {
     onAuthChange() {
         this.isWindowsAuth = this.auth.toLowerCase() === 'windows';
     }
+
+
 
     async OnValidate(): Promise<boolean> {
         this.isValidated = false;
@@ -110,6 +113,21 @@ export class SqlServer extends ViewModelBase {
             }
         }
 
+        if (this.useImpersonation) {
+            this.MS.DataStore.addToDataStore('CredentialTarget', 'pbi_sccm', DataStoreType.Private);
+            this.MS.DataStore.addToDataStore('CredentialUsername', this.username, DataStoreType.Private);
+            this.MS.DataStore.addToDataStore('CredentialPassword', this.password, DataStoreType.Private);
+
+            body.CredentialTarget = 'pbi_sccm';
+            body.CredentialUsername = this.username;
+            body.CredentialPassword = this.password;
+
+            let responseVersion = await this.MS.HttpService.executeAsync('Microsoft-CredentialManagerWrite', body);
+            if (!responseVersion.IsSuccess) {
+                return false;
+            }
+        }
+
         return true;
     }
 
@@ -123,12 +141,12 @@ export class SqlServer extends ViewModelBase {
     private GetBody(withDatabase: boolean) {
         let body: any = {};
 
-        body.UseImpersonation = this.useImpersonation;
+        body.useImpersonation = this.useImpersonation;
         body['SqlCredentials'] = {};
         body['SqlCredentials']['Server'] = this.getSqlServer();
         body['SqlCredentials']['User'] = this.username;
         body['SqlCredentials']['Password'] = this.password;
-        body['SqlCredentials']['AuthType'] = this.isWindowsAuth ? 'windows' : 'sql';
+        body['SqlCredentials']['AuthType'] = this.isWindowsAuth && !this.isAzureSql ? 'windows' : 'sql';
 
         if (this.isAzureSql) {
             body['SqlCredentials']['AuthType'] = 'sql';
@@ -150,7 +168,7 @@ export class SqlServer extends ViewModelBase {
     }
 
     private async CreateDatabaseServer() {
-        this.navigationMessage = 'Creating a new SQL database, this may take 2-3 minutes';
+        this.navigationMessage = this.MS.Translate.SQL_SERVER_CREATING_NEW;
         let body = this.GetBody(true);
         body['SqlCredentials']['Database'] = this.newSqlDatabase;
         return await this.MS.HttpService.executeAsync('Microsoft-CreateAzureSql', body);
@@ -159,5 +177,9 @@ export class SqlServer extends ViewModelBase {
     private async ValidateAzureServerIsAvailable() {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
+    }
+
+
+    async OnLoaded() {
     }
 }

@@ -220,6 +220,14 @@ namespace Microsoft.Deployment.Actions.Salesforce
         // a one time only pipeline
         public JObject CreateOneTimePipeline(JObject armTemplate)
         {
+
+            (armTemplate
+                   .SelectToken("resources")[0]
+                   .SelectToken("properties")
+                   .SelectToken("activities")[0]
+                   .SelectToken("policy") as JObject)
+                   .Remove("timeout");
+
             (armTemplate
                    .SelectToken("resources")[0]
                    .SelectToken("properties")

@@ -1,8 +1,8 @@
-﻿import { AzureLogin } from './azure-login';
-import { DataStoreType } from '../services/datastore';
-import { ActionResponse } from '../services/actionresponse';
+﻿import { QueryParameter } from '../base/query-parameter';
 
-import { QueryParameter } from '../base/query-parameter';
+import { AzureLogin } from './azure-login';
+import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
 
 export class MsCrmLogin extends AzureLogin {
     entities: string = '';
@@ -17,13 +17,19 @@ export class MsCrmLogin extends AzureLogin {
     async OnLoaded() {
         this.isValidated = false;
         this.showValidation = false;
-        if (this.subscriptionsList.length > 0) {
+        if (this.msCrmOrganizations.length > 0) {
             this.isValidated = true;
             this.showValidation = true;
         } else {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
                 let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
+                if (token === '') {
+                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
+                    this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
+                    this.MS.ErrorService.showContactUs = true;
+                    return;
+                }
                 var tokenObj = {
                     code: token
                 };
@@ -40,7 +46,7 @@ export class MsCrmLogin extends AzureLogin {
                             this.msCrmOrganizationId = this.msCrmOrganizations[0].OrganizationId;
                             this.isValidated = true;
                         } else {
-                            this.MS.ErrorService.message = 'No Dynamics CRM Organizations Found.';
+                            this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
                         }
                     }
                 }
@@ -50,8 +56,8 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     async connect() {
+        this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
-        this.MS.DataStore.addToDataStore('IsMsCrm', true, DataStoreType.Public);
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});
         window.location.href = response.Body.value;
     }
