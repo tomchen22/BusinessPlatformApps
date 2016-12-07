@@ -50,7 +50,6 @@ export class KeyVaultLogin extends AzureLogin {
 
     async connect() {
         this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
-        this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});
         window.location.href = response.Body.value;
     }
