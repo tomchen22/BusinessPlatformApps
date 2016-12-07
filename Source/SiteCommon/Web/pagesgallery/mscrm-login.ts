@@ -24,6 +24,12 @@ export class MsCrmLogin extends AzureLogin {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
                 let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
+                if (token === '') {
+                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
+                    this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
+                    this.MS.ErrorService.showContactUs = true;
+                    return;
+                }
                 var tokenObj = {
                     code: token
                 };
@@ -40,7 +46,7 @@ export class MsCrmLogin extends AzureLogin {
                             this.msCrmOrganizationId = this.msCrmOrganizations[0].OrganizationId;
                             this.isValidated = true;
                         } else {
-                            this.MS.ErrorService.message = 'No Dynamics CRM Organizations Found.';
+                            this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
                         }
                     }
                 }
