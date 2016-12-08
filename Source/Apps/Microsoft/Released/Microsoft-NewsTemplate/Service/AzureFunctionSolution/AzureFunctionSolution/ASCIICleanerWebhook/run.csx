@@ -1,6 +1,6 @@
-#r "Newtonsoft.Json"
+﻿#r "Newtonsoft.Json"
 
-#load "..\shared\StringUtilities.csx"
+#load "..\Shared\StringUtilities.csx"
 
 using System.Net;
 
