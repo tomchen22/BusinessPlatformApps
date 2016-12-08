@@ -49,11 +49,21 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="appsettings.json" />
-    <None Include="ASCIICleanerWebhook\function.json" />
-    <None Include="ASCIICleanerWebhook\project.json" />
-    <None Include="ASCIICleanerWebhook\project.lock.json" />
-    <None Include="ASCIICleanerWebhook\run.csx" />
-    <None Include="ASCIICleanerWebhook\sample.dat" />
+    <None Include="ASCIICleanerWebhook\function.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ASCIICleanerWebhook\project.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ASCIICleanerWebhook\project.lock.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ASCIICleanerWebhook\run.csx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ASCIICleanerWebhook\sample.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="host.json" />
     <None Include="HTMLCleanerWebhook\function.json" />
     <None Include="HTMLCleanerWebhook\project.json" />
