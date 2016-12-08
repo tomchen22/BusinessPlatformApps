@@ -2,6 +2,14 @@
   "Install": {
     "Pages": [
       {
+        "displayname": "Getting Started",
+        "list1": [
+          "Full cloud solution with minimum set up and maintenance considerations",
+          "Data pulled from Dynamics 365 into an Azure SQL Database using the Dynamics 365 Export Service",
+          "Connect to Azure SQL and import data into Power BI"
+        ],
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "templateName": ""
       }
     ],
     "Actions": [

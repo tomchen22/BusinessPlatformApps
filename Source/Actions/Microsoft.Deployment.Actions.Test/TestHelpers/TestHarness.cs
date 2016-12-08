@@ -116,11 +116,8 @@ namespace Microsoft.Deployment.Actions.Test
             var dataStore = await GetCommonDataStore();
 
             CreateTempDB();
-
             var connString = (GetSqlPagePayload(CurrentDatabase).Body as JObject)["value"].ToString();
-
             dataStore.AddToDataStore("SqlConnectionString", connString);
-
             return dataStore;
         }
 
@@ -168,7 +165,6 @@ namespace Microsoft.Deployment.Actions.Test
                              $"DROP DATABASE [{CurrentDatabase}]; CREATE DATABASE [{CurrentDatabase}];";
 
             RunSqlCommandWithoutTransaction(creds, command);
-
             Credential.Instance.Sql.Database = CurrentDatabase;
         }
 
