@@ -47,6 +47,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(result.IsSuccess);
         }
 
+        [Ignore]
         public void InstallSCCMSuccess()
         {
             var dataStore = new DataStore();
@@ -62,7 +63,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             this.InstallSCCMSuccess();
 
             var dataStore = new DataStore();
-            dataStore.AddToDataStore("TargetPath", targetPath);
+            dataStore.AddToDataStore("TargetPath", "Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp");
             var result = TestHarness.ExecuteAction("Microsoft-RemoveFiles", dataStore);
             Assert.IsTrue(result.IsSuccess);
         }

@@ -51,7 +51,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             var response = TestHarness.ExecuteAction("Microsoft-GetDataPullStatus", dataStore);
 
-            Assert.IsTrue(response.Status == ActionStatus.Success);
+            Assert.IsTrue((response.Status == ActionStatus.BatchNoState) || (response.Status == ActionStatus.Success));
         }
 
 
@@ -60,7 +60,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("Azure", "dataFactoryName", dataStore.GetValue("SelectedResourceGroup") + "SalesforceCopyFactory");
             var response = TestHarness.ExecuteAction("Microsoft-ADFSliceStatus", dataStore);
 
-            Assert.IsTrue(response.Status == ActionStatus.Success);
+            Assert.IsTrue((response.Status == ActionStatus.BatchNoState) || (response.Status == ActionStatus.Success));
         }
 
         [TestMethod]
