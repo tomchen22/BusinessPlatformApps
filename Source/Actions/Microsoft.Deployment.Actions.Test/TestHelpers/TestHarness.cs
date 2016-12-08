@@ -1,24 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Dynamic;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.AppLoad;
 using Microsoft.Deployment.Common.Controller;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.Deployment.Common.Enums;
 using Microsoft.Deployment.Common.Helpers;
 using Microsoft.Deployment.Common.Model;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.Deployment.Actions.Test
+namespace Microsoft.Deployment.Actions.Test.TestHelpers
 {
     [TestClass]
     public class TestHarness
@@ -135,7 +130,14 @@ namespace Microsoft.Deployment.Actions.Test
             var location = locationResult.Body.GetJObject()["value"][5];
             dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
 
+
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                ResourceGroup = Environment.MachineName;
+            }
+
             dataStore.AddToDataStore("SelectedResourceGroup", ResourceGroup);
+
 
             if (!System.Diagnostics.Debugger.IsAttached)
             {
