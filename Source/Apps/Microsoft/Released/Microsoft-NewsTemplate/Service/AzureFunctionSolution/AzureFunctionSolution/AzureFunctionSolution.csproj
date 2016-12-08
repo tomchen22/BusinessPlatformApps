@@ -48,14 +48,26 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="ASCIICleanserWebHook\function.json" />
+    <None Include="ASCIICleanserWebHook\project.json" />
+    <None Include="ASCIICleanserWebHook\run.csx" />
+    <None Include="HtmlCleanerWebHook\function.json" />
+    <None Include="HtmlCleanerWebHook\project.json" />
+    <None Include="HtmlCleanerWebHook\run.csx" />
+    <None Include="shared\HtmlCleaner.csx" />
+    <None Include="shared\HtmlCleanerResult.csx" />
+    <None Include="shared\StringExtensions.csx" />
+    <None Include="shared\StringUtilities.csx" />
+    <None Include="TimeUtilsWebHook\DocumentTime.csx" />
+    <None Include="TimeUtilsWebHook\DocumentTimeFactory.csx" />
+    <None Include="TimeUtilsWebHook\function.json" />
+    <None Include="TimeUtilsWebHook\project.json" />
+    <None Include="TimeUtilsWebHook\run.csx" />
+    <None Include="TimeUtilsWebHook\TimeExtensions.csx" />
+    <None Include="UrlDomainWebHook\function.json" />
+    <None Include="UrlDomainWebHook\run.csx" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ASCIICleanserWebHook\" />
-    <Folder Include="HtmlCleanerWebHook\" />
-    <Folder Include="shared\" />
-    <Folder Include="TimeUtilsWebHook\" />
-    <Folder Include="UrlDomainWebHook\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
