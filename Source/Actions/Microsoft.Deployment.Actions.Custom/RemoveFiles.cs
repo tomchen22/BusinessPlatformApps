@@ -19,7 +19,7 @@ namespace Microsoft.Deployment.Actions.Custom
                             ? FileUtility.GetLocalTemplatePath(request.Info.AppName)
                             : request.DataStore.GetValue("TargetPath");
 
-            ActionResponse response = null;
+            ActionResponse response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
 
             if (Directory.Exists(targetPath))
             {
@@ -30,11 +30,10 @@ namespace Microsoft.Deployment.Actions.Custom
                         Directory.Delete(targetPath, true);
                         Thread.Sleep(500);
                     });
-                    response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    response = new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+                    //If the directory is not found return succes. Either it's been deleted manually or customer installed in a different directory.
                 }
                 catch (Exception ex)
                 {
