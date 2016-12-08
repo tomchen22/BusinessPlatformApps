@@ -61,6 +61,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(armResult.IsSuccess);
         }
 
+
         [TestMethod]
         public async Task DeleteResourceGroups()
         {
