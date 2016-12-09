@@ -37,8 +37,6 @@ export class MsCrmLogin extends AzureLogin {
                 if (this.authToken.IsSuccess) {
                     this.hasToken = true;
 
-                    this.MS.DataStore.addToDataStore('MsCrmToken', this.authToken.Body.AzureToken.access_token, DataStoreType.Private);
-
                     var response = await this.MS.HttpService.executeAsync('Microsoft-CrmGetOrgs', {});
                     if (response.IsSuccess) {
                         this.msCrmOrganizations = JSON.parse(response.Body.value);
@@ -48,6 +46,17 @@ export class MsCrmLogin extends AzureLogin {
                         } else {
                             this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
                         }
+
+                        let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
+                        if (subscriptions.IsSuccess) {
+                            this.subscriptionsList = subscriptions.Body.value;
+                            if (!this.subscriptionsList ||
+                                (this.subscriptionsList && this.subscriptionsList.length === 0)) {
+                                this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
+                            } else {
+                                this.showPricingConfirmation = true;
+                            }
+                        }
                     }
                 }
                 this.MS.UtilityService.RemoveItem('queryUrl');
@@ -56,7 +65,8 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     async connect() {
-        this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
+        //this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
+        this.MS.DataStore.addToDataStore('oauthType', this.oauthType, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});
         window.location.href = response.Body.value;
@@ -76,6 +86,22 @@ export class MsCrmLogin extends AzureLogin {
             this.MS.DataStore.addToDataStore('Entities', this.entities, DataStoreType.Public);
             this.MS.DataStore.addToDataStore('OrganizationId', msCrmOrganization.OrganizationId, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('OrganizationUrl', msCrmOrganization.OrganizationUrl, DataStoreType.Private);
+
+            let subscriptionObject = this.subscriptionsList.find(x => x.SubscriptionId === this.selectedSubscriptionId);
+            this.MS.DataStore.addToDataStore('SelectedSubscription', subscriptionObject, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('SelectedResourceGroup', this.selectedResourceGroup, DataStoreType.Public);
+
+            let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
+            if (locationsResponse.IsSuccess) {
+                this.MS.DataStore.addToDataStore('SelectedLocation', locationsResponse.Body.value[5], DataStoreType.Public);
+            }
+
+            let response = await this.MS.HttpService.executeAsync('Microsoft-CreateResourceGroup', {});
+
+            if (!response.IsSuccess) {
+                return false;
+            }
+
             return true;
         } else {
             return false;

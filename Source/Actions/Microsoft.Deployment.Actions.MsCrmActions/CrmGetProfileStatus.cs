@@ -15,7 +15,7 @@
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string token = request.DataStore.GetValue("MsCrmToken");
+            string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             string profileId = request.DataStore.GetValue("ProfileId");
 
             RestClient rc = new RestClient(request.DataStore.GetValue("ConnectorUrl"), new AuthenticationHeaderValue("Bearer", token));
