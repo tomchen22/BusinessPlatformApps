@@ -41,11 +41,10 @@
                 "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-CRMSalesManagement/Web/Images/crm-sales-management.png",
                 "displayname": "Getting Started",
                 "list1": [
-                    "You must have December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
+                    "December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
                     "You must be a Dynamics 365 Administrator",
-                    "You must have a valid Azure subscription in the same Azure tenant as the Dynamics 365 instance",
-                    "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance (you can create a new Azure Database instance in this wizard)",
-                    "You must have the proper create and alter permissions on the target Azure database",
+                    "A valid Azure subscription in the same Azure tenant as the Dynamics 365 instance",
+                    "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance",
                     "Power BI Desktop (latest version)",
                     "Power BI Pro (to share the template with your organization)"
                 ],
