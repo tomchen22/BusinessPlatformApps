@@ -58,6 +58,7 @@
     KEYVAULT_LOGIN_ERROR: `An error occurred while connecting to the Azure Key Vault Service.`,
     KEYVAULT_LOGIN_SUBTITLE: `We now need to set up a connection to the Azure Key Vault.`,
     KEYVAULT_LOGIN_TITLE: `Connect to Azure Key Vault`,
+    MSCRM_LOGIN_CONNECT: `Connect to my Azure Subscription with Dynamics 365`,
     MSCRM_LOGIN_ERROR: `An error occurred while connecting to the Dynamics 365 Export Service.`,
     MSCRM_LOGIN_NO_ORGANIZATIONS: `No Dynamics 365 Organizations Found.`,
     MSCRM_LOGIN_ORGANIZATION: `Dynamics 365 Organization:`,
