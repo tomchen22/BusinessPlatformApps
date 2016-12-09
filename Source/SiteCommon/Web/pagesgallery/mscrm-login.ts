@@ -15,8 +15,11 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     async OnLoaded() {
+        this.MS.ErrorService.Clear();
+
         this.isValidated = false;
         this.showValidation = false;
+
         if (this.msCrmOrganizations.length > 0) {
             this.isValidated = true;
             this.showValidation = true;
@@ -25,7 +28,7 @@ export class MsCrmLogin extends AzureLogin {
             if (queryParam) {
                 let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
                 if (token === '') {
-                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
+                    this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_ERROR;
                     this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
                     this.MS.ErrorService.showContactUs = true;
                     return;
