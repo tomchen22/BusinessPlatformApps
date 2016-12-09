@@ -15,7 +15,7 @@
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string token = request.DataStore.GetValue("MsCrmToken");
+            string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             string orgURL = request.DataStore.GetValue("OrganizationUrl");
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", token);
 

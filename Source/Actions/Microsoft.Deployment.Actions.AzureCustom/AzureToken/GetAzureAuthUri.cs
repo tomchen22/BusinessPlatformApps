@@ -11,6 +11,7 @@ using Microsoft.Deployment.Common.Helpers;
 using Microsoft.Azure;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 {
@@ -29,13 +30,15 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             switch (oauthType)
             {
                 case "mscrm":
-                    authBase = Constants.MsCrmAuthority;
+                    authBase = string.Format(Constants.AzureAuthUri, aadTenant);
                     clientId = Constants.MsCrmClientId;
-                    resource = Constants.MsCrmResource;
+                    resource = Constants.AzureManagementApi;
                     break;
                 case "keyvault":
                     string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
                     string subscriptionId = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
+                    string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
+
 
                     // Make sure the Key Vault is registered
                     SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscriptionId, azureToken);
@@ -62,11 +65,57 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
                             }
                         }
+                        string tempVaultName = "bpst-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
+
+                        GenericResource genRes = new GenericResource("westus");
+                        string oid = null;
+                        string tenantID = null;
+                        int propCount = 0;
+                        foreach (var c in new JwtSecurityToken(azureToken).Claims)
+                        {
+                            switch (c.Type.ToLowerInvariant())
+                            {
+                                case "oid":
+                                    oid = c.Value;
+                                    propCount++;
+                                    break;
+                                case "tid":
+                                    tenantID = c.Value;
+                                    propCount++;
+                                    break;
+                            }
+
+                            if (propCount >= 2)
+                                break;
+                        }
+
+                        genRes.Properties = "{   \"sku\": {        \"family\": \"A\",       \"name\": \"Standard\"          },   \"tenantId\": \"" + tenantID + "\",  \"accessPolicies\": [],  \"enabledForDeployment\": true   }";
+                        var tempVault = await managementClient.Resources.CreateOrUpdateAsync(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", "2015-06-01"), genRes);
+                        if (tempVault.StatusCode == System.Net.HttpStatusCode.OK)
+                        {
+                            ResourceIdentity resIdent = new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", "2015-06-01");
+                            var deleteResponse =  managementClient.Resources.Delete(resourceGroup, resIdent);
+                            if (deleteResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                            {
+                                return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
+                            }
+                        }
+                        else
+                            return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
+
                     }
 
-                    authBase = string.Format(Constants.AzureAuthUri, aadTenant);
                     clientId = Constants.MicrosoftClientIdCrm;
-                    resource = Constants.AzureManagementApi;
+                    resource = Constants.AzureKeyVaultApi;
+
+                    //if (aadTenant.EqualsIgnoreCase("common"))
+                    //{
+                        authBase = string.Format(Constants.AzureAuthUri, aadTenant);
+                   // }
+                    //else
+                   // {
+                     //   authBase = string.Format("https://login.windows.net/{0}/oauth2/authorize?", aadTenant);
+                  //  }
 
                     break;
                 default:

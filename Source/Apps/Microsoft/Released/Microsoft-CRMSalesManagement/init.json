@@ -7,10 +7,10 @@
                 "SqlServerIndex": "0",
                 "SqlScriptsFolder": "Database"
             },
-            {
+           {
                 "displayname": "Configure Azure Key Vault",
                 "name": "Microsoft-CrmCreateVaultSecret"
-            },
+            }, 
             {
                 "displayname": "Cleaning CRM Environment",
                 "name": "Microsoft-CrmDeleteProfile"
@@ -49,11 +49,19 @@
                 "templateName": "Sales Management for Dynamics 365"
             },
             {
+                "displayname": "Dynamics 365 Login",
+                "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
+                "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
+                "oauthType": "mscrm",
+                "pricingCost": "By deploying the template you authorize the creation of Azure resources on your subscription. On top of the database, the Key Vault adds an extra $1 per month. The cost will vary with the amount of data that will be moved.",
+                "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
+            },
+            /*  {
                 "displayname": "Login",
                 "name": "$SiteCommon$/pagesgallery/azure-login.html",
                 "pricingCost": "By deploying the template you authorize the creation of Azure resources on your subscription. On top of the database, the Key Vault adds an extra $1 per month. The cost will vary with the amount of data that will be moved.",
                 "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
-            },
+            }, */
             {
                 "displayname": "Login to the Key Vault",
                 "name": "$SiteCommon$/pagesgallery/keyvault-login.html",
@@ -70,12 +78,7 @@
                 "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
                 "title": "Connect to your SQL Database"
             },
-            {
-                "displayname": "Dynamics 365 Login",
-                "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
-                "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
-                "oauthType": "mscrm"
-            },
+
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",

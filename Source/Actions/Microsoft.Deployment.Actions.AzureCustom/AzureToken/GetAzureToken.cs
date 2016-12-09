@@ -11,7 +11,7 @@ using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
 using Newtonsoft.Json.Linq;
-
+using Microsoft.Rest;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 {
@@ -30,10 +30,11 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             switch (oauthType)
             {
                 case "mscrm":
-                    api = Constants.MsCrmResource;
+                    api = Constants.AzureManagementCoreApi;
                     clientId = Constants.MsCrmClientId;
-                    tokenUrl = Constants.MsCrmToken;
+                    tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
                     break;
+
                 case "keyvault":
                     api = Constants.AzureManagementCoreApi;
                     clientId = Constants.MicrosoftClientIdCrm;
@@ -69,10 +70,43 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             }
 
 
-            request.DataStore.AddToDataStore("AzureToken", primaryResponse);
+
+            switch (oauthType)
+            {
+
+                case "keyvault":
+                    request.DataStore.AddToDataStore("AzureTokenKV", primaryResponse);
+                    break;
+                case "mscrm":
+                    JObject crmToken = RetrieveCrmToken(primaryResponse["refresh_token"].ToString(), request.Info.WebsiteRootUrl, request.DataStore);
+                    request.DataStore.AddToDataStore("MsCrmToken", crmToken);
+                    request.DataStore.AddToDataStore("AzureToken", primaryResponse);
+                    break;
+                default:
+                    request.DataStore.AddToDataStore("AzureToken", primaryResponse);
+                    break;
+            }
+            
+
 
             return new ActionResponse(ActionStatus.Success, obj, true);
 
+        }
+
+        private JObject RetrieveCrmToken(string refreshToken, string websiteRootUrl, DataStore dataStore)
+        {
+            string tokenUrl = string.Format(Constants.AzureTokenUri, dataStore.GetValue("AADTenant"));
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                // ms crm token
+                string token = GetTokenUri2(refreshToken, Constants.MsCrmResource, websiteRootUrl, Constants.MsCrmClientId);
+                StringContent content = new StringContent(token);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                string response = httpClient.PostAsync(new Uri(tokenUrl), content).Result.Content.AsString();
+
+                return JsonUtility.GetJsonObjectFromJsonString(response);
+            }
         }
 
         private static StringBuilder GetTokenUri(string code, string uri, string rootUrl, string clientId)
@@ -94,6 +128,16 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                 builder.Append("&");
             }
             return builder;
+        }
+
+        private string GetTokenUri2(string code, string uri, string rootUrl, string clientId)
+        {
+            return $"refresh_token={code}&" +
+                   $"client_id={clientId}&" +
+                   $"client_secret={Uri.EscapeDataString(Constants.MicrosoftClientSecret)}&" +
+                   $"resource={Uri.EscapeDataString(uri)}&" +
+                   $"redirect_uri={Uri.EscapeDataString(rootUrl +Constants.WebsiteRedirectPath)}&" +
+                   "grant_type=refresh_token";
         }
     }
 }
