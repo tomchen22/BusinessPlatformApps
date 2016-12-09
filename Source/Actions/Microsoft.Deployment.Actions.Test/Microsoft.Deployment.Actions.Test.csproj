@@ -150,6 +150,7 @@
     <Compile Include="ActionsTest\SalesforceTests.cs" />
     <Compile Include="ActionsTest\StorageAccountTests.cs" />
     <Compile Include="ActionsTest\TestActions.cs" />
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\LogicAppImageCacher.json" />
     <None Include="Apps\TestApps\TestApp\Service\Data\TweetFunctionCSharp.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

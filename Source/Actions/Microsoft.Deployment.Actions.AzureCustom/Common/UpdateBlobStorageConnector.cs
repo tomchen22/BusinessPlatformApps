@@ -6,12 +6,15 @@ using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
-
+using System.Collections.Generic;
+using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using Microsoft.Deployment.Actions.AzureCustom.LogicApp;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.Common
 {
     [Export(typeof(IAction))]
-    public class ConsentConnectorToLogicApp : BaseAction
+    public class UpdateBlobStorageConnector : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
@@ -20,32 +23,36 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var location = request.DataStore.GetJson("SelectedLocation")["Name"].ToString();
             var connectorName = request.DataStore.GetValue("ConnectorName");
-            var connectorCode = request.DataStore.GetValue("ConnectorCode");
+            var connectorDisplayName = request.DataStore.GetValue("ConnectorDisplayName");
 
-            dynamic payload = new ExpandoObject();
-            payload.objectId = null;
-            payload.tenantId = null;
-            payload.code = connectorCode;
+            JToken connectorPayload = request.DataStore.GetJson("ConnectorPayload");
 
-            HttpResponseMessage consent = await new AzureHttpClient(azureToken, subscription, resourceGroup).ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Post,
-                "/providers/Microsoft.Web/connections/twitter/confirmConsentCode", "2015-08-01-preview",
-                JsonUtility.GetJsonStringFromObject(payload));
-
-            var consentInformation = JsonUtility.GetJObjectFromJsonString(await consent.Content.ReadAsStringAsync());
-            if (!consent.IsSuccessStatusCode)
+            LogicAppConnector connector = new LogicAppConnector()
             {
-                return new ActionResponse(ActionStatus.Failure, consentInformation, null, DefaultErrorCodes.DefaultErrorCode, "Failed to create connection");
-            }
+                id = $"subscriptions/{subscription}/resourceGroups/{resourceGroup}/providers/Microsoft.Web/connections/{connectorName}",
+                location = location,
+                name = connectorName,
+                properties = new Properties()
+                {
+                    api = new Api()
+                    {
+                        id = $"subscriptions/{subscription}/providers/Microsoft.Web/locations/{location}/managedApis/{connectorName}",
+                        location = location,
+                        name = connectorName,
+                        type = "Microsoft.Web/locations/managedApis"
+                    },
+                    displayName = connectorDisplayName,
+                    parametervalues = connectorPayload
 
-            payload = new ExpandoObject();
-            payload.properties = new ExpandoObject();
-            payload.properties.displayName = connectorName;
-            payload.properties.api = new ExpandoObject();
-            payload.properties.api.id = $"subscriptions/{subscription}/providers/Microsoft.Web/locations/{location}/managedApis/{connectorName}";
-            payload.location = location;
+                }
+            };
+
+            JObject finalPayload = JObject.FromObject(connector);
+            
 
             HttpResponseMessage connection = await new AzureHttpClient(azureToken, subscription, resourceGroup).ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Put,
-                "/providers/Microsoft.Web/connections/twitter", "2016-06-01", JsonUtility.GetJsonStringFromObject(payload));
+                $"/providers/Microsoft.Web/connections/{connectorName}", "2015-08-01-preview", JsonUtility.GetJsonStringFromObject(finalPayload));
+
 
             if (!connection.IsSuccessStatusCode)
             {
