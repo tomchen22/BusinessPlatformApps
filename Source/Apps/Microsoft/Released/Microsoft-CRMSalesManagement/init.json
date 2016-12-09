@@ -58,7 +58,7 @@
             },
             {
                 "displayname": "Dynamics 365 Login",
-                "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
+                "entities": "account,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "oauthType": "mscrm",
                 "pricingCost": "By deploying the template you authorize the creation of Azure resources in your subscription. The estimated cost for the Azure SQL Database and Azure Key Vault required are approximately $30 per month (this is an estimate only).",
@@ -85,7 +85,8 @@
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
                 "filename": "$('SalesManagementReport.pbix', isSaved=true)",
-                "showCounts": true
+                "showCounts": true,
+                "finishedActionName": "Microsoft-CrmGetProfileStatus"
             }
         ]
     },
