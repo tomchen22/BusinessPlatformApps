@@ -185,6 +185,7 @@
 
                         Vault vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
                         vault.Validate();
+                        System.Threading.Thread.Sleep(3000); // Sometimes the vault isn't really ready, even if the call above completed
 
                         // Access policy for the CRM exporter
                         AccessPolicyEntry ape = new AccessPolicyEntry();
@@ -196,6 +197,7 @@
                         vaultParams = new VaultCreateOrUpdateParameters(vault.Location, vault.Properties);
                         vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
                         vault.Validate();
+                        System.Threading.Thread.Sleep(3000); // Sometimes the vault isn't really ready, even if the call above completed
 
                         vaultUrl = vault.Properties.VaultUri;
                     }
