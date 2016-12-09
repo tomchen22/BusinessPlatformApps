@@ -17,6 +17,7 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
+using Microsoft.Deployment.Actions.AzureCustom;
 using Microsoft.Deployment.Common.Helpers;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
@@ -29,9 +30,19 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         {
             DataStore dataStore = new DataStore();
             var datastore = await AAD.GetTokenWithDataStore();
+            datastore = await AAD.GetUserTokenFromPopup();
             var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
             Assert.IsTrue(result.IsSuccess);
             var responseBody = JObject.FromObject(result.Body);
+        }
+
+        [Ignore]
+        [TestMethod]
+        public async Task GetAzureEmail()
+        {
+            DataStore dataStore = new DataStore();
+            var datastore = await AAD.GetUserTokenFromPopup();
+            var emailAddress = AzureUtility.GetEmailFromToken(datastore.GetJson("AzureToken"));
         }
 
         [Ignore]

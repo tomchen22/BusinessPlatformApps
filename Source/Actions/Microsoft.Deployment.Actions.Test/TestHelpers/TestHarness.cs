@@ -18,6 +18,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
     [TestClass]
     public class TestHarness
     {
+        public static string RandomCharacters = RandomGenerator.GetRandomLowerCaseCharacters(5);
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
         private static DataStore CommonDataStoreServicePrincipal = null;
@@ -111,7 +112,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             var dataStore = await GetCommonDataStore();
 
             CreateTempDB();
-            var connString = (GetSqlPagePayload(CurrentDatabase).Body as JObject)["value"].ToString();
+            var connString = GetSqlPagePayload(CurrentDatabase);
             dataStore.AddToDataStore("SqlConnectionString", connString);
             return dataStore;
         }
@@ -188,7 +189,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             RunSqlCommandWithoutTransaction(creds, command);
         }
 
-        private static ActionResponse GetSqlPagePayload(string database)
+        public  static string GetSqlPagePayload(string database)
         {
             var dataStore = new DataStore();
 
@@ -204,7 +205,8 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
             ActionResponse sqlResponse = TestHarness.ExecuteAction("Microsoft-GetSqlConnectionString", dataStore);
             Assert.IsTrue(sqlResponse.Status == ActionStatus.Success);
-            return sqlResponse;
+
+            return (sqlResponse.Body as JObject)["value"].ToString();
         }
 
         private static void RunSqlCommandWithoutTransaction(SqlCredentials creds, string commandText)

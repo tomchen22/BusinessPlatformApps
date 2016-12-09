@@ -1,4 +1,5 @@
 ﻿
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -88,6 +89,12 @@ namespace Microsoft.Deployment.Actions.AzureCustom
             armTemplateContents.Remove("parameters");
             armTemplateContents.Add("parameters", armParamTemplate["parameters"]);
             return armTemplateContents.ToString();
+        }
+
+        public static string GetEmailFromToken(JToken azureToken)
+        {
+            var token = new JwtSecurityToken(azureToken["id_token"].ToString());
+            return token.Claims.SingleOrDefault(p => p.Type == "unique_name").Value;
         }
 
     }
