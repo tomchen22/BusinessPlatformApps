@@ -44,7 +44,7 @@
                     "You must have December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
                     "You must be a Dynamics 365 Administrator",
                     "You must have a valid Azure subscription in the same Azure tenant as the Dynamics 365 instance",
-                    "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance (you can create a new Azure Database instance in this wizard)"
+                    "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance (you can create a new Azure Database instance in this wizard)",
                     "You must have the proper create and alter permissions on the target Azure database",
                     "Power BI Desktop (latest version)",
                     "Power BI Pro (to share the template with your organization)"
@@ -65,12 +65,6 @@
                 "pricingCost": "By deploying the template you authorize the creation of Azure resources in your subscription. The estimated cost for the Azure SQL Database and Azure Key Vault required are approximately $30 per month (this is an estimate only).",
                 "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
             },
-            /*  {
-                "displayname": "Login",
-                "name": "$SiteCommon$/pagesgallery/azure-login.html",
-                "pricingCost": "By deploying the template you authorize the creation of Azure resources on your subscription. On top of the database, the Key Vault adds an extra $1 per month. The cost will vary with the amount of data that will be moved.",
-                "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
-            }, */
             {
                 "displayname": "Login to the Key Vault",
                 "name": "$SiteCommon$/pagesgallery/keyvault-login.html",
