@@ -7,29 +7,29 @@
                 "SqlServerIndex": "0",
                 "SqlScriptsFolder": "Database"
             },
-           {
-                "displayname": "Configure Azure Key Vault",
-                "name": "Microsoft-CrmCreateVaultSecret"
-            }, 
             {
-                "displayname": "Cleaning CRM Environment",
+                "displayname": "Configuring Azure Key Vault",
+                "name": "Microsoft-CrmCreateVaultSecret"
+            },
+            {
+                "displayname": "Cleaning Dynamics 365 Environment",
                 "name": "Microsoft-CrmDeleteProfile"
             },
             {
-                "displayname": "Validating CRM Profile",
+                "displayname": "Validating Dynamics 365 Profile",
                 "name": "Microsoft-CrmValidateProfile"
             },
             {
-                "displayname": "Creating CRM Profile",
+                "displayname": "Creating Dynamics 365 Profile",
                 "name": "Microsoft-CrmCreateProfile"
             },
             {
-                "displayname": "Starting CRM Profile",
+                "displayname": "Starting Dynamics 365 Profile",
                 "name": "Microsoft-CrmStartProfile"
             },
             {
                 "name": "Microsoft-GetDataPullStatus",
-                "displayname": "Checking data exists in target",
+                "displayname": "Waiting for data to appear in the destination",
                 "SqlServerIndex": 0,
                 "TargetSchema": "dbo",
                 "IsWaiting": true,
@@ -41,6 +41,15 @@
                 "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-CRMSalesManagement/Web/Images/crm-sales-management.png",
                 "displayname": "Getting Started",
                 "list1": [
+                    "You must have December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
+                    "You must be a Dynamics 365 Administrator",
+                    "You must have a valid Azure subscription in the same Azure tenant as the Dynamics 365 instance",
+                    "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance (you can create a new Azure Database instance in this wizard)"
+                    "You must have the proper create and alter permissions on the target Azure database",
+                    "Power BI Desktop (latest version)",
+                    "Power BI Pro (to share the template with your organization)"
+                ],
+                "list2": [
                     "Full cloud solution with minimum set up and maintenance considerations",
                     "Data pulled from Dynamics 365 into an Azure SQL Database using the Dynamics 365 Export Service",
                     "Connect to Azure SQL and import data into Power BI"
@@ -53,7 +62,7 @@
                 "entities": "account,businessunit,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
                 "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
                 "oauthType": "mscrm",
-                "pricingCost": "By deploying the template you authorize the creation of Azure resources on your subscription. On top of the database, the Key Vault adds an extra $1 per month. The cost will vary with the amount of data that will be moved.",
+                "pricingCost": "By deploying the template you authorize the creation of Azure resources in your subscription. The estimated cost for the Azure SQL Database and Azure Key Vault required are approximately $30 per month (this is an estimate only).",
                 "pricingUrl": "https://azure.microsoft.com/en-us/pricing/details/sql-database"
             },
             /*  {

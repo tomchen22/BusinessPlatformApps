@@ -45,7 +45,6 @@ export class MsCrmLogin extends AzureLogin {
                         this.msCrmOrganizations = JSON.parse(response.Body.value);
                         if (this.msCrmOrganizations && this.msCrmOrganizations.length > 0) {
                             this.msCrmOrganizationId = this.msCrmOrganizations[0].OrganizationId;
-                            this.isValidated = true;
                         } else {
                             this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
                         }
