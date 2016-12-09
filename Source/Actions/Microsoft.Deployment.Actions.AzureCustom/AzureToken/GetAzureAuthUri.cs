@@ -87,6 +87,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                             operationResponse = await managementClient.Providers.RegisterAsync("Microsoft.KeyVault");
                             if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK)
                                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
+
+                            System.Threading.Thread.Sleep(3000);
                         }
                         
                         string oid ;
@@ -102,6 +104,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 
                         operationResponse = await managementClient.Resources.CreateOrUpdateAsync(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion), genRes);
                         bool operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK);
+                        System.Threading.Thread.Sleep(3000);
 
                         if (operationSucceeded)
                         {
