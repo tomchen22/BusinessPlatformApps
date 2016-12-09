@@ -89,7 +89,7 @@
         {
             string azureToken = request.DataStore.GetJson("AzureTokenKV")["access_token"].ToString();
             string refreshToken = request.DataStore.GetJson("AzureTokenKV")["refresh_token"].ToString();
-            string crmToken = request.DataStore.GetValue("MsCrmToken");
+            string crmToken = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             string vaultName = request.DataStore.GetValue("VaultName") ?? "bpstv-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
@@ -183,9 +183,8 @@
                             Properties = p
                         };
 
-                        Vault vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                        Vault vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
                         vault.Validate();
-                        System.Threading.Thread.Sleep(3000);
 
                         // Access policy for the CRM exporter
                         AccessPolicyEntry ape = new AccessPolicyEntry();
@@ -195,9 +194,8 @@
 
                         vault.Properties.AccessPolicies.Add(ape);
                         vaultParams = new VaultCreateOrUpdateParameters(vault.Location, vault.Properties);
-                        vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                        vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
                         vault.Validate();
-                        System.Threading.Thread.Sleep(3000);
 
                         vaultUrl = vault.Properties.VaultUri;
                     }
