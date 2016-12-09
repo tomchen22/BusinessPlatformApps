@@ -10,10 +10,10 @@ using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
 
-namespace Microsoft.Deployment.Actions.AzureCustom.Common
+namespace Microsoft.Deployment.Actions.AzureCustom.Newws
 {
     [Export(typeof(IAction))]
-    public class DeployAzureFunction : BaseAction
+    public class DeployImageCachingLogicApp : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
@@ -23,17 +23,16 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var location = request.DataStore.GetJson("SelectedLocation")["Name"].ToString();
 
             var deploymentName = request.DataStore.GetValue("DeploymentName");
-            var functionAppHostingPlan = request.DataStore.GetValue("FunctionAppHostingPlan");
-            var name = request.DataStore.GetValue("Name");
+            var storageAccountName = request.DataStore.GetValue("StorageAccountName");
+            var logicAppName = request.DataStore.GetValue("LogicAppName");
 
             var param = new AzureArmParameterGenerator();
-            param.AddStringParam("storageaccountname", "solutiontemplate" + Path.GetRandomFileName().Replace(".", "").Substring(0, 8));
-            param.AddStringParam("name", name);
-            param.AddStringParam("AppHostingPlan", functionAppHostingPlan);
             param.AddStringParam("resourcegroup", resourceGroup);
             param.AddStringParam("subscription", subscription);
+            param.AddStringParam("storageaccountname", storageAccountName);
+            param.AddStringParam("logicappname", logicAppName);
 
-            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/AzureFunctions.json")));
+            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/LogicAppImageCacher.json")));
             var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
             armTemplate.Remove("parameters");
             armTemplate.Add("parameters", armParamTemplate["parameters"]);

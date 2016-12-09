@@ -78,19 +78,19 @@
       "location": "[resourceGroup().location]",
       "properties": {
         "accountType": "Standard_LRS"
-      }
-    },
-    {
-      "apiVersion": "2015-08-01",
-      "name": "web",
-      "type": "sourcecontrols",
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/sites/', parameters('name'))]"
-      ],
-      "properties": {
-        "RepoUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/NewsTemplate/Source/Apps/Microsoft/Released/Microsoft-NewsTemplate/Service/NewsFunction",
-        "branch": "master",
-        "IsManualIntegration": "true"
+      },
+      {
+        "apiVersion": "2015-08-01",
+        "name": "web",
+        "type": "sourcecontrols",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/sites/', parameters('storageaccountname'))]"
+        ],
+        "properties": {
+          "RepoUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/NewsTemplate/Source/Apps/Microsoft/Released/Microsoft-NewsTemplate/Service/NewsFunction",
+          "branch": "NewsTemplate",
+          "IsManualIntegration": "true"
+        }
       }
     }
   ]
