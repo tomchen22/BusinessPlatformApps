@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
@@ -84,11 +85,11 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                         AzureOperationResponse operationResponse;
                         if (!kvExists)
                         {
-                            operationResponse = await managementClient.Providers.RegisterAsync("Microsoft.KeyVault");
-                            if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK)
+                            operationResponse = managementClient.Providers.Register("Microsoft.KeyVault");
+                            if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK || operationResponse.StatusCode != System.Net.HttpStatusCode.Accepted )
                                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
 
-                            System.Threading.Thread.Sleep(3000);
+                            Thread.Sleep(10000); // Wait for it to register
                         }
                         
                         string oid ;
@@ -102,15 +103,15 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                             Properties = "{\"sku\": { \"family\": \"A\", \"name\": \"Standard\" }, \"tenantId\": \"" + tenantID + "\", \"accessPolicies\": [], \"enabledForDeployment\": true }"
                         };
 
-                        operationResponse = await managementClient.Resources.CreateOrUpdateAsync(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion), genRes);
-                        bool operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK);
-                        System.Threading.Thread.Sleep(3000);
+                        operationResponse = managementClient.Resources.CreateOrUpdate(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion), genRes);
+                        bool operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK) || (operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted);
+                        Thread.Sleep(15000); // The created vault has an Url. DNS propagation will take a while
 
                         if (operationSucceeded)
                         {
                             ResourceIdentity resIdent = new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion);
-                            operationResponse = await managementClient.Resources.DeleteAsync(resourceGroup, resIdent);
-                            operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK);
+                            operationResponse = managementClient.Resources.Delete(resourceGroup, resIdent);
+                            operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK) || (operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted);
                         }
 
                         if (!operationSucceeded)

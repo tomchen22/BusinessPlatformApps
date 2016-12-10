@@ -20,6 +20,7 @@
     using System.Net.Http;
     using System.Net.Http.Headers;
     using Newtonsoft.Json.Linq;
+    using System.Threading;
 
     [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
@@ -177,39 +178,32 @@
                         apeOwner.ObjectId = new Guid(oid);
                         p.AccessPolicies.Add(apeOwner);
 
+                        // Access policy for the CRM exporter
+                        AccessPolicyEntry ape = new AccessPolicyEntry();
+                        ape.Permissions = new Permissions(null, new[] { "get" });
+                        ape.TenantId = p.TenantId;
+                        ape.ObjectId = new Guid(GetCrmConnectorObjectID(_graphToken, _tenantId).Result);
+                        p.AccessPolicies.Add(ape);
+
                         VaultCreateOrUpdateParameters vaultParams = new VaultCreateOrUpdateParameters()
                         {
                             Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location,
                             Properties = p
                         };
 
-                        Vault vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
-                        vault.Validate();
-                        System.Threading.Thread.Sleep(3000); // Sometimes the vault isn't really ready, even if the call above completed
-
-                        // Access policy for the CRM exporter
-                        AccessPolicyEntry ape = new AccessPolicyEntry();
-                        ape.Permissions = new Permissions(null, new[] { "get" });
-                        ape.TenantId = vault.Properties.TenantId;
-                        ape.ObjectId = new Guid(GetCrmConnectorObjectID(_graphToken, _tenantId).Result);
-
-                        vault.Properties.AccessPolicies.Add(ape);
-                        vaultParams = new VaultCreateOrUpdateParameters(vault.Location, vault.Properties);
-                        vault = await client.Vaults.CreateOrUpdateAsync(resourceGroup, vaultName, vaultParams);
-                        vault.Validate();
-                        System.Threading.Thread.Sleep(3000); // Sometimes the vault isn't really ready, even if the call above completed
-
-                        vaultUrl = vault.Properties.VaultUri;
+                        Vault vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                        vaultUrl    = vault.Properties.VaultUri;
+                        Thread.Sleep(15000); // The vault DNS entry isn't there immediatly
                     }
 
                     // Create the secret
                     KeyVaultClient kvClient = new KeyVaultClient( new TokenCredentials(_kvToken));
                     SecretBundle secret = await kvClient.SetSecretAsync(vaultUrl,
-                                                                        secretName,
-                                                                        connectionString,
-                                                                        new Dictionary<string, string>() { { organizationId, crmtenantId } },
-                                                                        null /* Do I need to set a content type? */,
-                                                                        new SecretAttributes() { Enabled = true });
+                                                                       secretName,
+                                                                       connectionString,
+                                                                       new Dictionary<string, string>() { { organizationId, crmtenantId } },
+                                                                       null /* Do I need to set a content type? */,
+                                                                       new SecretAttributes() { Enabled = true });
 
                     request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
                 }
