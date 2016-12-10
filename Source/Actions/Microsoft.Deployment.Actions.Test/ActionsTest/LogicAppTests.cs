@@ -22,29 +22,15 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         [TestMethod]
         public async Task CreateConnectionToLogicApp()
         {
-            var dataStore = await AAD.GetTokenWithDataStore();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
-            Assert.IsTrue(result.IsSuccess);
-            var responseBody = JObject.FromObject(result.Body);
-            var subscriptionId = responseBody["value"][0];
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
-            dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Private);
-            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
+            //string[] connectors = new string[5] { "bingnews", "azureml", "azureblob", "sql", "cognitiveservicestextanalytics" };
 
-            var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
-            Assert.IsTrue(locationResult.IsSuccess);
-            var location = locationResult.Body.GetJObject()["value"][5];
-            dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
-
-            var response = TestHarness.ExecuteAction("Microsoft-CreateResourceGroup", dataStore);
-
-            string[] connectors = new string[5] {"bingnews", "azureml", "azureblob", "sql", "cognitiveservicetextanalytics"};
-
-
+            string[] connectors = new string[1] { "cognitiveservicestextanalytics" };
             foreach (string connector in connectors)
             {
                 dataStore.AddToDataStore("ConnectorName", connector);
-                response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+                var response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
                 Assert.IsTrue(response.Status == ActionStatus.Success);
             }
         }
@@ -62,23 +48,27 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorDisplayName", "testname");
             var response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
-
         }
 
 
         [TestMethod]
         public async Task CreateLogicApp()
         {
+            //Manual steps - deploy function + deploy cognitive services
             var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
-            //Image Cacher Logic App
+            //Image Cache Logic App
             dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
             dataStore.AddToDataStore("StorageAccountName", "unittesttrialbpst" + randomString);
             dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
             dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
             dataStore.AddToDataStore("LogicAppName", "testname");
+            dataStore.AddToDataStore("SearchQuery", "microsoft");
             dataStore.AddToDataStore("ConnectorName", "azureblob");
-            dataStore.AddToDataStore("ConnectorName", "azureblob");
+            dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
+            dataStore.AddToDataStore("SiteName", "unituestrialbpstxskjf");
+            dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
+
             dynamic payload = new ExpandoObject();
             payload.accountName = "cacheimages";
             payload.accessKey = "bsDCAU00sSqE48QIg+7cXKNhJbG7/0HnMzzl6nN0Y6L2pJoSTFvpHdKlpQPjjayKtks/IDeU2ep1ONPZh7UAKg==";
@@ -97,6 +87,53 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
             Assert.IsTrue(response.IsSuccess);
+
+            //NewsTemplateLogicApp
+            dataStore.AddToDataStore("ConnectorName", "bingnews");
+            payload = new ExpandoObject();
+            payload.apiKey = "a1a17649b8784afd9219fdcf3f945552";
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            dataStore.AddToDataStore("ConnectorName", "cognitiveservicestextanalytics");
+            payload = new ExpandoObject();
+            payload.apiKey = "488546b19ba040179eaaf172f19196cf";
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "TextAnalytics");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            dataStore.AddToDataStore("ConnectorName", "sql");
+            payload = new ExpandoObject();
+            payload.authType = "windows";
+            payload.database = "testruns";
+            payload.password = "Billing.26";
+            payload.server = "pbist.database.windows.net";
+            payload.username = "pbiadmin";
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "InsertIngestTimeStamp");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            dataStore.AddToDataStore("LogicAppName", "testname2");
+            response = TestHarness.ExecuteAction("Microsoft-DeployNewsTemplateLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+
         }
+
+        //var deploymentName = request.DataStore.GetValue("DeploymentName");
+        //var logicAppName = request.DataStore.GetValue("LogicAppName");
+        //var searchQuery = request.DataStore.GetValue("SearchQuery");
+        //var imageCacheLogicApp = request.DataStore.GetValue("ImageCacheLogicApp");
+        //var siteName = request.DataStore.GetValue("SiteName");
     }
 }

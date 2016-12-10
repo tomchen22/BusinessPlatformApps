@@ -23,6 +23,10 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var location = request.DataStore.GetJson("SelectedLocation")["Name"].ToString();
             var connectorName = request.DataStore.GetValue("ConnectorName");
 
+            if (connectorName == "bingnews")
+                {
+                location = "brazilsouth";
+            }
 
             SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription, azureToken);
             Microsoft.Azure.Management.Resources.ResourceManagementClient client = new ResourceManagementClient(creds);

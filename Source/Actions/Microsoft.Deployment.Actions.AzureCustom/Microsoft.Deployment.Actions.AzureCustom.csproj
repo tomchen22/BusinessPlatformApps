@@ -200,6 +200,7 @@
     <Compile Include="LogicApp\LogicAppConnector.cs" />
     <Compile Include="News\DeployAzureMLWorkspace.cs" />
     <Compile Include="News\DeployImageCachingLogicApp.cs" />
+    <Compile Include="News\DeployNewsTemplateLogicApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Twitter\ConsentTwitterConnectionToLogicApp.cs" />
     <Compile Include="Twitter\CreateTwitterConnectionToLogicApp.cs" />
