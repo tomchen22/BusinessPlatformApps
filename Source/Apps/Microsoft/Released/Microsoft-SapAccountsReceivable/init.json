@@ -127,12 +127,13 @@
                 ],
                 "showBack": "$(false)"
             },
-            {
-                "name": "$SiteCommon$/pagesgallery/progress.html",
-                "displayname": "Uninstall Progress",
-                "successMessage": "Uninstall complete",
-                "isUninstall": true
-            }
+          {
+            "name": "$SiteCommon$/pagesgallery/progress.html",
+            "displayname": "Uninstall Progress",
+            "successMessage": "Uninstall complete",
+            "isUninstall": true,
+            "showEmailSubmission": false
+          }
         ],
         "Actions": [
             {
@@ -142,14 +143,14 @@
             },
             {
                 "name": "Microsoft-RemoveFiles",
-                "displayname": "Finishing cleanup",
+                "displayname": "Remove files",
                 "TargetPath": "C:\\ProgramData\\Simplement, Inc"
             },
-            {
-                "name": "Microsoft-RemoveFiles",
-                "displayname": "Finishing cleanup",
-                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
-            }
+          {
+            "name": "Microsoft-RemoveFiles",
+            "displayname": "Finishing cleanup",
+            "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SapAccountsReceivable\\Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
+          }
         ]
     }
 }

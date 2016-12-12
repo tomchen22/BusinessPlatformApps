@@ -176,11 +176,11 @@
                 "name": "Microsoft-RemoveFiles",
                 "displayname": "Remove files"
             },
-            {
-                "name": "Microsoft-RemoveFiles",
-                "displayname": "Finishing cleanup",
-                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
-            }
+          {
+            "name": "Microsoft-RemoveFiles",
+            "displayname": "Finishing cleanup",
+            "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SCCMTemplate\\Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
+          }
         ]
     }
 }
