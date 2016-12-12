@@ -145,11 +145,11 @@
                 "displayname": "Finishing cleanup",
                 "TargetPath": "C:\\ProgramData\\Simplement, Inc"
             },
-            {
-                "name": "Microsoft-RemoveFiles",
-                "displayname": "Finishing cleanup",
-                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
-            }
+          {
+            "name": "Microsoft-RemoveFiles",
+            "displayname": "Finishing cleanup",
+            "TargetPath": "\\..\\..\\..\\Program Files\\Microsoft Templates\\Microsoft-SapAccountsReceivable\\Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
+          }
         ]
     }
 }
