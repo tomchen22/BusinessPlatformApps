@@ -37,7 +37,7 @@ namespace Microsoft.Deployment.Actions.Custom
                 }
                 catch (Exception ex)
                 {
-                    response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);
+                    //response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);
                 }
             }
             return response;
