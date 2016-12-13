@@ -1,6 +1,6 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
-import { DataStoreType } from "../services/datastore";
-import { ActionResponse } from "../services/actionresponse";
+﻿import { ActionResponse } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Salesforce extends ViewModelBase {
     salesforceUsername: string = '';
@@ -13,7 +13,7 @@ export class Salesforce extends ViewModelBase {
         super();
         this.isValidated = false;
         this.showValidation = false;
-        this.salesforceUrl = "https://login.salesforce.com/";
+        this.salesforceUrl = 'login.salesforce.com';
     }
 
     async OnLoaded() {
@@ -28,7 +28,7 @@ export class Salesforce extends ViewModelBase {
         this.MS.DataStore.addToDataStore('SalesforceUrl', this.salesforceUrl, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('ObjectTables', this.salesforceObjects, DataStoreType.Public);
 
-        let salesforceLoginResponse = await this.MS.HttpService.executeAsync("Microsoft-ValidateSalesforceCredentials", {});
+        let salesforceLoginResponse = await this.MS.HttpService.executeAsync('Microsoft-ValidateSalesforceCredentials', {});
 
         if (!salesforceLoginResponse.IsSuccess) {
             return false;

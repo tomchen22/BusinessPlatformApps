@@ -2,9 +2,12 @@
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+using Microsoft.Deployment.Common.Model;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -15,14 +18,23 @@ namespace Microsoft.Deployment.Actions.Custom.SAP
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            var rowBatchSize = request.DataStore.GetValue("RowBatchSize");
-            var sapClient = request.DataStore.GetValue("SapClient");
-            var sapHost = request.DataStore.GetValue("SapHost");
-            var sapLanguage = request.DataStore.GetValue("SapLanguage");
-            var sapRouterString = request.DataStore.GetValue("SapRouterString");
-            var sapSystemId = request.DataStore.GetValue("SapSystemId");
-            var sapSystemNumber = request.DataStore.GetValue("SapSystemNumber");
-            var sqlConnectionString = request.DataStore.GetValue("SqlConnectionString");
+            string rowBatchSize = request.DataStore.GetValue("RowBatchSize");
+            string sapClient = request.DataStore.GetValue("SapClient");
+            string sapHost = request.DataStore.GetValue("SapHost");
+            string sapLanguage = request.DataStore.GetValue("SapLanguage");
+            string sapRouterString = request.DataStore.GetValue("SapRouterString");
+            string sapSystemId = request.DataStore.GetValue("SapSystemId");
+            string sapSystemNumber = request.DataStore.GetValue("SapSystemNumber");
+
+            var sqlConnectionStrings = request.DataStore.GetAllValues("SqlConnectionString");
+            string sqlConnectionString = sqlConnectionStrings != null ? sqlConnectionStrings[0] : string.Empty;
+            if (!string.IsNullOrEmpty(sqlConnectionString))
+            {
+                SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+                sqlCredentials.Username = string.Empty;
+                sqlCredentials.Password = string.Empty;
+                sqlConnectionString = SqlUtility.GetConnectionString(sqlCredentials);
+            }
 
             string jsonDestination = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData), JSON_PATH);
             (new FileInfo(jsonDestination)).Directory.Create();

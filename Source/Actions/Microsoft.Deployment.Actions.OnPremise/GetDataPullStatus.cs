@@ -16,16 +16,14 @@ namespace Microsoft.Deployment.Actions.OnPremise
         {
             ActionResponse response;
 
-            bool isWaiting = request.DataStore.GetValue("IsWaiting") == null
+            bool isWaitingForAtLeastOneRecord = request.DataStore.GetValue("IsWaiting") == null
                 ? false
                 : bool.Parse(request.DataStore.GetValue("IsWaiting"));
 
             int sqlIndex = int.Parse(request.DataStore.GetValue("SqlServerIndex"));
 
             string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[sqlIndex]; // Must specify Initial Catalog
-            string finishedActionName = request.DataStore.GetValue("FinishedActionName") == null
-                ? null
-                : request.DataStore.GetValue("FinishedActionName");
+            string finishedActionName = request.DataStore.GetValue("FinishedActionName");
             string targetSchema = request.DataStore.GetValue("TargetSchema"); // Specifies the schema used by the template
 
             string query = $"[{targetSchema}].sp_get_replication_counts";
@@ -42,24 +40,24 @@ namespace Microsoft.Deployment.Actions.OnPremise
                 recordCounts = new DataTable();
             }
 
-            bool isPullingData = false;
+            bool isAtLeastOneRecordComingIn = false;
 
-            if (isWaiting)
+            if (isWaitingForAtLeastOneRecord)
             {
                 foreach (DataRow row in recordCounts.Rows)
                 {
-                    isPullingData = Convert.ToInt64(row["Count"]) > 0;
-                    if (isPullingData)
+                    isAtLeastOneRecordComingIn = Convert.ToInt64(row["Count"]) > 0;
+                    if (isAtLeastOneRecordComingIn)
                         break;
                 }
 
-                response = isPullingData
+                response = isAtLeastOneRecordComingIn
                     ? new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject())
                     : new ActionResponse(ActionStatus.BatchNoState, JsonUtility.GetEmptyJObject());
             }
             else
             {
-                response = new ActionResponse(ActionStatus.Success, "{isFinished:false,status:" + JsonUtility.Serialize(recordCounts) + "}");
+                response = new ActionResponse(ActionStatus.Success, JsonUtility.GetJsonObjectFromJsonString("{isFinished:false,status:" + JsonUtility.Serialize(recordCounts) + "}"));
             }
 
             if (string.IsNullOrEmpty(finishedActionName))
@@ -67,9 +65,11 @@ namespace Microsoft.Deployment.Actions.OnPremise
 
             ActionResponse finishedResponse = await RequestUtility.CallAction(request, finishedActionName);
 
-            var content = JObject.FromObject(finishedResponse.Body)["value"]?.ToString();
+            if (response.Status == ActionStatus.BatchNoState && finishedResponse.Status == ActionStatus.BatchNoState)
+                return response;
 
-            if ((isPullingData && finishedResponse.Status != ActionStatus.Failure) || finishedResponse.Status == ActionStatus.Success)
+            var content = JObject.FromObject(finishedResponse.Body)["value"]?.ToString();
+            if ((isAtLeastOneRecordComingIn && finishedResponse.Status != ActionStatus.Failure) || finishedResponse.Status == ActionStatus.Success)
             {
                 var resp = new ActionResponse();
                 if (!string.IsNullOrEmpty(content))
@@ -104,7 +104,7 @@ namespace Microsoft.Deployment.Actions.OnPremise
                      "\",status:" + JsonUtility.Serialize(recordCounts) +
                     ", slices:" + JObject.FromObject(finishedResponse.Body)["value"]?.ToString() + "}"));
                 }
-                else
+                else 
                 {
                     resp = new ActionResponse(ActionStatus.Success,
                         JsonUtility.GetJsonObjectFromJsonString(

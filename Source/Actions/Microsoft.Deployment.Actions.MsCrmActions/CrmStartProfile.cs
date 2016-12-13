@@ -15,10 +15,9 @@
     public class CrmStartProfile : BaseAction
     {
         private RestClient _rc;
-        private string _orgUrl;
+        //private string _orgUrl;
         private string _token;
         private string _orgId;
-
 
         private async Task<string> GetProfileId(string organizationId, string name)
         {
@@ -35,12 +34,13 @@
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            _token = request.DataStore.GetValue("MsCrmToken");
+            _token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             _orgId = request.DataStore.GetValue("OrganizationId");
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", _token);
             _rc = new RestClient(request.DataStore.GetValue("ConnectorUrl"), bearer);
 
-            string profileId = await GetProfileId(_orgId, request.DataStore.GetValue("ProfileName"));
+            // string profileId = await GetProfileId(_orgId, request.DataStore.GetValue("ProfileName"));
+            string profileId = request.DataStore.GetValue("ProfileId");
             try
             {
                 string response = await _rc.Post(string.Format(MsCrmEndpoints.URL_PROFILES_ACTIVATE, profileId), string.Empty);

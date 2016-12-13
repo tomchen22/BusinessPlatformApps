@@ -78,6 +78,10 @@ export class DeploymentService {
         }
         this.isFinished = true;
 
+        if (this.experienceType === ExperienceType.uninstall && !this.hasError) {
+            this.MS.HttpService.Close();
+        }
+
         return !this.hasError;
     }
 }

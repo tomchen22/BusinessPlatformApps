@@ -1,5 +1,7 @@
 ﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
+    using Azure.KeyVault.Models;
+    using Azure.Management.KeyVault.Models;
     using Azure.Management.Resources;
     using Microsoft.Azure;
     using Microsoft.Azure.KeyVault;
@@ -7,68 +9,180 @@
     using Microsoft.Deployment.Common.ActionModel;
     using Microsoft.Deployment.Common.Actions;
     using Microsoft.Deployment.Common.Helpers;
+    using Rest;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.Composition;
     using System.Threading.Tasks;
+    using System.IdentityModel.Tokens.Jwt;
+    using Microsoft.Azure.ActiveDirectory.GraphClient;
+    using Azure.Management.Resources.Models;
+    using System.Net.Http;
+    using System.Net.Http.Headers;
+    using Newtonsoft.Json.Linq;
+    using System.Threading;
 
     [Export(typeof(IAction))]
     public class CrmCreateVaultSecret : BaseAction
     {
-        private string _azureToken = "NO_TOKEN";
-        private readonly Guid _crmServicePrincipal = new Guid("b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"); // DO NOT CHANGE THIS
+        string _kvToken;
+        string _graphToken;
+        string _subscriptionId;
+        string _tenantId;
 
-        public async Task<string> GetAccessToken(string authority, string resource, string scope)
+        private const string _crmServicePrincipal = "b861dbcc-a7ef-4219-a005-0e4de4ea7dcf"; // DO NOT CHANGE THIS
+        private async Task<string> GetCrmConnectorObjectID(string graphToken, string tenantId)
         {
-            return _azureToken;
+            Uri servicePointUri = new Uri("https://graph.windows.net");
+            Uri serviceRoot = new Uri(servicePointUri, tenantId);
+            ActiveDirectoryClient adClient = new ActiveDirectoryClient(serviceRoot, async () => { return graphToken; });
+
+            var princs = await adClient.ServicePrincipals.Where( p => p.AppId.Equals(_crmServicePrincipal)).ExecuteAsync().ConfigureAwait(false);
+            var currentPage = princs.CurrentPage;
+
+            if (currentPage.Count > 0)
+                return currentPage[0].ObjectId;
+
+            return null;
         }
 
+        private void RetrieveKVToken(string refreshToken, string websiteRootUrl, DataStore dataStore)
+        {
+            string tokenUrl = string.Format(Common.Constants.AzureTokenUri, dataStore.GetValue("AADTenant"));
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                // Key vault token
+                string kvTokenUrl = GetTokenUri2(refreshToken, Common.Constants.AzureKeyVaultApi, websiteRootUrl, Common.Constants.MicrosoftClientIdCrm);
+                StringContent content = new StringContent(kvTokenUrl);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                string response = httpClient.PostAsync(new Uri(tokenUrl), content).Result.Content.AsString();
+                _kvToken = JsonUtility.GetJsonObjectFromJsonString(response)["access_token"].ToString();
+            }
+        }
+
+        private void RetrieveGraphToken(string refreshToken, string websiteRootUrl, DataStore dataStore)
+        {
+            string tokenUrl = string.Format(Common.Constants.AzureTokenUri, dataStore.GetValue("AADTenant"));
+
+            using (HttpClient httpClient = new HttpClient())
+            {
+                // Key vault token
+                string graphTokenUrl = GetTokenUri2(refreshToken,"https://graph.windows.net/", websiteRootUrl, Common.Constants.MicrosoftClientIdCrm);
+                StringContent content = new StringContent(graphTokenUrl);
+                content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
+                string response = httpClient.PostAsync(new Uri(tokenUrl), content).Result.Content.AsString();
+                _graphToken = JsonUtility.GetJsonObjectFromJsonString(response)["access_token"].ToString();
+            }
+        }
+
+        private static string GetTokenUri2(string code, string uri, string rootUrl, string clientId)
+        {
+            return $"refresh_token={code}&" +
+                   $"client_id={clientId}&" +
+                   $"client_secret={Uri.EscapeDataString(Common.Constants.MicrosoftClientSecret)}&" +
+                   $"resource={Uri.EscapeDataString(uri)}&" +
+                   $"redirect_uri={Uri.EscapeDataString(rootUrl + Common.Constants.WebsiteRedirectPath)}&" +
+                   "grant_type=refresh_token";
+        }
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string _azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
-            string subscriptionID = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
+            string azureToken = request.DataStore.GetJson("AzureTokenKV")["access_token"].ToString();
+            string refreshToken = request.DataStore.GetJson("AzureTokenKV")["refresh_token"].ToString();
+            string crmToken = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
-            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpst-mscrm-vault";
+            string vaultName = request.DataStore.GetValue("VaultName") ?? "bpstv-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
             string secretName = request.DataStore.GetValue("SecretName") ?? "bpst-mscrm-secret";
             string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[0];
             string organizationId = request.DataStore.GetValue("OrganizationId");
-            string tenantId = request.DataStore.GetValue("TenantId") ?? "72f988bf-86f1-41af-91ab-2d7cd011db47";
 
-            SubscriptionCloudCredentials credentials = new TokenCloudCredentials(subscriptionID, _azureToken);
+            _subscriptionId = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
 
-            using (KeyVaultManagementClient client = new KeyVaultManagementClient(credentials))
+            RetrieveKVToken(refreshToken, request.Info.WebsiteRootUrl, request.DataStore);
+            RetrieveGraphToken(refreshToken, request.Info.WebsiteRootUrl, request.DataStore);
+
+            SubscriptionCloudCredentials credentials = new TokenCloudCredentials(_subscriptionId, azureToken);
+
+
+            // Get user's object ID and tenant ID (in the Azure subscription where the vault is created)
+            string oid = null;
+            int propCount = 0;
+            foreach (var c in new JwtSecurityToken(azureToken).Claims)
             {
-                // Check if a vault already exists
-                Vault vault = null;
-                VaultListResponse vaults = client.Vaults.List(resourceGroup, 100);
-                foreach (var v in vaults.Vaults)
+                switch (c.Type.ToLowerInvariant())
                 {
-                    if (v.Name.EqualsIgnoreCase(vaultName))
-                    {
-                        vault = (Vault)v;
+                    case "oid":
+                        oid = c.Value;
+                        propCount++;
                         break;
-                    }
+                    case "tid":
+                        _tenantId = c.Value;
+                        propCount++;
+                        break;
                 }
 
-                AccessPolicyEntry ape = new AccessPolicyEntry
-                {
-                    PermissionsToSecrets = new[] { "get" },
-                    ApplicationId = _crmServicePrincipal,
-                    ObjectId = _crmServicePrincipal
-                };
+                if (propCount >= 2)
+                    break;
+            }
 
-                // Create the vault
-                if (vault == null)
+
+            // Get user's tenant ID in the CRM implicit subscription
+            string crmtenantId = null;
+            foreach (var c in new JwtSecurityToken(crmToken).Claims)
+            {
+                if (c.Type.EqualsIgnoreCase("tid"))
                 {
+                        crmtenantId = c.Value;
+                        break;
+                }
+            }
+
+            try
+            {
+                TokenCredentials credentialsKv = new TokenCredentials(azureToken);
+
+                using (KeyVaultManagementClient client = new KeyVaultManagementClient(credentialsKv))
+                {
+                    client.SubscriptionId = _subscriptionId;
+
+                    // Check if a vault already exists
+                    var vaults = client.Vaults.ListByResourceGroup(resourceGroup);
+
+                    foreach (var v in client.Vaults.ListByResourceGroup(resourceGroup))
+                    {
+                        if (v.Name.EqualsIgnoreCase(vaultName))
+                        {
+                            client.Vaults.Delete(resourceGroup, vaultName);
+                            break;
+                        }
+                    }
+
+
+                    // Create the vault
+                    string vaultUrl = null;
                     using (ResourceManagementClient resourceClient = new ResourceManagementClient(credentials))
                     {
                         // Set properties
-                        VaultProperties p = new VaultProperties();
-                        p.Sku = new Sku() { Family = "A", Name = "standard" };
-                        p.TenantId = new Guid(tenantId);
+                        VaultProperties p = new VaultProperties()
+                        {
+                            Sku = new Sku(SkuName.Standard),
+                            TenantId = new Guid(_tenantId),
+                            AccessPolicies = new List<AccessPolicyEntry>()
+                        };
 
-                        // Set who has permission to read this
+                        // Access policy for the owner
+                        AccessPolicyEntry apeOwner = new AccessPolicyEntry();
+                        apeOwner.Permissions = new Permissions(new[] { "get", "create", "delete", "list", "update", "import", "backup", "restore" }, new[] { "all" }, new[] { "all" });
+                        apeOwner.TenantId = p.TenantId;
+                        apeOwner.ObjectId = new Guid(oid);
+                        p.AccessPolicies.Add(apeOwner);
+
+                        // Access policy for the CRM exporter
+                        AccessPolicyEntry ape = new AccessPolicyEntry();
+                        ape.Permissions = new Permissions(null, new[] { "get" });
+                        ape.TenantId = p.TenantId;
+                        ape.ObjectId = new Guid(GetCrmConnectorObjectID(_graphToken, _tenantId).Result);
                         p.AccessPolicies.Add(ape);
 
                         VaultCreateOrUpdateParameters vaultParams = new VaultCreateOrUpdateParameters()
@@ -76,24 +190,30 @@
                             Location = resourceClient.ResourceGroups.Get(resourceGroup).ResourceGroup.Location,
                             Properties = p
                         };
-                        vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams).Vault;
-                    }
-                }
-                else
-                {
-                    // Set who has permission to read this
-                    vault.Properties.AccessPolicies.Add(ape);
-                }
-                
-                // Create the secret
-                KeyVaultClient kvClient = new KeyVaultClient(GetAccessToken);
-                
-                Secret secret = await kvClient.SetSecretAsync(vault.Properties.VaultUri, secretName, connectionString, new Dictionary<string, string>() { { organizationId, tenantId } },
-                                                 null, new SecretAttributes() { Enabled = true });
 
-                request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
-                return new ActionResponse(ActionStatus.Success, secret.Id, true);
+                        Vault vault = client.Vaults.CreateOrUpdate(resourceGroup, vaultName, vaultParams);
+                        vaultUrl    = vault.Properties.VaultUri;
+                        Thread.Sleep(15000); // The vault DNS entry isn't there immediatly
+                    }
+
+                    // Create the secret
+                    KeyVaultClient kvClient = new KeyVaultClient( new TokenCredentials(_kvToken));
+                    SecretBundle secret = await kvClient.SetSecretAsync(vaultUrl,
+                                                                       secretName,
+                                                                       connectionString,
+                                                                       new Dictionary<string, string>() { { organizationId, crmtenantId } },
+                                                                       null /* Do I need to set a content type? */,
+                                                                       new SecretAttributes() { Enabled = true });
+
+                    request.DataStore.AddToDataStore("KeyVault", secret.Id, DataStoreType.Private);
+                }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject(), true);
         }
     }
 }

@@ -129,4 +129,16 @@ export class NavigationService {
     getIndex(): number {
         return this.index;
     }
+
+    isLastPage(): boolean {
+        if (this.pages.length - 1 === this.getIndex()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    isFirstPage(): boolean {
+        return this.getIndex() === 0;
+    }
 }

@@ -5,10 +5,12 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
@@ -55,15 +57,17 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             return builder;
         }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task<InterceptorStatus> CanInterceptAsync(IAction actionToExecute, ActionRequest request)
-#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             //TODO - fix to ensure it only works when token has expired
-            //if (request.DataStore.GetValue("AzureToken") != null)
-            //{
-            //    return InterceptorStatus.Intercept;
-            //}
+            if (request.DataStore.GetValue("AzureToken") != null && request.DataStore.GetJson("AzureToken")["expires_on"] != null)
+            {
+               var expiryDateTime = UnixTimeStampToDateTime(request.DataStore.GetJson("AzureToken")["expires_on"].ToString());
+                if ((expiryDateTime - DateTime.Now).TotalMinutes < 5)
+                {
+                    return InterceptorStatus.Intercept;
+                }
+            }
             return InterceptorStatus.Skipped;
         }
 
@@ -83,6 +87,13 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             }
 
             return tokenRefreshResponse;
+        }
+
+        public static DateTime UnixTimeStampToDateTime(string unixTimeStamp)
+        {
+            System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            dtDateTime = dtDateTime.AddSeconds(double.Parse(unixTimeStamp)).ToLocalTime();
+            return dtDateTime;
         }
     }
 }

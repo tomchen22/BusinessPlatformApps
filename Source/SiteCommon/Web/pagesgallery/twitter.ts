@@ -1,6 +1,8 @@
-import {DataStoreType} from "../services/datastore";
-import {ViewModelBase} from "../services/viewmodelbase";
-import {ActionStatus} from "../services/actionresponse";
+import { QueryParameter } from '../base/query-parameter';
+
+import { ActionStatus } from '../services/actionresponse';
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Twitter extends ViewModelBase {
     authToken: any = {};
@@ -20,7 +22,7 @@ export class Twitter extends ViewModelBase {
 
         let queryParam = this.MS.UtilityService.GetItem('queryUrl');
         if (queryParam) {
-            let code = this.MS.UtilityService.GetQueryParameterFromUrl('code', queryParam);
+            let code = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
             if (code) {
                 this.MS.DataStore.addToDataStore('TwitterCode', code, DataStoreType.Private);
 
@@ -44,7 +46,6 @@ export class Twitter extends ViewModelBase {
                     this.showValidation = true;
                 }
             }
-
 
             this.MS.UtilityService.RemoveItem('queryUrl');
         } else {

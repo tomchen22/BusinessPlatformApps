@@ -1,35 +1,39 @@
 ﻿<template>
-    <h1 class="st-title">Connect to Azure</h1>
-    <p class="st-subtitle">
-        To create the solution we will be using a number of Azure Services which require an Azure subscription.
-        Don't worry if you don't have one, you can get started with a free
-        <a href="https://azure.microsoft.com/en-us/free/" target="_blank">Azure subscription trial</a>.
-    </p>
+    <h1 class="st-title">${MS.Translate.AZURE_LOGIN_CONNECT}</h1>
+    <p class="st-subtitle">${MS.Translate.AZURE_LOGIN_SUBTITLE}</p>
 
     <div if.bind="isActivated && !isValidated && !showPricingConfirmation">
-        <p class="st-text">Would you like to connect to Azure through an organizational account or a Microsoft account?</p>
+        <p class="st-subtitle">${MS.Translate.AZURE_LOGIN_DONT_HAVE}</p>
+        <p class="st-text">
+            <span>${MS.Translate.AZURE_LOGIN_GET_STARTED}</span>
+            <a href="${MS.Translate.AZURE_LOGIN_LINK}" target="_blank">${MS.Translate.AZURE_LOGIN_LINK_DESCRIPTION}</a>.
+        </p>
+
+        <p class="st-subtitle">${MS.Translate.AZURE_LOGIN_HAVE}</p>
+        <p class="st-text">${MS.Translate.AZURE_LOGIN_CONNECTION}</p>
         <div class="st-float">
             <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" value.bind="connectionType">
-                <option value.bind="azureConnection.Organizational">Organizational Account (Work or School)</option>
-                <option value.bind="azureConnection.Microsoft">Microsoft Account (Hotmail, Outlook, etc.)</option>
+                <option value.bind="azureConnection.Organizational">${MS.Translate.AZURE_LOGIN_ORGANIZATIONAL}</option>
+                <option value.bind="azureConnection.Microsoft">${MS.Translate.AZURE_LOGIN_MICROSOFT}</option>
             </select>
         </div>
 
         <div class="st-float" if.bind="connectionType == azureConnection.Microsoft">
+            <p class="st-text">${MS.Translate.AZURE_LOGIN_DIRECTORY}</p>
+            <input class="st-input" placeholder="${MS.Translate.AZURE_LOGIN_DIRECTORY_ADDRESS}" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="azureDirectory" />
             <p class="st-text">
-                In order to connect to your Microsoft account we will need to know your Azure directory.
-                To figure this out please refer to our <a href="http://community.powerbi.com/t5/Power-BI-Solution-Templates/Guide-for-using-Microsoft-accounts-with-Twitter-template/m-p/60088#M31" target="_blank">guide</a>.
+                <span>${MS.Translate.AZURE_LOGIN_DIRECTORY_TEXT}</span>
+                <a href="${MS.Translate.AZURE_LOGIN_DIRECTORY_LINK}" target="_blank">${MS.Translate.AZURE_LOGIN_DIRECTORY_DESCRIPTION}</a>.
             </p>
-            <p class="st-text">Azure Directory:</p>
-            <input class="st-input" placeholder="directoryname.onmicrosoft.com" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="azureDirectory" />
         </div>
 
         <div class="st-float">
-            <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy">Connect to Azure</button>
+            <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy">${MS.Translate.AZURE_LOGIN_CONNECT}</button>
         </div>
     </div>
 
     <div class="st-float" if.bind="subscriptionsList && subscriptionsList.length > 0">
+        <p class="st-text">${MS.Translate.AZURE_LOGIN_SUBSCRIPTION}</p>
         <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" if.bind="isActivated && showPricingConfirmation" value.bind="selectedSubscriptionId">
             <option repeat.for="item of subscriptionsList" value.bind="item.SubscriptionId">${item.DisplayName}</option>
         </select>
@@ -40,25 +44,23 @@
             <span class="glyphicon pbi-glyph-circlering glyph-small st-toggle" if.bind="showAdvanced"></span>
             <span class="st-toggle-collapse" if.bind="showAdvanced">-</span>
             <span class="glyphicon pbi-glyph-addcircle glyph-small st-toggle" if.bind="!showAdvanced"></span>
-            <span>Advanced (optional)</span>
+            <span>${MS.Translate.COMMON_ADVANCED_OPTIONAL}</span>
         </p>
         <div class="st-float" if.bind="showAdvanced">
-            <p class="st-text">Azure Resource Group Name:</p>
+            <p class="st-text">${MS.Translate.AZURE_LOGIN_RESOURCE_GROUP}</p>
             <input class="st-input" type="text" disabled.bind="MS.HttpService.isServiceBusy" value.bind="selectedResourceGroup" />
         </div>
     </div>
+
     <!-- Pricing Confirmation -->
-    <div>
-        <div if.bind="showPricingConfirmation">
-            <label class="st-float st-text">
-                <input type="checkbox" tabindex="-1" change.delegate="verifyPricing()" checked.bind="isPricingChecked" disabled.bind="MS.HttpService.isServiceBusy">
-                <span class="st-text">
-                    ${pricingCost}
-                </span>
-            </label>
-            <p class="st-float st-text">
-                You can learn more about pricing <a href="${pricingUrl}" target="_blank">here</a>.
-            </p>
-        </div>
+    <div if.bind="showPricingConfirmation">
+        <label class="st-float st-text">
+            <input type="checkbox" tabindex="-1" change.delegate="verifyPricing()" checked.bind="isPricingChecked" disabled.bind="MS.HttpService.isServiceBusy">
+            <span class="st-text">${pricingCost}</span>
+        </label>
+        <p class="st-float st-text">
+            <span>${MS.Translate.AZURE_LOGIN_PRICING_TEXT}</span>
+            <a href="${pricingUrl}" target="_blank">${MS.Translate.COMMON_HERE}</a>
+        </p>
     </div>
 </template>

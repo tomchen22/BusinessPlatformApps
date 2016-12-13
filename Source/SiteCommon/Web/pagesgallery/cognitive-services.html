@@ -18,7 +18,6 @@
             <input class="st-input" type="text" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="cognitiveServiceKey" />
         </div>
 
-
         <p class="st-float">
             <button class="primary" click.delegate="OnValidate()" if.bind="!MS.HttpService.isServiceBusy">Validate</button>
         </p>

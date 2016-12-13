@@ -1,5 +1,5 @@
-import {ViewModelBase} from "../services/viewmodelbase";
-import {DataStoreType} from "../services/datastore";
+import { DataStoreType } from '../services/datastore';
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class SearchTerms extends ViewModelBase {
     searchQuery: string = '';
@@ -9,7 +9,7 @@ export class SearchTerms extends ViewModelBase {
         this.isValidated = false;
     }
 
-    async OnValidate():Promise<boolean> {
+    async OnValidate(): Promise<boolean> {
         if (!super.OnValidate()) {
             return false;
         }

@@ -19,7 +19,7 @@
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            _token = request.DataStore.GetValue("MsCrmToken");
+            _token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             _orgId = request.DataStore.GetValue("OrganizationId");
             string name = request.DataStore.GetValue("ProfileName") ?? "bpst-mscrm-profile";
 
