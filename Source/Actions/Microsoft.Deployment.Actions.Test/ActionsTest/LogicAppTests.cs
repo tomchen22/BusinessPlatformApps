@@ -144,9 +144,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("Exp2", "ImagesApiKey", "TM1oZ3taPmRiR0V6wxEkDYAQaRip9JxJ+HQhyo/9T9VcwSpbobye+jNPDyMayN+y8u+PQVFv1gbH1sIhft0uqQ==");
             dataStore.AddToDataStore("Exp3", "EntityApiKey", "VYDEekiPGZDSFTnjgURi8ik+hIHh4AwJTT7RvdH9FUL0MsS/NpAgtRyUkQROuHG+FTIGohhoLYfwWxhjZgBJSg==");
 
-            dataStore.AddToDataStore("Exp1", "TopicApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/2b67d0d308e646b2b8a0f9d7d934b5c7/execute?api-version=2.0&details=true");
-            dataStore.AddToDataStore("Exp2", "ImagesApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/f321bb3ab3624173a7c0de239957e6dd/execute?api-version=2.0&details=true");
-            dataStore.AddToDataStore("Exp3", "EntityApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/02e09e59cddd4cbe8027a5b93974ad0a/execute?api-version=2.0&details=true");
+            dataStore.AddToDataStore("Exp1", "TopicApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/2b67d0d308e646b2b8a0f9d7d934b5c7/jobs?api-version=2.0");
+            dataStore.AddToDataStore("Exp2", "ImagesApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/f321bb3ab3624173a7c0de239957e6dd/jobs?api-version=2.0");
+            dataStore.AddToDataStore("Exp3", "EntityApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/02e09e59cddd4cbe8027a5b93974ad0a/jobs?api-version=2.0");
 
             //Create AzureML Connector
             dataStore.AddToDataStore("ConnectorName", "azureml");
@@ -161,7 +161,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             //Create SQL Connector
             dataStore.AddToDataStore("ConnectorName", "sql");
-            dataStore.AddToDataStore("ConnectorDisplayName", "sql");
             payload = new ExpandoObject();
             payload.authType = "windows";
             payload.database = "testruns";
