@@ -132,54 +132,53 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
-        //public async Task CreateLogicAppAzureML()
-        //{
-        //    //Manual steps - create Azure ML experiments + deploy SQL scripts
-        //    var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+        public async Task CreateLogicAppAzureML()
+        {
+            //Manual steps - create Azure ML experiments + deploy SQL scripts
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+    
 
-        //    string[] apiKey = new string[] { "VB4mYM5WD0EzEFvJ8z8sIpei4Y85oiIdGAT5z/G/+YVfWSu8ISvECZ8KalKji6a6AEkxoFDpNrhsrMUq0mkJjA==", "TM1oZ3taPmRiR0V6wxEkDYAQaRip9JxJ+HQhyo/9T9VcwSpbobye+jNPDyMayN+y8u+PQVFv1gbH1sIhft0uqQ==", "VYDEekiPGZDSFTnjgURi8ik+hIHh4AwJTT7RvdH9FUL0MsS/NpAgtRyUkQROuHG+FTIGohhoLYfwWxhjZgBJSg==" };
-        //    //dynamic apiKeys = JsonUtility.GetJObjectFromObject(apiKey);
-        //    dynamic apiKeys = JsonConvert.SerializeObject(apiKey);
-        //    //string[] apiUrl = new string[] { "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/2b67d0d308e646b2b8a0f9d7d934b5c7/execute?api-version=2.0&details=true", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/f321bb3ab3624173a7c0de239957e6dd/execute?api-version=2.0&details=true", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/02e09e59cddd4cbe8027a5b93974ad0a/execute?api-version=2.0&details=true" };
-        //    //dynamic apiUrls = JsonUtility.GetJObjectFromObject(apiUrl);
+            dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
+            dataStore.AddToDataStore("LogicAppName", "testname");
+            dataStore.AddToDataStore("Exp1", "TopicApiKey", "VB4mYM5WD0EzEFvJ8z8sIpei4Y85oiIdGAT5z/G/+YVfWSu8ISvECZ8KalKji6a6AEkxoFDpNrhsrMUq0mkJjA==");
+            dataStore.AddToDataStore("Exp2", "ImagesApiKey", "TM1oZ3taPmRiR0V6wxEkDYAQaRip9JxJ+HQhyo/9T9VcwSpbobye+jNPDyMayN+y8u+PQVFv1gbH1sIhft0uqQ==");
+            dataStore.AddToDataStore("Exp3", "EntityApiKey", "VYDEekiPGZDSFTnjgURi8ik+hIHh4AwJTT7RvdH9FUL0MsS/NpAgtRyUkQROuHG+FTIGohhoLYfwWxhjZgBJSg==");
 
-        //    dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
-        //    dataStore.AddToDataStore("LogicAppName", "testname");
-        //    dataStore.AddObjectDataStore("ApiKey", apiKeys);
-        //    //dataStore.AddToDataStore("ApiUrl", "a");
+            dataStore.AddToDataStore("Exp1", "TopicApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/2b67d0d308e646b2b8a0f9d7d934b5c7/execute?api-version=2.0&details=true");
+            dataStore.AddToDataStore("Exp2", "ImagesApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/f321bb3ab3624173a7c0de239957e6dd/execute?api-version=2.0&details=true");
+            dataStore.AddToDataStore("Exp3", "EntityApiUrl", "https://ussouthcentral.services.azureml.net/workspaces/0a5545bf61b948c5b04684eadae10e09/services/02e09e59cddd4cbe8027a5b93974ad0a/execute?api-version=2.0&details=true");
 
+            //Create AzureML Connector
+            dataStore.AddToDataStore("ConnectorName", "azureml");
+            dataStore.AddToDataStore("ConnectorDisplayName", "azureml");
+            dynamic payload = new ExpandoObject();
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            var response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
-        //    //Create AzureML Connector
-        //    dataStore.AddToDataStore("ConnectorName", "azureml");
-        //    dataStore.AddToDataStore("ConnectorDisplayName", "azureml");
-        //    dynamic payload = new ExpandoObject();
-        //    payload = JsonUtility.GetJObjectFromObject(payload);
-        //    dataStore.AddToDataStore("ConnectorPayload", payload);
-        //    var response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
-        //    Assert.IsTrue(response.IsSuccess);
-        //    response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
-        //    Assert.IsTrue(response.IsSuccess);
+            //Create SQL Connector
+            dataStore.AddToDataStore("ConnectorName", "sql");
+            dataStore.AddToDataStore("ConnectorDisplayName", "sql");
+            payload = new ExpandoObject();
+            payload.authType = "windows";
+            payload.database = "testruns";
+            payload.password = "Billing.26";
+            payload.server = "pbist.database.windows.net";
+            payload.username = "pbiadmin";
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "SQLConnector");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
-        //    //Create SQL Connector
-        //    dataStore.AddToDataStore("ConnectorName", "sql");
-        //    dataStore.AddToDataStore("ConnectorDisplayName", "sql");
-        //    payload = new ExpandoObject();
-        //    payload.authType = "windows";
-        //    payload.database = "testruns";
-        //    payload.password = "Billing.26";
-        //    payload.server = "pbist.database.windows.net";
-        //    payload.username = "pbiadmin";
-        //    payload = JsonUtility.GetJObjectFromObject(payload);
-        //    dataStore.AddToDataStore("ConnectorPayload", payload);
-        //    dataStore.AddToDataStore("ConnectorDisplayName", "SQLConnector");
-        //    response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
-        //    Assert.IsTrue(response.IsSuccess);
-        //    response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
-        //    Assert.IsTrue(response.IsSuccess);
-
-        //    //Create Logic App
-        //    response = TestHarness.ExecuteAction("Microsoft-DeployAzureMLSchedulerLogicApp", dataStore);
-        //    Assert.IsTrue(response.IsSuccess);
-        //}
+            //Create Logic App
+            response = TestHarness.ExecuteAction("Microsoft-DeployAzureMLSchedulerLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+        }
     }
 }
