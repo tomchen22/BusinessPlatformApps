@@ -91,8 +91,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.6.4\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6183.31740, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201612051737\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6190.28361, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201612121544\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -198,6 +198,7 @@
     <Compile Include="AzureAS\DeployAzureAnalysisServices.cs" />
     <Compile Include="Common\GetStorageAccountKey.cs" />
     <Compile Include="LogicApp\LogicAppConnector.cs" />
+    <Compile Include="News\DeployAzureMLSchedulerLogicApp.cs" />
     <Compile Include="News\DeployAzureMLWorkspace.cs" />
     <Compile Include="News\DeployImageCachingLogicApp.cs" />
     <Compile Include="News\DeployNewsTemplateLogicApp.cs" />
