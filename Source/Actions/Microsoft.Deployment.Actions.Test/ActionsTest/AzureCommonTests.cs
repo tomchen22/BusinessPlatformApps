@@ -29,9 +29,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public async Task GetAzureToken()
         {
             DataStore dataStore = new DataStore();
-            var datastore = await AAD.GetTokenWithDataStore();
-            datastore = await AAD.GetUserTokenFromPopup();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
+            dataStore = await TestHarness.GetCommonDataStore();
+            dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
             Assert.IsTrue(result.IsSuccess);
             var responseBody = JObject.FromObject(result.Body);
         }

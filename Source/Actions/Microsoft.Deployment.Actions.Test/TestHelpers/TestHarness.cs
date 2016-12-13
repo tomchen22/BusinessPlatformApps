@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Dynamic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.AppLoad;
@@ -46,9 +47,13 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
         [AssemblyCleanup()]
         public static async void AssemblyCleanup()
-        { 
-            var deleteResourceGroupResult = await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);
-            RemoveTempDB();
+        {
+            if (System.Diagnostics.Debugger.IsAttached)
+            {
+                var deleteResourceGroupResult =
+                    await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);
+                RemoveTempDB();
+            }
         }
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
@@ -96,15 +101,30 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             DataStore dataStore = null;
             if (getUserToken)
             {
-                dataStore = await AAD.GetUserTokenFromPopup();
+                tempDataStore = null;
+                Thread newThread = new Thread(GetUserTokenThreadSafe);
+                newThread.SetApartmentState(ApartmentState.STA);
+                newThread.Start();
+                while (newThread.ThreadState == ThreadState.Running)
+                {
+                    await Task.Delay(3000);
+                }
+                dataStore = tempDataStore;
             }
             else
             {
-                dataStore = await AAD.GetTokenWithDataStore();
+                dataStore = AAD.GetTokenWithDataStore().Result;
             }
             
             dataStore = await SetupDatastore(dataStore);
             return dataStore;
+        }
+
+        private static DataStore tempDataStore = null;
+
+        public static void GetUserTokenThreadSafe()
+        {
+            tempDataStore = AAD.GetTokenWithDataStore().Result;
         }
 
         public static async Task<DataStore> GetCommonDataStoreWithSql()
@@ -123,7 +143,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             Assert.IsTrue(subscriptionResult.IsSuccess);
             var subscriptionId =
                 subscriptionResult.Body.GetJObject()["value"].SingleOrDefault(
-                    p => p["DisplayName"].ToString() == "Power BI Solution Template Development");
+                    p => p["DisplayName"].ToString() == "PBI_ECO (Paas) Richard's team");
             dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
 
             var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);

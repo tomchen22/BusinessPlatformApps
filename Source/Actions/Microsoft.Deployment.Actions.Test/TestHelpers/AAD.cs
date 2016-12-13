@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.IdentityModel.Clients.ActiveDirectory.Internal;
@@ -65,7 +66,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         {
 #if DEBUG
             AuthenticationContext context = new AuthenticationContext("https://login.windows.net/" + Credential.Instance.AAD.TenantId);
-            var url = await context.GetAuthorizationRequestUrlAsync(Constants.AzureManagementCoreApi, Constants.MicrosoftClientId, new Uri("https://unittest/redirect.html"), UserIdentifier.AnyUser, "");
+            var url = context.GetAuthorizationRequestUrlAsync(Constants.AzureManagementCoreApi, Constants.MicrosoftClientId, new Uri("https://unittest/redirect.html"), UserIdentifier.AnyUser, "").Result;
             WindowsFormsWebAuthenticationDialog form = new WindowsFormsWebAuthenticationDialog(null);
             form.WebBrowser.Navigated += delegate (object sender, WebBrowserNavigatedEventArgs args)
             {
@@ -82,6 +83,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
             while (string.IsNullOrEmpty(code))
             {
+
                 await Task.Delay(5000);
             }
 #endif
