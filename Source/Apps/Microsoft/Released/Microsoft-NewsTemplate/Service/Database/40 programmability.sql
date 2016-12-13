@@ -38,8 +38,8 @@ go
 CREATE PROCEDURE bpst_news.sp_write_key_phrases
 
 	-- Add the parameters for the stored procedure here
-	@docid VARCHAR(64), 
-	@keyPhraseJson VARCHAR(MAX)
+	@docid NVARCHAR(64), 
+	@keyPhraseJson NVARCHAR(MAX)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
