@@ -4,13 +4,13 @@ using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Helpers;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {

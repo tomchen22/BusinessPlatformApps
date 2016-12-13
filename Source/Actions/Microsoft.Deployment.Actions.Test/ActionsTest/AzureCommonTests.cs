@@ -3,7 +3,6 @@ using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -19,6 +18,7 @@ using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
 using Microsoft.Deployment.Actions.AzureCustom;
 using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {

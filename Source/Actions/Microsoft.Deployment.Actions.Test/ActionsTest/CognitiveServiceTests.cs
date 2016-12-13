@@ -1,12 +1,12 @@
 ﻿using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {

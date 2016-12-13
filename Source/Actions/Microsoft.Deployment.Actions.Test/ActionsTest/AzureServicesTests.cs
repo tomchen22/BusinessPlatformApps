@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.AnalysisServices.Tabular;
 using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -23,8 +24,11 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
         [TestMethod]
         public async Task ConnectToAzureAnalysisServices()
-        {
-            
+         {
+            Server server = new Server();
+            string connectionString = "Provider=MSOLAP;Data Source=asazure://westcentralus.asazure.windows.net/asserver;User ID=mohaali@microsoft.com;Password=testpass;Persist Security Info=True; Impersonation Level=Impersonate;";
+            server.Connect(connectionString);
+            Assert.IsTrue(server.Databases.Count > -1);
         }
 
         [TestMethod]
