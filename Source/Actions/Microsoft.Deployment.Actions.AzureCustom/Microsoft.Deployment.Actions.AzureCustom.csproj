@@ -198,6 +198,7 @@
     <Compile Include="AzureAS\DeployAzureAnalysisServices.cs" />
     <Compile Include="Common\GetStorageAccountKey.cs" />
     <Compile Include="LogicApp\LogicAppConnector.cs" />
+    <Compile Include="News\DeployAzureMLSchedulerLogicApp.cs" />
     <Compile Include="News\DeployAzureMLWorkspace.cs" />
     <Compile Include="News\DeployImageCachingLogicApp.cs" />
     <Compile Include="News\DeployNewsTemplateLogicApp.cs" />

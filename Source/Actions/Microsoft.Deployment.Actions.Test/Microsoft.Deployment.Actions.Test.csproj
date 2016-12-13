@@ -153,9 +153,11 @@
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\AzureFunctions.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\AzureMLSchedulerLogicApp.json" />
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\LogicAppImageCacher.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\NewsTemplateLogicApp.json" />
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
