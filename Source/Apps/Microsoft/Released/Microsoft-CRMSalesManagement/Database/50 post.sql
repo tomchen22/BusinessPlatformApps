@@ -12,7 +12,7 @@ go
 
 -- MsCrm needs to recreate these tables, however the fields we needed in the views will still be present
 DROP TABLE dbo.account;
-DROP TABLE dbo.businessunit;
+-- DROP TABLE dbo.businessunit;
 DROP TABLE dbo.lead;
 DROP TABLE dbo.opportunity;
 DROP TABLE dbo.opportunityproduct;
