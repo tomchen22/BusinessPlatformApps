@@ -395,17 +395,17 @@
                 "bingnews": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/bingnews')]",
                   "connectionName": "bingnews",
-                  "id": "[concat('/subscriptions/', parameters('subscription'), 'providers/Microsoft.Web/locations/brazilsouth/managedApis/bingnews')]"
+                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/brazilsouth/managedApis/bingnews')]"
                 },
                 "cognitiveservicestextanalytics": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/cognitiveservicestextanalytics')]",
                   "connectionName": "cognitiveservicestextanalytics",
-                  "id": "[concat('/subscriptions/', parameters('subscription'), 'providers/Microsoft.Web/locations/', resourceGroup().location, 'managedApis/cognitiveservicestextanalytics')]"
+                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/cognitiveservicestextanalytics')]"
                 },
                 "sql": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/sql')]",
                   "connectionName": "sql",
-                  "id": "[concat('/subscriptions/', parameters('subscription'), 'providers/Microsoft.Web/locations/', resourceGroup().location, 'managedApis/sql')]"
+                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/sql')]"
                 }
               }
             }

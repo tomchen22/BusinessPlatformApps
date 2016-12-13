@@ -51,11 +51,7 @@
           "actions": {
             "Clean_Bulk_Tables": {
               "inputs": {
-                "body": "",
                 "host": {
-                  "api": {
-                    "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/sql"
-                  },
                   "connection": {
                     "name": "@parameters('$connections')['sql_1']['connectionId']"
                   }
@@ -70,7 +66,7 @@
               "inputs": {
                 "host": {
                   "api": {
-                    "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/azureml"
+                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
                   },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
@@ -94,7 +90,7 @@
               "inputs": {
                 "host": {
                   "api": {
-                    "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/azureml"
+                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
                   },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
@@ -118,7 +114,7 @@
               "inputs": {
                 "host": {
                   "api": {
-                    "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/azureml"
+                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
                   },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
@@ -147,12 +143,12 @@
               "azureml": {
                 "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/azureml')]",
                 "connectionName": "AzureMLConnector",
-                "id": "[concat('/subscriptions/', parameters('subscription'), 'providers/Microsoft.Web/locations/', resourceGroup().location, 'managedApis/azureml')]"
+                "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/azureml')]"
               },
               "sql_1": {
                 "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/sql')]",
                 "connectionName": "MySqlConnector",
-                "id": "[concat('/subscriptions/', parameters('subscription'), 'providers/Microsoft.Web/locations/', resourceGroup().location, 'managedApis/sql')]"
+                "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/', resourceGroup().location, '/managedApis/sql')]"
               }
             }
           }
