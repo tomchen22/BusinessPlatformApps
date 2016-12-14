@@ -28,7 +28,7 @@ BEGIN
     SELECT Count(*) AS ExistingObjectCount
     FROM   information_schema.tables
     WHERE  ( table_schema = 'bpst_news' AND
-             table_name IN ('configuration', 'date', 'documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases', 'documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities', 'documentcompressedentities')
+             table_name IN ('configuration', 'date', 'documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases', 'documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities', 'documentcompressedentities', 'stg_documenttopics', 'stg_documenttopicimages', 'stg_entities', 'stg_documentcompressedentities')
            );
 END;
 go
@@ -37,35 +37,58 @@ go
 
 CREATE PROCEDURE bpst_news.sp_write_key_phrases
 
-	-- Add the parameters for the stored procedure here
-	@docid NVARCHAR(64), 
-	@keyPhraseJson NVARCHAR(MAX)
+    -- Add the parameters for the stored procedure here
+    @docid NVARCHAR(64),
+    @keyPhraseJson NVARCHAR(MAX)
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
 
-	INSERT INTO documentkeyphrases (documentId, phrase)
-	SELECT @docid AS documentId, value AS phrase
-	FROM OPENJSON(@keyPhraseJson)
+    INSERT INTO documentkeyphrases (documentId, phrase)
+    SELECT @docid AS documentId, value AS phrase
+    FROM OPENJSON(@keyPhraseJson)
 END;
 go
 
 -- Description:	Truncates all batch process tables so batch processes can be run
-
-CREATE PROCEDURE  bpst_news.sp_clean_batch_tables 
+CREATE PROCEDURE  bpst_news.sp_clean_stage_tables
 AS
 BEGIN
-	-- SET NOCOUNT ON added to prevent extra result sets from
-	-- interfering with SELECT statements.
-	SET NOCOUNT ON;
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
 
-	-- These tables are populated by AzureML batch processes.  
-	truncate table entities;
-	truncate table documentcompressedentities;
-	truncate table documenttopics;
-	truncate table documenttopicimages;
+    -- These tables are populated by AzureML batch processes.
+    TRUNCATE TABLE bpst_news.stg_entities;
+    TRUNCATE TABLE bpst_news.stg_documentcompressedentities;
+    TRUNCATE TABLE bpst_news.stg_documenttopics;
+    TRUNCATE TABLE bpst_news.stg_documenttopicimages;
 END;
 GO
 
+CREATE PROCEDURE  bpst_news.sp_mergedata
+AS
+BEGIN
+    -- SET NOCOUNT ON added to prevent extra result sets from
+    -- interfering with SELECT statements.
+    SET NOCOUNT ON;
+
+    TRUNCATE TABLE bpst_news.entities;
+    INSERT INTO bpst_news.entities WITH (TABLOCK) (documentId, entityType, entityValue, offset, offsetDocumentPercentage, [length])
+        SELECT documentId, entityType, entityValue, offset, offsetDocumentPercentage, [length] FROM bpst_news.stg_entities;
+
+    TRUNCATE TABLE bpst_news.documentcompressedentities;
+    INSERT INTO bpst_news.documentcompressedentities WITH (TABLOCK) (documentId, compressedEntitiesJson)
+        SELECT documentId, compressedEntitiesJson FROM bpst_news.stg_documentcompressedentities;
+
+    TRUNCATE TABLE bpst_news.documenttopics;
+    INSERT INTO bpst_news.documenttopics WITH (TABLOCK) (documentId, topicId, batchId, documentDistance, topicScore, topicKeyPhrase)
+        SELECT documentId, topicId, batchId, documentDistance, topicScore, topicKeyPhrase FROM bpst_news.stg_documenttopics;
+
+    TRUNCATE TABLE bpst_news.documenttopicimages;
+    INSERT INTO bpst_news.documenttopicimages WITH (TABLOCK) (topicId, imageUrl1, imageUrl2, imageUrl3, imageUrl4)
+        SELECT topicId, imageUrl1, imageUrl2, imageUrl3, imageUrl4 FROM bpst_news.stg_documenttopicimages;
+END;
+GO
