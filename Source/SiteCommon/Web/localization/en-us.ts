@@ -117,6 +117,7 @@
     SQL_SERVER_SKU_P1: `P1`,
     SQL_SERVER_SKU_S1: `S1`,
     SQL_SERVER_SKU_S2: `S2`,
+    SQL_SERVER_SKU_S3: `S3`,
     SQL_SERVER_STANDARD_AZURE: `We will create a Standard Azure instance inside your Azure Subscription.`,
     SQL_SERVER_USERNAME: `SQL Username:`,
     SQL_SERVER_USING_AZURE: `Using Azure SQL?`,

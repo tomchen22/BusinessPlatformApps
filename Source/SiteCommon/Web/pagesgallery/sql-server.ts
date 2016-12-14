@@ -25,6 +25,7 @@ export class SqlServer extends ViewModelBase {
 
     showDatabases: boolean = false;
     showNewSqlOption: boolean = false;
+    showSkuS1: boolean = true;
     sqlInstance: string = 'ExistingSql';
     sqlServer: string = '';
     sqlSku: string = 'S1';
