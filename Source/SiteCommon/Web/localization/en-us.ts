@@ -114,6 +114,7 @@
     SQL_SERVER_PROVISION: `Would you like us to provision a new Azure SQL instance or use an existing SQL instance?`,
     SQL_SERVER_SERVER_NAME: `Server Name:`,
     SQL_SERVER_SKU: `Server Sku:`,
+    SQL_SERVER_SKU_P1: `P1`,
     SQL_SERVER_SKU_S1: `S1`,
     SQL_SERVER_SKU_S2: `S2`,
     SQL_SERVER_STANDARD_AZURE: `We will create a Standard Azure instance inside your Azure Subscription.`,
