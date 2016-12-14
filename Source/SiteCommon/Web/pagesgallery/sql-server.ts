@@ -27,6 +27,7 @@ export class SqlServer extends ViewModelBase {
     showNewSqlOption: boolean = false;
     sqlInstance: string = 'ExistingSql';
     sqlServer: string = '';
+    sqlSku: string = 'S1';
     username: string = '';
     validateWindowsCredentials: boolean = false;
     validationTextBox: string = '';
@@ -87,7 +88,6 @@ export class SqlServer extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-
         let body = this.GetBody(true);
         let response: ActionResponse = null;
 
@@ -169,8 +169,12 @@ export class SqlServer extends ViewModelBase {
 
     private async CreateDatabaseServer() {
         this.navigationMessage = this.MS.Translate.SQL_SERVER_CREATING_NEW;
+
         let body = this.GetBody(true);
         body['SqlCredentials']['Database'] = this.newSqlDatabase;
+
+        this.MS.DataStore.addToDataStore('SqlSku', this.sqlSku, DataStoreType.Public);
+
         return await this.MS.HttpService.executeAsync('Microsoft-CreateAzureSql', body);
     }
 
@@ -178,7 +182,6 @@ export class SqlServer extends ViewModelBase {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
     }
-
 
     async OnLoaded() {
     }
