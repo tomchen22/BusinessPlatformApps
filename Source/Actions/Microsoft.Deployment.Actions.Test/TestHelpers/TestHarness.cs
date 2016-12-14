@@ -61,6 +61,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
             info.AppName = TemplateName;
+            info.WebsiteRootUrl = "https://unittest";
             return Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore }).Result;
         }
 
@@ -69,6 +70,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
             info.AppName = TemplateName;
+            info.WebsiteRootUrl = "https://unittest";
             return await Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore });
         }
 
@@ -124,7 +126,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
         public static void GetUserTokenThreadSafe()
         {
-            tempDataStore = AAD.GetTokenWithDataStore().Result;
+            tempDataStore = AAD.GetUserTokenFromPopup().Result;
         }
 
         public static async Task<DataStore> GetCommonDataStoreWithSql()
