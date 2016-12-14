@@ -37,9 +37,20 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AzureMLPS">
+      <HintPath>..\RefrencedAssemblies\AzureMLPS.dll</HintPath>
+    </Reference>
     <Reference Include="Hyak.Common, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Hyak.Common.1.1.0\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.Core, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.AnalysisServices.Core\v4.0_13.0.0.0__89845dcd8080cc91\Microsoft.AnalysisServices.Core.DLL</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AnalysisServices.Tabular, Version=13.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\..\Windows\Microsoft.NET\assembly\GAC_MSIL\Microsoft.AnalysisServices.Tabular\v4.0_13.0.0.0__89845dcd8080cc91\Microsoft.AnalysisServices.Tabular.DLL</HintPath>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.2.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.2.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
@@ -80,6 +91,14 @@
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.Platform, Version=3.13.8.999, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.0\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -129,6 +148,7 @@
       <HintPath>..\packages\System.Spatial.5.8.1\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +158,7 @@
     <Compile Include="ActionsTest\AzureCommonTests.cs" />
     <Compile Include="ActionsTest\AzureFunctionsTests.cs" />
     <Compile Include="ActionsTest\AzureMLTests.cs" />
+    <Compile Include="ActionsTest\AzureServicesTests.cs" />
     <Compile Include="ActionsTest\CDMTests.cs" />
     <Compile Include="ActionsTest\CognitiveServiceTests.cs" />
     <Compile Include="ActionsTest\CommonTests.cs" />
@@ -146,6 +167,15 @@
     <Compile Include="ActionsTest\SalesforceTests.cs" />
     <Compile Include="ActionsTest\StorageAccountTests.cs" />
     <Compile Include="ActionsTest\TestActions.cs" />
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\AzureFunctions.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\LogicAppImageCacher.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Apps\TestApps\TestApp\Service\Data\TweetFunctionCSharp.cs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -535,7 +565,25 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Service References\SalesforceSOAP\partner.wsdl" />
+    <None Include="SiteCommon\Service\Arm\azureml.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SiteCommon\Service\Arm\cognitiveServices.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="SiteCommon\Service\Arm\NewAzureAS.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SiteCommon\Service\Arm\sampleCDMEntity.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Entity Recognition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topic Images.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topics.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="SiteCommon\Web\pagesgallery\navbar.html">

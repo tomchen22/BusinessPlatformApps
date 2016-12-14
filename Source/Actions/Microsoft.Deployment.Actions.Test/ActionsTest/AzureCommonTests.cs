@@ -3,7 +3,6 @@ using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -17,7 +16,9 @@ using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Azure.Subscriptions;
 using Microsoft.Azure.Subscriptions.Models;
+using Microsoft.Deployment.Actions.AzureCustom;
 using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {
@@ -28,10 +29,20 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         public async Task GetAzureToken()
         {
             DataStore dataStore = new DataStore();
-            var datastore = await AAD.GetTokenWithDataStore();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
+            dataStore = await TestHarness.GetCommonDataStore();
+            dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
             Assert.IsTrue(result.IsSuccess);
             var responseBody = JObject.FromObject(result.Body);
+        }
+
+        [Ignore]
+        [TestMethod]
+        public async Task GetAzureEmail()
+        {
+            DataStore dataStore = new DataStore();
+            var datastore = await AAD.GetUserTokenFromPopup();
+            var emailAddress = AzureUtility.GetEmailFromToken(datastore.GetJson("AzureToken"));
         }
 
         [Ignore]
@@ -60,6 +71,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var armResult = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureArmTemplate", datastore);
             Assert.IsTrue(armResult.IsSuccess);
         }
+
 
         [TestMethod]
         public async Task DeleteResourceGroups()
