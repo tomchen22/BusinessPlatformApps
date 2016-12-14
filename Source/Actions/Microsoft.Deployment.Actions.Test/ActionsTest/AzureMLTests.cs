@@ -66,7 +66,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
                 string rawJson = string.Empty;
                 Experiment exp = sdk.GetExperimentById(workspaceSettings, experiment.ExperimentId, out rawJson);
                 System.IO.File.WriteAllText(experiment.Description.Replace(".","").Replace(":","") + ".json", rawJson);
+                
             }
+            
         }
 
         [TestMethod]

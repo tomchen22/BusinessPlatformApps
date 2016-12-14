@@ -586,6 +586,9 @@
     <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topics.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SiteCommon\Service\Arm\sqlserveranddatabase.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SiteCommon\Web\pagesgallery\navbar.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
