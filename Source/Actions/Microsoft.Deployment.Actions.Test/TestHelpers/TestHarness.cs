@@ -52,9 +52,14 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             {
                 var deleteResourceGroupResult =
                     await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);
+            }
+
+            if (!string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
                 RemoveTempDB();
             }
         }
+
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
         {
@@ -133,7 +138,11 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         {
             var dataStore = await GetCommonDataStore();
 
-            CreateTempDB();
+            if (string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
+                CreateTempDB();
+            }
+
             var connString = GetSqlPagePayload(CurrentDatabase);
             dataStore.AddToDataStore("SqlConnectionString", connString);
             return dataStore;

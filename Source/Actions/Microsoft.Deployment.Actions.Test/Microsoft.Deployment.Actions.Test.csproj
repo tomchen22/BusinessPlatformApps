@@ -197,6 +197,27 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\init.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\ArmParam.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\armtemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\datasets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\linkedServices.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\pipeline.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Apps\TestApps\TestApp2\init.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -672,6 +693,7 @@
   <ItemGroup>
     <Folder Include="Apps\TestApps\TestApp2\Resources\" />
     <Folder Include="Apps\TestApps\TestApp2\Service\" />
+    <Folder Include="Apps\TestApps\TestApp\Service\Database\ADF\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -680,6 +702,27 @@
     <WCFMetadataStorage Include="Service References\SalesforceSOAP\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\20 tables.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\30 views.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\40 programmability.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\60 data.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\00 content check.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\10 pre.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Resources\Scripts\testScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Apps\TestApps\TestApp\Service\Database\Cleanup\00 content check.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
