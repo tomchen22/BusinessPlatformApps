@@ -114,6 +114,8 @@
     SQL_SERVER_PROVISION: `Would you like us to provision a new Azure SQL instance or use an existing SQL instance?`,
     SQL_SERVER_SERVER_NAME: `Server Name:`,
     SQL_SERVER_SKU: `Server Sku:`,
+    SQL_SERVER_SKU_DESCRIPTION: `Performance and cost information for the different Azure SQL Database tiers are available`,
+    SQL_SERVER_SKU_LINK: `https://azure.microsoft.com/en-us/pricing/details/sql-database/`,
     SQL_SERVER_SKU_P1: `P1`,
     SQL_SERVER_SKU_S1: `S1`,
     SQL_SERVER_SKU_S2: `S2`,
