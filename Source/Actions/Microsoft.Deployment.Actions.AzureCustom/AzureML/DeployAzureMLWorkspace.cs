@@ -4,22 +4,20 @@
 // </copyright>
 //-----------------------------------------------------------------------
 
+using System.ComponentModel.Composition;
+using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.Resources;
+using Microsoft.Azure.Management.Resources.Models;
+using Microsoft.Deployment.Common.ActionModel;
+using Microsoft.Deployment.Common.Actions;
+using Microsoft.Deployment.Common.ErrorCode;
+using Microsoft.Deployment.Common.Helpers;
 
-namespace Microsoft.Bpst.Actions.AzureActions.News
+namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 {
-    using System.ComponentModel.Composition;
-    using System.Threading;
-    using System.IO;
-    using Microsoft.Azure;
-    using Microsoft.Azure.Management.Resources;
-    using Microsoft.Azure.Management.Resources.Models;
-    using Microsoft.Deployment.Common.ActionModel;
-    using Microsoft.Deployment.Common.Actions;
-    using Microsoft.Deployment.Common.ErrorCode;
-    using Microsoft.Deployment.Common.Helpers;
-
-
     [Export(typeof(IAction))]
     public class DeployAzureMLWorkspace : BaseAction
     {
@@ -28,14 +26,16 @@ namespace Microsoft.Bpst.Actions.AzureActions.News
             var azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             var subscription = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
-            var deploymentName = request.DataStore.GetValue("DeploymentName");
+            var deploymentName = request.DataStore.GetValue("DeploymentName") ?? "AzureMLDeployment";
 
             var workspaceName = request.DataStore.GetValue("WorkspaceName");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
-            var planName = request.DataStore.GetValue("PlanName");
-            var skuName = request.DataStore.GetValue("SkuName");
-            var skuTier = request.DataStore.GetValue("SkuTier");
-            var skuCapacity = request.DataStore.GetValue("SkuCapacity");
+            var planName = request.DataStore.GetValue("PlanName") ?? "testazuremlplan";
+            var skuName = request.DataStore.GetValue("SkuName")?? "S1";
+            var skuTier = request.DataStore.GetValue("SkuTier") ?? "Standard";
+            var skuCapacity = request.DataStore.GetValue("SkuCapacity") ?? "1";
+
+            // Get email address
 
             var param = new AzureArmParameterGenerator();
             param.AddStringParam("name", workspaceName);
@@ -46,11 +46,12 @@ namespace Microsoft.Bpst.Actions.AzureActions.News
             param.AddStringParam("skuName", skuName);
             param.AddStringParam("skuTier", skuTier);
             param.AddStringParam("skuCapacity", skuCapacity);
+            param.AddStringParam("ownerEmail", AzureUtility.GetEmailFromToken(request.DataStore.GetJson("AzureToken")));
 
             SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription, azureToken);
             Microsoft.Azure.Management.Resources.ResourceManagementClient client = new ResourceManagementClient(creds);
 
-            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/AzureArm/azureml.json")));
+            var armTemplate = JsonUtility.GetJObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.ControllerModel.SiteCommonFilePath, "Service/Arm/azureml.json")));
             var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
             armTemplate.Remove("parameters");
             armTemplate.Add("parameters", armParamTemplate["parameters"]);

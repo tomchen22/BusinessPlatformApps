@@ -6,9 +6,9 @@ import { DataStoreType } from '../services/datastore';
 
 export class MsCrmLogin extends AzureLogin {
     entities: string = '';
-    hasToken: boolean = false;
     msCrmOrganizationId: string = '';
     msCrmOrganizations: MsCrmOrganization[] = [];
+    showAzureTrial: boolean = false;
 
     constructor() {
         super();
@@ -18,9 +18,10 @@ export class MsCrmLogin extends AzureLogin {
         this.MS.ErrorService.Clear();
 
         this.isValidated = false;
+        this.showAzureTrial = false;
         this.showValidation = false;
 
-        if (this.msCrmOrganizations.length > 0) {
+        if (this.subscriptionsList.length > 0 && this.msCrmOrganizations.length > 0) {
             this.isValidated = true;
             this.showValidation = true;
         } else {
@@ -38,26 +39,25 @@ export class MsCrmLogin extends AzureLogin {
                 };
                 this.authToken = await this.MS.HttpService.executeAsync('Microsoft-GetAzureToken', tokenObj);
                 if (this.authToken.IsSuccess) {
-                    this.hasToken = true;
-
                     var response = await this.MS.HttpService.executeAsync('Microsoft-CrmGetOrgs', {});
                     if (response.IsSuccess) {
                         this.msCrmOrganizations = JSON.parse(response.Body.value);
                         if (this.msCrmOrganizations && this.msCrmOrganizations.length > 0) {
                             this.msCrmOrganizationId = this.msCrmOrganizations[0].OrganizationId;
+
+                            let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
+                            if (subscriptions.IsSuccess) {
+                                this.subscriptionsList = subscriptions.Body.value;
+                                if (!this.subscriptionsList ||
+                                    (this.subscriptionsList && this.subscriptionsList.length === 0)) {
+                                    this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
+                                    this.showAzureTrial = true;
+                                } else {
+                                    this.showPricingConfirmation = true;
+                                }
+                            }
                         } else {
                             this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
-                        }
-
-                        let subscriptions: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureSubscriptions', {});
-                        if (subscriptions.IsSuccess) {
-                            this.subscriptionsList = subscriptions.Body.value;
-                            if (!this.subscriptionsList ||
-                                (this.subscriptionsList && this.subscriptionsList.length === 0)) {
-                                this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
-                            } else {
-                                this.showPricingConfirmation = true;
-                            }
                         }
                     }
                 }
@@ -67,7 +67,6 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     async connect() {
-        //this.MS.DataStore.addToDataStoreWithCustomRoute('login-', 'oauthType', this.oauthType, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('oauthType', this.oauthType, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('AADTenant', 'common', DataStoreType.Public);
         let response: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetAzureAuthUri', {});

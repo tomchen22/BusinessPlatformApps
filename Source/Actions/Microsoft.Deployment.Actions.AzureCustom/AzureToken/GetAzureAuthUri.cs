@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 using Microsoft.Deployment.Common;
 using Microsoft.Deployment.Common.ActionModel;
@@ -18,6 +19,30 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
     [Export(typeof(IAction))]
     public class GetAzureAuthUri : BaseAction
     {
+        private void ExtractUserandTenant(string token, out string oId, out string tenantId)
+        {
+            int propCount = 0;
+            oId = tenantId = null;
+
+            foreach (var c in new JwtSecurityToken(token).Claims)
+            {
+                switch (c.Type.ToLowerInvariant())
+                {
+                    case "oid":
+                        oId = c.Value;
+                        propCount++;
+                        break;
+                    case "tid":
+                        tenantId = c.Value;
+                        propCount++;
+                        break;
+                }
+
+                if (propCount >= 2)
+                    break;
+            }
+        }
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             var aadTenant = request.DataStore.GetValue("AADTenant");
@@ -57,65 +82,45 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                             }
                         }
 
+                        AzureOperationResponse operationResponse;
                         if (!kvExists)
                         {
-                            ProviderRegistionResult result = await managementClient.Providers.RegisterAsync("Microsoft.KeyVault");
-                            if (result.StatusCode != System.Net.HttpStatusCode.OK)
-                            {
+                            operationResponse = managementClient.Providers.Register("Microsoft.KeyVault");
+                            if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK || operationResponse.StatusCode != System.Net.HttpStatusCode.Accepted )
                                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
-                            }
-                        }
-                        string tempVaultName = "bpst-" + RandomGenerator.GetRandomLowerCaseCharacters(12) ;
 
-                        GenericResource genRes = new GenericResource("westus");
-                        string oid = null;
-                        string tenantID = null;
-                        int propCount = 0;
-                        foreach (var c in new JwtSecurityToken(azureToken).Claims)
+                            Thread.Sleep(10000); // Wait for it to register
+                        }
+                        
+                        string oid ;
+                        string tenantID;
+                        ExtractUserandTenant(azureToken, out oid, out tenantID);
+
+                        const string vaultApiVersion = "2015-06-01";
+                        string tempVaultName = "bpst-" + RandomGenerator.GetRandomLowerCaseCharacters(12);
+                        GenericResource genRes = new GenericResource("westus")
                         {
-                            switch (c.Type.ToLowerInvariant())
-                            {
-                                case "oid":
-                                    oid = c.Value;
-                                    propCount++;
-                                    break;
-                                case "tid":
-                                    tenantID = c.Value;
-                                    propCount++;
-                                    break;
-                            }
+                            Properties = "{\"sku\": { \"family\": \"A\", \"name\": \"Standard\" }, \"tenantId\": \"" + tenantID + "\", \"accessPolicies\": [], \"enabledForDeployment\": true }"
+                        };
 
-                            if (propCount >= 2)
-                                break;
-                        }
+                        operationResponse = managementClient.Resources.CreateOrUpdate(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion), genRes);
+                        bool operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK) || (operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted);
+                        Thread.Sleep(15000); // The created vault has an Url. DNS propagation will take a while
 
-                        genRes.Properties = "{   \"sku\": {        \"family\": \"A\",       \"name\": \"Standard\"          },   \"tenantId\": \"" + tenantID + "\",  \"accessPolicies\": [],  \"enabledForDeployment\": true   }";
-                        var tempVault = await managementClient.Resources.CreateOrUpdateAsync(resourceGroup, new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", "2015-06-01"), genRes);
-                        if (tempVault.StatusCode == System.Net.HttpStatusCode.OK)
+                        if (operationSucceeded)
                         {
-                            ResourceIdentity resIdent = new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", "2015-06-01");
-                            var deleteResponse =  managementClient.Resources.Delete(resourceGroup, resIdent);
-                            if (deleteResponse.StatusCode != System.Net.HttpStatusCode.OK)
-                            {
-                                return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
-                            }
+                            ResourceIdentity resIdent = new ResourceIdentity(tempVaultName, "Microsoft.KeyVault/vaults", vaultApiVersion);
+                            operationResponse = managementClient.Resources.Delete(resourceGroup, resIdent);
+                            operationSucceeded = (operationResponse.StatusCode == System.Net.HttpStatusCode.OK) || (operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted);
                         }
-                        else
+
+                        if (!operationSucceeded)
                             return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "MsCrm_ErrorRegisterKv");
-
                     }
 
                     clientId = Constants.MicrosoftClientIdCrm;
                     resource = Constants.AzureKeyVaultApi;
-
-                    //if (aadTenant.EqualsIgnoreCase("common"))
-                    //{
-                        authBase = string.Format(Constants.AzureAuthUri, aadTenant);
-                   // }
-                    //else
-                   // {
-                     //   authBase = string.Format("https://login.windows.net/{0}/oauth2/authorize?", aadTenant);
-                  //  }
+                    authBase = string.Format(Constants.AzureAuthUri, aadTenant);
 
                     break;
                 default:

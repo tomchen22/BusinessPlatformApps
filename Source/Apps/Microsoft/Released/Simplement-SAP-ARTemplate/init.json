@@ -36,7 +36,7 @@
         ],
         "Pages": [
             {
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Simplement-SAP-ARTemplate/Web/Images/sap-accounts-receivable.png",
                 "displayname": "Getting Started",
                 "isDownload": "$(!this.MS.HttpService.isOnPremise)",
                 "list1": [
@@ -103,14 +103,14 @@
                 "name": "customize.html",
                 "displayname": "Customize"
             },
-          {
-            "name": "$SiteCommon$/pagesgallery/progress.html",
-            "displayname": "Progress",
-            "finishedActionName": "Microsoft-GetTaskStatus",
-            "targetSchema": "sap",
-            "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)",
-            "showEmailSubmission": false
-          }
+            {
+                "name": "$SiteCommon$/pagesgallery/progress.html",
+                "displayname": "Progress",
+                "finishedActionName": "Microsoft-GetTaskStatus",
+                "targetSchema": "sap",
+                "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)",
+                "showEmailSubmission": false
+            }
         ]
     },
     "Uninstall": {
@@ -118,7 +118,7 @@
             {
                 "name": "$SiteCommon$/pagesgallery/uninstall.html",
                 "displayname": "Uninstall",
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Web/Images/sap-accounts-receivable.png",
+                "architectureDiagram": "dist/Apps/Microsoft/Released/Simplement-SAP-ARTemplate/Web/Images/sap-accounts-receivable.png",
                 "templateName": "Accounts Receivable Reporting for SAP",
                 "isDownload": "$(!this.MS.HttpService.isOnPremise)",
                 "uninstallList": [
@@ -131,7 +131,8 @@
                 "name": "$SiteCommon$/pagesgallery/progress.html",
                 "displayname": "Uninstall Progress",
                 "successMessage": "Uninstall complete",
-                "isUninstall": true
+                "isUninstall": true,
+                "showEmailSubmission": false
             }
         ],
         "Actions": [
@@ -142,13 +143,13 @@
             },
             {
                 "name": "Microsoft-RemoveFiles",
-                "displayname": "Finishing cleanup",
+                "displayname": "Remove files",
                 "TargetPath": "C:\\ProgramData\\Simplement, Inc"
             },
             {
                 "name": "Microsoft-RemoveFiles",
                 "displayname": "Finishing cleanup",
-                "TargetPath": "Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
+                "TargetPath": "C:\\Program Files\\Microsoft Templates\\Simplement-SAP-ARTemplate\\Apps\\Microsoft\\Released\\Microsoft-SapAccountsReceivable\\Temp"
             }
         ]
     }

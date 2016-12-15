@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
@@ -33,14 +33,15 @@ namespace Microsoft.Deployment.Actions.Custom
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    //If the directory is not found return succes. Either it's been deleted manually or customer installed in a different directory.
+                    //If the directory is not found return success. Either it's been deleted manually or customer installed in a different directory.
                 }
-                catch (Exception ex)
+                catch //(Exception ex)
                 {
-                    response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);
+                    //response = new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), ex, string.Empty);
                 }
             }
             return response;
+
         }
     }
 }

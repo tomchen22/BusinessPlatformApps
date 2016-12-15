@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.Deployment.Common.Helpers;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
