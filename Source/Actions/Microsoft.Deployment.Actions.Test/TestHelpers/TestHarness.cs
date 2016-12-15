@@ -143,7 +143,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
                 CreateTempDB();
             }
 
-            var connString = (GetSqlPagePayload(CurrentDatabase).Body as JObject)["value"].ToString();
+            var connString = GetSqlPagePayload(CurrentDatabase);
             dataStore.AddToDataStore("SqlConnectionString", connString);
             return dataStore;
         }
