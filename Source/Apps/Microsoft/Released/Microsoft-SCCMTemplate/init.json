@@ -23,7 +23,7 @@
                     "Data pulled daily from System Center Configuration Manager & stored in a SQL database optimized for reporting",
                     "Import data into powerful Power BI reports"
                 ],
-                "subtitle": "Welcome to the public preview of the System Center Configuration Manager solution template.",
+                "subtitle": "Welcome to the System Center Configuration Manager solution template.",
                 "templateName": "System Center Configuration Manager",
                 "isDownload": "$(!this.MS.HttpService.isOnPremise)"
             },
