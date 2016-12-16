@@ -25,7 +25,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         private static DataStore CommonDataStoreServicePrincipal = null;
         private static DataStore CommonDataStoreUserToken = null;
         private static string ResourceGroup = "UnitTest" + RandomGenerator.GetRandomLowerCaseCharacters(5);
-        private static string CurrentDatabase = string.Empty;
+        public static string CurrentDatabase = string.Empty;
 
 
         [AssemblyInitialize()]
@@ -240,7 +240,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             return (sqlResponse.Body as JObject)["value"].ToString();
         }
 
-        private static void RunSqlCommandWithoutTransaction(SqlCredentials creds, string commandText)
+        public static void RunSqlCommandWithoutTransaction(SqlCredentials creds, string commandText)
         {
             var connString = SqlUtility.GetConnectionString(creds).Replace("Connect Timeout=15", "Connect Timeout=60");
             using (var cn = new SqlConnection(connString))
