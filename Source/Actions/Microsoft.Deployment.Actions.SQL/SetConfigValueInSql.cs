@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.Composition;
+﻿using System.Collections.Generic;
+using System.ComponentModel.Composition;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
@@ -25,9 +26,9 @@ namespace Microsoft.Deployment.Actions.SQL
 
             // Get list of settings to deploy;
             JToken listGroup = request.DataStore.GetJson("SqlGroup");
-            JToken listSubgroup = request.DataStore.GetJson("SqlSubGroup");
-            JToken listConfigEntryName = request.DataStore.GetJson("SqlEntryName");
-            JToken listConfigEntryValue = request.DataStore.GetJson("SqlEntryValue");
+            JToken listSubgroup = request.DataStore.GetAllValues("SqlSubGroup");
+            JToken listConfigEntryName = request.DataStore.GetAllValues("SqlEntryName");
+            JToken listConfigEntryValue = request.DataStore.GetAllValues("SqlEntryValue");
 
             if (listGroup == null || listSubgroup == null || listConfigEntryName == null || listConfigEntryValue == null)
             {

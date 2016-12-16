@@ -17,6 +17,31 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     public class CommonTests
     {
         [TestMethod]
+        public void SetConfigValuesInSql_Success()
+        {
+            var dataStore = TestHarness.GetCommonDataStoreWithSql().Result;
+            dataStore.AddToDataStore("SqlServerIndex", 0, DataStoreType.Any);
+            dataStore.AddToDataStore("Customize", "SqlGroup",  "SolutionTemplate", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize", "SqlSubGroup", "System Center", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize", "SqlEntryName", "endpointcompliancetarget", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize", "SqlEntryValue", "0.99", DataStoreType.Public);
+
+            dataStore.AddToDataStore("Customize1", "SqlGroup", "SolutionTemplate", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize1", "SqlSubGroup", "System Center", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize1", "SqlEntryName", "healthevaluationtarget", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize1", "SqlEntryValue", "0.99", DataStoreType.Public);
+            
+            dataStore.AddToDataStore("Customize3", "SqlGroup", "SolutionTemplate", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize3", "SqlSubGroup", "System Center", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize3", "SqlEntryName", "healthevaluationtarget", DataStoreType.Public);
+            dataStore.AddToDataStore("Customize3", "SqlEntryValue", "120", DataStoreType.Public);
+
+            var response = TestHarness.ExecuteAction("Microsoft-SetConfigValueInSql", dataStore);
+
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+        }
+
+        [TestMethod]
         public void WranglePBIXSuccess()
         {
             ActionResponse sqlResponse = GetSqlPagePayload();
