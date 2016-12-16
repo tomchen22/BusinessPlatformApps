@@ -48,7 +48,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         [AssemblyCleanup()]
         public static async void AssemblyCleanup()
         {
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (!System.Diagnostics.Debugger.IsAttached)
             {
                 var deleteResourceGroupResult =
                     await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);

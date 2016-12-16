@@ -78,12 +78,12 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var datastore = await TestHarness.GetCommonDataStore();
 
             dynamic obj = new ExpandoObject();
-            obj.Server = "motestserver1234567";
+            obj.Server = "motestserver12345678";
             obj.User = "MoTestUser";
             obj.Password = "Passw0rd12343";
             obj.Database = "MoTestDatabase";
             datastore.AddToDataStore("SqlCredentials", JsonUtility.GetJObjectFromObject(obj));
-            datastore.AddToDataStore("SqlLocation", "East US");
+            datastore.AddToDataStore("SqlLocation", "West US");
             datastore.AddToDataStore("SqlSku", "P1");
             var response = await TestHarness.ExecuteActionAsync("Microsoft-CreateAzureSql", datastore);
             Assert.IsTrue(response.IsSuccess);
