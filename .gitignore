@@ -34,3 +34,4 @@
 *.vspscc
 /Source/Apps/Microsoft/Released/Microsoft-SapAccountsReceivable/Microsoft-SapAccountsReceivable.exe
 /Source/Site/Microsoft.Deployment.Site.Web/typings
+/Source/Site/Microsoft.Deployment.Site.Web/wwwroot/config.js
