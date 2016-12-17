@@ -15,42 +15,23 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     [TestClass]
     public class CogntiveServiceTests
     {
-        [Ignore]
         [TestMethod]
         public async Task DeployCognitiveServiceTextTest()
         {
-            var dataStore = await AAD.GetTokenWithDataStore();
-            var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", dataStore);
-            Assert.IsTrue(result.IsSuccess);
-            var responseBody = JObject.FromObject(result.Body);
-            var subscriptionId = responseBody["value"][0]["SubscriptionId"].ToString();
+            var dataStore = await TestHarness.GetCommonDataStore();
 
-            dynamic obj = new ExpandoObject();
-            obj.SelectedSubscription = new ExpandoObject();
-            obj.SelectedSubscription.SubscriptionId = subscriptionId;
-
-            dynamic loc = new ExpandoObject();
-            loc.SelectedLocation = new ExpandoObject();
-            loc.SelectedLocation.Name = "westus";
-
-            dataStore.AddObjectDataStore(JsonUtility.GetJObjectFromObject(obj), DataStoreType.Any);
-            dataStore.AddObjectDataStore(JsonUtility.GetJObjectFromObject(loc), DataStoreType.Any);
-
-            dataStore.AddToDataStore("SelectedResourceGroup", "testing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService");
-            dataStore.AddToDataStore("SkuName", "F0");
+            dataStore.AddToDataStore("CognitiveSkuName", "F0");
+            dataStore.AddToDataStore("DeploymentName", "deployment");
 
-            var response = TestHarness.ExecuteAction("Microsoft-CreateResourceGroup", dataStore);
-            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveServiceText", dataStore);
-            Assert.IsTrue(response.Status == ActionStatus.Success);
-            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+           var response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveServiceText", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
-            if (response.Status == ActionStatus.Success)
-            {
-                response = TestHarness.ExecuteAction("Microsoft-DeleteResourceGroup", dataStore);
-                Assert.IsTrue(response.Status == ActionStatus.Success);
-            }
+            response = TestHarness.ExecuteAction("Microsoft-GetCognitiveServiceKeys", dataStore);
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            dataStore.AddObjectDataStore(response.Body.GetJObject(), DataStoreType.Private);
+            Assert.IsTrue(dataStore.GetValue("CognitiveServiceKey") != null);
         }
 
         [TestMethod]
