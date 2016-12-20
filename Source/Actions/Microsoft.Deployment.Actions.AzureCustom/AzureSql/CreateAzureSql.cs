@@ -104,7 +104,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureSql
             };
 
             var connectionStringResponse = SqlUtility.GetConnectionString(credentials);
-            return new ActionResponse(ActionStatus.Success, JsonUtility.CreateJObjectWithValueFromObject(connectionStringResponse));
+            return new ActionResponse(ActionStatus.Success, JsonUtility.CreateJObjectWithValueFromObject(connectionStringResponse), true);
         }
     }
 }
