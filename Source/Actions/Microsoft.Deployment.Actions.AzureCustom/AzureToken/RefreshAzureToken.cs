@@ -34,7 +34,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 
 
             var obj = new JObject(new JProperty("AzureToken", response));
-            return new ActionResponse(ActionStatus.Success, obj);
+            return new ActionResponse(ActionStatus.Success, obj, true);
         }
 
         private static StringBuilder GetTokenUri(string refresh_token, string uri, string rootUrl)
