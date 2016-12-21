@@ -27,6 +27,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <NoWarn>CS1998</NoWarn>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -81,8 +82,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6187.21174, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201612091144\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6198.11686, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201612200629\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory, Version=3.13.8.999, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -173,6 +174,9 @@
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\LogicAppImageCacher.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Apps\TestApps\TestApp\Service\AzureArm\sentimentCognitiveService.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -195,6 +199,27 @@
   <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\init.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\ArmParam.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\armtemplate.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\datasets.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\linkedServices.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\pipeline.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Apps\TestApps\SalesforceTestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Apps\TestApps\TestApp2\init.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -586,6 +611,9 @@
     <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topics.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="SiteCommon\Service\Arm\sqlserveranddatabase.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="SiteCommon\Web\pagesgallery\navbar.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -668,6 +696,7 @@
   <ItemGroup>
     <Folder Include="Apps\TestApps\TestApp2\Resources\" />
     <Folder Include="Apps\TestApps\TestApp2\Service\" />
+    <Folder Include="Apps\TestApps\TestApp\Service\Database\ADF\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
@@ -676,6 +705,27 @@
     <WCFMetadataStorage Include="Service References\SalesforceSOAP\" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\20 tables.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\30 views.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\40 programmability.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\60 data.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\00 content check.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\10 pre.sql">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Resources\Scripts\testScript.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Apps\TestApps\TestApp\Service\Database\Cleanup\00 content check.sql">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

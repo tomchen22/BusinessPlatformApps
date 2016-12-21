@@ -25,7 +25,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         private static DataStore CommonDataStoreServicePrincipal = null;
         private static DataStore CommonDataStoreUserToken = null;
         private static string ResourceGroup = "UnitTest" + RandomGenerator.GetRandomLowerCaseCharacters(5);
-        private static string CurrentDatabase = string.Empty;
+        public static string CurrentDatabase = string.Empty;
 
 
         [AssemblyInitialize()]
@@ -48,19 +48,25 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
         [AssemblyCleanup()]
         public static async void AssemblyCleanup()
         {
-            if (System.Diagnostics.Debugger.IsAttached)
+            if (!System.Diagnostics.Debugger.IsAttached)
             {
                 var deleteResourceGroupResult =
                     await TestHarness.ExecuteActionAsync("Microsoft-DeleteResourceGroup", GetCommonDataStore().Result);
+            }
+
+            if (!string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
                 RemoveTempDB();
             }
         }
+
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
         {
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
             info.AppName = TemplateName;
+            info.WebsiteRootUrl = "https://unittest";
             return Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore }).Result;
         }
 
@@ -69,6 +75,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             UserInfo info = new UserInfo();
             info.ActionName = actionName;
             info.AppName = TemplateName;
+            info.WebsiteRootUrl = "https://unittest";
             return await Controller.ExecuteAction(info, new ActionRequest() { DataStore = datastore });
         }
 
@@ -124,14 +131,18 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
         public static void GetUserTokenThreadSafe()
         {
-            tempDataStore = AAD.GetTokenWithDataStore().Result;
+            tempDataStore = AAD.GetUserTokenFromPopup().Result;
         }
 
         public static async Task<DataStore> GetCommonDataStoreWithSql()
         {
             var dataStore = await GetCommonDataStore();
 
-            CreateTempDB();
+            if (string.IsNullOrWhiteSpace(CurrentDatabase))
+            {
+                CreateTempDB();
+            }
+
             var connString = GetSqlPagePayload(CurrentDatabase);
             dataStore.AddToDataStore("SqlConnectionString", connString);
             return dataStore;
@@ -229,7 +240,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             return (sqlResponse.Body as JObject)["value"].ToString();
         }
 
-        private static void RunSqlCommandWithoutTransaction(SqlCredentials creds, string commandText)
+        public static void RunSqlCommandWithoutTransaction(SqlCredentials creds, string commandText)
         {
             var connString = SqlUtility.GetConnectionString(creds).Replace("Connect Timeout=15", "Connect Timeout=60");
             using (var cn = new SqlConnection(connString))

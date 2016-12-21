@@ -72,6 +72,22 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(armResult.IsSuccess);
         }
 
+        [TestMethod]
+        public async Task DeployAzureSqlDatabase()
+        {
+            var datastore = await TestHarness.GetCommonDataStore();
+
+            dynamic obj = new ExpandoObject();
+            obj.Server = "motestserver12345678";
+            obj.User = "MoTestUser";
+            obj.Password = "Passw0rd12343";
+            obj.Database = "MoTestDatabase";
+            datastore.AddToDataStore("SqlCredentials", JsonUtility.GetJObjectFromObject(obj));
+            datastore.AddToDataStore("SqlLocation", "West US");
+            datastore.AddToDataStore("SqlSku", "P1");
+            var response = await TestHarness.ExecuteActionAsync("Microsoft-CreateAzureSql", datastore);
+            Assert.IsTrue(response.IsSuccess);
+        }
 
         [TestMethod]
         public async Task DeleteResourceGroups()
