@@ -112,7 +112,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
                 Thread newThread = new Thread(GetUserTokenThreadSafe);
                 newThread.SetApartmentState(ApartmentState.STA);
                 newThread.Start();
-                while (newThread.ThreadState == ThreadState.Running)
+                while (newThread.ThreadState != ThreadState.Stopped)
                 {
                     await Task.Delay(3000);
                 }

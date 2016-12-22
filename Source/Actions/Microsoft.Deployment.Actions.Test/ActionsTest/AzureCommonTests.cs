@@ -45,18 +45,15 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var emailAddress = AzureUtility.GetEmailFromToken(datastore.GetJson("AzureToken"));
         }
 
-        [Ignore]
         [TestMethod]
         public async Task GetAzureTokenAndRefresh()
         {
-            string ticks = "1480723773";
-            dynamic tokenObj = new ExpandoObject();
-            tokenObj.access_token = "FAKE";
-            tokenObj.expires_on = ticks;
-            DataStore datastore = new DataStore();
-            datastore.AddToDataStore("AzureToken", JObject.FromObject(tokenObj), DataStoreType.Private);
+            DataStore datastore = await TestHarness.GetCommonDataStoreWithUserToken();
+            datastore.GetJson("AzureToken")["expires_on"] = "1480723773";
 
+            // Hack - call the subscriptions twice to ensure new token is used
             var result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
+            result = await TestHarness.ExecuteActionAsync("Microsoft-GetAzureSubscriptions", datastore);
         }
 
         [Ignore]
