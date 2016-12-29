@@ -22,9 +22,16 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             //Manual steps - deploy function + deploy cognitive services
             var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
 
-            //Deploy Azure Function
+            //Deploy Azure Function - need to fix DLL issue before the test will work
 
+            dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
+            dataStore.AddToDataStore("FunctionAppHostingPlan", "FunctionPlanName");
+            dataStore.AddToDataStore("Name", "unituestrialbpst" + randomString);
 
+            var response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
             //Deploy Azure storage account
 
@@ -34,7 +41,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
             dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
 
-            var response = TestHarness.ExecuteAction("Microsoft-CreateAzureStorageAccount", dataStore);
+            response = TestHarness.ExecuteAction("Microsoft-CreateAzureStorageAccount", dataStore);
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
             Assert.IsTrue(response.IsSuccess);
@@ -52,7 +59,30 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
 
             //Deploy cognitive services
+            dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployText");
+            dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService");
+            dataStore.AddToDataStore("CognitiveServiceType", "TextAnalytics");
+            dataStore.AddToDataStore("CognitiveSkuName", "S1");
 
+            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
+            dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
+            dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
+            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
             //Image Cache Logic App
             dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
@@ -60,7 +90,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("SearchQuery", "microsoft");
             dataStore.AddToDataStore("ConnectorName", "azureblob");
             dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
-            dataStore.AddToDataStore("SiteName", "unituestrialbpstxskjf");
             dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
 
             dynamic payload = new ExpandoObject();
@@ -83,6 +112,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
 
             //NewsTemplateLogicApp
+            dataStore.AddToDataStore("SiteName", "unituestrialbpst" + randomString);
             dataStore.AddToDataStore("ConnectorName", "bingnews");
             payload = new ExpandoObject();
             payload.apiKey = "a1a17649b8784afd9219fdcf3f945552";
@@ -106,9 +136,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorName", "sql");
             payload = new ExpandoObject();
             payload.authType = "windows";
-            payload.database = "testruns";
+            payload.database = "newstemplate";
             payload.password = "Billing.26";
-            payload.server = "pbist.database.windows.net";
+            payload.server = "testtemplateworks.database.windows.net";
             payload.username = "pbiadmin";
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
