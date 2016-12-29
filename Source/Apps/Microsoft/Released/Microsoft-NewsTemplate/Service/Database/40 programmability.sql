@@ -6,6 +6,91 @@ SET CONCAT_NULL_YIELDS_NULL ON;
 SET QUOTED_IDENTIFIER       ON;
 go
 
+CREATE PROCEDURE WriteDocument
+	-- Document parameters
+	@docid NCHAR(64),
+	@text NVARCHAR(max) NULL,
+	@textLength INT NULL,
+	@cleanedText NVARCHAR(max) NULL,
+	@cleanedTextLength int NULL,
+	@title NVARCHAR(2000) NULL,
+	@sourceUrl NVARCHAR(2000) NULL,
+	@sourceDomain NVARCHAR(1000) NULL,
+	@category NVARCHAR(150) NULL,
+	@imageUrl NVARCHAR(max) = NULL,
+	@imageWidth INT = NULL,
+	@imageHeight INT = NULL,
+
+	-- Published Timestamp
+	@publishedTimestamp datetime,
+	@publishedMonthPrecision datetime,
+	@publishedWeekPrecision datetime,
+	@publishedDayPrecision datetime,
+	@publishedHourPrecision datetime,
+	@publishedMinutePrecision datetime,
+
+	-- Ingest Timestamp
+	@ingestTimestamp datetime,
+	@ingestMonthPrecision datetime,
+	@ingestWeekPrecision datetime,
+	@ingestDayPrecision datetime,
+	@ingestHourPrecision datetime,
+	@ingestMinutePrecision datetime,
+
+	-- Sentiment
+	@sentimentScore float,
+
+	-- Key Phrases
+	@keyPhraseJson NVARCHAR(2000)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	-- Set XACT_ABORT to roll back any open transactions for most errors
+	SET XACT_ABORT, NOCOUNT ON
+
+	BEGIN TRANSACTION
+
+	BEGIN TRY
+		DELETE FROM Documents WHERE id = @docid;
+
+		INSERT INTO Documents
+		( id, text, textLength,	cleanedText, cleanedTextLength, title, sourceUrl, sourceDomain, category, imageUrl, imageWidth, imageHeight )
+		VALUES
+		( @docid, @text, @textLength, @cleanedText, @cleanedTextLength, @title, @sourceUrl, @sourceDomain, @category, @imageUrl, @imageWidth, @imageHeight );
+
+		DELETE FROM DocumentPublishedTimes WHERE id = @docid;
+		INSERT INTO DocumentPublishedTimes
+		( id, "timestamp", monthPrecision, weekPrecision, dayPrecision, hourPrecision, minutePrecision )
+		VALUES
+		( @docId, @publishedTimestamp, @publishedMonthPrecision, @publishedWeekPrecision, @publishedDayPrecision, @publishedHourPrecision, @publishedMinutePrecision );
+
+		DELETE FROM DocumentIngestedTimes WHERE id = @docid;
+		INSERT INTO DocumentIngestedTimes
+		( id, "timestamp", monthPrecision, weekPrecision, dayPrecision, hourPrecision, minutePrecision )
+		VALUES
+		( @docId, @ingestTimestamp, @ingestMonthPrecision, @ingestWeekPrecision, @ingestDayPrecision, @ingestHourPrecision, @ingestMinutePrecision );
+
+		DELETE FROM DocumentSentimentScores WHERE id = @docid;
+		INSERT INTO DocumentSentimentScores (id, score) VALUES ( @docid, @sentimentScore );
+
+		DELETE FROM DocumentKeyPhrases WHERE documentId = @docid;
+
+		INSERT INTO DocumentKeyPhrases (documentId, phrase)
+		SELECT @docid AS documentId, value AS phrase
+		FROM OPENJSON(@keyPhraseJson);
+
+		COMMIT TRANSACTION;
+	END TRY
+	BEGIN CATCH
+		IF @@trancount > 0 ROLLBACK TRANSACTION
+		DECLARE @msg nvarchar(2048) = error_message()
+		RAISERROR (@msg, 16, 1)
+	END CATCH
+END;
+go
+
+
 CREATE PROCEDURE bpst_news.sp_get_replication_counts AS
 BEGIN
     SET NOCOUNT ON;
@@ -33,24 +118,6 @@ BEGIN
 END;
 go
 
--- Description:	Takes a JSON array of key phrases and writes them to the DocumentKeyPhrases table
-
-CREATE PROCEDURE bpst_news.sp_write_key_phrases
-
-    -- Add the parameters for the stored procedure here
-    @docid NVARCHAR(64),
-    @keyPhraseJson NVARCHAR(MAX)
-AS
-BEGIN
-    -- SET NOCOUNT ON added to prevent extra result sets from
-    -- interfering with SELECT statements.
-    SET NOCOUNT ON;
-
-    INSERT INTO documentkeyphrases (documentId, phrase)
-    SELECT @docid AS documentId, value AS phrase
-    FROM OPENJSON(@keyPhraseJson)
-END;
-go
 
 -- Description:	Truncates all batch process tables so batch processes can be run
 CREATE PROCEDURE  bpst_news.sp_clean_stage_tables

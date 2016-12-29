@@ -146,6 +146,7 @@
     <Compile Include="ActionsTest\CognitiveServiceTests.cs" />
     <Compile Include="ActionsTest\CommonTests.cs" />
     <Compile Include="ActionsTest\LogicAppTests.cs" />
+    <Compile Include="ActionsTest\NewsTests.cs" />
     <Compile Include="ActionsTest\OnPremiseTests.cs" />
     <Compile Include="ActionsTest\SalesforceTests.cs" />
     <Compile Include="ActionsTest\StorageAccountTests.cs" />

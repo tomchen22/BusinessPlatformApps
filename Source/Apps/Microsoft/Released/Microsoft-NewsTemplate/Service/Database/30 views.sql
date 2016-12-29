@@ -139,7 +139,7 @@ go
 
 CREATE VIEW bpst_news.vw_DocumentTopicImages
 AS
-    SELECT topicId			AS [Tweet Id],
+    SELECT topicId			AS [Topic Id],
            imageUrl1		AS [Image URL 1],
            imageUrl2		AS [Image URL 2],
            imageUrl3		AS [Image URL 3],
