@@ -102,14 +102,14 @@
                 "displayname": "Deploy DB scripts",
                 "SqlServerIndex": "1",
                 "SqlScriptsFolder": "Service/Database/NoETL",
-                "UseImpersonation": true
+                "useImpersonation": true
             },
             {
                 "name": "Microsoft-SetConfigValueInSql",
                 "displayname": "Deploy DB Configuration",
                 "SqlServerIndex": "1",
                 "SqlConfigTable": "pbist_sccm.[configuration]",
-                "UseImpersonation": true
+                "useImpersonation": true
             },
             {
                 "name": "Microsoft-InstallSqlTools",
@@ -138,7 +138,7 @@
                 "IsWaiting": true,
                 "SqlServerIndex": 1,
                 "TargetSchema": "pbist_sccm",
-                "UseImpersonation": true
+                "useImpersonation": true
             }
         ]
     },

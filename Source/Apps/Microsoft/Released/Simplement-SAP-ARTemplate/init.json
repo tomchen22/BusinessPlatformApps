@@ -10,7 +10,7 @@
                 "displayname": "Deploy DB scripts",
                 "SqlServerIndex": "0",
                 "SqlScriptsFolder": "Service/Database/NoETL",
-                "UseImpersonation": true
+                "useImpersonation": true
             },
             {
                 "name": "Microsoft-AddLogonAsBatchPermission",
@@ -31,7 +31,7 @@
                 "IsWaiting": true,
                 "SqlServerIndex": 0,
                 "TargetSchema": "sap",
-                "UseImpersonation": true
+                "useImpersonation": true
             }
         ],
         "Pages": [
