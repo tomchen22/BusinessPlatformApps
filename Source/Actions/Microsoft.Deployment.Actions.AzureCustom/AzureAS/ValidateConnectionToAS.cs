@@ -1,24 +1,23 @@
-﻿using System.ComponentModel.Composition;
-using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.Composition;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AnalysisServices;
+using Microsoft.AnalysisServices.Tabular;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
-using Server = Microsoft.AnalysisServices.Tabular.Server;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
 {
     [Export(typeof(IAction))]
-    public class DeployAzureASModel: BaseAction
+    public class ValidateConnectionToAS : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string serverName = request.DataStore.GetValue("ASServerUrl");
             string username = request.DataStore.GetValue("ASAdmin");
             string password = request.DataStore.GetValue("ASAdminPassword");
-            string xmla = request.DataStore.GetValue("xmla");
-            string asDatabase  = request.DataStore.GetValue("ASDatabase");
-
             string connectionString = string.Empty;
 
             if (serverName.ToLowerInvariant().StartsWith("asazure"))
@@ -35,11 +34,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
 
             Server server = new Server();
             server.Connect(connectionString);
-
-            string xmlaContents = File.ReadAllText(request.Info.App.AppFilePath + xmla);
-            server.Execute(xmlaContents);
-            var db = server.Databases.Find(asDatabase);
-            db.Process(ProcessType.ProcessFull);
             return new ActionResponse(ActionStatus.Success);
         }
     }

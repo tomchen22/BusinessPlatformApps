@@ -8,6 +8,7 @@ using AzureML.Contract;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json.Linq;
 
 
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
@@ -51,6 +52,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 
             string rawJson = string.Empty;
             Experiment exp = azuremlClient.GetExperimentById(workspaceSettings, experiment.ExperimentId, out rawJson);
+
+            JObject jObj = JsonUtility.GetJObjectFromJsonString(rawJson);
 
             rawJson = rawJson.Replace("databaseservertoreplace", sqlCredentials.Server);
             rawJson = rawJson.Replace("databasenametoreplace", sqlCredentials.Database);
