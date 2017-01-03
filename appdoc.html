@@ -47,7 +47,7 @@
       {
         var encodedContent = response.data.content;
         var markdownText = Base64.decode(encodedContent);
-        markdownText.replace("![Image](", "![Image](" + hardcodedPath + pathToGithubJoined)
+        markdownText = markdownText.replace("![Image](", "![Image](" + hardcodedPath + pathToGithubJoined)
         var renderedHtml = marked(markdownText);
 
         $(contentContainerId).html(renderedHtml);
