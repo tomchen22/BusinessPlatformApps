@@ -1,4 +1,4 @@
-# Power BI Sales Management Solution Template for Dynamics CRM Documentation
+# Power BI Sales Management Solution Template for Dynamics 365 Documentation
 # Table of Contents
 1. [Introduction](#introduction)
 2. [Architecture](#architecture)
@@ -8,13 +8,13 @@
 6. [Report Walkthrough](#report-walkthrough)
 
 # Introduction
-Create a scalable, secure and flexible PowerBI dashboard on Dynamics CRM with the Power BI Sales Management solution template for Dynamics CRM. The template creates everything required for an end-to-end analytics solution on your Dynamics CRM org including the data extraction, database constructs, and a Power BI report bound to the database. You can extend or customize the result to accommodate your own business requirements.
-The Sales Management solution template for Dynamics CRM is intended for customers who:
+Create a scalable, secure and flexible PowerBI dashboard on Dynamics 365 with the Power BI Sales Management solution template for Dynamics 365. The template creates everything required for an end-to-end analytics solution on your Dynamics 365 org including the data extraction, database constructs, and a Power BI report bound to the database. You can extend or customize the result to accommodate your own business requirements.
+The Sales Management solution template for Dynamics 365 is intended for customers who:
 -	Want to provision an analytics solution for tens or even thousands of users
--	Want to deploy an analytics solution that scales with any size of Dynamics CRM instance from small to very large
--	Want to be able to create data mashups on Dynamics CRM with data from their ERP, marketing, inventory management or other any other application
-The Sales Management solution template for Dynamics CRM is targeted at sales executives, managers and salespeople to forecast revenue, compare sales to the same period in the prior month, quarter or year, track sales against goals and monitor their pipeline .
-This document describes how to provision the Sales Management solution template for Dynamics CRM, the architecture, and how to extend or customize the template. The audience for this document is intended to be the IT professional or administrator who implements and manages the solution template and/or the developer who extends or customizes the solution template.
+-	Want to deploy an analytics solution that scales with any size of Dynamics 365 instance from small to very large
+-	Want to be able to create data mashups on Dynamics 365 with data from their ERP, marketing, inventory management or other any other application
+The Sales Management solution template for Dynamics 365 is targeted at sales executives, managers and salespeople to forecast revenue, compare sales to the same period in the prior month, quarter or year, track sales against goals and monitor their pipeline .
+This document describes how to provision the Sales Management solution template for Dynamics 365, the architecture, and how to extend or customize the template. The audience for this document is intended to be the IT professional or administrator who implements and manages the solution template and/or the developer who extends or customizes the solution template.
 Please contact <PBISolnTemplates@microsoft.com> for any questions or issues with this document.
 
 # Architecture
@@ -22,11 +22,13 @@ There are two architectures supporting the solution template:
 -	Import data into Power BI
 -	Live connection from Analysis Services
 
-In both architectures, new and changed records are pulled from Dynamics CRM to populate a SQL database (how data is pulled and SQL database are described in later sections) after which the approach differs.
+In both architectures, new and changed records are pulled from Dynamics 365 to populate a SQL database (how data is pulled and SQL database are described in later sections) after which the approach differs.
 
-The Import data into Power BI option (henceforth termed the import option) is where the data is pulled out of the SQL database to populate the model in Power BI. On every refresh, all the data is pulled out of the SQL database to refresh the Power BI model. When the model is published to Ppower BI, the data will be resident in the Power BI service:
+The Import data into Power BI option (henceforth termed the import option) is where the data is pulled out of the SQL database to populate the model in Power BI. On every refresh, all the data is pulled out of the SQL database to refresh the Power BI model. When the model is published to Power BI, the data will be resident in the Power BI service:
+
 
 ![ImportDataOption](Resources/Images/ImportDataOption.png)
+
 
 The Live Connection from Analysis Services (henceforth termed the AS option) is where the data is pulled from the SQL database to populate an Analysis Services tabular model. The Power BI reports are bound to the Analysis Services tabular model instead of directly to the SQL Database. 
 
@@ -34,83 +36,127 @@ The Live Connection from Analysis Services (henceforth termed the AS option) is 
 
 When the model is published to Power BI, the data stays in Analysis Services and does not move with it to the Power BI service. Viewing published reports results in queries sent to Analysis Services from the Power BI service:
 The Import option is recommended when:
--	The amount of data in Power BI is less than the 1 GB limit (remember, this is a compressed size representing a data volume roughly 10x this size, or 10GB of Dynamics CRM data.
+-	The amount of data in Power BI is less than the 1 GB limit (remember, this is a compressed size representing a data volume roughly 10x this size, or 10GB of Dynamics 365 data.
 
 The AS option is recommended when:
 -	The amount of data in Power BI is greater than 1 GB or might be greater than 1 GB in the future.
 -	You want your data to stay in your control and not move to Azure when the Power BI reports are published.
--	You want the data available for reporting with other tools in addition to Power BI that can take advantage of Analysis Serviceís capabilities.
+-	You want the data available for reporting with other tools in addition to Power BI that can take advantage of Analysis Service‚Äôs capabilities.
 
-If youíre in doubt, choose the Import option.
+If you‚Äôre in doubt, choose the Import option.
 
 # System Requirements
 Setting up the template requires the following:
 -	SQL Server Database 2008 R2 or later, or an Azure Subscription with an Azure SQL Database
 -	Power BI Desktop (latest version)
 -	Power BI Pro (to share the template with others)
--	Dynamics CRM 2015 or later, on-premises or Online. 
+-	Dynamics CRM 2015 or later, on-premises or Online. You must have administrative permissions.
 -	SQL Server Analysis Services 2008 R2 (only required for the AS option). Note that in SQL Server 2016, the Standard edition can be used for the solution template. For earlier versions, Enterprise edition is required. More details on SSAS tabular model features available in SQL Server 2016 can be found [here](https://msdn.microsoft.com/en-us/library/cc645993.aspx).
 
 # How to Install
-Installing the Sales Management solution template for Dynamics CRM configures the following:
+Installing the Sales Management solution template for Dynamics 365 configures the following:
 -	Data extraction
 -	SQL Server database or Azure SQL Database
 -	SQL Server Analysis Services (optional)
 -	Power BI Desktop file (SalesManagement.pbix)
 The detailed description of each component of the architecture is below. To get started, navigate to the Power BI solution templates from the Solutions menu on powerbi.com: 
 
-![Solutions Menu](../Common/Resources/Images/SolutionsMenu.png)
-From there, select the Sales Management for Dynamics CRM solution template and click the ìInstall nowî button.
+![Solutions Menu](Resources/Images/SolutionsMenu.png)
+
+From there, select the Sales Management for Dynamics 365 solution template and click the ‚ÄúInstall now‚Äù button.
 
 There are three distinct flows for the installation:
 
 **Azure SQL DB installation**: This has all the advantages of Software as a Service where you pay as you go. All the patching and upkeep is handled for you. You can also later publish your reports to PowerBi.com without having to install a gateway (more on this later).
 
-**On-premises installation**: This encompasses the option for on-premises SQL Server and SQL Server running on an Azure virtual machine. In the first case data will be moved to an instance of an on-premises SQL Server (i.e. SQL Server on hardware you own and that you maintain). The second option consists of SQL Server running on an Azure virtual machine. In this architecture, you are responsible for all patching and upkeep. 
+**On-premises installation**: This encompasses the option for on-premises SQL Server and SQL Server running on an Azure virtual machine. In the first case data will be moved to an instance of an on-premises SQL Server (i.e. SQL Server on hardware you own and that you maintain). The second option consists of SQL Server running on an Azure virtual machine.
+Analysisis Services is optin in this configuration. In this architecture, you are responsible for all patching and upkeep. 
 
-**Analysis Services installation**: This option is the same as the on-premises installation with the addition of a dedicated tabular model.
+## Step 1: Azure SQL DB  or SQL Server
+The first step is to choose where the data will be replicated to - an Azure SQL Database or to SQL Server (on premise or in an Azure VM)
 
-## Step 1: Architecture Choices
-Scribe is the preferred partner for Dynamics CRM. On a subsequent page, one can either create a new account or use an existing one. For new users, Scribe provides a free evaluation period of three months. 
+![ArchChoices](Resources/Images/ArchChoices.png)
 
-![Solutions enu](Resources/Images/ArchChoices.png)
+_Note: Azure Analysis Services is not yet supported with Azure SQL Database._
 
-Once the ETL provider is chosen, the architecture option is selected ñ the default choice is Azure SQL.
+If Azure SQL DB is chosen, jump to Step 2a: Azure SQL DB Installation. Otherwise jump to Step 2b: SQL Server Installation, 
 
-_Note: SQL Server Analysis Services is not yet supported with Azure SQL Database_
+## Step 2a: Connect to Dynamics 365
 
-If the selected architecture requires the configuration of an on-premises SQL Server or SQL Server on an Azure virtual machine, a ìDownloadî button appears. Click this to download an installer for the solution template.
+Next, connect to your Dynamics 365 instance to give permission to the provisioning application to set up data export service to populate the Azure SQL DB destiniation.
 
-If a dedicated Analysis Services model is preferred, please select ëLive Query from Analysis Servicesí for question 2. Click the ìDownloadî button at the bottom of the page to download the installer for the solution template.
-![Get Started](Resources/Images/ArchChoicesSSAS.png)
-## Step 2: Connect to ETL Account
-### Step 2a: Connect to ETL provider for Azure SQL Destination
-_Complete this step when an Azure SQL DB is used to host the Dynamics CRM data; otherwise use step 2b._
+![Get Started](Resources/Images/Dynamics365AzSub.png)
 
-No software need be installed when the data is moved to a SQL Azure DB. A cloud agent is automatically set up and used to move the data. This makes for a simpler installation and administration in the future.
+## Step 3a: Specify Azure Subscription
 
-![Get connected with Scribe](Resources/Images/ConnectScribe.png)
+Choose the Dynamics 365 organization and specify the Azure subscription used to contains newly created resources.
+![Get Started](Resources/Images/Dynamics365AzSub2.png)
+
+Agree to the estimated costs and click "Next".
+
+## Step 4a: Set up Azure Key Vault
+
+Azure Key Vault is a secure mechanism to store credentials to Azure SQL DB. The next step creates an Azure Key valut instance.
+
+![AZ Key Vault](Resources/Images/AzKeyVault.png)
+
+Click ‚ÄúNext‚Äù to continue.
+
+## Step 5a: Connect to new or existing Azure SQL DB
+Connect to an existing SQL Server or provide details which the application will use to spin up an Azure SQL on your behalf. Only Azure SQL is supported for this template. If a user chooses to spin up a new Azure SQL, this will get deployed in their Azure subscription inside the newly created resource group.
+![AZ Key Vault](Resources/Images/ConnectAzureSQL.png)
 
 
-The screenshot above shows the page for creating a new account. Enter the required information and click "Create Account". Learn more about new Scribe accounts [here](http://www.scribesoft.com/solutions/analyticsbusiness-intelligence/microsoft-power-bi/). 
+Important note: If you use an existing Azure SQL DB, you **_must_** safelist your client IP address shown on this page in the Azure portal before you continue.
+If you do not, you will not be able to read data from Azure SQL DB to populate the Power BI file. To safe-list the IP addresses, follow the instructions [here](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/).
 
-For existing accounts, enter your credentials and click ìValidateî:
-![Get connected with Scribe](Resources/Images/ConnectScribeExistingAccount.png)
+Click ‚ÄúNext‚Äù to continue.
 
-Select the Organization in the dropdown.
+## Step 6a: Tailor your Sales Management solution template for Dynamics 365
+Provide the starting month of your fiscal calendar. This is required for fiscal year calculations in the Power BI file. 
 
-Click ìNextî to continue.
+![Customize](Resources/Images/CustomizeCRMDataExport.png)
 
-## Step 2b: Connect to ETL provider for SQL Server destination/SQL Server with SSAS
-_Complete this step when an SQL Server either on-premises or in an Azure VM is used to host the Dynamics CRM data; otherwise use step 2a._
+There is no schedule to refresh data - it is replicated in realtime.
 
-All ETL providers require an agent to be installed to move data from Dynamics CRM to the on-premises SQL Server or to SQL Server on an Azure VM. The agent can be installed on any machine with access to the destination but it is recommended to install the agent on the same machine.
+There are two options for how actual revenue is handled by the solution template:
+-	Pulled from closed opportunities. When an opportunity is closed in Dynamics 365, the revenue for the actual sale can be provided. This is the default source for actual revenue
+-	Keep blank. If actual revenue is to be pulled from a separate source such Dynamics 365, SAP or some other application, choose this option. After you install the solution template, you can create a separate mechanism to populate these values (refer to the separate section on the data schema for where this data is to be populated).
+
+If you provide the base Dynamics 365 URL, hyperlinks are created for each opportunity, lead and account to enable linking from Power BI reports directly into the related Dynamics 365 object; e.g.
+<https://pbist.crm.dynamics.com>.
+
+Click ‚ÄúNext‚Äù to continue.
+
+## Step 7a: Track Progress
+The next several steps actually provision the soluution template. 
+![Track Prog](Resources/Images/TrackProgress.png)
+
+
+Once data starts moving, A Power BI file can be downloaded that is bound to the database specified earlier. 
+![Track Prog](Resources/Images/TrackProgress2.png)
+
+Click ‚ÄúNext‚Äù to continue and proceed to step 8.
+
+## Step 2b: SQL Server Options
+If SQL Server on-premise or in an Azure VM is chosen, choose between Dynamics on-premise or online.
+![Track Prog](Resources/Images/SQLChoice.png)
+
+Select "Import Data into Power BI" for a direct connection from Power BI to SQL Server. If a dedicated Analysis Services model is preferred, select ‚ÄòLive Query from Analysis Services‚Äô 
+
+Click the ‚ÄúDownload‚Äù button at the bottom of the page to download the installer for the solution template and install the solution template.
+
+
+## Step 3b: Connect to ETL provider for SQL Server destination/SQL Server with SSAS
+
+The solution template for SQL Server requires an ETL agent to be installed to move data from Dynamics 365 to the on-premises SQL Server or to SQL Server on an Azure VM. The agent can be installed on any machine with access to the destination but it is recommended to install the agent on the same machine.
 
 New Scribe users must first create an account and install the Scribe Online Agent. Instructions for downloading and installing the Scribe Online Agent can be found [here](http://help.scribesoft.com/scribeonline/en/sol/agent/agentinstall.htm). Once the account is created, install the Scribe Online Agent.
 ![Connect to Scribe](Resources/Images/ConnectScribe.png)
-_Note: the list of Scribe Online agents are those registered with this account ñ not those installed on the machine._
 
-Once the ETL account is created and agent is installed, change the selection ìNew Userî selection to ìExisting Userî, provide your credentials and click the Validate button.
+_Note: the list of Scribe Online agents are those registered with this account ‚Äì not those installed on the machine._
+
+Once the ETL account is created and agent is installed, change the selection ‚ÄúNew User‚Äù selection to ‚ÄúExisting User‚Äù, provide your credentials and click the Validate button.
 
 ![Connect to Informatica Existing Account](Resources/Images/ConnectScribeExistingAccount.png)
 
@@ -118,114 +164,91 @@ The Organization drop down will contain at least one item created by the solutio
 
 The Installed agent should appear in the agent dropdown. If it does not, verify your installation of the Scribe online agent. 
 
-Click ìNextî to continue.
+Click ‚ÄúNext‚Äù to continue.
 
-## Step 3: Connect to Dynamics CRM
-Provide your Dynamics CRM credentials to gain access to Dynamics CRM. The security token will have been sent to you when your credentials were first created and with each password change. If you do not know this token, connect directly to Dynamics CRM and generate a new token.
-The Dynamics CRM login URL normally does not need to be changed from the default <https://pbist.crm.dynamics.com>
+## Step 4b: Connect to Dynamics 365
+Provide your Dynamics 365 credentials to gain access to Dynamics 365.  The Dynamics 365 login URL normally does not need to be changed from the default <https://pbist.crm.dynamics.com>
 
 ![ConnectCRM](Resources/Images/ConnecttoCRM.png)
 
- Validate your credentials and click ëNextí.
+ Validate your credentials and click ‚ÄòNext‚Äô.
 
 The Advanced option allows one to select the Discovery Web service URL and manually enter the Organization (note that the Organization is **case-sensitive**).
 
-If on-premise Dynamics CRM was selected earlier, the URL can be edited directly. Refer [here](https://msdn.microsoft.com/en-us/library/gg328127.aspx) to learn more about URL discovery for Dynamics CRM.
+If on-premise Dynamics 365 was selected earlier, the URL can be edited directly. Refer [here](https://msdn.microsoft.com/en-us/library/gg328127.aspx) to learn more about URL discovery for Dynamics 365.
 
-![ConnectCM](Resources/Images/ConnecttoCRMOnPrem.png)
+![ConnectCM](Resources/Images/ConnectToCRMOnPrem.png)
 
 
-## Step 4: Connect to SQL
-### Step 4a: Connect to Azure SQL
-_Follow this step for an Azure SQL database destination; otherwise, follow step 4B._
 
-Provide your Azure SQL Database credentials to gain access to the destination Azure SQL Database.
-
-![ConnectAzureSQL(../Common/Resources/Images/ConnectAzureSQL.png)
-
-Important note: You **_must_** safelist the IP addresses shown on this page in the Azure portal before you continue. Do not use the values from the screenshot above, but the values in the actual page. If you do not, the process will fail.
-The IP addresses must be safe-listed inside Azure SQL for the following reasons:
--	To allow the solution template web application to create the database structures in the Azure SQL DB required by the solution template. 
--	To allow the ETL provider to insert data into the Azure SQL DB pulled from Dynamics CRM
--	To allow your Power BI on your client machine to read data from Azure SQL DB
-
-If you are planning to use Power BI Desktop from a different machine than the current machine, you must discover the IP address that machine exposes to Azure and safe-list this as well.
-
-_Special note: Your machine may not expose the same IP address to Azure that you discover via the ipconfig command._
-
-To safe-list the IP addresses, follow the instructions [here](https://azure.microsoft.com/en-us/documentation/articles/sql-database-configure-firewall-settings/).
-
-Enter the credentials for your Azure SQL DB, click validate, then choose the database to be used by the solution template and click ìNextî.
-
-### Step 4b: Connect to SQL Server Database/SQL Server Database with Analysis Services
-_Follow this step for an SQL Server database destination with or without SQL Server Analysis Services; otherwise, follow step 4a._
+### Step 5b: Connect to SQL Server Database/SQL Server Database with Analysis Services
 
 Provide your Azure SQL Database credentials to gain access to the destination SQL Server database. Click validate check your credentials.
 
 If SQL Server Analysis Services (SSAS) is used, enter an existing SSAS server name and the name of a new Analysis Services database. This SSAS database will be created on your behalf.
 
-![Connect to SQL And SSAS](../Common/Resources/Images/ConnectSQLandSSAS.png)
+![Connect to SQL And SSAS](Resources/Images/ConnectSQLandSSAS.png)
 
-## Step 5: Tailor your Sales Management solution template for Dynamics CRM
+## Step 6b: Tailor your Sales Management solution template for Dynamics 365
 Provide the starting month of your fiscal calendar. This is required for fiscal year calculations in the Power BI file. 
 
 ![Customize](Resources/Images/CustomizeCRM.png)
 
-Define how often the data is refreshed from Dynamics CRM. Note that the initial extraction can take some time ñ even up to a day. Once that is complete, subsequent extractions pull new and changed records only and complete very quickly.
+
+Define how often the data is refreshed from Dynamics 365. Note that the initial extraction can take some time ‚Äì even up to a day. Once that is complete, subsequent extractions pull new and changed records only and complete very quickly.
 
 There are two options for how actual revenue is handled by the solution template:
--	Pulled from closed opportunities. When an opportunity is closed in Dynamics CRM, the revenue for the actual sale can be provided. This is the default source for actual revenue
--	Keep blank. If actual revenue is to be pulled from a separate source such Dynamics CRM, SAP or some other application, choose this option. After you install the solution template, you can create a separate mechanism to populate these values (refer to the separate section on the data schema for where this data is to be populated).
+-	Pulled from closed opportunities. When an opportunity is closed in Dynamics 365, the revenue for the actual sale can be provided. This is the default source for actual revenue
+-	Keep blank. If actual revenue is to be pulled from a separate source such Dynamics 365, SAP or some other application, choose this option. After you install the solution template, you can create a separate mechanism to populate these values (refer to the separate section on the data schema for where this data is to be populated).
 
-If you provide the base Dynamics CRM URL, hyperlinks are created for each opportunity, lead and account to enable linking from Power BI reports directly into the related Dynamics CRM object; e.g.
+If you provide the base Dynamics 365 URL, hyperlinks are created for each opportunity, lead and account to enable linking from Power BI reports directly into the related Dynamics 365 object; e.g.
 <https://pbist.crm.dynamics.com>.
 
-Click ìNextî to continue.
+Click ‚ÄúNext‚Äù to continue.
 
-## Step 6: Validate the information provided
-Scrutinize the information provided for errors. If everything is correct, click ìDownload & Runî to create the solution template.
+## Step 7b: Validate and Track Progress
+Scrutinize the information provided for errors. If everything is correct, click ‚ÄúDownload & Run‚Äù to create the solution template.
 
 ![Validate](Resources/Images/VerifyCRM.png)
 
-## Step 7: Track your progress
-This page tracks your progress. Once the data starts to move, this page can be closed and the data will continue to be copied.
-Click the ìDownload PBIXî button to download a Power BI file, SalesManagementReport.pbix, that is bound to the chosen SQL Azure database.
+Click ‚ÄúNext‚Äù to continue. The next page tracks your progress. Once the data starts to move, this page can be closed and the data will continue to be copied.
+Click the ‚ÄúDownload PBIX‚Äù button to download a Power BI file, SalesManagementReport.pbix, that is bound to the chosen SQL Azure database.
 
-![Track](Resources/Images/TrackProgress.png)
+![Track](Resources/Images/TrackProgress3.png)
+
+
 
 ## Step 8: Open the Power BI file
-### Step 8a: Power BI Import from Azure SQL or SQL Server Database
-If the data was imported directly into Power BI, proceed; otherwise skip to step 8b.
+
+If the data was imported directly into Power BI, then:
 Open the downloaded Power BI file and take the following steps:
-a)	Click ìApply Changesî
-![Apply Changes](../Common/Resources/Images/ApplyChanges.png)
+a)	Click ‚ÄúApply Changes‚Äù
+![Apply Changes](Resources/Images/ApplyChanges.png)
 b)	Windows Credentials
-On the windows tab, select ìUse my current credentialsî:
-![Use my current credentials](../Common/Resources/Images/WindowsCredentials.png)
+On the windows tab, select ‚ÄúUse my current credentials‚Äù:
+![Use my current credentials](Resources/Images/WindowsCredentials.png)
 c)	Database Credentials
 Click the Database item in the left-hand pane and enter the username and password you provided for the Azure SQL database:
-![Database Credentials](../Common/Resources/Images/DatabaseCredentials.png)
-Click ìSaveî.
+![Database Credentials](Resources/Images/DatabaseCredentials.png)
+Click ‚ÄúSave‚Äù.
 
-### Step 8b: Power BI Live Connection to Analysis Services
-_If the Power BI file is connected to SQL Server Analysis Service, proceed; otherwise follow the instructions in step 8a._
-
+Otherwise if Analysis Services was used:
 Open the Power BI file. ON the Home menu tab, select Edit Queries, then Data Source Settings:
-![SSASDB](../Common/Resources/Images/SSASServerDatabase.png)
+![SSASDB](Resources/Images/SSASServerDatabase.png)
 Enter the Server and Database name entered in the previous step and click OK. The Navigator dialog will appear:
-![SSASNav](../Common/Resources/Images/SSASNavigator.png)
+![SSASNav](Resources/Images/SSASNavigator.png)
 Click OK to view the report.
 ## Step 9: View the Report
 At this point Power BI Desktop will connect and retrieve the data. Note that it may take some time for the initial data pull to finish.  
 
 ## Common Provisioning Questions
-**I closed the ìTrack your Progressî page. How do I know when the data has been pulled out of Dynamics CRM?**
+**I closed the ‚ÄúTrack your Progress‚Äù page. How do I know when the data has been pulled out of Dynamics 365?**
 You can connect to the ETL provider to track progress. For Scribe, connect to <https://online.scribesoft.com/ScribeOnline.aspx#/Logon> and use the credentials used to create the account.
 
-**I didnít download the Power BI file (the pbix file) but closed the ìTrack your Progressî page where it is downloaded from. Now what?**
-Youíll have to repeat the provisioning process.
+**I didn‚Äôt download the Power BI file (the pbix file) but closed the ‚ÄúTrack your Progress‚Äù page where it is downloaded from. Now what?**
+You‚Äôll have to repeat the provisioning process.
 
-**I want to change how often data is extracted from Dynamics CRM. How do I do that?**
+**I want to change how often data is extracted from Dynamics 365. How do I do that?**
 Connect to your ETL provider:
 - Scribe: <https://online.scribesoft.com/ScribeOnline.aspx#/Logon>.
 
@@ -249,7 +272,7 @@ Additional entities can be replicated to the target database. Refer to Scribe fo
 
 ## SQL Server DB - SQL Server or Azure SQL Database 
 ### Tables
-Tables replicated from Dynamics CRM are replicated to the dbo schema. Other tables and any other objects are created in the schema smgt.
+Tables replicated from Dynamics 365 are replicated to the dbo schema. Other tables and any other objects are created in the schema smgt.
 
 The following additional tables are added to the target database.
 
@@ -261,7 +284,7 @@ The following additional tables are added to the target database.
 |Configuration	| Contains the values to configure the solution template. |
 |Date			|A calendar table created for time analysis with a day granularity.|
 |Quotas			|An empty table for the installer to copy quota data. |
-|UserMapping |	Maps Dynamics CRM users to domain users. The installer is responsible for populating this table.|
+|UserMapping |	Maps Dynamics 365 users to domain users. The installer is responsible for populating this table.|
 
 </sub>
 
@@ -275,8 +298,8 @@ The following additional tables are added to the target database.
 | InvoiceID	     | varchar(50)	 | Identifier for the actual sales value. |
 | ActualSales    | decimal(18,0)	 | Value of the actual sales |
 | InvoiceDate	 | date	 | Date sales revenue invoiced
-| AccountId      | varchar(50)	 | Identifier matching account Id from Dynamics CRM |
-| ProductID      | varchar(50)	 | Identifier matching product Id from Dynamics CRM. This is optional ñ sales do not have to be assigned to a product |
+| AccountId      | varchar(50)	 | Identifier matching account Id from Dynamics 365 |
+| ProductID      | varchar(50)	 | Identifier matching product Id from Dynamics 365. This is optional ‚Äì sales do not have to be assigned to a product |
 
 </sub>
 
@@ -302,7 +325,7 @@ The values in the configuration table are defined below:
 | configuration_group	| configuration_subgroup | name               | Description |
 | ----------------------|------------------------|--------------------|-------------|
 | SolutionTemplate      |   SalesManagement	     | version	          |             |
-| SolutionTemplate      |	SalesManagement	     | BaseURL	          | The URL for Dynamics CRM content. If populated, drill through to Dynamics CRM objects is enabled; eg, <https://pbist.crm.dynamics.com> |
+| SolutionTemplate      |	SalesManagement	     | BaseURL	          | The URL for Dynamics 365 content. If populated, drill through to Dynamics 365 objects is enabled; eg, <https://pbist.crm.dynamics.com> |
 | SolutionTemplate      |   SalesManagement	     | FiscalMonthStart   | Numeric value of fiscal month designating the beginning of the fiscal year. Expected values 1 through 12 |
 | Data	                |   actual_sales	     | Enabled	          | Indicates where source of actual sales. Supported values: 0: Opportunities 1: ActualSales table (installer is responsible to populate) |
 | SolutionTemplate	    |    SalesManagement	 | Source	          | Indicates source application. Do not change. |
@@ -319,8 +342,8 @@ The Date table is autogenerated with the installation of the solution template f
 | ---------------|--------------|--------------|
 | date_key      | 	int	      | Numeric datekey in the format yyyymmdd |
 | full_date      | 	date	      |  |
-| day_of_week      | 	tinyint	      | Day of week ñ 1 though 7 |
-| day_num_in_month      | 	tinyint      | 	Day of month ñ 1 through 31 |
+| day_of_week      | 	tinyint	      | Day of week ‚Äì 1 though 7 |
+| day_num_in_month      | 	tinyint      | 	Day of month ‚Äì 1 through 31 |
 | day_name      | 	char(9)      | The day name. can be edited to localize |
 | day_abbrev      | 	char(3)      | 	Day abbreviation; eg, Mon for Monday |
 | weekday_flag      | 	char(1)      | 	y for weekday, n for weekend |
@@ -349,9 +372,9 @@ The Quotas table is initially empty. It is the responsibility of the implementer
 | Column         | Datatype     | Description |
 | ---------------|--------------|--------------|
 | Amount      | decimal(18,0)      | Quota amount |
-| Date      | date      | The date the quota applies to ñ generally the first day of the month |
-| OwnerId      | varchar(50)      | Dynamics CRM OwnerID of the quota. |
-| ProductId      | varchar(50)      | Dynamics CRM ProductID of the quota |
+| Date      | date      | The date the quota applies to ‚Äì generally the first day of the month |
+| OwnerId      | varchar(50)      | Dynamics 365 OwnerID of the quota. |
+| ProductId      | varchar(50)      | Dynamics 365 ProductID of the quota |
 
 </sub>
 
@@ -362,8 +385,8 @@ The UserMapping table is populated during data transfer.  The contents of this t
 
 | Column         | Datatype     | Description |
 | ---------------|--------------|--------------|
-| UserID      | varchar(50)      | Dynamics CRM UserId |
-| DomainUser      | varchar(50)      | The domain name for each user. This does not come from Dynamics CRM but is derived during the data load process. Refer to the SQL Agent section.  |
+| UserID      | varchar(50)      | Dynamics 365 UserId |
+| DomainUser      | varchar(50)      | The domain name for each user. This does not come from Dynamics 365 but is derived during the data load process. Refer to the SQL Agent section.  |
 
 </sub>
 
@@ -407,7 +430,7 @@ ActualSalesView is bound to either the ActualSales table or to closed opportunit
 </sub>
 
 ### BusinessUnitView
-This view is populated from the UserRole table. It is ìflattenedî from the recursive source. That is, instead of a recursive parent child relationship, the first three levels are separate columns.
+This view is populated from the UserRole table. It is ‚Äúflattened‚Äù from the recursive source. That is, instead of a recursive parent child relationship, the first three levels are separate columns.
 
 <sub>
 
@@ -552,7 +575,7 @@ All values are sourced from the Product table which is "unwound" from the recurs
 </sub>
 
 ### Quotaview
-All values are bound to the quota table (which is created by the solution template and not sourced from Dynamics CRM.
+All values are bound to the quota table (which is created by the solution template and not sourced from Dynamics 365.
 
 <sub>
 
@@ -582,7 +605,7 @@ This view is used for row level security. It contains a row for every combinatio
 
 </sub>
 
-_Note: the reporting hierarchy is taken from a userís role assignments and not the userís  ManagerID as defined in the user table. If this behavior is required, edit the UserAscendantView definition._
+_Note: the reporting hierarchy is taken from a user‚Äôs role assignments and not the user‚Äôs  ManagerID as defined in the user table. If this behavior is required, edit the UserAscendantView definition._
 
 Security is defined so that all ascendants of an user (as defined by which users are assigned to parent role based on the UserRole table) have read permissions to records to which that user is  the owner. If the security model is customized, this view can be modified or deleted.
 
@@ -590,7 +613,7 @@ Security is defined so that all ascendants of an user (as defined by which users
 
 | Column         | Datatype           |  Source      | Description  |
 | ---------------|--------------------|--------------|--------------|
-| Roleid              | nvarchar(18) | user.roleid | The role the user is assigned to ñ and that from which the ascendant relationship was derived.
+| Roleid              | nvarchar(18) | user.roleid | The role the user is assigned to ‚Äì and that from which the ascendant relationship was derived.
 | Ascendantroleid     | nvarchar(18) | user.parentroleid | The role the ascendant is assigned to
 | rolename            | nvarchar(80) | userrole.name | The name of the role the user is assigned to
 | ascendantrolename   | nvarchar(80) | userrole.name | The name of the role the ascendant user is assigned to
@@ -606,11 +629,11 @@ Security is defined so that all ascendants of an user (as defined by which users
 ## SQL Server Analysis Services
 A SQL Server Analysis Services tabular model is an optional component of the Sales management solution template. The tabular model in SQL Server Management Studio is produced below:
 
-![SSASModel](../Common/Resources/Images/SSASModel.png)
+![SSASModel](Resources/Images/SSASModel.png)
 
 The Connection object contains a reference and credentials to the SQL database. This can be edited if the database is changed after the initial installation.
 The table objects are identical to the objects in the Power BI model and are described there.
-There are two roles defined, Hierarchical Security and SQL Server Agent Security. Hierarchical Security is a DAX expression that uses the reporting relationships from Dynamics CRM to define row level security on the Opportunity, Account and Lead objects. By default, a user can see the object values that they own or their reports (drawn from Dynamics CRM) own. Hierarchical security depends on a view created in the destination database that unwinds the reporting structure, UserAscendantsView. This view includes a row for each user and manager combination. For example, if John reports to Margaret who reports to JoAnne, this view contains the (logical) rows:
+There are two roles defined, Hierarchical Security and SQL Server Agent Security. Hierarchical Security is a DAX expression that uses the reporting relationships from Dynamics 365 to define row level security on the Opportunity, Account and Lead objects. By default, a user can see the object values that they own or their reports (drawn from Dynamics 365) own. Hierarchical security depends on a view created in the destination database that unwinds the reporting structure, UserAscendantsView. This view includes a row for each user and manager combination. For example, if John reports to Margaret who reports to JoAnne, this view contains the (logical) rows:
 
 <sub>
 
@@ -636,16 +659,16 @@ The security DAX expressions can be changed in SQL Server Management Studio or i
 
 
 ## SQL Server Agent
-If the SQL Server Analysis Services option is chosen, a SQL Server agent job entitled ìData load and processingî is created to launch the data replication process and  process the tabular model:
-![SQLAgent](../Common/Resources/Images/SQLAgent.png)
+If the SQL Server Analysis Services option is chosen, a SQL Server agent job entitled ‚ÄúData load and processing‚Äù is created to launch the data replication process and  process the tabular model:
+![SQLAgent](Resources/Images/SQLAgent.png)
 
 
 The SQL Server Agent Job has four steps:
 
-![SQLAgentSteps](../Common/Resources/Images/SQLAgentSteps.png)
+![SQLAgentSteps](Resources/Images/SQLAgentSteps.png)
 
-The ìStart solution processingî step initiates the ETL. The ìCheck data loadî step validates that the 
-load succeeded. ìUpdate domain account informationî determines each userís domain name based on their email addresses (refer to table usermapping). The process SSAS database performs a full process on all tables in the SSAS tabular model.
+The ‚ÄúStart solution processing‚Äù step initiates the ETL. The ‚ÄúCheck data load‚Äù step validates that the 
+load succeeded. ‚ÄúUpdate domain account information‚Äù determines each user‚Äôs domain name based on their email addresses (refer to table usermapping). The process SSAS database performs a full process on all tables in the SSAS tabular model.
 
 The above steps launch PowerShell scripts found in the installation folder.
 
@@ -653,7 +676,7 @@ The above steps launch PowerShell scripts found in the installation folder.
 ### Tables and Relationships
 The relationships between the tables are shown in the diagram below:
 
-![PBIRelations](../Common/Resources/Images/PBITablesRelationships.png)
+![PBIRelations](Resources/Images/PBITablesRelationships.png)
 
 ### Power BI Measures
 The table below lists the measures in the Power BI file:
@@ -691,7 +714,7 @@ The table below lists the measures in the Power BI file:
 
 | Table | Column | Description |
 |-------|--------|-------------|
-| Account | Account Link | URL for account in Dynamics CRM. Populated if the BaseURL is populated in the configuration table.|
+| Account | Account Link | URL for account in Dynamics 365. Populated if the BaseURL is populated in the configuration table.|
 | Date | Fiscal Day Number	The day of the fiscal year |
 | | Fiscal Month Name | Name of the fiscal month |
 | | Fiscal Month Number	 |  |
@@ -700,7 +723,7 @@ The table below lists the measures in the Power BI file:
 | | Fiscal Week | Numeric fiscal week from 1 to 52 |
 | | Fiscal Year | Four digit fiscal year |
 | Opportunity | Close Date | The estimated or actual close date (depending on whether the opportunity is open or closed)
-| | Opportunity Link | Link back to Opportunity in Dynamics CRM. Populated if the BaseURL is populated in the configuration table.
+| | Opportunity Link | Link back to Opportunity in Dynamics 365. Populated if the BaseURL is populated in the configuration table.
 | User | Org Level 1 | Highest level parent of the current user in the reporting hierarchy.
 | | Org Level 2      | Second highest level parent of the current user in the reporting hierarchy
 | | Org level 3      | Third highest parent of current user.
@@ -713,7 +736,7 @@ The table below lists the measures in the Power BI file:
 
 The aim of this section is to walk through the Sales Management Solution Template.
  
-Sales Managers manage anywhere between a few individual salespeople to many sales teams with multiple levels of hierarchy. Sales teams use CRM to input information about the open opportunities they are working on and use an ERP system to track actual sales (i.e. all of the opportunities the sales team(s) have closed). Performance is measured against quotas set against salespeople and/or products. 
+Sales Managers manage anywhere between a few individual salespeople to many sales teams with multiple levels of hierarchy. Sales teams use Dynamics 365 to input information about the open opportunities they are working on and use an ERP system to track actual sales (i.e. all of the opportunities the sales team(s) have closed). Performance is measured against quotas set against salespeople and/or products. 
 
 Sales Managers are interested in tracking overall performance and progress but also want to see how sales teams or even individual sales people are performing. When measuring progress, it is important to see all data  such as open revenue, closed revenue and quotas together in one place. This allows them to answer key questions like:
 -	Which opportunities did I lose yesterday? Which of those was I expecting to win?
@@ -727,52 +750,52 @@ The next few pages go through a detailed walkthrough of each page of the Sales M
 ## Daily View
 The purpose of the Daily report is for Sales Managers to view detailed information about important things that change on a daily basis.
 
-The ëDaily Viewí page is split into two key sections: ëRetrospectiveí and ëLooking Aheadí.
+The ‚ÄòDaily View‚Äô page is split into two key sections: ‚ÄòRetrospective‚Äô and ‚ÄòLooking Ahead‚Äô.
 
-![DailyView](../Common/Resources/Images/PBI_SM_DailyView.png)
+![DailyView](Resources/Images/PBI_SM_DailyView.png)
 
-The ëRetrospectiveí View is concerned about reporting on things that have already happened this quarter. There are two key tables to focus on ñ the revenue a team has brought in this quarter and the opportunities that have been lost this quarter. On the left hand side one can see the ëVariance to Prior Dayí metric. This provides a quick indicator of how sales have changed since yesterday. 
+The ‚ÄòRetrospective‚Äô View is concerned about reporting on things that have already happened this quarter. There are two key tables to focus on ‚Äì the revenue a team has brought in this quarter and the opportunities that have been lost this quarter. On the left hand side one can see the ‚ÄòVariance to Prior Day‚Äô metric. This provides a quick indicator of how sales have changed since yesterday. 
 
-ëLooking Aheadí on the other hand, is concerned with the opportunities that remain open this quarter. It provides details on who owns a given opportunity, how much itís worth and when should it close. A key metric given on the left hand side is how much revenue is in the pipeline. 
+‚ÄòLooking Ahead‚Äô on the other hand, is concerned with the opportunities that remain open this quarter. It provides details on who owns a given opportunity, how much it‚Äôs worth and when should it close. A key metric given on the left hand side is how much revenue is in the pipeline. 
 
-An important aim of the ëDaily Viewí however, is to give a Sales Manager the finest level of granularity they may wish to view their data by. Whilst the default report page looks at things on a quarter level, a Sales Manager may be interested in seeing the opportunities that were lost this week or the opportunities that are expecting to close tomorrow. By using the time slicers present on the page, a Sales Manager can view their data at a month, week or day level. The slicers at the top of the page update the ëRetrospective view (i.e. the past), whereas the slicers in the second half of the page update everything ëLooking Aheadí. 
+An important aim of the ‚ÄòDaily View‚Äô however, is to give a Sales Manager the finest level of granularity they may wish to view their data by. Whilst the default report page looks at things on a quarter level, a Sales Manager may be interested in seeing the opportunities that were lost this week or the opportunities that are expecting to close tomorrow. By using the time slicers present on the page, a Sales Manager can view their data at a month, week or day level. The slicers at the top of the page update the ‚ÄòRetrospective view (i.e. the past), whereas the slicers in the second half of the page update everything ‚ÄòLooking Ahead‚Äô. 
 
-![DailyViewF](../Common/Resources/Images/PBI_SM_DailyViewFiltered.png)
+![DailyViewF](Resources/Images/PBI_SM_DailyViewFiltered.png)
 
 ## Sales Performance
 The purpose of the Sales Manager page is to use historical data to evaluate the current performance of one or more sales teams.
 
-![SalesPerf](../Common/Resources/Images/PBI_SM_SalesPerformance.png)
+![SalesPerf](Resources/Images/PBI_SM_SalesPerformance.png)
 
 
 The Sales Performance view helps Sales Managers answer questions about how their teams are performing compared to previous years. The right-hand side of the page looks at Year to Date sales (i.e. all sales that have occurred between today and the beginning of the year). It then contrasts these sales with sales for the same time period but in previous years. In the screenshot one can thus see sales for the first 7 weeks of the year compared to the first 7 weeks in 2015 and 214. One can then also view important high level metrics around revenue made this year as well as growth compared to last year. 
 
 The middle graph shows the same information at a quarter view whereas the left-hand graph looks at month to date sales. In our example above, month-to-date and year-to-date sales are the same. This is because this is still in the first quarter of the year. The month-to-date view on the other hand, shows a different picture. Here we are looking at the first 11 days of February (our current month) and comparing them to the first 11 days of February in 2015 and 2014. 
 
-Finally, the slicers at the top of the page include all of the Sales Managers direct reports (salespeople or sales team managers). A Sales Manager is thus able to select a specific sales team and look at their sales performance compared to not only their previous year performances but also the global average for the Sales Managerís teams. 
+Finally, the slicers at the top of the page include all of the Sales Managers direct reports (salespeople or sales team managers). A Sales Manager is thus able to select a specific sales team and look at their sales performance compared to not only their previous year performances but also the global average for the Sales Manager‚Äôs teams. 
 
 
-![SalesPerfF](../Common/Resources/Images/PBI_SM_SalesPerformanceFiltered.png)
+![SalesPerfF](Resources/Images/PBI_SM_SalesPerformanceFiltered.png)
 
 ## Pipeline View
 The purpose of the Pipeline view is to monitor the health of the sales pipeline
 
-![Pipeline](../Common/Resources/Images/PBI_SM_Pipeline.png)
+![Pipeline](Resources/Images/PBI_SM_Pipeline.png)
 
 This view focuses on the health of the sales pipeline. The main way pipeline health is evaluated is by measuring pipeline coverage (i.e. by summing up actual sales with all my open opportunities, does that compare to quota). Some sales mangers like to use percentages higher than 100% (e.g. 120%) to indicate a healthy pipeline as they assume not all opportunities will be closed. In our report, any pipeline coverage above 100% appears as green. On the report pipeline coverage is also split by sales team/salesperson and product to provide a more detailed understanding of pipeline.
 
-In the sample report, one can see that while there is a very impressive pipeline coverage for Server Platform (nearly 500%), some of the other products have much lower pipeline coverage. As a Sales Manager, one could investigate why certain products are not generating as much interest and reprioritize the focus of the sales teams away from Server Platform to other areas. We have also enabled drilling down capabilities in the  owner and product pipeline coverage bar graphs. This means that clicking on a particular sales team will uncover all of the sales people that belong to the team, whereas clicking on a product family will uncover all the products associated with it. For example, ëdrillingí into Server Platform will allow one to see whether there is one product that has resulted in the huge surge of pipeline coverage for Server Platform, or whether all Server Platform products extremely popular. As one can see below, it appears to be the latter with all apart from one Server Platform product having very good pipeline coverage:
+In the sample report, one can see that while there is a very impressive pipeline coverage for Server Platform (nearly 500%), some of the other products have much lower pipeline coverage. As a Sales Manager, one could investigate why certain products are not generating as much interest and reprioritize the focus of the sales teams away from Server Platform to other areas. We have also enabled drilling down capabilities in the  owner and product pipeline coverage bar graphs. This means that clicking on a particular sales team will uncover all of the sales people that belong to the team, whereas clicking on a product family will uncover all the products associated with it. For example, ‚Äòdrilling‚Äô into Server Platform will allow one to see whether there is one product that has resulted in the huge surge of pipeline coverage for Server Platform, or whether all Server Platform products extremely popular. As one can see below, it appears to be the latter with all apart from one Server Platform product having very good pipeline coverage:
 
 
-![PipelineCoverage](../Common/Resources/Images/PBI_SM_PipelineCoverage.png)
+![PipelineCoverage](Resources/Images/PBI_SM_PipelineCoverage.png)
 
-Another metric that complements pipeline coverage is ëGap to Greení. Gap to green looks at how much more revenue needed in the pipeline is required to reach quota. A negative gap to green (as shown above in green) indicates one has already surpassed the amount required. The other card metrics on the report look at the amount of opportunities that have a high, medium and low likelihood of closing.
+Another metric that complements pipeline coverage is ‚ÄòGap to Green‚Äô. Gap to green looks at how much more revenue needed in the pipeline is required to reach quota. A negative gap to green (as shown above in green) indicates one has already surpassed the amount required. The other card metrics on the report look at the amount of opportunities that have a high, medium and low likelihood of closing.
 
-The cumulative graph in the bottom right hand corner provides some insights on the Pipeline page. The green line shows cumulative actual sales for the chosen time period (dictated by the time slicers at the top of the page). In the example above, actual sales for FY16Q1 are shown. For actual sales, an upward trending line is expected which goes flat after the current day (as actual sales cannot be made in the future). The cumulative expected revenue line shows a sum of actual sales along with my expected revenue based on open opportunity close dates. This line should perfectly overlay actual sales line (as one cannot have open revenue estimated to close in the past). Finally, a cumulative quota that goes up in monthly increments is shown (here quotas are assumed to be set monthly). A very useful question this graph helps answer is ìat which point in the month/quarter/year can one expect to pass oneís quotaî. Product and owner bar graphs can be used to cross filter the cumulative graph to answer that question about specific people or products. 
+The cumulative graph in the bottom right hand corner provides some insights on the Pipeline page. The green line shows cumulative actual sales for the chosen time period (dictated by the time slicers at the top of the page). In the example above, actual sales for FY16Q1 are shown. For actual sales, an upward trending line is expected which goes flat after the current day (as actual sales cannot be made in the future). The cumulative expected revenue line shows a sum of actual sales along with my expected revenue based on open opportunity close dates. This line should perfectly overlay actual sales line (as one cannot have open revenue estimated to close in the past). Finally, a cumulative quota that goes up in monthly increments is shown (here quotas are assumed to be set monthly). A very useful question this graph helps answer is ‚Äúat which point in the month/quarter/year can one expect to pass one‚Äôs quota‚Äù. Product and owner bar graphs can be used to cross filter the cumulative graph to answer that question about specific people or products. 
 
 Finally, a slicer above the cumulative graph depicts the probability with which an opportunity will close. 10% indicates an low probability of closing whereas 100% indicates the opposite. A Sales Manager can thus start with 100% and continue incrementing downwards until they find out which opportunities need to close in order to reach their target. In the example below, opportunities that have 100% close probability for Azure are viewed: 
 
-![PipelineCoverageF](../Common/Resources/Images/PBI_SM_PipelineCoverage100Filter.png)
+![PipelineCoverageF](Resources/Images/PBI_SM_PipelineCoverage100Filter.png)
 
 
 
