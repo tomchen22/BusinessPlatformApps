@@ -1,17 +1,19 @@
-﻿using Microsoft.Deployment.Actions.Test.TestHelpers;
+﻿using System.IO;
+using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 using AzureML;
 using AzureML.Contract;
+using Microsoft.Deployment.Common.Helpers;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {
     [TestClass]
     public class AzureMLTests
     {
-        [Ignore] //missing file
         [TestMethod]
         public async Task DeployAzureMlWorkspaceTest()
         {
@@ -45,6 +47,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Experiment exp = sdk.GetExperimentById(workspaceSettings, experiments[0].ExperimentId, out rawJson);
         }
 
+        [Ignore]
         [TestMethod]
         public async Task ExportExperiment()
         {
@@ -67,9 +70,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
                 string rawJson = string.Empty;
                 Experiment exp = sdk.GetExperimentById(workspaceSettings, experiment.ExperimentId, out rawJson);
                 System.IO.File.WriteAllText(experiment.Description.Replace(".","").Replace(":","") + ".json", rawJson);
-                
             }
-            
         }
 
         [TestMethod]
@@ -85,8 +86,9 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         [TestMethod]
         public async Task DeployAzureMlExperiment()
         {
+            await DeployAzureMlWorkspaceTest();
             var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
-            dataStore.AddToDataStore("WorkspaceName", "testdlkbt");
+            dataStore.AddToDataStore("WorkspaceName", "test" + TestHarness.RandomCharacters);
             dataStore.AddToDataStore("ExperimentJsonPath", "Service/AzureML/Experiments/Topics.json");
             dataStore.AddToDataStore("ExperimentName", "TopicsDeployed");
             dataStore.AddToDataStore("SqlConnectionString", TestHarness.GetSqlPagePayload("testruns"));
