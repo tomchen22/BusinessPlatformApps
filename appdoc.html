@@ -38,7 +38,7 @@
     var githubApiUrl = githubApiUrlConst + getParameterByName('file');
     var pathToGithubSplit = getParameterByName('file').split('/');
     var pathToGithubJoined = pathToGithubSplit.splice(0,pathToGithubSplit.length-1).join("/");
-    var hardcodedPath = "https://github.com/Microsoft/BusinessPlatformApps/"
+    var hardcodedPath = "https://github.com/Microsoft/BusinessPlatformApps/tree/master/"
         
     $.ajax({
       url: githubApiUrl,
