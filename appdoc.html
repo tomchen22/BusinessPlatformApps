@@ -36,6 +36,10 @@
     }
 
     var githubApiUrl = githubApiUrlConst + getParameterByName('file');
+    var pathToGithubSplit = getParameterByName('file').split('/');
+    var pathToGithubJoined = pathToGithubSplit.splice(0,pathToGithubSplit.length-1).join("/");
+    var hardcodedPath = "https://github.com/Microsoft/BusinessPlatformApps/"
+        
     $.ajax({
       url: githubApiUrl,
       dataType: 'jsonp',
@@ -43,6 +47,7 @@
       {
         var encodedContent = response.data.content;
         var markdownText = Base64.decode(encodedContent);
+        markdownText.replace("![Image](", "![Image](" + hardcodedPath + pathToGithubJoined)
         var renderedHtml = marked(markdownText);
 
         $(contentContainerId).html(renderedHtml);
