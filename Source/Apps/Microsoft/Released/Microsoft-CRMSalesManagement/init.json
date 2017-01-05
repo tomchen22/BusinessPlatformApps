@@ -8,6 +8,12 @@
                 "SqlScriptsFolder": "Database"
             },
             {
+                "name": "Microsoft-SetConfigValueInSql",
+                "displayname": "Deploy DB Configuration",
+                "SqlServerIndex": "0",
+                "SqlConfigTable": "[smgt].[configuration]"
+            },
+            {
                 "displayname": "Configuring Azure Key Vault",
                 "name": "Microsoft-CrmCreateVaultSecret"
             },
@@ -82,7 +88,10 @@
                 "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
                 "title": "Connect to your SQL Database"
             },
-
+            {
+                "displayname": "Customize",
+                "name": "customize.html"
+            },
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
