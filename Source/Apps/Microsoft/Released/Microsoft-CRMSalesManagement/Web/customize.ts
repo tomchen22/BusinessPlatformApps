@@ -6,7 +6,7 @@ export class Customize extends ViewModelBase {
     baseUrl: string = '';
     fiscalMonth: string = 'January';
 
-    async NavigateNext(): Promise<boolean> {
+    async NavigatingNext(): Promise<boolean> {
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlGroup', 'data', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlSubGroup', 'actual_sales', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlEntryName', 'enabled', DataStoreType.Public);
