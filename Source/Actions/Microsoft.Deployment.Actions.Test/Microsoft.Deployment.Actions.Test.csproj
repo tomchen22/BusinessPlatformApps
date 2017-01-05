@@ -169,23 +169,6 @@
     <Compile Include="ActionsTest\SalesforceTests.cs" />
     <Compile Include="ActionsTest\StorageAccountTests.cs" />
     <Compile Include="ActionsTest\TestActions.cs" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\AzureFunctions.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\AzureMLSchedulerLogicApp.json" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\LogicAppImageCacher.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\sentimentCognitiveService.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\NewsTemplateLogicApp.json" />
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\storageAccount.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\Data\TweetFunctionCSharp.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service References\SalesforceSOAP\Reference.cs">
       <AutoGen>True</AutoGen>
@@ -203,54 +186,10 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\init.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\ArmParam.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\armtemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\datasets.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\linkedServices.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\ADF\pipeline.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\SalesforceTestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\init.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\init.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\Arm\ArmParam.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\Arm\armtemplate.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\azureml.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\cognitiveServices.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureArm\function.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\PowerBI\SCCMSolutionTemplate.pbix">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Template.proj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Service References\SalesforceSOAP\Microsoft.Deployment.Actions.Test.SalesforceSOAP.convertLeadResponse.datasource">
@@ -580,61 +519,7 @@
     </None>
     <None Include="Service References\SalesforceSOAP\configuration.svcinfo" />
     <None Include="Service References\SalesforceSOAP\configuration91.svcinfo" />
-    <None Include="Apps\TestApps\TestApp2\Web\azure.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\Web\gettingStarted.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\Web\Images\twitterArchitectureDiagram.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\Web\progress.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Service References\SalesforceSOAP\partner.wsdl" />
-    <None Include="SiteCommon\Service\Arm\azureml.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Service\Arm\cognitiveServices.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Service\Arm\NewAzureAS.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Service\Arm\sampleCDMEntity.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Entity Recognition.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topic Images.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp\Service\AzureML\Experiments\Topics.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Service\Arm\sqlserveranddatabase.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\navbar.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\navbuttons.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\nested\gettingstartedtemplate.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\progresstemplate.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\sqlservertemplate.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\summarytemplate.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Deployment.Actions.AzureCustom\Microsoft.Deployment.Actions.AzureCustom.csproj">
@@ -667,77 +552,12 @@
       <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Apps\TestApps\TestApp2\Web\azure.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\Web\gettingStarted.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Apps\TestApps\TestApp2\Web\progress.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\navbar.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\navbuttons.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\nested\gettingstartedtemplate.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\progresstemplate.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\sqlservertemplate.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="SiteCommon\Web\pagesgallery\summarytemplate.ts">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Apps\TestApps\TestApp2\Resources\" />
-    <Folder Include="Apps\TestApps\TestApp2\Service\" />
-    <Folder Include="Apps\TestApps\TestApp\Service\Database\ADF\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadataStorage Include="Service References\SalesforceSOAP\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\20 tables.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\30 views.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\40 programmability.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\ADF\60 data.sql">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\00 content check.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Database\Cleanup\10 pre.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\SalesforceTestApp\Service\Resources\Scripts\testScript.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\TestApp\Service\Database\Cleanup\00 content check.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\TestApp\Service\Database\Cleanup\10 pre.sql">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Apps\TestApps\TestApp\Service\Resources\Scripts\testScript.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -771,6 +591,7 @@
   </Choose>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="template.proj" />
   <PropertyGroup>
     <PreBuildEvent>
     </PreBuildEvent>

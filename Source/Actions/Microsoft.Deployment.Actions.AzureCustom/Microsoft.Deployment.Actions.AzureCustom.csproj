@@ -205,6 +205,7 @@
     <Compile Include="CDM\GetObjID.cs" />
     <Compile Include="CDM\ProvisionCDM.cs" />
     <Compile Include="Common\CheckAzureWebsiteExists.cs" />
+    <Compile Include="Common\DeployPrivateAssemblyToFunction.cs" />
     <Compile Include="Common\UpdateBlobStorageConnector.cs" />
     <Compile Include="Common\CreateAzureStorageAccount.cs" />
     <Compile Include="Common\CreateConnectorToLogicApp.cs" />
@@ -221,6 +222,7 @@
     <Compile Include="AzureAS\DeployAzureAnalysisServices.cs" />
     <Compile Include="Common\GetStorageAccountKey.cs" />
     <Compile Include="AzureML\DeployAzureMLWorkspace.cs" />
+    <Compile Include="FTPUtilityTest.cs" />
     <Compile Include="LogicApp\LogicAppConnector.cs" />
     <Compile Include="News\DeployAzureMLSchedulerLogicApp.cs" />
     <Compile Include="News\DeployImageCachingLogicApp.cs" />

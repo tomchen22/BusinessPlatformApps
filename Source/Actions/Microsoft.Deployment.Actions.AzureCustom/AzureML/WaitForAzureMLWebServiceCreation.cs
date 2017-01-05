@@ -45,8 +45,12 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
                 await Task.Delay(5000);
                 webservice = azuremlClient.GetWebServiceCreationStatus(workspaceSettings, webservice.ActivityId);
 
-                if ( "Success" == webservice.Status)
+                if ("Completed" == webservice.Status)
                 {
+                    var webserviceendpoints = azuremlClient.GetWebServicesById(workspaceSettings,
+                        webservice.WebServiceGroupId);
+
+                    //var webService = webserviceendpoint.First();
                     return new ActionResponse(ActionStatus.Success);
                 }
                 else if ("Pending" == webservice.Status)

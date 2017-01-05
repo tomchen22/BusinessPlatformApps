@@ -8,13 +8,78 @@ using Microsoft.Deployment.Actions.Test.TestHelpers;
 using Microsoft.Deployment.Common.Helpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Dynamic;
+using Microsoft.Deployment.Common.ActionModel;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {
     [TestClass]
-    class NewsTests
+    public class NewsTests
     {
         public static string randomString = RandomGenerator.GetRandomLowerCaseCharacters(5);
+
+        [TestMethod]
+        public async Task NewsTemplateDeployment()
+        {
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+
+            // Deploy SQL Scripts
+            dataStore.AddToDataStore("SqlConnectionString", TestHarness.GetSqlPagePayload("NewsTemplateTest"));
+            dataStore.AddToDataStore("SqlServerIndex", "0");
+            dataStore.AddToDataStore("SqlScriptsFolder", "Service/Database");
+            var response = await TestHarness.ExecuteActionAsync("Microsoft-DeploySQLScripts", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            // Deploy Function
+            dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
+            dataStore.AddToDataStore("FunctionName", "unittestfunction" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("RepoUrl", "https://github.com/juluczni/AzureFunctionsNewsTemplate");
+
+            //HARDCODED
+            dataStore.AddToDataStore("FunctionName", "hardcodedfunction2");
+
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureFunction", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
+            //response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            //Assert.IsTrue(response.IsSuccess);
+
+            // FTP File Function
+            //response = TestHarness.ExecuteAction("Microsoft-DeployPrivateAssemblyToFunction", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
+
+            // Deploy AML Stuff
+
+            dataStore.AddToDataStore("WorkspaceName", "test" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("StorageAccountName", "testazuremlstorage" + TestHarness.RandomCharacters);
+
+            dataStore.AddToDataStore("WorkspaceName", "hardcodedwrokspace");
+            dataStore.AddToDataStore("StorageAccountName","hcodedtestmo123");
+
+            dataStore.AddToDataStore("DeploymentName", "MLWorkspaceDeployment");
+            //response = TestHarness.ExecuteAction("Microsoft-DeployAzureMLWorkspace", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+            //response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+
+
+            // Deploy AML Web Service
+            dataStore.AddToDataStore("ExperimentJsonPath", "Service/AzureML/Experiments/Topics.json");
+            dataStore.AddToDataStore("ExperimentName", "TopicsDeployed");
+
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLExperiment", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-InsertDatabaseCredentialsIntoExperiment", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebService", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForAzureMLWebServiceCreation", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+        }
+
+
+
         [TestMethod]
         public async Task NewsTemplateE2E()
         {
