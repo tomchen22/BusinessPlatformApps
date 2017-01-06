@@ -32,12 +32,14 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             if (response.IsSuccessStatusCode)
             {
                 var subscriptionKeys = JsonUtility.GetJObjectFromJsonString(await response.Content.ReadAsStringAsync());
-
+            
                 JObject newStorageAccountKey = new JObject();
                 newStorageAccountKey.Add("StorageAccountKey", subscriptionKeys["keys"][0]["value"].ToString());
+                request.DataStore.AddToDataStore("StorageAccountKey", subscriptionKeys["keys"][0]["value"].ToString());
                 return new ActionResponse(ActionStatus.Success, newStorageAccountKey, true);
             }
 
+            
             return new ActionResponse(ActionStatus.Failure);
         }
     }

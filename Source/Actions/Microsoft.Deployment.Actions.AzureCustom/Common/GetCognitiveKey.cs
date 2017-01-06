@@ -26,6 +26,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var location = request.DataStore.GetJson("SelectedLocation")["Name"].ToString();
             var cognitiveServiceName = request.DataStore.GetValue("CognitiveServiceName");
+            var cognitiveServiceType = request.DataStore.GetValue("CognitiveServiceType");
 
             AzureHttpClient client = new AzureHttpClient(azureToken, subscription, resourceGroup);
 
@@ -36,6 +37,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
 
                 JObject newCognitiveServiceKey = new JObject();
                 newCognitiveServiceKey.Add("CognitiveServiceKey", subscriptionKeys["key1"].ToString());
+                request.DataStore.AddToDataStore("CognitiveServiceKey", subscriptionKeys["keys"][0]["value"].ToString());
                 return new ActionResponse(ActionStatus.Success, newCognitiveServiceKey, true);
             }
 
