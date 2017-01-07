@@ -34,8 +34,13 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("FunctionName", "unittestfunction" + TestHarness.RandomCharacters);
             dataStore.AddToDataStore("RepoUrl", "https://github.com/juluczni/AzureFunctionsNewsTemplate");
 
+            response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
             //HARDCODED
-            dataStore.AddToDataStore("FunctionName", "hardcodedfunction3");
+            //dataStore.AddToDataStore("FunctionName", "hardcodedfunction3");
 
 
             // Deploy AML Stuff
@@ -94,7 +99,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = await TestHarness.ExecuteActionAsync("Microsoft-DeployStorageAccountContainer", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
-            //Cognitive Service Deployment
+            //Cognitive Service & Connector Deployment
 
             //Deploy Text Analytics Service
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployText");
@@ -109,13 +114,27 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
             Assert.IsTrue(response.IsSuccess);
 
-            dataStore.CurrentRoutePage = "1";
+            //Create connector for Text Analytics
+            dataStore.AddToDataStore("ConnectorName", "cognitiveservicestextanalytics");
+
+            dynamic payload = new ExpandoObject();
+            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "TextAnalytics");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            
+            dataStore.AddToDataStore("KeyNumber", "1");
 
             //Deploy Bing Cognitive Service
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
             dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
             dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveServiceKey", "");
 
             response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
             Assert.IsTrue(response.IsSuccess);
@@ -124,8 +143,21 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
             Assert.IsTrue(response.IsSuccess);
 
+            //Create connector for Bing News
+            dataStore.AddToDataStore("ConnectorName", "bingnews");
+
+            payload = new ExpandoObject();
+            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
             //Image Cache Logic App
+
             dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
             dataStore.AddToDataStore("LogicAppName", "testname");
             dataStore.AddToDataStore("SearchQuery", "microsoft");
@@ -133,8 +165,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
             dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
 
-            
-            dynamic payload = new ExpandoObject();
+            payload = new ExpandoObject();
             payload.accountName = "cacheimages";
             payload.accessKey = dataStore.GetDataStoreItem("StorageAccountKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
@@ -148,6 +179,11 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
             Assert.IsTrue(response.IsSuccess);
+
+            //News Template Logic App
+
+
+
         }
 
 
