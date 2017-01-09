@@ -26,6 +26,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("SqlConnectionString", TestHarness.GetSqlPagePayload("NewsTemplateTest"));
             dataStore.AddToDataStore("SqlServerIndex", "0");
             dataStore.AddToDataStore("SqlScriptsFolder", "Service/Database");
+
             var response = await TestHarness.ExecuteActionAsync("Microsoft-DeploySQLScripts", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
@@ -46,38 +47,37 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             //response = TestHarness.ExecuteAction("Microsoft-DeployPrivateAssemblyToFunction", dataStore, "Microsoft-NewsTemplateTest");
             //Assert.IsTrue(response.IsSuccess);
 
-            // Deploy AML Stuff
+            // Deploy AML Stuff Deploy AML Web Service
+            // Set up storage account first
 
-            dataStore.AddToDataStore("WorkspaceName", "test" + TestHarness.RandomCharacters);
-            dataStore.AddToDataStore("StorageAccountName", "testazuremlstorage" + TestHarness.RandomCharacters);
-
-            dataStore.AddToDataStore("WorkspaceName", "hardcodedwrokspace");
-            dataStore.AddToDataStore("StorageAccountName","hcodedtestmo123");
-
-            dataStore.AddToDataStore("DeploymentName", "MLWorkspaceDeployment");
-            //response = TestHarness.ExecuteAction("Microsoft-DeployAzureMLWorkspace", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.Status == ActionStatus.Success);
-            //response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.Status == ActionStatus.Success);
+            dataStore.AddToDataStore("StorageAccountName", "unittesttrialbpst" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
+            dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
+            response = TestHarness.ExecuteAction("Microsoft-CreateAzureStorageAccount", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
 
-            // Deploy AML Web Service
-            dataStore.AddToDataStore("ExperimentJsonPath", "Service/AzureML/Experiments/Topics.json");
-            dataStore.AddToDataStore("ExperimentName", "TopicsDeployed");
+            // Deploy experiments
+            dataStore.AddToDataStore("PlanName", "motestplan");
+            dataStore.AddToDataStore("Replace", "WebServiceFile", "Service/AzureML/Experiments/TopicImagesWebService.json");
+            dataStore.AddToDataStore("Replace", "WebServiceName", "TopicImageswsdeployed");
+            dataStore.AddToDataStore("CommitmentPlan", "motestcomm");
 
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLExperiment", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.Status == ActionStatus.Success);
-
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-InsertDatabaseCredentialsIntoExperiment", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.Status == ActionStatus.Success);
-
-            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebService", dataStore, "Microsoft-NewsTemplateTest");
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebServiceFromFile", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
-            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForAzureMLWebServiceCreation", dataStore, "Microsoft-NewsTemplateTest");
+            dataStore.AddToDataStore("Replace", "WebServiceFile", "Service/AzureML/Experiments/TopicsWebService.json");
+            dataStore.AddToDataStore("Replace", "WebServiceName", "Topicwsdeployed1");
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebServiceFromFile", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            dataStore.AddToDataStore("Replace", "WebServiceFile", "Service/AzureML/Experiments/EntityWebService.json");
+            dataStore.AddToDataStore("Replace", "WebServiceName", "entitywsdeployed1");
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebServiceFromFile", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.Status == ActionStatus.Success);
         }
-
 
 
         [TestMethod]

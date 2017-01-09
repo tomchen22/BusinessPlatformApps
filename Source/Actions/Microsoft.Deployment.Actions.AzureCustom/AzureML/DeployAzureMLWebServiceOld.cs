@@ -13,7 +13,7 @@ using Microsoft.Deployment.Common.Helpers;
 namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 {
     [Export(typeof(IAction))]
-    public class DeployAzureMLWebService : BaseAction
+    public class DeployAzureMLWebServiceOld : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
@@ -48,7 +48,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 
             var webservice = azuremlClient.DeployWebServiceFromPredictiveExperiment(workspaceSettings, experiment.ExperimentId, true);
             request.DataStore.AddToDataStore("AzureMLWebService", JsonUtility.GetJObjectFromObject(webservice));
-
             return new ActionResponse(ActionStatus.Success);
         }
     }

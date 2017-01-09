@@ -19,7 +19,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
     [TestClass]
     public class TestHarness
     {
-        public static string RandomCharacters = RandomGenerator.GetRandomLowerCaseCharacters(5);
+        public static string RandomCharacters = "12345";
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
         private static DataStore CommonDataStoreServicePrincipal = null;

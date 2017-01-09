@@ -6,8 +6,15 @@ using System.Linq;
 using System.Threading.Tasks;
 using AzureML;
 using AzureML.Contract;
+using Microsoft.Azure.Management.MachineLearning.CommitmentPlans;
+using Microsoft.Azure.Management.MachineLearning.WebServices;
+using Microsoft.Azure.Management.MachineLearning.WebServices.Models;
+using Microsoft.Azure.Management.MachineLearning.WebServices.Util;
 using Microsoft.Deployment.Common.Helpers;
+using Microsoft.Rest;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using WebService = AzureML.Contract.WebService;
 
 namespace Microsoft.Deployment.Actions.Test.ActionsTest
 {
@@ -47,7 +54,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Experiment exp = sdk.GetExperimentById(workspaceSettings, experiments[0].ExperimentId, out rawJson);
         }
 
-        [Ignore]
+
         [TestMethod]
         public async Task ExportExperiment()
         {
@@ -56,7 +63,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             var workspaces = sdk.GetWorkspacesFromRdfe(dataStore.GetJson("AzureToken")["access_token"].ToString(),
                 dataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString());
 
-           var workspace =  workspaces.SingleOrDefault(p => p.Name == "testdlkbt");
+            var workspace = workspaces.SingleOrDefault(p => p.Name == "hardcodedwrokspace1");
             var workspaceSettings = new WorkspaceSetting()
             {
                 AuthorizationToken = workspace.AuthorizationToken.PrimaryToken,
@@ -69,7 +76,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             {
                 string rawJson = string.Empty;
                 Experiment exp = sdk.GetExperimentById(workspaceSettings, experiment.ExperimentId, out rawJson);
-                System.IO.File.WriteAllText(experiment.Description.Replace(".","").Replace(":","") + ".json", rawJson);
+                System.IO.File.WriteAllText(experiment.Description.Replace(".", "").Replace(":", "") + ".json", rawJson);
             }
         }
 
@@ -103,6 +110,31 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             response = TestHarness.ExecuteAction("Microsoft-WaitForAzureMLWebServiceCreation", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
+        }
+
+        [TestMethod]
+        public async Task GetWebServiceDefinition()
+        {
+            // This test will extract all the webservice definitions from AML priceplan
+            // Only run when you need it
+
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+            var azureToken = dataStore.GetJson("AzureToken")["access_token"].ToString();
+            var subscription = dataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
+            var resourceGroup = dataStore.GetValue("SelectedResourceGroup");
+
+            ServiceClientCredentials creds = new TokenCredentials(azureToken);
+            AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
+            AzureMLCommitmentPlansManagementClient commitmentClient = new AzureMLCommitmentPlansManagementClient(creds);
+            client.SubscriptionId = subscription;
+            commitmentClient.SubscriptionId = subscription;
+            var webservices = await client.WebServices.ListAsync();
+            foreach (var webserviceName in webservices)
+            {
+                var webservice = await client.WebServices.GetAsync(resourceGroup, webserviceName.Name);
+                var str = ModelsSerializationUtil.GetAzureMLWebServiceDefinitionJsonFromObject(webservice);
+                System.IO.File.WriteAllText(webserviceName.Name.Replace(".", "").Replace(":", "") + "WebServiceNew.json", str);
+            }
         }
     }
 }
