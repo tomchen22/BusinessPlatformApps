@@ -35,13 +35,14 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("FunctionName", "unittestfunction" + TestHarness.RandomCharacters);
             dataStore.AddToDataStore("RepoUrl", "https://github.com/juluczni/AzureFunctionsNewsTemplate");
 
-            //HARDCODED
-            dataStore.AddToDataStore("FunctionName", "hardcodedfunction2");
+            response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
 
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureFunction", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
-            //response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
-            //Assert.IsTrue(response.IsSuccess);
+            //HARDCODED
+            //dataStore.AddToDataStore("FunctionName", "hardcodedfunction3");
+
 
             // FTP File Function
             //response = TestHarness.ExecuteAction("Microsoft-DeployPrivateAssemblyToFunction", dataStore, "Microsoft-NewsTemplateTest");
@@ -68,10 +69,121 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebServiceFromFile", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
-            dataStore.AddToDataStore("Replace", "WebServiceFile", "Service/AzureML/Experiments/TopicsWebService.json");
-            dataStore.AddToDataStore("Replace", "WebServiceName", "Topicwsdeployed1");
-            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebServiceFromFile", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.Status == ActionStatus.Success);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployAzureMLWebService", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForAzureMLWebServiceCreation", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.Status == ActionStatus.Success);
+
+            //Azure Storage Deployment
+
+            //Create Storage account
+            dataStore.AddToDataStore("DeploymentName", "StorageDeploymentTest");
+            dataStore.AddToDataStore("StorageAccountName", "unitteststorage" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
+            dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
+
+            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateAzureStorageAccount", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+
+            //Get key
+            response = await TestHarness.ExecuteActionAsync("Microsoft-GetStorageAccountKey", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+
+            //Deploy blob
+            dataStore.AddToDataStore("StorageAccountContainer", "mycontainer" + TestHarness.RandomCharacters);
+
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployStorageAccountContainer", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+
+            //Cognitive Service & Connector Deployment
+
+            //Deploy Text Analytics Service
+            dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployText");
+            dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService");
+            dataStore.AddToDataStore("CognitiveServiceType", "TextAnalytics");
+            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //Get Key for Text Analytics
+            response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //Create connector for Text Analytics
+            dataStore.AddToDataStore("ConnectorName", "cognitiveservicestextanalytics");
+
+            dynamic payload = new ExpandoObject();
+            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "TextAnalytics");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            
+            dataStore.AddToDataStore("KeyNumber", "1");
+
+            //Deploy Bing Cognitive Service
+            dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
+            dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
+            dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
+            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveServiceKey", "");
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //Get Key for Bing
+            response = TestHarness.ExecuteAction("Microsoft-GetCognitiveKey", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //Create connector for Bing News
+            dataStore.AddToDataStore("ConnectorName", "bingnews");
+
+            payload = new ExpandoObject();
+            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+            dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //Image Cache Logic App
+
+            dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
+            dataStore.AddToDataStore("LogicAppName", "testname");
+            dataStore.AddToDataStore("SearchQuery", "microsoft");
+            dataStore.AddToDataStore("ConnectorName", "azureblob");
+            dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
+            dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
+
+            payload = new ExpandoObject();
+            payload.accountName = "cacheimages";
+            payload.accessKey = dataStore.GetDataStoreItem("StorageAccountKey");
+            payload = JsonUtility.GetJObjectFromObject(payload);
+            dataStore.AddToDataStore("ConnectorPayload", payload);
+
+            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-DeployImageCachingLogicApp", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            //News Template Logic App
+
+
 
             dataStore.AddToDataStore("Replace", "WebServiceFile", "Service/AzureML/Experiments/EntityWebService.json");
             dataStore.AddToDataStore("Replace", "WebServiceName", "entitywsdeployed1");
