@@ -10,7 +10,7 @@ using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
 
-namespace Microsoft.Deployment.Actions.AzureCustom.Newws
+namespace Microsoft.Deployment.Actions.AzureCustom.News
 {
     [Export(typeof(IAction))]
     public class DeployNewsTemplateLogicApp : BaseAction
@@ -26,7 +26,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Newws
             var logicAppName = request.DataStore.GetValue("LogicAppName");
             var searchQuery = request.DataStore.GetValue("SearchQuery");
             var imageCacheLogicApp = request.DataStore.GetValue("ImageCacheLogicApp");
-            var siteName = request.DataStore.GetValue("SiteName");
+            var siteName = request.DataStore.GetValue("FunctionName");
 
             var param = new AzureArmParameterGenerator();
             param.AddStringParam("resourcegroup", resourceGroup);

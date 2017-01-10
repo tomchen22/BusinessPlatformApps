@@ -80,34 +80,7 @@
 					}
 				],
 				"IsPartOfPartialRun": false,
-				"InputPortsInternal": [{
-						"Name": "Dataset1",
-						"DataSourceId": null,
-						"TrainedModelId": null,
-						"TransformModuleId": null,
-						"Language": "DotNet",
-						"Version": "4.5.0",
-						"PortIndex": null,
-						"NodeId": "357d6fd3-7ec8-4a70-ba34-8d794c1258a3-58552"
-					}, {
-						"Name": "Dataset2",
-						"DataSourceId": null,
-						"TrainedModelId": null,
-						"TransformModuleId": null,
-						"Language": "DotNet",
-						"Version": "4.5.0",
-						"PortIndex": null,
-						"NodeId": "357d6fd3-7ec8-4a70-ba34-8d794c1258a3-58552"
-					}, {
-						"Name": "Script Bundle",
-						"DataSourceId": null,
-						"TrainedModelId": null,
-						"TransformModuleId": null,
-						"Language": "DotNet",
-						"Version": "4.5.0",
-						"PortIndex": null,
-						"NodeId": "357d6fd3-7ec8-4a70-ba34-8d794c1258a3-58552"
-					}
+				"InputPortsInternal": [
 				],
 				"OutputPortsInternal": [{
 						"Name": "Result Dataset",
@@ -638,7 +611,7 @@
 		"SerializedClientData": "<?xml version='1.0' encoding='utf-16'?><DataV1 xmlns:xsd='http://www.w3.org/2001/XMLSchema' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'><Meta /><NodePositions></NodePositions><NodeGroups /></DataV1>",
 		"ArmWebServiceId": null
 	},
-	"Category": "user",
+	"Category": null,
 	"Tags": [],
 	"IsPartialRun": false
 }

@@ -129,21 +129,22 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
                 }
             }
 
+
             if (obj["properties"].SelectToken("parameters") != null)
             {
-                if (obj["properties"]["parameters"]["Database Server Name"] != null)
+                if (obj["properties"]["parameters"]["database server name"] != null)
                 {
-                    obj["properties"]["parameters"]["Database Server Name"] = sqlCredentials.Server;
+                    obj["properties"]["parameters"]["database server name"] = sqlCredentials.Server;
                 }
 
-                if (obj["properties"]["parameters"]["Database Name"] != null)
+                if (obj["properties"]["parameters"]["database name"] != null)
                 {
-                    obj["properties"]["parameters"]["Database Name"] = sqlCredentials.Database;
+                    obj["properties"]["parameters"]["database name"] = sqlCredentials.Database;
                 }
 
-                if (obj["properties"]["parameters"]["Server User Account Name"] != null)
+                if (obj["properties"]["parameters"]["user name"] != null)
                 {
-                    obj["properties"]["Server User Account Name"] = sqlCredentials.Username;
+                    obj["properties"]["parameters"]["user name"] = sqlCredentials.Username;
                 }
 
                 if (obj["properties"]["parameters"]["Server User Account Password"] != null)

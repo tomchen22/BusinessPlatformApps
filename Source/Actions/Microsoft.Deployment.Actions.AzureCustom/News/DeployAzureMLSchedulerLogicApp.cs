@@ -26,13 +26,13 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Newws
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
             var logicAppName = request.DataStore.GetValue("LogicAppName");
 
-            var apiKeyTopics = request.DataStore.GetValue("Exp1", "TopicApiKey");
-            var apiKeyImages = request.DataStore.GetValue("Exp2", "ImagesApiKey");
-            var apiKeyEntities = request.DataStore.GetValue("Exp3", "EntityApiKey");
+            var apiKeyTopics = request.DataStore.GetAllValues("AzureMLKey")[0];
+            var apiKeyImages = request.DataStore.GetAllValues("AzureMLKey")[1]; ;
+            var apiKeyEntities = request.DataStore.GetAllValues("AzureMLKey")[2]; ;
 
-            var apiUrlTopics = request.DataStore.GetValue("Exp1", "TopicApiUrl");
-            var apiUrlImages = request.DataStore.GetValue("Exp2", "ImagesApiUrl");
-            var apiUrlEntities = request.DataStore.GetValue("Exp3", "EntityApiUrl");
+            var apiUrlTopics = request.DataStore.GetAllValues("AzureMLUrl")[0];
+            var apiUrlImages = request.DataStore.GetAllValues("AzureMLUrl")[1];
+            var apiUrlEntities = request.DataStore.GetAllValues("AzureMLUrl")[2];
 
             var param = new AzureArmParameterGenerator();
             param.AddStringParam("resourcegroup", resourceGroup);

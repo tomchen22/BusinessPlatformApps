@@ -19,7 +19,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
     [TestClass]
     public class TestHarness
     {
-        public static string RandomCharacters = "12345";
+        public static string RandomCharacters = RandomGenerator.GetRandomLowerCaseCharacters(5);
         private static CommonController Controller { get; set; }
         public static string TemplateName = "TestApp";
         private static DataStore CommonDataStoreServicePrincipal = null;
@@ -154,18 +154,18 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             Assert.IsTrue(subscriptionResult.IsSuccess);
             var subscriptionId =
                 subscriptionResult.Body.GetJObject()["value"].SingleOrDefault(
-                    p => p["DisplayName"].ToString() == "PBI_ECO (Paas) Richard's team");
+                    p => p["DisplayName"].ToString() == "Project Essex");
             dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
 
             var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
             Assert.IsTrue(locationResult.IsSuccess);
-            var location = locationResult.Body.GetJObject()["value"][5];
+            var location = locationResult.Body.GetJObject()["value"][12];
             dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
 
 
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                ResourceGroup = Environment.MachineName;
+                ResourceGroup = Environment.MachineName + RandomGenerator.GetRandomLowerCaseCharacters(5);
             }
 
             dataStore.AddToDataStore("SelectedResourceGroup", ResourceGroup);
