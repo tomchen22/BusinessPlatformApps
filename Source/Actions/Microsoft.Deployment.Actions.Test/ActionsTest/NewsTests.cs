@@ -118,7 +118,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorName", "cognitiveservicestextanalytics");
 
             dynamic payload = new ExpandoObject();
-            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload.apiKey = dataStore.GetValue("CognitiveServiceKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "TextAnalytics");
@@ -147,7 +147,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorName", "bingnews");
 
             payload = new ExpandoObject();
-            payload.apiKey = dataStore.GetDataStoreItem("CognitiveServiceKey");
+            payload.apiKey = dataStore.GetValue("CognitiveServiceKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
@@ -161,7 +161,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
             payload = new ExpandoObject();
             payload.accountName = "cacheimages";
-            payload.accessKey = dataStore.GetDataStoreItem("StorageAccountKey").Value;
+            payload.accessKey = dataStore.GetValue("StorageAccountKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");

@@ -49,9 +49,7 @@
               "On_new_news_article": {
                 "inputs": {
                   "host": {
-                    "api": {
-                      "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/bingnews"
-                    },
+                   
                     "connection": {
                       "name": "@parameters('$connections')['bingnews']['connectionId']"
                     }
@@ -97,9 +95,7 @@
                     "text": "@{body('HTMLStripperWebHook')['NoTags']}"
                   },
                   "host": {
-                    "api": {
-                      "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/cognitiveservicestextanalytics"
-                    },
+                   
                     "connection": {
                       "name": "@parameters('$connections')['cognitiveservicestextanalytics']['connectionId']"
                     }
@@ -233,7 +229,7 @@
                 },
                 "host": {
                   "connection": {
-                    "name": "@parameters('$connections')['sql_1']['connectionId']"
+                    "name": "@parameters('$connections')['sql']['connectionId']"
                   }
                 },
                 "method": "post",
@@ -246,9 +242,7 @@
                     "text": "@{body('HTMLStripperWebHook')['NoTags']}"
                   },
                   "host": {
-                    "api": {
-                      "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/cognitiveservicestextanalytics"
-                    },
+                    
                     "connection": {
                       "name": "@parameters('$connections')['cognitiveservicestextanalytics']['connectionId']"
                     }
