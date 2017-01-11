@@ -10,25 +10,25 @@ using System.Threading.Tasks;
 namespace Microsoft.Deployment.Actions.SQL
 {
     [Export(typeof(IAction))]
-    public class CompareSqlCollations : BaseAction
+    public class CompareSqlLCIDs : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string cnSrc = request.DataStore.GetAllValues("SqlConnectionString")[0];
             string cnDest = request.DataStore.GetAllValues("SqlConnectionString")[1];
 
-            DataTable dtSrcCollation = SqlUtility.RunCommand(cnSrc, "SELECT DATABASEPROPERTYEX(Db_Name(), 'Collation') SQLCollation", SqlCommandType.ExecuteWithData);
-            DataTable dtDestCollation = SqlUtility.RunCommand(cnDest, "SELECT DATABASEPROPERTYEX(Db_Name(), 'Collation') SQLCollation", SqlCommandType.ExecuteWithData);
+            DataTable dtSrcLCID = SqlUtility.RunCommand(cnSrc, "SELECT Convert(int, COLLATIONPROPERTY( Convert(nvarchar, DATABASEPROPERTYEX(Db_Name(), 'Collation')) , 'LCID' )) DB_LCID", SqlCommandType.ExecuteWithData);
+            DataTable dtDestLCID = SqlUtility.RunCommand(cnDest, "SELECT Convert(int, COLLATIONPROPERTY( Convert(nvarchar, DATABASEPROPERTYEX(Db_Name(), 'Collation')) , 'LCID' )) DB_LCID", SqlCommandType.ExecuteWithData);
 
-            if (dtSrcCollation == null || dtSrcCollation.Rows.Count==0 || dtDestCollation== null || dtDestCollation.Rows.Count==0)
+            if (dtSrcLCID == null || dtSrcLCID.Rows.Count==0 || dtDestLCID== null || dtDestLCID.Rows.Count==0)
             {
                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "SQL_CannotRetrieveCollations");
             }
 
-            string sourceCollation = dtSrcCollation.Rows[0]["SQLCollation"].ToString();
-            string destCollation = dtDestCollation.Rows[0]["SQLCollation"].ToString();
+            int sourceLCID = (int)dtSrcLCID.Rows[0]["SQLCollation"];
+            int destLCID = (int)dtDestLCID.Rows[0]["SQLCollation"];
             
-            if (sourceCollation.EqualsIgnoreCase(destCollation))
+            if (sourceLCID==destLCID)
                 return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
             else
                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "SQL_TargetCollationDoesntMatch");

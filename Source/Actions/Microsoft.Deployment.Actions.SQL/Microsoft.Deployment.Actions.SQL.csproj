@@ -103,7 +103,7 @@
     <Compile Include="..\..\Shared\SharedVersion.cs">
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
-    <Compile Include="CompareSqlCollations.cs" />
+    <Compile Include="CompareSqlLCIDs.cs" />
     <Compile Include="CheckSQLVersion.cs" />
     <Compile Include="DeploySqlScripts.cs" />
     <Compile Include="GetSqlConnectionString.cs" />
@@ -130,7 +130,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
   </Target>
-
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
