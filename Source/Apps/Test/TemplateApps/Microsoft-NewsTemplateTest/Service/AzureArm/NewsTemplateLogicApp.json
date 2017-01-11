@@ -91,9 +91,9 @@
               },
               "Detect_Sentiment": {
                 "inputs": {
-                  "body": {
-                    "text": "@{body('HTMLStripperWebHook')['NoTags']}"
-                  },
+                    "body": {
+                        "text": "@{substring(body('HTMLStripperWebHook')['NoTags'], 0, min(length(body('HTMLStripperWebHook')['NoTags']),5000))}"
+                    },
                   "host": {
                    
                     "connection": {
@@ -239,7 +239,7 @@
               "Key_Phrases": {
                 "inputs": {
                   "body": {
-                    "text": "@{body('HTMLStripperWebHook')['NoTags']}"
+                    "text": "@{substring(body('HTMLStripperWebHook')['NoTags'], 0, min(length(body('HTMLStripperWebHook')['NoTags']),5000))}"
                   },
                   "host": {
                     

@@ -52,31 +52,31 @@ BEGIN
 	BEGIN TRANSACTION
 
 	BEGIN TRY
-		DELETE FROM Documents WHERE id = @docid;
+		DELETE FROM [bpst_news].[documents] WHERE id = @docid;
 
-		INSERT INTO Documents
+		INSERT INTO [bpst_news].[documents] 
 		( id, text, textLength,	cleanedText, cleanedTextLength, title, sourceUrl, sourceDomain, category, imageUrl, imageWidth, imageHeight )
 		VALUES
 		( @docid, @text, @textLength, @cleanedText, @cleanedTextLength, @title, @sourceUrl, @sourceDomain, @category, @imageUrl, @imageWidth, @imageHeight );
 
-		DELETE FROM DocumentPublishedTimes WHERE id = @docid;
-		INSERT INTO DocumentPublishedTimes
+		DELETE FROM [bpst_news].[documentpublishedtimes] WHERE id = @docid;
+		INSERT INTO [bpst_news].[documentpublishedtimes]
 		( id, "timestamp", monthPrecision, weekPrecision, dayPrecision, hourPrecision, minutePrecision )
 		VALUES
 		( @docId, @publishedTimestamp, @publishedMonthPrecision, @publishedWeekPrecision, @publishedDayPrecision, @publishedHourPrecision, @publishedMinutePrecision );
 
-		DELETE FROM DocumentIngestedTimes WHERE id = @docid;
-		INSERT INTO DocumentIngestedTimes
+		DELETE FROM [bpst_news].[documentingestedtimes] WHERE id = @docid;
+		INSERT INTO [bpst_news].[documentingestedtimes]
 		( id, "timestamp", monthPrecision, weekPrecision, dayPrecision, hourPrecision, minutePrecision )
 		VALUES
 		( @docId, @ingestTimestamp, @ingestMonthPrecision, @ingestWeekPrecision, @ingestDayPrecision, @ingestHourPrecision, @ingestMinutePrecision );
 
-		DELETE FROM DocumentSentimentScores WHERE id = @docid;
-		INSERT INTO DocumentSentimentScores (id, score) VALUES ( @docid, @sentimentScore );
+		DELETE FROM [bpst_news].[documentsentimentscores] WHERE id = @docid;
+		INSERT INTO [bpst_news].[documentsentimentscores] (id, score) VALUES ( @docid, @sentimentScore );
 
-		DELETE FROM DocumentKeyPhrases WHERE documentId = @docid;
+		DELETE FROM [bpst_news].[documentkeyphrases] WHERE documentId = @docid;
 
-		INSERT INTO DocumentKeyPhrases (documentId, phrase)
+		INSERT INTO [bpst_news].[documentkeyphrases] (documentId, phrase)
 		SELECT @docid AS documentId, value AS phrase
 		FROM OPENJSON(@keyPhraseJson);
 

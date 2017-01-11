@@ -71,7 +71,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
 
             //Deploy blob
-            dataStore.AddToDataStore("StorageAccountContainer", "mycontainer" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("StorageAccountContainer", "newsimages");
 
             response = await TestHarness.ExecuteActionAsync("Microsoft-DeployStorageAccountContainer", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
@@ -160,7 +160,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ConnectorName", "azureblob");
             dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
             payload = new ExpandoObject();
-            payload.accountName = "cacheimages";
+            payload.accountName = dataStore.GetValue("StorageAccountName");
             payload.accessKey = dataStore.GetValue("StorageAccountKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
@@ -168,7 +168,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
-
 
             //Create SQL Connector
             dataStore.AddToDataStore("ConnectorName", "sql");
