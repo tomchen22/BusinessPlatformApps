@@ -75,7 +75,7 @@
                 "subtitle": "Set up a connection to your target database so we can transfer your data.",
                 "onNext": [
                     {
-                        "name": "Microsoft-CompareSqlCollations",
+                        "name": "Microsoft-CompareSqlLCIDs",
                         "useImpersonation": true
                     }
                 ]
