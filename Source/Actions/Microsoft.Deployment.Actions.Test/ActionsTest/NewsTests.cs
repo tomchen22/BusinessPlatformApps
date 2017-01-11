@@ -172,11 +172,13 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             //Create SQL Connector
             dataStore.AddToDataStore("ConnectorName", "sql");
             payload = new ExpandoObject();
+            string connectionString = TestHarness.GetSqlPagePayload("NewsTemplateTest");
+            var connectionStringObj = SqlUtility.GetSqlCredentialsFromConnectionString(connectionString);
             payload.authType = "windows";
-            payload.database = "testruns";
-            payload.password = "Billing.26";
-            payload.server = "pbist.database.windows.net";
-            payload.username = "pbiadmin";
+            payload.database = connectionStringObj.Database;
+            payload.password = connectionStringObj.Password;
+            payload.server = connectionStringObj.Server;
+            payload.username = connectionStringObj.Username;
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "SQLConnector");

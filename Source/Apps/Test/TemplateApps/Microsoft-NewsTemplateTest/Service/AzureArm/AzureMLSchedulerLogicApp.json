@@ -57,7 +57,7 @@
                   }
                 },
                 "method": "post",
-                "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[dbo].[CleanBatchTables]'))}"
+                "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_clean_stage_tables]'))}"
               },
               "runAfter": {},
               "type": "ApiConnection"
@@ -65,9 +65,6 @@
             "Entity_AzureML": {
               "inputs": {
                 "host": {
-                  "api": {
-                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
-                  },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
                   }
@@ -89,9 +86,6 @@
             "Topic_AzureML": {
               "inputs": {
                 "host": {
-                  "api": {
-                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
-                  },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
                   }
@@ -113,9 +107,6 @@
             "Topic_Images_AzureML": {
               "inputs": {
                 "host": {
-                  "api": {
-                    "runtimeUrl": "https://logic-apis-westus.azure-apim.net/apim/azureml"
-                  },
                   "connection": {
                     "name": "@parameters('$connections')['azureml']['connectionId']"
                   }

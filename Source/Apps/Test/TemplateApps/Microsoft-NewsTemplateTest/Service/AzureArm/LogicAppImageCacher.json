@@ -93,9 +93,6 @@
                     "inputs": {
                       "body": "@body('HTTP')",
                       "host": {
-                        "api": {
-                          "runtimeUrl": "https://logic-apis-df.azure-apim.net/apim/azureblob"
-                        },
                         "connection": {
                           "name": "@parameters('$connections')['azureblob']['connectionId']"
                         }
