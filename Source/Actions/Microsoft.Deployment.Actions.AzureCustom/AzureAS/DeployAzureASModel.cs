@@ -14,9 +14,10 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string serverName = request.DataStore.GetValue("ASServerUrl");
-            string username = request.DataStore.GetValue("ASAdmin");
+            string username = request.DataStore.GetValue("ASAdmin") ??
+                AzureUtility.GetEmailFromToken(request.DataStore.GetJson("AzureToken"));
             string password = request.DataStore.GetValue("ASAdminPassword");
-            string xmla = request.DataStore.GetValue("xmla");
+            string xmla = request.DataStore.GetValue("xmlaFilePath");
             string asDatabase  = request.DataStore.GetValue("ASDatabase");
 
             string connectionString = string.Empty;
@@ -26,9 +27,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
                 connectionString += "Provider=MSOLAP;";
             }
 
-            connectionString += $"Data Source={serverName}";
+            connectionString += $"Data Source={serverName};";
 
-            if (string.IsNullOrEmpty(password))
+            if (!string.IsNullOrEmpty(password))
             {
                 connectionString += $"User ID={username};Password={password};Persist Security Info=True; Impersonation Level=Impersonate;";
             }
@@ -36,7 +37,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
             Server server = new Server();
             server.Connect(connectionString);
 
-            string xmlaContents = File.ReadAllText(request.Info.App.AppFilePath + xmla);
+            string xmlaContents = File.ReadAllText(request.Info.App.AppFilePath + "/" +xmla);
             server.Execute(xmlaContents);
             var db = server.Databases.Find(asDatabase);
             db.Process(ProcessType.ProcessFull);

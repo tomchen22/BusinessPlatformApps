@@ -23,12 +23,22 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
         }
 
         [TestMethod]
-        public async Task ConnectToAzureAnalysisServices()
-         {
-            Server server = new Server();
-            string connectionString = "Provider=MSOLAP;Data Source=asazure://westcentralus.asazure.windows.net/asserver;User ID=mohaali@microsoft.com;Password=testpass;Persist Security Info=True; Impersonation Level=Impersonate;";
-            server.Connect(connectionString);
-            Assert.IsTrue(server.Databases.Count > -1);
+        public async Task CreateAndConnectToAzureAndDeploy()
+        {
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+            dataStore.AddToDataStore("ASServerName", "asserver");
+            dataStore.AddToDataStore("ASLocation", "westcentralus");
+            dataStore.AddToDataStore("ASSku", "D1");
+
+            dataStore.AddToDataStore("ASAdminPassword", "Uthman77777");
+            dataStore.AddToDataStore("xmlaFilePath", "Service/SSAS/twitter.xmla");
+            dataStore.AddToDataStore("ASDatabase", "testdb");
+
+            var response = TestHarness.ExecuteAction("Microsoft-DeployAzureAnalysisServices", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+
+            response = TestHarness.ExecuteAction("Microsoft-DeployAzureASModel", dataStore);
+            Assert.IsTrue(response.IsSuccess);
         }
 
         [TestMethod]
