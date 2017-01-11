@@ -6,9 +6,7 @@ SET CONCAT_NULL_YIELDS_NULL ON;
 SET QUOTED_IDENTIFIER       ON;
 go
 
-/************************************
-* Date values                       *
-*************************************/
+/* POPULATE DATE TABLE */
 BEGIN TRANSACTION
 
 DECLARE @startyear INT = Datepart(year, Getdate()) - 1;
