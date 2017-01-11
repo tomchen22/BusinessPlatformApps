@@ -29,6 +29,11 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 
             switch (oauthType)
             {
+                case "powerbi":
+                    tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
+                    clientId = Constants.MicrosoftClientIdPowerBI;
+                    api = Constants.PowerBIService;
+                    break;
                 case "mscrm":
                     api = Constants.AzureManagementCoreApi;
                     clientId = Constants.MsCrmClientId;

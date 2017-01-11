@@ -2,6 +2,11 @@
   "Install": {
     "Pages": [
       {
+        "name": "$SiteCommon$/pagesgallery/powerbi-login.html",
+        "displayname": "PowerBI Login",
+        "oauthType": "powerbi"
+      },
+      {
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
         "templateName": "Salesforce Sales Management",
         "subtitle": "Welcome to the Salesforce Sales Management solution template.",
@@ -19,7 +24,7 @@
           "Data pulled from Salesforce into an Azure SQL Database using Azure Data Factory",
           "Connect to Azure SQL and import data into Power BI"
         ],
-        "showBack": "$(false)" 
+        "showBack": "$(false)"
       },
       {
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
