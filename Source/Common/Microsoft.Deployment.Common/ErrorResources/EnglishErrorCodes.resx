@@ -226,9 +226,9 @@
     <value>Cannot register the KeyVault as a provider in this subscription</value>
   </data>
   <data name="SQL_CannotRetrieveCollations" xml:space="preserve">
-    <value>Cannot retrieve source or target database collations</value>
+    <value>Cannot retrieve source or target database locale IDs</value>
   </data>
   <data name="SQL_TargetCollationDoesntMatch" xml:space="preserve">
-    <value>The target database must have the same collation as the source database</value>
+    <value>The target database must have the same locale ID as the source database</value>
   </data>
 </root>

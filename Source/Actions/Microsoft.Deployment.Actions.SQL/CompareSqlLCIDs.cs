@@ -25,8 +25,8 @@ namespace Microsoft.Deployment.Actions.SQL
                 return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "SQL_CannotRetrieveCollations");
             }
 
-            int sourceLCID = (int)dtSrcLCID.Rows[0]["SQLCollation"];
-            int destLCID = (int)dtDestLCID.Rows[0]["SQLCollation"];
+            int sourceLCID = (int)dtSrcLCID.Rows[0]["DB_LCID"];
+            int destLCID = (int)dtDestLCID.Rows[0]["DB_LCID"];
             
             if (sourceLCID==destLCID)
                 return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
