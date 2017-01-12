@@ -2,7 +2,7 @@
     "Install": {
         "Pages": [
             {
-                "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-TwitterTemplate/Web/twitterArchitectureDiagram.png",
+                "architectureDiagram": "dist/Apps/Test/TemplateApps/Microsoft-NewsTemplateTest/Web/Images/newsarchdiagram.jpg",
                 "displayname": "Getting Started",
                 "list1": [
                     "Azure Subscription",
@@ -54,7 +54,8 @@
             "displayname": "Deploy",
             "uniqueId": "$(this.MS.UtilityService.GetUniqueId(18))",
             "uniqueIdFunction": "$(this.MS.UtilityService.GetUniqueId(18), )",
-
+            
+            "FunctionName" :  "$",
             "LogicAppHostingPlan": "$(this.uniqueId, issaved=true)",
             "LogicAppName": "$(this.uniqueId, issaved=true)",
             "LogicAppNameHistorical": "$(this.uniqueId, issaved=true)",
@@ -69,60 +70,166 @@
                 "name": "Microsoft-DeploySQLScripts",
                 "displayname": "Deploy DB Scripts",
                 "SqlServerIndex": "0",
-                "SqlScriptsFolder": "Service/Database/LogicApps"
+                "SqlScriptsFolder": "Service/Database/"
+            },
+            //{
+            //    "name": "Microsoft-SetConfigValueInSql",
+            //    "displayname": "Deploy DB Configuration",
+            //    "SqlServerIndex": "0",
+            //    "SqlConfigTable": "[bpst_news].[configuration]"
+            //},
+            {
+                "name": "Microsoft-DeployAzureFunction",
+                "displayname": "Deploy News Functions",
+                "DeploymentName": "Function"
             },
             {
-                "name": "Microsoft-SetConfigValueInSql",
-                "displayname": "Deploy DB Configuration",
-                "SqlServerIndex": "0",
-                "SqlConfigTable": "[pbist_twitter].[configuration]"
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating News Function",
+                "DeploymentName": "Function"
             },
             {
-                "name": "Microsoft-DeployCognitiveServiceText",
+                "name": "Microsoft-DeployPrivateAssemblyToFunction",
+                "displayname": "Deploy News Function Assets"
+            },
+            {
+                "name": "Microsoft-CreateAzureStorageAccount",
+                "displayname": "Deploy Storage Account",
+                "DeploymentName": "StorageAccount"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating Storage Account",
+                "DeploymentName": "StorageAccount"
+            },
+            {
+                "name": "Microsoft-GetStorageAccountKey",
+                "displayname": "Get Storage Account Key",
+                "DeploymentName": "StorageAccount"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating Key",
+                "DeploymentName": "StorageAccount"
+            },
+            {
+                "name": "Microsoft-DeployStorageAccountContainer",
+                "displayname": "Deploy Storage Account Container",
+                "DeploymentName": "StorageAccount"
+            },
+            {
+                "name": "Microsoft-DeployAzureMLWebServiceFromFile",
+                "displayname": "Deploy Azure ML Webservice",
+                "DeploymentName": "AzureML"
+            },
+            {
+                "name": "Microsoft-DeployAzureMLWebServiceFromFile",
+                "displayname": "Deploy Azure ML Webservice",
+                "DeploymentName": "AzureML"
+            },
+            {
+                "name": "Microsoft-DeployAzureMLWebServiceFromFile",
+                "displayname": "Deploy Azure ML Webservice",
+                "DeploymentName": "AzureML"
+            },
+            {
+                "name": "Microsoft-DeployCognitiveService",
                 "displayname": "Deploy Cognitive Service",
                 "DeploymentName": "Cognitive"
             },
             {
-                "name": "Microsoft-GetCognitiveServiceKeys",
-                "displayname": "Deploy Cognitive Service Key"
+                "name": "Microsoft-GetCognitiveKey",
+                "displayname": "Deploy Cognitive Service Key",
+                "DeploymentName": "Cognitive"
             },
             {
-                "name": "Microsoft-DeployTwitterFunction",
-                "displayname": "Deploy Twitter Function",
-                "DeploymentName": "Function"
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Create Connector to Logic App",
+                "DeploymentName": "Cognitive"
             },
             {
-                "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Twitter Function",
-                "DeploymentName": "Function"
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Update connector",
+                "DeploymentName": "Cognitive"
             },
             {
-                "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
-                "displayname": "Deploy Twitter Function Assets"
+                "name": "Microsoft-DeployCognitiveService",
+                "displayname": "Deploy Cognitive Service",
+                "DeploymentName": "Cognitive"
             },
             {
-                "name": "Microsoft-DeployTwitterHistoricalLogicApp",
-                "displayname": "Deploy Twitter Logic App",
+                "name": "Microsoft-GetCognitiveKey",
+                "displayname": "Deploy Cognitive Service Key",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Create Connector to Logic App",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Update connector",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Create Connector to Logic App",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Update connector",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Create Connector to Logic App",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Update connector",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Create Connector to Logic App",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Update connector",
+                "DeploymentName": "Cognitive"
+            },
+            {
+                "name": "Microsoft-DeployImageCachingLogicApp",
+                "displayname": "Deploy Image Cache Logic App",
                 "DeploymentName": "LogicApp"
             },
             {
                 "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Logic App",
+                "displayname": "Validate Logic App",
                 "DeploymentName": "LogicApp"
             },
             {
-                "name": "Microsoft-RunLogicAppHistorical",
-                "displayname": "Run Logic App Historical",
-                "DeploymentName": "LogicApp"
-            },
-            {
-                "name": "Microsoft-DeployTwitterLogicApp",
-                "displayname": "Deploy Twitter Logic App",
+                "name": "Microsoft-DeployAzureMLSchedulerLogicApp",
+                "displayname": "Deploy AML Scheduler Logic App",
                 "DeploymentName": "LogicApp"
             },
             {
                 "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Logic App",
+                "displayname": "Validate Logic App",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-DeployNewsTemplateLogicApp",
+                "displayname": "Deploy News Template Logic App",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validate Logic App",
                 "DeploymentName": "LogicApp"
             }
         ]
