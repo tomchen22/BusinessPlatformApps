@@ -9,8 +9,8 @@ $sql_uid=""
 $sql_pwd=""
 
 # Make sure we execute the newest (or at least the ones installed by us)
-$bcp = "$env:ProgramFiles\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\bcp.exe"
-$sqlcmd = "$env:ProgramFiles\Microsoft SQL Server\Client SDK\ODBC\130\Tools\Binn\sqlcmd.exe"
+$bcp = ".\bcp.exe"
+$sqlcmd = ".\sqlcmd.exe"
 
 
 #region Win32 credential manager
@@ -173,19 +173,19 @@ New-Item Logs -ItemType Directory -ErrorAction Ignore
 
 # Map of query files and destination tables
 $file2table = [ordered]@{ "site.sql"                = "pbist_sccm.site_staging";
-                          "update.sql"              = "pbist_sccm.update_staging";
-                          "user.sql"                = "pbist_sccm.user_staging";
-                          "usercomputer.sql"        = "pbist_sccm.usercomputer_staging";
-                          "computermalware.sql"     = "pbist_sccm.computermalware_staging";
-                          "computer.sql"            = "pbist_sccm.computer_staging";                      
-                          "malware.sql"             = "pbist_sccm.malware_staging";
-                          "scanhistory.sql"         = "pbist_sccm.scanhistory_staging";
-                          "program.sql"             = "pbist_sccm.program_staging";
-                          "computerupdate.sql"      = "pbist_sccm.computerupdate_staging";                      
-                          "computerprogram.sql"     = "pbist_sccm.computerprogram_staging";
                           "collection.sql"          = "pbist_sccm.collection_staging";
+                          "computerupdate.sql"      = "pbist_sccm.computerupdate_staging";                      
+                          "update.sql"              = "pbist_sccm.update_staging";
+                          "computermalware.sql"     = "pbist_sccm.computermalware_staging";
+                          "malware.sql"             = "pbist_sccm.malware_staging";
+                          "usercomputer.sql"        = "pbist_sccm.usercomputer_staging";
+                          "user.sql"                = "pbist_sccm.user_staging";
+                          "program.sql"             = "pbist_sccm.program_staging";
+                          "scanhistory.sql"         = "pbist_sccm.scanhistory_staging";
+                          "computer.sql"            = "pbist_sccm.computer_staging";                      
                           "computercollection.sql"  = "pbist_sccm.computercollection_staging";
-                         };
+                          "computerprogram.sql"     = "pbist_sccm.computerprogram_staging";
+                        };
 
 foreach ($k in $file2table.Keys)
 {
