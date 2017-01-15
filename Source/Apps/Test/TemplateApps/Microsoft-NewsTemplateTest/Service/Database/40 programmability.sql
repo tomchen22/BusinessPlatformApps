@@ -41,7 +41,7 @@ CREATE PROCEDURE bpst_news.sp_write_document
 	@sentimentScore float,
 
 	-- Key Phrases
-	@keyPhraseJson NVARCHAR(2000)
+	@keyPhraseJson NVARCHAR(max)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from

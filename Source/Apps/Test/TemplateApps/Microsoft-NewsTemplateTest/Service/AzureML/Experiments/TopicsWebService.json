@@ -99,9 +99,9 @@
             "Database Server Name": "pbist.database.windows.net",
             "Database Name": "NewsTemplateTest",
             "Server User Account Name": "pbiadmin",
-            "Server User Account Password": "Billing.26",
+            "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
-            "Database Query": "select id as DocumentId, cleanedText FROM bpst_news.Documents"
+            "Database Query": "select id as DocumentId, cleanedText FROM bpst_news.documents"
           }
         },
         "node12": {
@@ -130,10 +130,10 @@
             "Database Server Name": "pbist.database.windows.net",
             "Database Name": "NewsTemplateTest",
             "Server User Account Name": "pbiadmin",
-            "Server User Account Password": "Billing.26",
+            "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "DocumentId,Topic,Score,DocumentCount,Feature",
-            "Data Table Name": "bpst_news.DocumentTopics",
+            "Data Table Name": "bpst_news.documenttopics",
             "Comma separated list of datatable columns": "documentId,topicId,documentDistance,topicScore,topicKeyPhrase",
             "SQL Azure Number Of Rows To Write": "50",
             "Treat Errors as Warnings": "False"

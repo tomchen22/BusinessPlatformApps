@@ -8,12 +8,6 @@
                 "SqlScriptsFolder": "Database"
             },
             {
-                "name": "Microsoft-SetConfigValueInSql",
-                "displayname": "Deploy DB Configuration",
-                "SqlServerIndex": "0",
-                "SqlConfigTable": "[smgt].[configuration]"
-            },
-            {
                 "displayname": "Configuring Azure Key Vault",
                 "name": "Microsoft-CrmCreateVaultSecret"
             },
@@ -60,7 +54,10 @@
                     "Connect to Azure SQL and import data into Power BI"
                 ],
                 "name": "$SiteCommon$/pagesgallery/getting-started.html",
-                "templateName": "Sales Management for Dynamics 365"
+                "prerequisiteDescription": "Lorem ipsum",
+                "prerequisiteLink": "https://www.bing.com",
+                "prerequisiteLinkText": "link",
+                "templateName": "Professional Services for Dynamics 365"
             },
             {
                 "displayname": "Dynamics 365 Login",
@@ -88,10 +85,7 @@
                 "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
                 "title": "Connect to your SQL Database"
             },
-            {
-                "displayname": "Customize",
-                "name": "customize.html"
-            },
+
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",

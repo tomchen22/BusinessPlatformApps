@@ -38,9 +38,9 @@
             "Database Server Name": "pbist.database.windows.net",
             "Database Name": "NewsTemplateTest",
             "Server User Account Name": "pbiadmin",
-            "Server User Account Password": "Billing.26",
+            "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
-            "Database Query": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM bpst_news.Documents"
+            "Database Query": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM bpst_news.documents"
           }
         },
         "node6": {
@@ -50,10 +50,10 @@
             "Database Server Name": "pbist.database.windows.net",
             "Database Name": "NewsTemplateTest",
             "Server User Account Name": "pbiadmin",
-            "Server User Account Password": "Billing.26",
+            "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "documentId,entityType,entityValue,offset,offsetDocumentPercentage,length",
-            "Data Table Name": "Entities",
+            "Data Table Name": "bpst_news.entities",
             "Comma separated list of datatable columns": "documentId,entityType,entityValue,offset,offsetDocumentPercentage,length",
             "SQL Azure Number Of Rows To Write": "200",
             "Treat Errors as Warnings": "False"
@@ -66,10 +66,10 @@
             "Database Server Name": "pbist.database.windows.net",
             "Database Name": "NewsTemplateTest",
             "Server User Account Name": "pbiadmin",
-            "Server User Account Password": "Billing.26",
+            "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "documentId,compressedEntitiesJson",
-            "Data Table Name": "DocumentCompressedEntities",
+            "Data Table Name": "bpst_news.documentcompressedentities",
             "Comma separated list of datatable columns": "documentId,compressedEntitiesJson",
             "SQL Azure Number Of Rows To Write": "200",
             "Treat Errors as Warnings": "False"

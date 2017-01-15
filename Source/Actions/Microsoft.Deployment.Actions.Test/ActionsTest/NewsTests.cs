@@ -360,7 +360,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = new ExpandoObject();
             payload.authType = "windows";
             payload.database = "newstemplate";
-            payload.password = "Billing.26";
+            payload.password = "PasswordPlaceholder";
             payload.server = "testtemplateworks.database.windows.net";
             payload.username = "pbiadmin";
             payload = JsonUtility.GetJObjectFromObject(payload);

@@ -75,7 +75,7 @@ CREATE TABLE bpst_news.documentsentimentscores
 CREATE TABLE bpst_news.documentkeyphrases
 (
     documentid	NCHAR(64) NOT NULL,
-    phrase		NVARCHAR(2000) NOT NULL
+    phrase		NVARCHAR(max) NOT NULL
 );
 
 
