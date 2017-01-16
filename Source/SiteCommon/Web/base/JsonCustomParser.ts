@@ -170,16 +170,13 @@ export class JsonCustomParser {
 
     // old stuff
     public static extractVariable(value: string): string {
-        let intermediate: string = value.replace('$(', '');
-        let result = intermediate.slice(0, intermediate.length - 1);
-        let resultSplit = result.split(',');
+        let resultSplit = value.split(',');
         return resultSplit[0].trim();
     }
 
     public static isPermenantEntryIntoDataStore(value: string): boolean {
-        let intermediate: string = value.replace('$(', '');
-        let result = intermediate.slice(0, intermediate.length - 1);
-        let resultSplit = result.split(',');
+
+        let resultSplit = value.split(',');
 
         for (let index = 0; index < resultSplit.length; index++) {
             if (index < 1) {
