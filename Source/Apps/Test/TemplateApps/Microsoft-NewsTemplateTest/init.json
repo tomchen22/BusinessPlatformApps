@@ -251,7 +251,7 @@
         "ConnectorDisplayName": "SQLConnector",
         "ConnectorPayload": {
           "authType": "windows",
-          "database": "$ds(Server)",
+          "database": "$ds(Database)",
           "password": "$ds(Password)",
           "server": "$ds(Server)",
           "username": "$ds(Username)"
@@ -266,7 +266,7 @@
         "ConnectorDisplayName": "SQLConnector",
         "ConnectorPayload": {
           "authType": "windows",
-          "database": "$ds(Server)",
+          "database": "$ds(Database)",
           "password": "$ds(Password)",
           "server": "$ds(Server)",
           "username": "$ds(Username)"
