@@ -48,7 +48,6 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
-
         if (this.isDownload) {
             if (this.isAuthenticated) {
                 this.GetDownloadLink();
@@ -82,7 +81,9 @@ export class Gettingstarted extends ViewModelBase {
 
                     if (authToken.IsSuccess) {
                         this.isAuthenticated = true;
-                        this.isValidated = true;
+                        if (!this.registration) {
+                            this.isValidated = true;
+                        }
                     }
                 }
             }
@@ -122,6 +123,7 @@ export class Gettingstarted extends ViewModelBase {
             await this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
             this.registration = '';
             this.downloadLink = this.registrationDownload;
+            this.isValidated = true;
         }
     }
 
