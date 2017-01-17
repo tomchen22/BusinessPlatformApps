@@ -1,5 +1,5 @@
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../../../../../SiteCommon/Web/services/viewmodelbase'
+import { DataStoreType } from '../../../../../SiteCommon/Web/services/datastore'
 
 export class SearchTerms extends ViewModelBase {
     searchQuery: string = '';
