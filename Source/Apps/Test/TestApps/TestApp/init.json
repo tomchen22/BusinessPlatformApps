@@ -2,7 +2,7 @@
   "Install": {
     "Pages": [
       {
-        "name": "$SiteCommon$/pagesgallery/nested/gettingstartedtemplate.html",
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
         "displayname": "Azure"
       }
     ],
