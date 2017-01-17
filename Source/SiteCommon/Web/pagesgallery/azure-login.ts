@@ -16,6 +16,7 @@ export class AzureLogin extends ViewModelBase {
     showAdvanced: boolean = false;
     showPricingConfirmation: boolean = false;
     subscriptionsList: any[] = [];
+    defaultLocation: number = 5; 
 
     // Variables to override
     pricingUrl: string = '';
@@ -100,7 +101,7 @@ export class AzureLogin extends ViewModelBase {
 
         let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
         if (locationsResponse.IsSuccess) {
-            this.MS.DataStore.addToDataStore('SelectedLocation', locationsResponse.Body.value[5], DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('SelectedLocation', locationsResponse.Body.value[this.defaultLocation], DataStoreType.Public);
         }
 
         let response = await this.MS.HttpService.executeAsync('Microsoft-CreateResourceGroup', {});
