@@ -71,9 +71,15 @@
                 "displayname": "Target",
                 "checkSqlVersion": true,
                 "useImpersonation": true,
+                "showSqlRecoveryModeHint": true,
                 "title": "Connect to your SQL database",
                 "subtitle": "Set up a connection to your target database so we can transfer your data.",
-
+                "onNext": [
+                    {
+                        "name": "Microsoft-CompareSqlLCIDs",
+                        "useImpersonation": true
+                    }
+                ]
             },
 
             // Customize
