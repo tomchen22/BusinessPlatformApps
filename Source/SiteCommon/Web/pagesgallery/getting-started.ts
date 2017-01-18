@@ -84,6 +84,7 @@ export class Gettingstarted extends ViewModelBase {
                         if (!this.registration) {
                             this.isValidated = true;
                         }
+                        await this.MS.HttpService.executeAsync('Microsoft-PowerBiLogin');
                     }
                 }
             }
