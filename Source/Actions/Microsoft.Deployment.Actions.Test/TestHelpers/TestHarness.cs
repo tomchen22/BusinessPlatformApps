@@ -154,7 +154,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             Assert.IsTrue(subscriptionResult.IsSuccess);
             var subscriptionId =
                 subscriptionResult.Body.GetJObject()["value"].SingleOrDefault(
-                    p => p["DisplayName"].ToString() == "Mohaali Pre Prod");
+                    p => p["DisplayName"].ToString() == "PBI_ECO (Paas) Richard's team");
             dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
 
             var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
