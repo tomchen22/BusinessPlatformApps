@@ -25,12 +25,11 @@
             string response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
             MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
 
-            for (int i=0; i<orgs.Length; i++)
+            for (int i = 0; i < orgs.Length; i++)
             {
                 response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
                 orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
             }
-
 
             // This is a bit of a dance to accomodate ActionResponse and its need for a JObject
             response = JsonConvert.SerializeObject(orgs);
