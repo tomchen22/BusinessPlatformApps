@@ -1,4 +1,5 @@
 ﻿export const EN_US = {
+    AZURE_LOGIN_BING_TEXT: `To learn more about Bing Terms of Use click`,
     AZURE_LOGIN_CONNECT: `Connect to Azure`,
     AZURE_LOGIN_CONNECTION: `How are you signing in to your Azure subscription?`,
     AZURE_LOGIN_DIRECTORY: `Azure Tenant:`,
