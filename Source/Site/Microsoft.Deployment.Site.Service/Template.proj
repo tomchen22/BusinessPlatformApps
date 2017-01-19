@@ -13,7 +13,7 @@
     </Content>
 
     <Content Include="$(MSBuildProjectDirectory)\..\..\..\..\Private\Assemblies\**">
-      <Link>SiteCommon\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <Link>SiteCommon\Assemblies\%(RecursiveDir)%(Filename)%(Extension)</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <Visible>False</Visible>
     </Content>
