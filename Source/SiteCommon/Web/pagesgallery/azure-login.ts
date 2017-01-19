@@ -18,6 +18,11 @@ export class AzureLogin extends ViewModelBase {
     subscriptionsList: any[] = [];
     defaultLocation: number = 5; 
 
+    //News Specific Variables for Azure
+    isBingChecked: boolean = false;
+    bingUrl: string = '';
+    bingtermsofuse: string = '';
+
     // Variables to override
     pricingUrl: string = '';
     pricingCost: string = '';
@@ -77,8 +82,12 @@ export class AzureLogin extends ViewModelBase {
         this.MS.LoggerService.TrackEvent('AzurePricingClicked');
     }
 
+    verifyBing() {
+        this.isValidated = this.isBingChecked && this.isPricingChecked;
+    }
+
     verifyPricing() {
-        this.isValidated = this.isPricingChecked;
+        this.isValidated = (this.bingUrl && this.isPricingChecked && this.isBingChecked) || (!this.bingUrl && this.isPricingChecked);
     }
 
     async connect() {
