@@ -6,6 +6,7 @@
     using Model;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
+    using System;
     using System.ComponentModel.Composition;
     using System.Dynamic;
     using System.Net;
@@ -27,7 +28,17 @@
 
             for (int i = 0; i < orgs.Length; i++)
             {
-                response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+                try
+                {
+                    response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+                }
+                catch (Exception e)
+                {
+                    string dynamics365Error = e.Message ?? string.Empty;
+                    return dynamics365Error.ToLower().Contains("failed authorization")
+                        ? new ActionResponse(ActionStatus.Failure, new JObject(), "MsCrm_Unauthorized")
+                        : new ActionResponse(ActionStatus.Failure, new JObject(), e, "MsCrm_MetadataError", dynamics365Error);
+                }
                 orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
             }
 

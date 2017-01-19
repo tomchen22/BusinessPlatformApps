@@ -232,6 +232,9 @@
     <value>The target database must have the same locale ID as the source database</value>
   </data>
   <data name="MsCrm_Unauthorized" xml:space="preserve">
-    <value>Authorization to Dynamics 365 failed. Verify that your account has System Administrator privileges.</value>
+    <value>Your account does not have System Administrator privileges for this instance of Dynamics 365</value>
+  </data>
+  <data name="MsCrm_MetadataError" xml:space="preserve">
+    <value>Failed to read metadata for your Dynamics 365 organization</value>
   </data>
 </root>
