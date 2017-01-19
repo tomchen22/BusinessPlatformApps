@@ -26,26 +26,25 @@
             string response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
             MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
 
-            for (int i = 0; i < orgs.Length; i++)
+            Parallel.For(0, orgs.Length, async (int i) =>
             {
                 try
                 {
                     response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+                    orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
                 }
                 catch (Exception e)
                 {
-                    string dynamics365Error = e.Message ?? string.Empty;
-                    return dynamics365Error.ToLower().Contains("failed authorization")
-                        ? new ActionResponse(ActionStatus.Failure, new JObject(), "MsCrm_Unauthorized")
-                        : new ActionResponse(ActionStatus.Failure, new JObject(), e, "MsCrm_MetadataError", dynamics365Error);
+                    orgs[i].ErrorCategory = e.Message.ToLowerInvariant().Contains("failed authorization") ? 1 : 2;
+                    orgs[i].ErrorCode = e.HResult;
+                    orgs[i].ErrorMessage = e.Message;
                 }
-                orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
-            }
+                
+            });
 
             // This is a bit of a dance to accomodate ActionResponse and its need for a JObject
             response = JsonConvert.SerializeObject(orgs);
 
-            dynamic d = new ExpandoObject();
             return string.IsNullOrWhiteSpace(response)
                 ? new ActionResponse(ActionStatus.Failure, new JObject(), "MsCrm_NoOrgs")
                 : new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(response));
