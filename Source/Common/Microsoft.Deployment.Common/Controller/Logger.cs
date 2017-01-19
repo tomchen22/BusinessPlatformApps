@@ -60,7 +60,7 @@ namespace Microsoft.Deployment.Common.Controller
 
         public void LogMetric(string metricName, double value, Dictionary<string, string> properties)
         {
-            this.telemetryClient.TrackMetric(metricName, value, properties);
+            //this.telemetryClient.TrackMetric(metricName, value, properties);
             this.Flush();
         }
 
