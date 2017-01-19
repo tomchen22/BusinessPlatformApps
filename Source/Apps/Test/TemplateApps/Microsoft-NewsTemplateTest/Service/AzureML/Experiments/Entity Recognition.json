@@ -48,7 +48,7 @@
 						"ValueType": "Literal",
 						"LinkedGlobalParameter": null,
 						"Name": "Database Query",
-						"Value": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM Documents"
+						"Value": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM bpst_news.documents"
 					}
 				],
 				"IsPartOfPartialRun": false,
@@ -256,7 +256,7 @@
 						"ValueType": "Literal",
 						"LinkedGlobalParameter": null,
 						"Name": "Database Query",
-						"Value": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM Documents"
+						"Value": "select \n    cleanedText as text, \n    id as DocumentId, \n    DATALENGTH(text) AS DocumentTextLength,\n    \n    -- ROW_NUMBER is 1 based but the NER module returns 0 based index\n    -- This is needed because the NER module returns an index into the original set \n    -- as the document ID instead of the actual document ID column   \n    (ROW_NUMBER() OVER(ORDER BY id) - 1) AS RowNumber \nFROM bpst_news.documents"
 					}
 				],
 				"IsPartOfPartialRun": false,
@@ -314,7 +314,7 @@
 						"ValueType": "Literal",
 						"LinkedGlobalParameter": null,
 						"Name": "Data Table Name",
-						"Value": "Entities"
+						"Value": "bpst_news.stg_entities"
 					}, {
 						"ValueType": "Literal",
 						"LinkedGlobalParameter": null,
@@ -353,63 +353,74 @@
 				"Language": "DotNet",
 				"Version": "4.5.0",
 				"UsePreviousResults": false,
-				"ModuleParameters": [{
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Please Specify Data Destination",
-						"Value": "SqlAzure"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": "Database server name",
-						"Name": "Database Server Name",
-						"Value": "mcleantest-brazilsouth.database.windows.net"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": "Database name",
-						"Name": "Database Name",
-						"Value": "PokemonGoBrazilSouth"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": "User name",
-						"Name": "Server User Account Name",
-						"Value": "sqluser"
-					}, {
-						"ValueType": "PlaceHolder",
-						"LinkedGlobalParameter": null,
-						"Name": "Server User Account Password",
-						"Value": "{\"RecordKey\":\"de84d9d8f20745ef933e259a85203fa5\",\"IndexInRecord\":\"05a5db71-9c71-4568-8d54-4868296f97a6\"}"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Trust Server Certificate",
-						"Value": "False"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Comma separated list of columns to be saved",
-						"Value": "documentId,compressedEntitiesJson"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Data Table Name",
-						"Value": "DocumentCompressedEntities"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Comma separated list of datatable columns",
-						"Value": "documentId,compressedEntitiesJson"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "SQL Azure Number Of Rows To Write",
-						"Value": "200"
-					}, {
-						"ValueType": "Literal",
-						"LinkedGlobalParameter": null,
-						"Name": "Treat Errors as Warnings",
-						"Value": "False"
-					}
-				],
+                "ModuleParameters": [
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Please Specify Data Destination",
+                        "Value": "SqlAzure"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": "Database server name",
+                        "Name": "Database Server Name",
+                        "Value": "mcleantest-brazilsouth.database.windows.net"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": "Database name",
+                        "Name": "Database Name",
+                        "Value": "PokemonGoBrazilSouth"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": "User name",
+                        "Name": "Server User Account Name",
+                        "Value": "sqluser"
+                    },
+                    {
+                        "ValueType": "PlaceHolder",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Server User Account Password",
+                        "Value": "{\"RecordKey\":\"de84d9d8f20745ef933e259a85203fa5\",\"IndexInRecord\":\"05a5db71-9c71-4568-8d54-4868296f97a6\"}"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Trust Server Certificate",
+                        "Value": "False"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Comma separated list of columns to be saved",
+                        "Value": "documentId,compressedEntitiesJson"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Data Table Name",
+                        "Value": "bpst_news.stg_documentcompressedentities"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Comma separated list of datatable columns",
+                        "Value": "documentId,compressedEntitiesJson"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "SQL Azure Number Of Rows To Write",
+                        "Value": "200"
+                    },
+                    {
+                        "ValueType": "Literal",
+                        "LinkedGlobalParameter": null,
+                        "Name": "Treat Errors as Warnings",
+                        "Value": "False"
+                    }
+                ],
 				"IsPartOfPartialRun": false,
 				"InputPortsInternal": [{
 						"Name": "Dataset",

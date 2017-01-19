@@ -1010,7 +1010,7 @@
             "ValueType": "Literal",
             "LinkedGlobalParameter": null,
             "Name": "Data Table Name",
-            "Value": "bpst_news.DocumentTopics"
+            "Value": "bpst_news.stg_documenttopics"
           },
           {
             "ValueType": "Literal",
