@@ -2,7 +2,7 @@
   "Install": {
     "Pages": [
       {
-        "architectureDiagram": "dist/Apps/Test/TemplateApps/Microsoft-NewsTemplateTest/Web/Images/newsarchdiagram.jpg",
+        "architectureDiagram": "dist/Apps/Test/TemplateApps/Microsoft-NewsTemplateTest/Web/Images/newsarchdiagram.png",
         "displayname": "Getting Started",
         "list1": [
           "Azure Subscription",
