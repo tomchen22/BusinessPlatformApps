@@ -133,7 +133,7 @@
             "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "DocumentId,Topic,Score,DocumentCount,Feature",
-            "Data Table Name": "bpst_news.documenttopics",
+            "Data Table Name": "bpst_news.stg_documenttopics",
             "Comma separated list of datatable columns": "documentId,topicId,documentDistance,topicScore,topicKeyPhrase",
             "SQL Azure Number Of Rows To Write": "50",
             "Treat Errors as Warnings": "False"

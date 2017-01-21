@@ -53,7 +53,7 @@
             "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "documentId,entityType,entityValue,offset,offsetDocumentPercentage,length",
-            "Data Table Name": "bpst_news.entities",
+            "Data Table Name": "bpst_news.stg_entities",
             "Comma separated list of datatable columns": "documentId,entityType,entityValue,offset,offsetDocumentPercentage,length",
             "SQL Azure Number Of Rows To Write": "200",
             "Treat Errors as Warnings": "False"
@@ -69,7 +69,7 @@
             "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
             "Comma separated list of columns to be saved": "documentId,compressedEntitiesJson",
-            "Data Table Name": "bpst_news.documentcompressedentities",
+            "Data Table Name": "bpst_news.stg_documentcompressedentities",
             "Comma separated list of datatable columns": "documentId,compressedEntitiesJson",
             "SQL Azure Number Of Rows To Write": "200",
             "Treat Errors as Warnings": "False"
