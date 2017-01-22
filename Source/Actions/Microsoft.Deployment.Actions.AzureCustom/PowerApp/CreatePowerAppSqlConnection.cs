@@ -39,6 +39,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             string url = $"{BASE_POWER_APPS_URL}/apis/shared_sql/connections/{newSqlConnectionId}?api-version=2016-11-01&$filter=environment%20eq%20%27{powerAppEnvironment}%27";
 
             await client.ExecuteGenericRequestWithHeaderAsync(HttpMethod.Put, url, body);
+            //TODO: if create fails return failure
 
             request.DataStore.AddToDataStore("PowerAppSqlConnectionId", newSqlConnectionId, DataStoreType.Private);
 
