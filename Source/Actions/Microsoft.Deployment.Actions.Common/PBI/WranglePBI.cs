@@ -15,13 +15,13 @@ namespace Microsoft.Deployment.Actions.Common.PBI
     [Export(typeof(IAction))]
     public class WranglePBI : BaseAction
     {
-        private const int RETRY_ATTEMPTS=10;
-		
+        private const int RETRY_ATTEMPTS = 10;
+
         private FileStream AVAwareOpen(string path, FileMode mode, FileAccess access, FileShare share)
         {
             FileStream result = null;
             List<Exception> exceptionList = new List<Exception>();
-			
+
             for (int i = 0; i < RETRY_ATTEMPTS; i++)
             {
                 try
@@ -39,11 +39,10 @@ namespace Microsoft.Deployment.Actions.Common.PBI
 
             if (result == null)
                 throw new AggregateException($"Could not open file: {path}", exceptionList);
-            
+
             return result;
         }
-		
-		
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             int sqlIndex = 0;
@@ -55,13 +54,13 @@ namespace Microsoft.Deployment.Actions.Common.PBI
 
             string[] originalFiles = request.DataStore.GetValue("FileName").Split('|');
             string[] tempFolders = new string[originalFiles.Length];
-            
-            for (int i=0; i<originalFiles.Length; i++)
+
+            for (int i = 0; i < originalFiles.Length; i++)
             {
                 string templateFullPath = request.Info.App.AppFilePath + $"/service/PowerBI/{originalFiles[i]}";
                 tempFolders[i] = Path.GetRandomFileName();
                 Directory.CreateDirectory(request.Info.App.AppFilePath + $"/Temp/{tempFolders[i]}");
-                
+
                 SqlCredentials creds = SqlUtility.GetSqlCredentialsFromConnectionString(connectionString);
 
                 using (PBIXUtils wrangler = new PBIXUtils(templateFullPath, request.Info.App.AppFilePath + $"/Temp/{tempFolders[i]}/{originalFiles[i]}"))
@@ -78,7 +77,7 @@ namespace Microsoft.Deployment.Actions.Common.PBI
             }
             else
             {
-                serverPath = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath +  $"/Temp/{Path.GetRandomFileName()}/SolutionTemplate.zip";
+                serverPath = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{Path.GetRandomFileName()}/SolutionTemplate.zip";
                 using (FileStream zipFile = AVAwareOpen(serverPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read))
                 {
                     using (ZipArchive z = new ZipArchive(zipFile, ZipArchiveMode.Update))

@@ -16,7 +16,7 @@ export class AzureLogin extends ViewModelBase {
     showAdvanced: boolean = false;
     showPricingConfirmation: boolean = false;
     subscriptionsList: any[] = [];
-    defaultLocation: number = 5; 
+    defaultLocation: number = 5;
 
     //News Specific Variables for Azure
     isBingChecked: boolean = false;
@@ -41,7 +41,7 @@ export class AzureLogin extends ViewModelBase {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
                 let token = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.CODE, queryParam);
-                if (token ==='') {
+                if (token === '') {
                     this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_UNKNOWN_ERROR;
                     this.MS.ErrorService.details = this.MS.UtilityService.GetQueryParameterFromUrl(QueryParameter.ERRORDESCRIPTION, queryParam);
                     this.MS.ErrorService.showContactUs = true;
@@ -69,7 +69,7 @@ export class AzureLogin extends ViewModelBase {
                 }
 
                 this.MS.UtilityService.RemoveItem('queryUrl');
-            } 
+            }
         }
     }
 
