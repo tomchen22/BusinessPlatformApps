@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
+using Microsoft.Deployment.Common.Model;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
 {
@@ -25,12 +26,16 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
 
             string newSqlConnectionId = GetNewSqlConnectionId();
             string powerAppEnvironment = request.DataStore.GetValue("PowerAppEnvironment");
-            string sqlDatabase = request.DataStore.GetValue("Database");
-            string sqlServer = request.DataStore.GetValue("Server");
-            string sqlPassword = request.DataStore.GetValue("Password");
-            string sqlUsername = request.DataStore.GetValue("Username");
 
-            string body = $"{{\"properties\":{{\"environment\":{{\"id\":\"/providers/Microsoft.PowerApps/environments/{powerAppEnvironment}\",\"name\":\"{powerAppEnvironment}\"}},\"connectionParameters\":{{\"server\":\"{sqlServer}\",\"database\":\"{sqlDatabase}\",\"username\":\"{sqlUsername}\",\"password\":\"{sqlPassword}\"}}}}}}";
+            int sqlIndex = 0;
+            if (request.DataStore.KeyExists("SqlServerIndex"))
+            {
+                sqlIndex = int.Parse(request.DataStore.GetValue("SqlServerIndex"));
+            }
+            string sqlConnectionString = request.DataStore.GetAllValues("SqlConnectionString")[sqlIndex];
+            SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+
+            string body = $"{{\"properties\":{{\"environment\":{{\"id\":\"/providers/Microsoft.PowerApps/environments/{powerAppEnvironment}\",\"name\":\"{powerAppEnvironment}\"}},\"connectionParameters\":{{\"server\":\"{sqlCredentials.Server}\",\"database\":\"{sqlCredentials.Database}\",\"username\":\"{sqlCredentials.Username}\",\"password\":\"{sqlCredentials.Password}\"}}}}}}";
             string url = $"{BASE_POWER_APPS_URL}/apis/shared_sql/connections/{newSqlConnectionId}?api-version=2016-11-01&$filter=environment%20eq%20%27{powerAppEnvironment}%27";
 
             await client.ExecuteGenericRequestWithHeaderAsync(HttpMethod.Put, url, body);
