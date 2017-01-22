@@ -140,6 +140,11 @@ namespace Microsoft.Deployment.Common.ActionModel
             return this.GetFirstValueFromDataStore(key, dataStoreType)?.ToString();
         }
 
+        public string GetLastValue(string key, DataStoreType dataStoreType = DataStoreType.Any)
+        {
+            return this.GetLastValueFromDataStore(key, dataStoreType)?.ToString();
+        }
+
         public string GetValueAtIndex(string key, string index, DataStoreType dataStoreType = DataStoreType.Any)
         {
             int i = 0;
@@ -203,6 +208,39 @@ namespace Microsoft.Deployment.Common.ActionModel
                 itemToReturn = itemsList.Any(p => p.Route.ToLowerInvariant() == "requestparameters")
                     ? itemsList.Single(p => p.Route.ToLowerInvariant() == "requestparameters").Value
                     : itemsList.First().Value;
+            }
+
+            return itemToReturn;
+        }
+
+        private JToken GetLastValueFromDataStore(string key, DataStoreType dataStoreType = DataStoreType.Any)
+        {
+            List<DataStoreItem> itemsList = null;
+            JToken itemToReturn = null;
+
+            if (dataStoreType == DataStoreType.Private || dataStoreType == DataStoreType.Any)
+            {
+                var values = GetValueAndRoutesFromDataStore(this.PrivateDataStore, key, DataStoreType.Private);
+                if (values.Any())
+                {
+                    itemsList = values;
+                }
+            }
+
+            if (dataStoreType == DataStoreType.Public || dataStoreType == DataStoreType.Any)
+            {
+                var values = GetValueAndRoutesFromDataStore(this.PublicDataStore, key, DataStoreType.Private);
+                if (values.Any())
+                {
+                    itemsList = values;
+                }
+            }
+
+            if (itemsList != null)
+            {
+                itemToReturn = itemsList.Any(p => p.Route.ToLowerInvariant() == "requestparameters")
+                    ? itemsList.Single(p => p.Route.ToLowerInvariant() == "requestparameters").Value
+                    : itemsList.Last().Value;
             }
 
             return itemToReturn;
