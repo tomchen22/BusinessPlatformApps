@@ -88,7 +88,6 @@
     MSCRM_LOGIN_ORGANIZATION: `Dynamics 365 Organization:`,
     MSCRM_LOGIN_SUBTITLE: `We now need to set up a connection to Dynamics 365.`,
     MSCRM_LOGIN_TITLE: `Connect to Dynamics 365`,
-    POWER_APPS_TITLE: `Connect to Power Apps`,
     PROGRESS_ALL_DONE: `All done! You can now download your Power BI report and start exploring your data.`,
     PROGRESS_DOWNLOAD_PBIX: `Download PBIX`,
     PROGRESS_GETTING_READY: `Getting your Power BI file ready...`,
