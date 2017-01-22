@@ -26,10 +26,6 @@
                 "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate#pricing"
             },
             {
-                "displayname": "Power Apps",
-                "name": "$SiteCommon$/pagesgallery/power-apps.html"
-            },
-            {
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "displayname": "Source",
                 "isAzureSql": true,
