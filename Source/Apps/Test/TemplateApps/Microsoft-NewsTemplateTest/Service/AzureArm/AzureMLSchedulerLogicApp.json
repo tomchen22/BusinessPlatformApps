@@ -48,104 +48,122 @@
               "type": "Recurrence"
             }
           },
-            "actions": {
-                "Clean_Bulk_Tables": {
-                    "inputs": {
-                        "host": {
-                            "connection": {
-                                "name": "@parameters('$connections')['sql_1']['connectionId']"
-                            }
-                        },
-                        "method": "post",
-                        "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_clean_stage_tables]'))}"
-                    },
-                    "runAfter": {},
-                    "type": "ApiConnection"
+          "actions": {
+            "Clean_Bulk_Tables": {
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['sql_1']['connectionId']"
+                  }
                 },
-                "Merge_Tables": {
-                    "inputs": {
-                        "host": {
-                            "connection": {
-                                "name": "@parameters('$connections')['sql_1']['connectionId']"
-                            }
-                        },
-                        "method": "post",
-                        "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_mergedata]'))}"
-                    },
-                    "runAfter": {
-                        "Topic_Images_AzureML": [
-                            "Succeeded"
-                        ],
-                        "Entity_AzureML": [
-                            "Succeeded"
-                        ]
-                    },
-                    "type": "ApiConnection"
-                },
-                "Entity_AzureML": {
-                    "inputs": {
-                        "host": {
-                            "connection": {
-                                "name": "@parameters('$connections')['azureml']['connectionId']"
-                            }
-                        },
-                        "method": "post",
-                        "path": "/api/None",
-                        "queries": {
-                            "API_Key": "[parameters('apikeyentities')]",
-                            "API_URL": "[parameters('apiurlentities')]"
-                        }
-                    },
-                    "runAfter": {
-                        "Clean_Bulk_Tables": [
-                            "Succeeded"
-                        ]
-                    },
-                    "type": "ApiConnection"
-                },
-                "Topic_AzureML": {
-                    "inputs": {
-                        "host": {
-                            "connection": {
-                                "name": "@parameters('$connections')['azureml']['connectionId']"
-                            }
-                        },
-                        "method": "post",
-                        "path": "/api/None",
-                        "queries": {
-                            "API_Key": "[parameters('apikeytopics')]",
-                            "API_URL": "[parameters('apiurltopics')]"
-                        }
-                    },
-                    "runAfter": {
-                        "Clean_Bulk_Tables": [
-                            "Succeeded"
-                        ]
-                    },
-                    "type": "ApiConnection"
-                },
-                "Topic_Images_AzureML": {
-                    "inputs": {
-                        "host": {
-                            "connection": {
-                                "name": "@parameters('$connections')['azureml']['connectionId']"
-                            }
-                        },
-                        "method": "post",
-                        "path": "/api/None",
-                        "queries": {
-                            "API_Key": "[parameters('apikeyimages')]",
-                            "API_URL": "[parameters('apiurlimages')]"
-                        }
-                    },
-                    "runAfter": {
-                        "Topic_AzureML": [
-                            "Succeeded"
-                        ]
-                    },
-                    "type": "ApiConnection"
-                }
+                "method": "post",
+                "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_clean_stage_tables]'))}"
+              },
+              "runAfter": {},
+              "type": "ApiConnection"
             },
+            "Merge_Tables": {
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['sql_1']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_mergedata]'))}"
+              },
+              "runAfter": {
+                "Topic_Images_AzureML": [
+                  "Succeeded"
+                ],
+                "Entity_AzureML": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            },
+            "Append_Topic_Phrases": {
+              "inputs": {
+                "body": "",
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['sql_1']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/datasets/default/procedures/@{encodeURIComponent(encodeURIComponent('[bpst_news].[sp_create_topic_key_phrase]'))}"
+              },
+              "runAfter": {
+                "Merge_Tables": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            },
+            "Entity_AzureML": {
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azureml']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/api/None",
+                "queries": {
+                  "API_Key": "[parameters('apikeyentities')]",
+                  "API_URL": "[parameters('apiurlentities')]"
+                }
+              },
+              "runAfter": {
+                "Clean_Bulk_Tables": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            },
+            "Topic_AzureML": {
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azureml']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/api/None",
+                "queries": {
+                  "API_Key": "[parameters('apikeytopics')]",
+                  "API_URL": "[parameters('apiurltopics')]"
+                }
+              },
+              "runAfter": {
+                "Clean_Bulk_Tables": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            },
+            "Topic_Images_AzureML": {
+              "inputs": {
+                "host": {
+                  "connection": {
+                    "name": "@parameters('$connections')['azureml']['connectionId']"
+                  }
+                },
+                "method": "post",
+                "path": "/api/None",
+                "queries": {
+                  "API_Key": "[parameters('apikeyimages')]",
+                  "API_URL": "[parameters('apiurlimages')]"
+                }
+              },
+              "runAfter": {
+                "Topic_AzureML": [
+                  "Succeeded"
+                ]
+              },
+              "type": "ApiConnection"
+            }
+          },
           "outputs": {}
         },
         "parameters": {

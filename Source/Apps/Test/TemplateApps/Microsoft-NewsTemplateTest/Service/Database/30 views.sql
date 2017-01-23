@@ -23,10 +23,7 @@ go
 CREATE VIEW bpst_news.vw_FullDocument
 AS
     SELECT documents.id								AS [Id],
-           documents.[text]							AS [Text],
-           documents.textLength						AS [Text Length],
-           documents.cleanedText					AS [Cleaned Text],
-           documents.cleanedTextLength				AS [Cleaned Text Length],
+           documents.abstract						AS [Abstract],
            documents.title							AS [Title],
            documents.sourceUrl						AS [Source URL],
            documents.sourceDomain					AS [Source Domain],
@@ -79,18 +76,26 @@ AS
             [length]					AS [Lenth],
             entityType + entityValue	AS [Entity Id],
         CASE
-            WHEN entityType = 'TIL' THEN 'fa fa-certificate'
-            WHEN entityType = 'PER' THEN 'fa fa-male'
-            WHEN entityType = 'ORG' THEN 'fa fa-sitemap'
-            WHEN entityType = 'LOC' THEN 'fa fa-globe'
-            ELSE null
+			WHEN entityType = 'TIL' THEN 'fa fa-certificate'
+			WHEN entityType = 'Title' THEN 'fa fa-certificate'
+			WHEN entityType = 'PER' THEN 'fa fa-male'
+			WHEN entityType = 'Person' THEN 'fa fa-male'
+			WHEN entityType = 'ORG' THEN 'fa fa-sitemap'
+			WHEN entityType = 'Organization' THEN 'fa fa-sitemap'
+			WHEN entityType = 'LOC' THEN 'fa fa-globe'
+			WHEN entityType = 'Location' THEN 'fa fa-globe'
+			ELSE null
             END [Entity Class],
-        CASE
-            WHEN entityType = 'TIL' THEN '#FFFFFF'
-            WHEN entityType = 'PER' THEN '#1BBB6A'
-            WHEN entityType = 'ORG' THEN '#FF001F'
-            WHEN entityType = 'LOC' THEN '#FF8000'
-            ELSE null
+		CASE
+			WHEN entityType = 'TIL' THEN '#FFFFFF'
+			WHEN entityType = 'Title' THEN '#FFFFFF'
+			WHEN entityType = 'PER' THEN '#1BBB6A'
+			WHEN entityType = 'Person' THEN '#1BBB6A'
+			WHEN entityType = 'ORG' THEN '#FF001F'
+			WHEN entityType = 'Organization' THEN '#FF001F'
+			WHEN entityType = 'LOC' THEN '#FF8000'
+			WHEN entityType = 'Location' THEN '#FF8000'
+			ELSE null
             END [Entity Color]
      FROM bpst_news.entities;
 go
@@ -147,3 +152,9 @@ AS
     FROM   bpst_news.documenttopicimages;
 go
 
+CREATE VIEW bpst_news.vw_TopicKeyPhrases
+AS
+	SELECT topicId			AS [Topic Id],
+           KeyPhrase		AS [Key Phrase]
+	FROM   bpst_news.topickeyphrases;
+go
