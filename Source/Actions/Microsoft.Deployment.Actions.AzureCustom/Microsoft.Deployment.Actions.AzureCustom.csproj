@@ -237,6 +237,7 @@
     <Compile Include="News\DeployImageCachingLogicApp.cs" />
     <Compile Include="News\DeployNewsTemplateLogicApp.cs" />
     <Compile Include="PowerApp\CreatePowerAppSqlConnection.cs" />
+    <Compile Include="PowerApp\ConfigurePowerAppTables.cs" />
     <Compile Include="PowerApp\GetPowerAppEnvironment.cs" />
     <Compile Include="PowerApp\WranglePowerApp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
