@@ -26,6 +26,7 @@ CREATE TABLE bpst_news.documents
     textLength        INT,
     cleanedText       NVARCHAR(max),
     cleanedTextLength INT,
+	abstract		  NVARCHAR(4000),
     title			  NVARCHAR(2000),
     sourceUrl		  NVARCHAR(2000),
     sourceDomain	  NVARCHAR(1000),
@@ -91,6 +92,13 @@ CREATE TABLE bpst_news.documenttopics
 );
 
 
+CREATE TABLE bpst_news.topickeyphrases
+(
+    topicId			INT NOT NULL,
+    KeyPhrase		NVARCHAR(2000) NOT NULL
+);
+
+
 CREATE TABLE bpst_news.documenttopicimages
 (
     topicId		NCHAR(36) NOT NULL,
@@ -102,8 +110,10 @@ CREATE TABLE bpst_news.documenttopicimages
 );
 
 
+
 CREATE TABLE bpst_news.entities
 (
+	id							BIGINT NOT NULL IDENTITY (1, 1),
     documentId					NCHAR(64) NOT NULL,
     entityType					NVARCHAR(30) NOT NULL,
     entityValue					NVARCHAR(MAX) NULL,

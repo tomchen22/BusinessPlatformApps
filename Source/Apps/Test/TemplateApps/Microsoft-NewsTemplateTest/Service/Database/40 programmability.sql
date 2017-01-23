@@ -20,6 +20,7 @@ CREATE PROCEDURE bpst_news.sp_write_document
 	@imageUrl NVARCHAR(max) = NULL,
 	@imageWidth INT = NULL,
 	@imageHeight INT = NULL,
+	@abstract NVARCHAR(4000) NULL,
 
 	-- Published Timestamp
 	@publishedTimestamp datetime,
@@ -55,9 +56,9 @@ BEGIN
 		DELETE FROM [bpst_news].[documents] WHERE id = @docid;
 
 		INSERT INTO [bpst_news].[documents] 
-		( id, text, textLength,	cleanedText, cleanedTextLength, title, sourceUrl, sourceDomain, category, imageUrl, imageWidth, imageHeight )
+		( id, text, textLength,	cleanedText, cleanedTextLength, abstract, title, sourceUrl, sourceDomain, category, imageUrl, imageWidth, imageHeight )
 		VALUES
-		( @docid, @text, @textLength, @cleanedText, @cleanedTextLength, @title, @sourceUrl, @sourceDomain, @category, @imageUrl, @imageWidth, @imageHeight );
+		( @docid, @text, @textLength, @cleanedText, @cleanedTextLength, @abstract, @title, @sourceUrl, @sourceDomain, @category, @imageUrl, @imageWidth, @imageHeight );
 
 		DELETE FROM [bpst_news].[documentpublishedtimes] WHERE id = @docid;
 		INSERT INTO [bpst_news].[documentpublishedtimes]
@@ -156,5 +157,76 @@ BEGIN
     TRUNCATE TABLE bpst_news.documenttopicimages;
     INSERT INTO bpst_news.documenttopicimages WITH (TABLOCK) (topicId, imageUrl1, imageUrl2, imageUrl3, imageUrl4)
         SELECT topicId, imageUrl1, imageUrl2, imageUrl3, imageUrl4 FROM bpst_news.stg_documenttopicimages;
+END;
+go
+
+
+CREATE PROCEDURE  bpst_news.sp_create_topic_key_phrase
+AS
+BEGIN
+/****** Script for SelectTopNRows command from SSMS  ******/
+DECLARE @KeyPhraseFrequency TABLE
+(
+	documentId CHAR(64),
+	phrase VARCHAR(2000),
+	phraseFrequency INT
+);
+
+-- Compute Document Key Phrase Frequency
+INSERT @KeyPhraseFrequency
+select 
+	documentId,
+	phrase,
+	(totalLength - textWithoutPhrase) / phraseLength AS phraseFrequency
+FROM 
+(
+	SELECT [documentId]
+      ,[phrase]
+	  ,len(convert(VARCHAR(MAX), t1.cleanedText)) totalLength
+	  ,len(replace(convert(VARCHAR(MAX), t1.cleanedText), phrase, '')) textWithoutPhrase
+	  ,len(t0.phrase) phraseLength
+	FROM bpst_news.documentkeyphrases t0
+	INNER JOIN Documents t1 ON t0.documentId = t1.id
+) innerTable
+WHERE phraseLength != 0;
+
+-- Compute the score for each phrase.  Score = documentDistance * phraseFrequency
+-- Sum each unique topic/phrase combination to get the total score for each phrase within a topic
+DECLARE @DocumentTopicPhraseScore TABLE
+(
+	topicId INT,
+	phrase VARCHAR(2000),
+	phraseScore FLOAT
+);
+
+INSERT @DocumentTopicPhraseScore
+SELECT topicId, phrase, SUM(phraseScore) AS PhraseScore FROM
+(
+	SELECT topicId, phrase, documentDistance * phraseFrequency AS phraseScore
+	FROM bpst_news.documenttopics t0
+	INNER JOIN @KeyPhraseFrequency t1 ON t0.documentId = t1.documentId
+) t1
+GROUP BY topicId, phrase
+
+-- Drop the table if it exists
+IF object_id(N'bpst_news.topickeyphrases', 'U') IS NOT NULL
+	DROP TABLE bpst_news.topickeyphrases
+
+-- Compute the final key phrase as the top three document key phrases
+SELECT topicId, CONCAT([1], COALESCE(', ' + [2], ''), COALESCE(', ' + [3], '')) KeyPhrase
+INTO bpst_news.topickeyphrases
+FROM
+(
+	SELECT topicId, phrase, [rank] FROM
+	(
+		SELECT topicId, phrase, ROW_NUMBER() OVER (PARTITION BY topicId ORDER BY phraseScore DESC) [Rank]
+		FROM @DocumentTopicPhraseScore
+	) t0 WHERE [Rank] <= 3
+) t1
+PIVOT
+(
+	MAX(phrase) FOR [Rank] IN ([1], [2], [3])
+) AS PivotTable
+
 END;
 go

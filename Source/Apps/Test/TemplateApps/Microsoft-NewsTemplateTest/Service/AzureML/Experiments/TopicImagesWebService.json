@@ -28,7 +28,7 @@
             "Server User Account Name": "pbiadmin",
             "Server User Account Password": "PasswordPlaceholder",
             "Trust Server Certificate": "False",
-            "Database Query": "SELECT topicId, [1] AS imageUrl1, [2] AS imageUrl2, [3] AS imageUrl3, [4] AS imageUrl4\nFROM \n(\n\tSELECT topicId, imageUrl, [Rank] FROM \n\t(\n\t\tselect id as documentId, topicId, documentDistance, CONVERT(VARCHAR(MAX), imageUrl) AS imageUrl,  ROW_NUMBER() OVER (PARTITION BY topicId ORDER BY documentDistance ASC) [Rank] from bpst_news.documents \n\t\tINNER JOIN bpst_news.documenttopics ON bpst_news.documents.id=bpst_news.documenttopics.documentId\n\t\tWHERE imageUrl IS NOT NULL\n\t) t1 \n\tWHERE [Rank] <= 4\n) t2\nPIVOT\n(\n\tMAX(imageUrl) FOR [Rank] IN ([1], [2], [3], [4])\n) AS PivotTable"
+            "Database Query": "SELECT topicId, [1] AS imageUrl1, [2] AS imageUrl2, [3] AS imageUrl3, [4] AS imageUrl4\nFROM \n(\n\tSELECT topicId, imageUrl, [Rank] FROM \n\t(\n\t\tselect id as documentId, topicId, documentDistance, CONVERT(VARCHAR(MAX), imageUrl) AS imageUrl,  ROW_NUMBER() OVER (PARTITION BY topicId ORDER BY documentDistance ASC) [Rank] from bpst_news.documents \n\t\tINNER JOIN bpst_news.stg_documenttopics ON bpst_news.documents.id=bpst_news.stg_documenttopics.documentId\n\t\tWHERE imageUrl IS NOT NULL\n\t) t1 \n\tWHERE [Rank] <= 4\n) t2\nPIVOT\n(\n\tMAX(imageUrl) FOR [Rank] IN ([1], [2], [3], [4])\n) AS PivotTable"
           }
         }
       },

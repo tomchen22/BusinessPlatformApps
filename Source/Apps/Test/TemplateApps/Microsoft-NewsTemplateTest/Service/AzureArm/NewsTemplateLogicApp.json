@@ -61,6 +61,7 @@
                     "mkt": "en-US",
                     "offset": "0",
                     "q": "[parameters('searchquery')]",
+                    "qft":  "Date",
                     "safeSearch": "Moderate"
                   }
                 },
@@ -197,6 +198,7 @@
                     "category": "@{triggerBody()?['category']}",
                     "cleanedText": "@{body('HTMLStripperWebHook')['NoTags']}",
                     "cleanedTextLength": "@{body('HTMLStripperWebHook')['NoTagsLength']}",
+                    "abstract": "@{triggerBody()?['description']}",
                     "docid": "@{triggerBody()?['id']}",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
                     "imageUrl": "@{body('ImageCacherApp')}",
