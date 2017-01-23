@@ -45,12 +45,7 @@ namespace Microsoft.Deployment.Actions.Common.PBI
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            int sqlIndex = 0;
-            if (request.DataStore.KeyExists("SqlServerIndex"))
-            {
-                sqlIndex = int.Parse(request.DataStore.GetValue("SqlServerIndex"));
-            }
-            string connectionString = request.DataStore.GetAllValues("SqlConnectionString")[sqlIndex];
+            string connectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
 
             string[] originalFiles = request.DataStore.GetValue("FileName").Split('|');
             string[] tempFolders = new string[originalFiles.Length];

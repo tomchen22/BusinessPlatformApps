@@ -37,10 +37,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
 
-            string sqlIndex = request.DataStore.GetValue("SqlServerIndex") ?? "0";
-            var sqlConnectionString = request.DataStore.GetAllValues("SqlConnectionString")[int.Parse(sqlIndex)];
+            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
             SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
-            
+
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
             AzureMLCommitmentPlansManagementClient commitmentClient = new AzureMLCommitmentPlansManagementClient(creds);
@@ -59,19 +58,18 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             commitmentPlan.Location = "South Central US";
             var createdsCommitmentPlan = await commitmentClient.CommitmentPlans.CreateOrUpdateAsync(commitmentPlan, resourceGroup, commitmentPlanName);
 
-            
             // Get key from storage account
             var response = await RequestUtility.CallAction(request, "Microsoft-GetStorageAccountKey");
             var responseObject = JsonUtility.GetJObjectFromObject(response.Body);
             string key = responseObject["StorageAccountKey"].ToString();
-            
+
             // Get webservicedefinition
             string jsonDefinition = File.ReadAllText(request.Info.App.AppFilePath + "/" + webserviceFile);
             string jsonFinal = ReplaceSqlPasswords(sqlCredentials, jsonDefinition);
 
             // Create WebService - fixed to southcentralus
             WebService webService = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(jsonFinal);
-            
+
             webService.Properties.StorageAccount = new StorageAccount
             {
                 Key = key,
@@ -81,10 +79,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             webService.Properties.CommitmentPlan = new CommitmentPlan(createdsCommitmentPlan.Id);
             webService.Name = webserviceName;
 
-            var result = await client.WebServices.CreateOrUpdateAsync(resourceGroup,
-                webserviceName, webService);
+            var result = await client.WebServices.CreateOrUpdateAsync(resourceGroup, webserviceName, webService);
 
-           
             var keys = await client.WebServices.ListKeysAsync(resourceGroup, webserviceName);
             var swaggerLocation = result.Properties.SwaggerLocation;
 
