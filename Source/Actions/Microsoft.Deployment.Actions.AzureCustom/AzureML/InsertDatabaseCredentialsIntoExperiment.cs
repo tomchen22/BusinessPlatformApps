@@ -26,10 +26,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var workspaceName = request.DataStore.GetValue("WorkspaceName");
             var experimentName = request.DataStore.GetValue("ExperimentName");
 
-            string sqlIndex = request.DataStore.GetValue("SqlServerIndex") ?? "0";
-            var sqlConnectionString = request.DataStore.GetAllValues("SqlConnectionString")[int.Parse(sqlIndex)];
+            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
             sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
-            
+
             ManagementSDK azuremlClient = new ManagementSDK();
             var workspaces = azuremlClient.GetWorkspacesFromRdfe(azureToken, subscription);
             var workspace = workspaces.SingleOrDefault(p => p.Name.ToLowerInvariant() == workspaceName.ToLowerInvariant());
