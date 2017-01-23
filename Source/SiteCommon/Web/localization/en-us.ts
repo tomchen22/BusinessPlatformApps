@@ -127,7 +127,7 @@
     SAP_USER: `User:`,
     SEARCH_TERMS_GUIDELINES: `Twitter search query guidelines`,
     SEARCH_TERMS_QUERY: `Search Query:`,
-    SEARCH_TERMS_QUERY_EXAMPLE: `@MSPowerBI OR Azure OR &quot;Stream Analytics&quot;`,
+    SEARCH_TERMS_QUERY_EXAMPLE: `@MSPowerBI OR Azure OR "Stream Analytics"`,
     SEARCH_TERMS_SUBTITLE: `Input the search terms you want to track. We will collect all tweets that match your search criteria. We can track hashtags, Twitter handles, plain text and more. For example, if you are interested in tweets that mention Azure or the Power BI Twitter handle, you would put: @MSPowerBI OR Azure.`,
     SEARCH_TERMS_TITLE: `Customize your search terms`,
     SUMMARY_SUBTITLE: `Please verify that the information provided below is correct. If you are ready click Run to begin building the solution template.This will also download the pbix file which you can begin exploring as soon as the setup finishes.`,
