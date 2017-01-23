@@ -86,6 +86,8 @@ export class Gettingstarted extends ViewModelBase {
                         }
                         await this.MS.HttpService.executeAsync('Microsoft-PowerBiLogin');
                     }
+
+                    this.MS.UtilityService.RemoveItem('queryUrl');
                 }
             }
         }
