@@ -27,12 +27,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             string newSqlConnectionId = GetNewSqlConnectionId();
             string powerAppEnvironment = request.DataStore.GetValue("PowerAppEnvironment");
 
-            int sqlIndex = 0;
-            if (request.DataStore.KeyExists("SqlServerIndex"))
-            {
-                sqlIndex = int.Parse(request.DataStore.GetValue("SqlServerIndex"));
-            }
-            string sqlConnectionString = request.DataStore.GetAllValues("SqlConnectionString")[sqlIndex];
+            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
             SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
 
             string body = $"{{\"properties\":{{\"environment\":{{\"id\":\"/providers/Microsoft.PowerApps/environments/{powerAppEnvironment}\",\"name\":\"{powerAppEnvironment}\"}},\"connectionParameters\":{{\"server\":\"{sqlCredentials.Server}\",\"database\":\"{sqlCredentials.Database}\",\"username\":\"{sqlCredentials.Username}\",\"password\":\"{sqlCredentials.Password}\"}}}}}}";
