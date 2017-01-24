@@ -30,8 +30,8 @@
             {
                 try
                 {
-                    response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
-                    orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
+                    string r = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+                    orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(r);
                 }
                 catch (Exception e)
                 {
