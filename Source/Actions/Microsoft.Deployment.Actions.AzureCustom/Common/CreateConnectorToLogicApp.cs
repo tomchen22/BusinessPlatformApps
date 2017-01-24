@@ -24,7 +24,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             var connectorName = request.DataStore.GetValue("ConnectorName");
 
             //Needs to be changed once Logic Apps makes it available
-            if (connectorName == "bingnews")
+            if (connectorName == "bingsearch")
                 {
                 location = "brazilsouth";
             }
