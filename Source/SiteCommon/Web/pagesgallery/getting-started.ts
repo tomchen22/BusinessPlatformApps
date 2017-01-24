@@ -85,7 +85,10 @@ export class Gettingstarted extends ViewModelBase {
                             this.isValidated = true;
                         }
                         await this.MS.HttpService.executeAsync('Microsoft-PowerBiLogin');
-                        this.GetDownloadLink();
+
+                        if (this.isDownload) {
+                            this.GetDownloadLink();
+                        }
                     }
 
                     this.MS.UtilityService.RemoveItem('queryUrl');
