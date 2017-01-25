@@ -34,6 +34,7 @@ export class SqlServer extends ViewModelBase {
     validateWindowsCredentials: boolean = false;
     validationTextBox: string = '';
 
+    credentialTarget: string = '';
     useImpersonation: boolean = false;
 
     constructor() {
@@ -117,14 +118,9 @@ export class SqlServer extends ViewModelBase {
         }
 
         if (this.useImpersonation) {
-            this.MS.DataStore.addToDataStore('CredentialTarget', 'pbi_sccm', DataStoreType.Private);
+            this.MS.DataStore.addToDataStore('CredentialTarget', this.credentialTarget, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('CredentialUsername', this.username, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('CredentialPassword', this.password, DataStoreType.Private);
-
-            body.CredentialTarget = 'pbi_sccm';
-            body.CredentialUsername = this.username;
-            body.CredentialPassword = this.password;
-
             let responseVersion = await this.MS.HttpService.executeAsync('Microsoft-CredentialManagerWrite', body);
             if (!responseVersion.IsSuccess) {
                 return false;
