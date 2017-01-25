@@ -137,8 +137,8 @@ export class MsCrmLogin extends AzureLogin {
 
 class MsCrmOrganization {
     ConnectorUrl: string;
-    ErrorCategory: string;
-    ErrorCode: string;
+    ErrorCategory: number;
+    ErrorCode: number;
     ErrorMessage: string;
     OrganizationId: string;
     OrganizationName: string;
