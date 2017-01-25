@@ -95,7 +95,8 @@ CREATE TABLE [dbo].[TwitterQuery]
 (
 	[Id] INT NOT NULL PRIMARY KEY,
 	[IsAdvanced] TINYINT NOT NULL,
-	[QueryString] NVARCHAR(MAX) NOT NULL
+	[QueryString] NVARCHAR(MAX) NOT NULL,
+	[TweetId] NCHAR(20) NOT NULL
 )
 
 CREATE TABLE [dbo].[TwitterQueryReadable] (

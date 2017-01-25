@@ -144,13 +144,13 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
 
             //Create connector for Bing News
-            dataStore.AddToDataStore("ConnectorName", "bingnews");
+            dataStore.AddToDataStore("ConnectorName", "bingsearch");
 
             payload = new ExpandoObject();
             payload.apiKey = dataStore.GetValue("CognitiveServiceKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
-            dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
+            dataStore.AddToDataStore("ConnectorDisplayName", "bingsearch");
             response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");

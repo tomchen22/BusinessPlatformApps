@@ -203,8 +203,8 @@
         "name": "Microsoft-CreateConnectorToLogicApp",
         "displayname": "Create Connector to Logic App",
         "DeploymentName": "Cognitive",
-        "ConnectorName": "bingnews",
-        "ConnectorDisplayName": "BingNews",
+        "ConnectorName": "bingsearch",
+        "ConnectorDisplayName": "bingsearch",
         "ConnectorPayload": {
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }
@@ -213,8 +213,8 @@
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
         "DeploymentName": "Cognitive",
-        "ConnectorName": "bingnews",
-        "ConnectorDisplayName": "BingNews",
+        "ConnectorName": "bingsearch",
+        "ConnectorDisplayName": "bingsearch",
         "ConnectorPayload": {
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }

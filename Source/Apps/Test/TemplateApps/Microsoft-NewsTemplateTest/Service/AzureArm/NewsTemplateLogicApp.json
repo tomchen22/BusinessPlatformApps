@@ -49,19 +49,18 @@
               "On_new_news_article": {
                 "inputs": {
                   "host": {
-                   
+
                     "connection": {
-                      "name": "@parameters('$connections')['bingnews']['connectionId']"
+                      "name": "@parameters('$connections')['bingsearch']['connectionId']"
                     }
                   },
                   "method": "get",
-                  "path": "/trigger/on/search",
+                  "path": "/trigger/news/search",
                   "queries": {
                     "count": "20",
                     "mkt": "en-US",
                     "offset": "0",
                     "q": "[parameters('searchquery')]",
-                    "qft":  "Date",
                     "safeSearch": "Moderate"
                   }
                 },
@@ -69,7 +68,7 @@
                   "frequency": "Minute",
                   "interval": 5
                 },
-                "splitOn": "@triggerBody()?.value",
+                "splitOn": "@triggerBody()",
                 "type": "ApiConnection"
               }
             },
@@ -115,7 +114,7 @@
                 "inputs": {
                   "body": {
                     "html": "@{body('HTTP')}",
-                    "url": "@{triggerBody()?['url']}"
+                    "url": "@Json(body('UrlCleaner'))?['newUri']"
                   },
                   "function": {
                     "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/ArticleExtractor')]"
@@ -126,6 +125,18 @@
                     "Succeeded"
                   ]
                 },
+                "type": "Function"
+              },
+              "UrlCleaner": {
+                "inputs": {
+                  "body": {
+                    "url": "@{triggerBody()?['url']}"
+                  },
+                  "function": {
+                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/UrlCleaner')]"
+                  }
+                },
+                "runAfter": {},
                 "type": "Function"
               },
               "HTMLStripperWebHook": {
@@ -147,9 +158,13 @@
               "HTTP": {
                 "inputs": {
                   "method": "GET",
-                  "uri": "@{triggerBody()?['url']}"
+                  "uri": "@Json(body('UrlCleaner'))?['newUri']"
                 },
-                "runAfter": {},
+                "runAfter": {
+                  "UrlCleaner": [
+                    "Succeeded"
+                  ]
+                },
                 "type": "Http"
               },
               "ImageCacherApp": {
@@ -199,7 +214,7 @@
                     "cleanedText": "@{body('HTMLStripperWebHook')['NoTags']}",
                     "cleanedTextLength": "@{body('HTMLStripperWebHook')['NoTagsLength']}",
                     "abstract": "@{triggerBody()?['description']}",
-                    "docid": "@{triggerBody()?['id']}",
+                    "docid": "@Json(body('UrlCleaner'))?['triggerId']",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
                     "imageUrl": "@{body('ImageCacherApp')}",
                     "imageWidth": "@triggerBody()?['image']?['thumbnail']?['width']",
@@ -218,7 +233,7 @@
                     "publishedWeekPrecision": "@Json(body('TimeUtilsWebHook_2'))?['WeekPrecision']",
                     "sentimentScore": "@body('Detect_Sentiment')?['score']",
                     "sourceDomain": "@{body('UrlDomainWebHook')?['host']}",
-                    "sourceUrl": "@{triggerBody()?['url']}",
+                    "sourceUrl": "@Json(body('UrlCleaner'))?['newUri']",
                     "text": "@{body('HTMLStripperWebHook')['Scrubbed']}",
                     "textLength": "@{body('HTMLStripperWebHook')['ScrubbedLength']}",
                     "title": "@{triggerBody()?['name']}"
@@ -280,7 +295,7 @@
               "UrlDomainWebHook": {
                 "inputs": {
                   "body": {
-                    "url": "@{triggerBody()?['url']}"
+                    "url": "@Json(body('UrlCleaner'))?['newUri']"
                   },
                   "function": {
                     "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/UrlDomainWebhook')]"
@@ -299,10 +314,10 @@
           "parameters": {
             "$connections": {
               "value": {
-                "bingnews": {
-                  "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/bingnews')]",
-                  "connectionName": "bingnews",
-                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/brazilsouth/managedApis/bingnews')]"
+                "bingsearch": {
+                  "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/bingsearch')]",
+                  "connectionName": "bingsearch",
+                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/brazilsouth/managedApis/bingsearch')]"
                 },
                 "cognitiveservicestextanalytics": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/cognitiveservicestextanalytics')]",
