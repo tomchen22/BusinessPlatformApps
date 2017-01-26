@@ -6,9 +6,8 @@ import {activationStrategy} from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
-    isAuthenticated: boolean = false;
     isValidated: boolean = true;
-    
+
     showValidation: boolean = false;
     showValidationDetails: boolean = false;
     validationText: string;
@@ -115,7 +114,7 @@ export class ViewModelBase {
     }
 
     async activate(params, navigationInstruction) {
-        
+
         this.isActivated = false;
         this.MS.UtilityService.SaveItem('Current Page', window.location.href);
         let currentRoute = this.MS.NavigationService.getCurrentSelectedPage().RoutePageName.toLowerCase();

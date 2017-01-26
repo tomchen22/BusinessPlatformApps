@@ -5,10 +5,10 @@ import MainService from "../services/mainservice";
 
 export class JsonCustomParser {
 
-    public static MS:MainService;
+    public static MS: MainService;
 
 
-    public static async executeActions(actions: any[], obj: any, MS:MainService, thisRefrence:any): Promise<boolean> {
+    public static async executeActions(actions: any[], obj: any, MS: MainService, thisRefrence: any): Promise<boolean> {
         for (let index in actions) {
             let actionToExecute: any = actions[index];
             let name: string = actionToExecute.name;
@@ -21,14 +21,14 @@ export class JsonCustomParser {
                     return false;
                 }
 
-               this.MS.DataStore.addObjectToDataStore(response, DataStoreType.Private);
+                this.MS.DataStore.addObjectToDataStore(response, DataStoreType.Private);
             }
         }
 
         return true;
     }
 
-    public static loadVariables(objToChange:any, obj: any, MS: MainService, thisRefrence:any) {
+    public static loadVariables(objToChange: any, obj: any, MS: MainService, thisRefrence: any) {
         this.MS = MS;
         for (let propertyName in obj) {
             let val: string = obj[propertyName];
@@ -84,7 +84,7 @@ export class JsonCustomParser {
 
         obj[key] = result;
         if (variable.saveToDataStore) {
-            MS.DataStore.addToDataStore(key,result, DataStoreType.Private);
+            MS.DataStore.addToDataStore(key, result, DataStoreType.Private);
         }
     }
 
@@ -98,7 +98,7 @@ export class JsonCustomParser {
         }
 
         let lowercaseValue: string = value.toString().toLowerCase();
-        
+
         variable.varType = VariableType.NotValid;
 
         if (lowercaseValue[0] !== "$") {
@@ -126,11 +126,11 @@ export class JsonCustomParser {
             let index = value.indexOf(')');
             let dslookup = value.substring(0, index);
 
-            if (value.length >= index +1) {
+            if (value.length >= index + 1) {
                 let dslookupSecondArg = value.substring(index + 1);
                 variable.secondArgument = dslookupSecondArg;
             }
-            
+
             variable.value = dslookup;
             variable.varType = VariableType.DatasStoreGetAll;
         }
@@ -144,7 +144,7 @@ export class JsonCustomParser {
             variable.varType = VariableType.Run;
         }
 
-        if (lowercaseValue.startsWith("$(")&& lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith("$(") && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(2);
             value = value.substring(0, value.lastIndexOf(")"));
             value = value.trim();
@@ -164,7 +164,7 @@ export class JsonCustomParser {
             variable.saveToDataStore = true;
             variable.varType = VariableType.RunAndSave;
         }
-       
+
         return variable;
     }
 
