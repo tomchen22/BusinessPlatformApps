@@ -61,6 +61,10 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='pbist_twi
     DROP TABLE pbist_twitter.[minimum_tweets];
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='pbist_twitter' AND TABLE_NAME='twitter_query' AND TABLE_TYPE='BASE TABLE')
     DROP TABLE pbist_twitter.[twitter_query];
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='pbist_twitter' AND TABLE_NAME='twitter_query_details' AND TABLE_TYPE='BASE TABLE')
+    DROP TABLE pbist_twitter.[twitter_query_details];
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='pbist_twitter' AND TABLE_NAME='twitter_query_readable' AND TABLE_TYPE='BASE TABLE')
+    DROP TABLE pbist_twitter.[twitter_query_readable];
 
 
 -- Stored procedures
