@@ -54,8 +54,10 @@ export class ViewModelBase {
             this.MS.NavigationService.isCurrentlyNavigating = true;
 
             let isNavigationSuccessful: boolean = await this.NavigatingNext();
-            let isExtendedNavigationSuccessful: boolean =
-                await JsonCustomParser.executeActions(this.onNext, this, this.MS, this);;
+            let isExtendedNavigationSuccessful: boolean = false;
+            if (isNavigationSuccessful) {
+                 isExtendedNavigationSuccessful = await JsonCustomParser.executeActions(this.onNext, this, this.MS, this);
+            }
 
             this.navigationMessage = '';
 
