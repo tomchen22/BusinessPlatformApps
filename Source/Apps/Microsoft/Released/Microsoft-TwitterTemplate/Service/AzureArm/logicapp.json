@@ -16,7 +16,6 @@
       "defaultValue": "STHostingPlan",
       "type": "string"
     },
-
     "resourcegroup": {
       "defaultValue": "stresourcegroup",
       "type": "string"

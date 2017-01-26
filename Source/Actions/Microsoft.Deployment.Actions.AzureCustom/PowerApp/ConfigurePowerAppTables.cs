@@ -10,9 +10,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
     [Export(typeof(IAction))]
     public class ConfigurePowerAppTables : BaseAction
     {
-        private const string INSERT_INTO_TWITTER_QUERY = "INSERT INTO [pbist_twitter].[TwitterQuery] ([Id], [IsAdvanced], [QueryString], [TweetId]) VALUES ({0}, {1}, '{2}', {3})";
-        private const string INSERT_INTO_TWITTER_QUERY_DETAILS = "INSERT INTO [pbist_twitter].[TwitterQueryDetails] ([Id], [ReadableId], [Operator], [Operand]) VALUES ({0}, {1}, '{2}', '{3}')";
-        private const string INSERT_INTO_TWITTER_QUERY_READABLE = "INSERT INTO [pbist_twitter].[TwitterQueryReadable] ([Id], [QueryId], [QueryReadable], [Query]) VAULES ({0}, {1}, '{2}', '{3}')";
+        private const string INSERT_INTO_TWITTER_QUERY = "INSERT INTO [pbist_twitter].[twitter_query] ([Id], [IsAdvanced], [QueryString], [TweetId]) VALUES ({0}, {1}, '{2}', {3})";
+        private const string INSERT_INTO_TWITTER_QUERY_DETAILS = "INSERT INTO [pbist_twitter].[twitter_query_details] ([Id], [ReadableId], [Operator], [Operand]) VALUES ({0}, {1}, '{2}', '{3}')";
+        private const string INSERT_INTO_TWITTER_QUERY_READABLE = "INSERT INTO [pbist_twitter].[twitter_query_readable] ([Id], [QueryId], [QueryReadable], [Query]) VAULES ({0}, {1}, '{2}', '{3}')";
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
