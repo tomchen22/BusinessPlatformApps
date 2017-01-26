@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
+﻿using System.Diagnostics;
+using System.Threading;
+
+namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
     using Microsoft.Deployment.Common.ActionModel;
     using Microsoft.Deployment.Common.Actions;
@@ -16,6 +19,7 @@
     [Export(typeof(IAction))]
     public class CrmGetOrgs : BaseAction
     {
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
@@ -26,12 +30,15 @@
             string response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
             MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
 
-            Parallel.For(0, orgs.Length, async (int i) =>
+            // Tried to parallelize this, but the service won't behave
+            for (int i=0; i<orgs.Length; i++)
             {
+                MsCrmOrganization o;
                 try
                 {
-                    string r = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
-                    orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(r);
+                    response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+                    o = JsonConvert.DeserializeObject<MsCrmOrganization>(response);
+                    orgs[i] = o;
                 }
                 catch (Exception e)
                 {
@@ -39,8 +46,7 @@
                     orgs[i].ErrorCode = e.HResult;
                     orgs[i].ErrorMessage = e.Message;
                 }
-                
-            });
+            }
 
             // This is a bit of a dance to accomodate ActionResponse and its need for a JObject
             response = JsonConvert.SerializeObject(orgs);

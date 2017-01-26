@@ -21,7 +21,6 @@
 
         [JsonProperty(NullValueHandling = NullValueHandling.Ignore)]
         public string ErrorMessage;
-
     }
 #pragma warning restore 0649
 }
