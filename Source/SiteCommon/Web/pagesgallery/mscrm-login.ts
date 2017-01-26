@@ -48,13 +48,13 @@ export class MsCrmLogin extends AzureLogin {
                             let countNoOther: number = 0;
                             for (let i = 0; i < msCrmOrganizationsAll.length; i++) {
                                 switch (msCrmOrganizationsAll[i].ErrorCode) {
-                                    case '1':
+                                    case 1:
                                         countNoAdminister++;
                                         break;
-                                    case '2':
+                                    case 2:
                                         countNoOther++;
                                         break;
-                                    case null:
+                                    default:
                                         this.msCrmOrganizations.push(msCrmOrganizationsAll[i]);
                                         break;
                                 }
@@ -137,8 +137,8 @@ export class MsCrmLogin extends AzureLogin {
 
 class MsCrmOrganization {
     ConnectorUrl: string;
-    ErrorCategory: string;
-    ErrorCode: string;
+    ErrorCategory: number;
+    ErrorCode: number;
     ErrorMessage: string;
     OrganizationId: string;
     OrganizationName: string;
