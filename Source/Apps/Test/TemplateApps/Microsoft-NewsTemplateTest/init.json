@@ -124,7 +124,7 @@
         "DeploymentName": "AzureML",
         "CommitmentPlan": "commitmentplan",
         "WebServiceFile": "Service/AzureML/Experiments/TopicsWebService.json",
-        "WebServiceName": "TopicsWebService"
+        "WebServiceName": "$run('TopicsWebService' + this.MS.DataStore.getValue('uniqueId'))"
 
       },
       {
@@ -133,7 +133,7 @@
         "DeploymentName": "AzureML",
         "CommitmentPlan": "commitmentplan",
         "WebServiceFile": "Service/AzureML/Experiments/TopicImagesWebService.json",
-        "WebServiceName": "TopicsImagesWebService"
+        "WebServiceName": "$run('TopicsImagesWebService' + this.MS.DataStore.getValue('uniqueId'))"
       },
       {
         "name": "Microsoft-DeployAzureMLWebServiceFromFile",
@@ -141,7 +141,7 @@
         "DeploymentName": "AzureML",
         "CommitmentPlan": "commitmentplan",
         "WebServiceFile": "Service/AzureML/Experiments/EntityWebService.json",
-        "WebServiceName": "EntitiesWebService"
+        "WebServiceName": "$run('EntitiesWebService' + this.MS.DataStore.getValue('uniqueId'))"
       },
 
 
