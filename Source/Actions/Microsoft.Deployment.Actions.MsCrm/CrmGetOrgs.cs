@@ -1,4 +1,7 @@
-﻿namespace Microsoft.Deployment.Common.Actions.MsCrm
+﻿using System.Diagnostics;
+using System.Threading;
+
+namespace Microsoft.Deployment.Common.Actions.MsCrm
 {
     using Microsoft.Deployment.Common.ActionModel;
     using Microsoft.Deployment.Common.Actions;
@@ -16,31 +19,53 @@
     [Export(typeof(IAction))]
     public class CrmGetOrgs : BaseAction
     {
+        private RestClient _rc;
+
+        private async Task<string> GetConnectorUrl(MsCrmOrganization o)
+        {
+            Debug.WriteLine($"Organization {o.OrganizationName} queued");
+            return await _rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(o.OrganizationUrl)}");
+        }
+
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
-
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", token);
 
-            RestClient rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);
-            string response = await rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
-            MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
+            _rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);
+            string response = await _rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
 
-            Parallel.For(0, orgs.Length, async (int i) =>
+            MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
+            Task<string>[] resultsList = new Task<string>[orgs.Length];
+
+            for (int i = 0; i < orgs.Length; i++)
+                resultsList[i] = _rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+            try
             {
-                try
+                await Task.WhenAll(resultsList);
+            }
+            finally
+            {
+                for (int i = 0; i < resultsList.Length; i++)
                 {
-                    string r = await rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
-                    orgs[i] = JsonConvert.DeserializeObject<MsCrmOrganization>(r);
+                    if (resultsList[i].IsFaulted && resultsList[i].Exception != null)
+                    {
+                        orgs[i].ErrorCategory = resultsList[i].Exception.Message.ToLowerInvariant().Contains("failed authorization") ? 1 : 2;
+                        orgs[i].ErrorCode = resultsList[i].Exception.HResult;
+                        orgs[i].ErrorMessage = resultsList[i].Exception.Message;
+                    }
+                    else
+                    {
+                        MsCrmOrganization o = JsonConvert.DeserializeObject<MsCrmOrganization>(resultsList[i].Result);
+                        orgs[i].ConnectorUrl = o.ConnectorUrl;
+                    }
+
                 }
-                catch (Exception e)
-                {
-                    orgs[i].ErrorCategory = e.Message.ToLowerInvariant().Contains("failed authorization") ? 1 : 2;
-                    orgs[i].ErrorCode = e.HResult;
-                    orgs[i].ErrorMessage = e.Message;
-                }
-                
-            });
+
+            }
+
+
 
             // This is a bit of a dance to accomodate ActionResponse and its need for a JObject
             response = JsonConvert.SerializeObject(orgs);
