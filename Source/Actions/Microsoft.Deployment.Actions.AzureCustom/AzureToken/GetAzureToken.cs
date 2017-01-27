@@ -79,16 +79,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
 
             switch (oauthType)
             {
-                case "powerbi":
-                    var tenantId = new JwtSecurityToken(primaryResponse["id_token"].ToString())
-                                                       .Claims.First(e => e.Type.ToLowerInvariant() == "tid")
-                                                       .Value;
-                    var directoryName = new JwtSecurityToken(primaryResponse["id_token"].ToString())
-                                                       .Claims.First(e => e.Type.ToLowerInvariant() == "unique_name")
-                                                       .Value.Split('@').Last();
-                    request.DataStore.AddToDataStore("DirectoryName", directoryName);
-                    request.DataStore.AddToDataStore("PowerBITenantId", tenantId);
-                    break;
                 case "keyvault":
                     request.DataStore.AddToDataStore("AzureTokenKV", primaryResponse);
                     break;
@@ -99,13 +89,17 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
                     break;
                 default:
                     request.DataStore.AddToDataStore("AzureToken", primaryResponse);
+                    var tenantId = new JwtSecurityToken(primaryResponse["id_token"].ToString())
+                                                      .Claims.First(e => e.Type.ToLowerInvariant() == "tid")
+                                                      .Value;
+                    var directoryName = new JwtSecurityToken(primaryResponse["id_token"].ToString())
+                                                       .Claims.First(e => e.Type.ToLowerInvariant() == "unique_name")
+                                                       .Value.Split('@').Last();
+                    request.DataStore.AddToDataStore("DirectoryName", directoryName);
+                    request.DataStore.AddToDataStore("PowerBITenantId", tenantId);
                     break;
             }
-
-
-
             return new ActionResponse(ActionStatus.Success, obj, true);
-
         }
 
         private JObject RetrieveCrmToken(string refreshToken, string websiteRootUrl, DataStore dataStore)
