@@ -121,9 +121,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Actions.AzureCustom, Version=1.0.6235.27018, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Deployment.Actions.AzureCustom">
       <HintPath>..\packages\Microsoft.Deployment.Actions.AzureCustom.1.4.3-CI201701261500\lib\net452\Microsoft.Deployment.Actions.AzureCustom.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Deployment.Actions.Common">
       <HintPath>..\packages\Microsoft.Deployment.Actions.Common.1.4.3-CI201701261500\lib\net452\Microsoft.Deployment.Actions.Common.dll</HintPath>
