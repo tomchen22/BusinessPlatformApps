@@ -5,7 +5,7 @@
                 "name": "Microsoft-DeploySQLScripts",
                 "displayname": "Deploy DB Scripts",
                 "SqlServerIndex": "0",
-                "SqlScriptsFolder": "Database"
+                "SqlScriptsFolder": "Service/Database"
             },
             {
                 "displayname": "Configuring Azure Key Vault",

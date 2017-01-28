@@ -38,6 +38,7 @@ BEGIN
 END;
 go
 
+
 CREATE PROCEDURE psa.sp_get_last_updatetime AS
 BEGIN
     SET NOCOUNT ON;
@@ -45,4 +46,3 @@ BEGIN
     SELECT [value] AS lastLoadTimestamp FROM pbist_sccm.[configuration] WHERE name='lastLoadTimestamp' AND configuration_group='SolutionTemplate' AND configuration_subgroup='PSA';
 END;
 go
-

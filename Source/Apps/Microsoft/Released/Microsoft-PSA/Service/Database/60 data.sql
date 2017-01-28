@@ -112,4 +112,3 @@ INSERT psa.[configuration] (configuration_group, configuration_subgroup, [name],
     VALUES (N'SolutionTemplate', N'PSA', N'version', N'1.0', 0),
            (N'SolutionTemplate', N'PSA', N'versionImage', N'https://bpstservice.azurewebsites.net/api/telemetry/Microsoft-SCCMTemplate', 1);
 go
-

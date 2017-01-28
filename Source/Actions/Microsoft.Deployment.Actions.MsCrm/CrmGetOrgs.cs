@@ -19,21 +19,13 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     [Export(typeof(IAction))]
     public class CrmGetOrgs : BaseAction
     {
-        private RestClient _rc;
-
-        private async Task<string> GetConnectorUrl(MsCrmOrganization o)
-        {
-            Debug.WriteLine($"Organization {o.OrganizationName} queued");
-            return await _rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(o.OrganizationUrl)}");
-        }
-
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
             AuthenticationHeaderValue bearer = new AuthenticationHeaderValue("Bearer", token);
 
-            _rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);
+            RestClient _rc = new RestClient(MsCrmEndpoints.ENDPOINT, bearer);
             string response = await _rc.Get(MsCrmEndpoints.URL_ORGANIZATIONS);
 
             MsCrmOrganization[] orgs = JsonConvert.DeserializeObject<MsCrmOrganization[]>(response);
@@ -41,6 +33,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
 
             for (int i = 0; i < orgs.Length; i++)
                 resultsList[i] = _rc.Get(MsCrmEndpoints.URL_ORGANIZATION_METADATA, $"organizationUrl={WebUtility.UrlEncode(orgs[i].OrganizationUrl)}");
+
             try
             {
                 await Task.WhenAll(resultsList);
@@ -64,7 +57,6 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
                 }
 
             }
-
 
 
             // This is a bit of a dance to accomodate ActionResponse and its need for a JObject
