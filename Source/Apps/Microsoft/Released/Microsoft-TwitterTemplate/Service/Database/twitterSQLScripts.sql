@@ -94,7 +94,7 @@ ALTER TABLE [dbo].[entities2]  ADD CONSTRAINT tweetentity2 FOREIGN KEY(masterid)
 CREATE TABLE [pbist_twitter].[twitter_query]
 (
 	[Id] INT NOT NULL PRIMARY KEY,
-	[IsAdvanced] TINYINT NOT NULL,
+	[IsAdvanced] NCHAR(20) NOT NULL,
 	[QueryString] NVARCHAR(MAX) NOT NULL,
 	[TweetId] NCHAR(20)
 )
