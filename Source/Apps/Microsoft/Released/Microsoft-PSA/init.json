@@ -5,7 +5,7 @@
                 "name": "Microsoft-DeploySQLScripts",
                 "displayname": "Deploy DB Scripts",
                 "SqlServerIndex": "0",
-                "SqlScriptsFolder": "Database"
+                "SqlScriptsFolder": "Service/Database"
             },
             {
                 "displayname": "Configuring Azure Key Vault",
@@ -89,7 +89,7 @@
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
-                "filename": "$('PSA_AccountManager_IM.pbix|PSA_PracticeManager_IM.pbix|PSA_ResourceManager_IM.pbix', isSaved=true)",
+                "filename": "$('PSA_AccountManager.pbix|PSA_PracticeManager.pbix|PSA_ResourceManager.pbix', isSaved=true)",
                 "showCounts": true,
                 "finishedActionName": "Microsoft-CrmGetProfileStatus"
             }
