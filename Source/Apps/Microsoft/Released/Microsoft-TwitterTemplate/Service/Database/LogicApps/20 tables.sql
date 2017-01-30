@@ -99,11 +99,24 @@ CREATE TABLE [pbist_twitter].[minimum_tweets](
 	[MinimumTweets] [smallint] NOT NULL
 );
 
-CREATE TABLE pbist_twitter.twitter_query
+CREATE TABLE [pbist_twitter].[twitter_query]
 (
-    Id			 INT,
-    IsAdvanced	 TINYINT,
-    QueryString  NVARCHAR(max),
-    TweetId      NCHAR(20),
+	[Id] INT NOT NULL PRIMARY KEY,
+	[IsAdvanced] NCHAR(20) NOT NULL,
+	[QueryString] NVARCHAR(MAX) NOT NULL,
+	[TweetId] NCHAR(20)
 )
 
+CREATE TABLE [pbist_twitter].[twitter_query_readable] (
+	[Id] INT NOT NULL PRIMARY KEY,
+	[QueryId] INT NOT NULL,
+	[QueryReadable] NVARCHAR (MAX) NOT NULL,
+	[Query] NVARCHAR (MAX) NOT NULL
+)
+
+CREATE TABLE [pbist_twitter].[twitter_query_details] (
+	[Id] INT NOT NULL PRIMARY KEY,
+	[ReadableId] INT NOT NULL,
+	[Operator] NVARCHAR(MAX) NOT NULL,
+	[Operand] NVARCHAR(MAX) NOT NULL
+)
