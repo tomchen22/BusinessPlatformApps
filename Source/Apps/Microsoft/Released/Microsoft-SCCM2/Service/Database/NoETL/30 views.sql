@@ -174,7 +174,7 @@ SELECT machineid
       ,[operating system] [operating system long name]
       ,manufacturer
       ,model
-      ,platform
+      ,[platform]
       ,[physical memory]
   FROM pbist_sccm.computer c WHERE c.[deleted date] IS NULL;
 go
@@ -211,7 +211,7 @@ AS
   SELECT machineid, 
          [program name],
          publisher,
-         version
+         [version]
   FROM   pbist_sccm.computerprogram;
 go
 
@@ -263,11 +263,11 @@ AS
            day_name         AS [day name],
            day_abbrev       AS [day abbreviated],
            weekday_flag     AS [weekday flag],
-           month,
+           [month],
            month_name       AS [month name],
            month_abbrev,
-           quarter,
-           year,
+           [quarter],
+           [year],
            same_day_year_ago_date,
            week_begin_date  AS [week begin date]
     FROM   pbist_sccm.date;
@@ -337,7 +337,7 @@ AS
   SELECT machineid,
          date_key,
          sitecode,
-         enabled,
+         [enabled],
          [client version],
          CONVERT(CHAR(1), [real time protection enabled])    [real time protection enabled],
          CONVERT(CHAR(1), [on access protection enabled])    [on access protection enabled],
