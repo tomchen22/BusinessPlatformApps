@@ -38,31 +38,31 @@
                         "name": "Microsoft-ValidateAdminPrivileges"
                     },
                     {
-                        "name": "Microsoft-ValidatePowerShellVersion"
-                    }
-                ]
-            },
-
-            //SQL Server
-            {
-                "name": "$SiteCommon$/pagesgallery/sql-server.html",
-                "displayname": "Source",
-                "hideSqlAuth": true,
-                "title": "Connect to your System Center Configuration Manager database",
-                "showAzureSql": false,
-                "showAllWriteableDatabases": false,
-                "useImpersonation": true,
-
-                "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
-                "onNext": [
-                    {
-                        "name": "Microsoft-CheckSCCMVersion",
-                        "useImpersonation": true
+                        "name": "Microsoft-ValidateSecurityOptions"
                     },
                     {
                         "name": "Microsoft-ValidatePowerShellVersion"
                     }
                 ]
+            },
+
+            // SCCM
+            {
+                "credentialTarget": "pbi_sccm",
+                "displayname": "Source",
+                "hideSqlAuth": true,
+                "name": "$SiteCommon$/pagesgallery/sql-server.html",
+                "onNext": [
+                    {
+                        "name": "Microsoft-CheckSCCMVersion",
+                        "useImpersonation": true
+                    }
+                ],
+                "showAllWriteableDatabases": false,
+                "showAzureSql": false,
+                "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
+                "title": "Connect to your System Center Configuration Manager database",
+                "useImpersonation": true
             },
 
             // Target
@@ -72,6 +72,10 @@
                 "displayname": "Target",
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "onNext": [
+                    {
+                        "name": "Microsoft-CheckSQLVersion",
+                        "useImpersonation": true
+                    },
                     {
                         "name": "Microsoft-CompareSqlLCIDs",
                         "useImpersonation": true
@@ -183,11 +187,11 @@
                 "name": "Microsoft-RemoveFiles",
                 "displayname": "Remove files"
             },
-          {
-            "name": "Microsoft-RemoveFiles",
-            "displayname": "Finishing cleanup",
-            "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SCCMTemplate\\Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
-          }
+            {
+                "name": "Microsoft-RemoveFiles",
+                "displayname": "Finishing cleanup",
+                "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SCCMTemplate\\Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
+            }
         ]
     }
 }
