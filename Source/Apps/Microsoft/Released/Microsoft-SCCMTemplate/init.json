@@ -46,23 +46,23 @@
                 ]
             },
 
-            //SQL Server
+            // SCCM
             {
-                "name": "$SiteCommon$/pagesgallery/sql-server.html",
+                "credentialTarget": "pbi_sccm",
                 "displayname": "Source",
                 "hideSqlAuth": true,
-                "title": "Connect to your System Center Configuration Manager database",
-                "showAzureSql": false,
-                "showAllWriteableDatabases": false,
-                "useImpersonation": true,
-
-                "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
+                "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "onNext": [
                     {
                         "name": "Microsoft-CheckSCCMVersion",
                         "useImpersonation": true
                     }
-                ]
+                ],
+                "showAllWriteableDatabases": false,
+                "showAzureSql": false,
+                "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
+                "title": "Connect to your System Center Configuration Manager database",
+                "useImpersonation": true
             },
 
             // Target
