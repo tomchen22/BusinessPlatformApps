@@ -149,6 +149,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
                     case '"':
                         isOpenQuote = !isOpenQuote;
                         break;
+                    case ':':
+                        isAdvanced = !isOpenQuote;
+                        break;
                     case '(':
                         if (!isOpenQuote)
                         {
@@ -176,10 +179,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
                         }
                         break;
                     case 'O':
-                        if (!isOpenQuote && i < query.Length - 1 && query[i + 1] == 'R')
-                        {
-                            isAdvanced = isOpenBracket;
-                        }
+                        isAdvanced = !isOpenQuote && i < query.Length - 1 && query[i + 1] == 'R' && isOpenBracket;
                         break;
                     default:
                         break;
