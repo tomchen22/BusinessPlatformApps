@@ -47,23 +47,24 @@
             },
 
             //SQL Server
-            {
-                "name": "$SiteCommon$/pagesgallery/sql-server.html",
-                "displayname": "Source",
-                "hideSqlAuth": true,
-                "title": "Connect to your System Center Configuration Manager database",
-                "showAzureSql": false,
-                "showAllWriteableDatabases": false,
-                "useImpersonation": true,
+          {
+            "name": "$SiteCommon$/pagesgallery/sql-server.html",
+            "displayname": "Source",
+            "credentialTarget": "pbi_sccm",
+            "hideSqlAuth": true,
+            "title": "Connect to your System Center Configuration Manager database",
+            "showAzureSql": false,
+            "showAllWriteableDatabases": false,
+            "useImpersonation": true,
 
-                "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
-                "onNext": [
-                    {
-                        "name": "Microsoft-CheckSCCMVersion",
-                        "useImpersonation": true
-                    }
-                ]
-            },
+            "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
+            "onNext": [
+              {
+                "name": "Microsoft-CheckSCCMVersion",
+                "useImpersonation": true
+              }
+            ]
+          },
 
             // Target
             {
