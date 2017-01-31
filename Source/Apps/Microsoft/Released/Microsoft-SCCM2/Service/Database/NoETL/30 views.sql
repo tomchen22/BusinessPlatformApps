@@ -273,14 +273,6 @@ AS
     FROM   pbist_sccm.date;
 go
 
-
-
-CREATE VIEW pbist_sccm.vw_DistributionPoints
-AS 
-  SELECT failed, inprogress, success
-  FROM   pbist_sccm.DistributionPoints;
-go
-
 CREATE VIEW pbist_sccm.vw_DistributionPointsCompliancebyPackagesStatus
 AS
     SELECT * FROM pbist_sccm.DistributionPointsCompliancebyPackagesStatus;
