@@ -15,7 +15,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
     {
         private const string INSERT_INTO_TWITTER_QUERY = "INSERT INTO [pbist_twitter].[twitter_query] ([Id], [IsAdvanced], [QueryString]) VALUES ({0}, {1}, '{2}')";
         private const string INSERT_INTO_TWITTER_QUERY_DETAILS = "INSERT INTO [pbist_twitter].[twitter_query_details] ([Id], [ReadableId], [Operator], [Operand]) VALUES ({0}, {1}, '{2}', '{3}')";
-        private const string INSERT_INTO_TWITTER_QUERY_READABLE = "INSERT INTO [pbist_twitter].[twitter_query_readable] ([Id], [QueryId], [QueryReadable], [Query]) VAULES ({0}, {1}, '{2}', '{3}')";
+        private const string INSERT_INTO_TWITTER_QUERY_READABLE = "INSERT INTO [pbist_twitter].[twitter_query_readable] ([Id], [QueryId], [QueryReadable], [Query]) VALUES ({0}, {1}, '{2}', '{3}')";
 
         private const string TWITTER_OPERATOR_AND = " AND ";
         private const string TWITTER_OPERATOR_CONTAINS = "Contains";
@@ -33,6 +33,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             if (!isAdvanced)
             {
                 List<string> conditions = SplitQueryByOr(searchQuery);
+                int detailId = 1;
                 for (int i = 0; i < conditions.Count; i++)
                 {
                     string readableQuery = GetReadableQueryPart(conditions[i]);
@@ -44,12 +45,13 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
                         string detail = details[j];
                         if (detail[0] == 'C')
                         {
-                            SqlUtility.InvokeSqlCommand(sqlConnectionString, string.Format(INSERT_INTO_TWITTER_QUERY_DETAILS, j + 1, i + 1, TWITTER_OPERATOR_CONTAINS, detail.Substring(TWITTER_OPERATOR_CONTAINS.Length + 2).TrimEnd('"')), null);
+                            SqlUtility.InvokeSqlCommand(sqlConnectionString, string.Format(INSERT_INTO_TWITTER_QUERY_DETAILS, detailId, i + 1, TWITTER_OPERATOR_CONTAINS, detail.Substring(TWITTER_OPERATOR_CONTAINS.Length + 2).TrimEnd('"')), null);
                         }
                         else
                         {
-                            SqlUtility.InvokeSqlCommand(sqlConnectionString, string.Format(INSERT_INTO_TWITTER_QUERY_DETAILS, j + 1, i + 1, TWITTER_OPERATOR_DOES_NOT_CONTAIN, detail.Substring(TWITTER_OPERATOR_DOES_NOT_CONTAIN.Length + 2).TrimEnd('"')), null);
+                            SqlUtility.InvokeSqlCommand(sqlConnectionString, string.Format(INSERT_INTO_TWITTER_QUERY_DETAILS, detailId, i + 1, TWITTER_OPERATOR_DOES_NOT_CONTAIN, detail.Substring(TWITTER_OPERATOR_DOES_NOT_CONTAIN.Length + 2).TrimEnd('"')), null);
                         }
+                        detailId++;
                     }
                 }
             }
@@ -120,7 +122,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
                         {
                             sbRead.Append($"{TWITTER_OPERATOR_CONTAINS} \"{read}\"");
                         }
-                        if (i != query.Length - 1)
+                        if (i < query.Length - 2)
                         {
                             sbRead.Append(TWITTER_OPERATOR_AND);
                         }
