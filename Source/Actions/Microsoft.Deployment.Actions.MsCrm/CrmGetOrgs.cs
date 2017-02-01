@@ -38,6 +38,10 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
             {
                 await Task.WhenAll(resultsList);
             }
+            catch
+            {
+                // do nothing
+            }
             finally
             {
                 for (int i = 0; i < resultsList.Length; i++)
