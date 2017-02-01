@@ -15,10 +15,14 @@ export class Gettingstarted extends ViewModelBase {
     registrationAccepted: boolean = false;
     registrationAction: string = '';
     registrationCompany: string = '';
+    registrationContactLink: string = '';
+    registrationContactLinkText: string = '';
     registrationDownload: string = '';
     registrationEmail: string = '';
     registrationEmailConfirmation: string = '';
     registrationEmailsToBlock: string = '';
+    registrationEulaLink: string = '';
+    registrationEulaLinkText: string = '';
     registrationLink: string = '';
     registrationNameFirst: string = '';
     registrationNameLast: string = '';
@@ -52,7 +56,7 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async Register() {
-        this.MS.ErrorService.message = '';
+        this.MS.ErrorService.Clear();
 
         this.registrationNameFirst = this.registrationNameFirst.trim();
         this.registrationNameLast = this.registrationNameLast.trim();
@@ -80,7 +84,7 @@ export class Gettingstarted extends ViewModelBase {
             }
         }
 
-        if (!this.this.MS.ErrorService.message) {
+        if (!this.MS.ErrorService.message) {
             await this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
             this.registration = '';
             this.downloadLink = this.registrationDownload;
