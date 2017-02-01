@@ -2943,11 +2943,11 @@ go
 * Configuration values              *
 *************************************/
 INSERT pbist_sccm.[configuration] (configuration_group, configuration_subgroup, [name], [value],[visible])
-    VALUES (N'SolutionTemplate', N'System Center', N'version', N'1.0', 0),
+    VALUES (N'SolutionTemplate', N'System Center', N'version', N'2.0', 0),
            (N'SolutionTemplate', N'System Center', N'endpointcompliancetarget', N'0.99', 1),
            (N'SolutionTemplate', N'System Center', N'healthevaluationtarget', N'0.99', 1),
            (N'SolutionTemplate', N'System Center', N'dataretentiondays', N'120', 1),
-		   (N'SolutionTemplate', N'System Center', N'lastLoadTimestamp', '2016-06-01', 1),
+		   (N'SolutionTemplate', N'System Center', N'lastLoadTimestamp', '2017-01-01', 1),
            (N'SolutionTemplate', N'System Center', N'versionImage', N'https://bpstservice.azurewebsites.net/api/telemetry/Microsoft-SCCMTemplate', 1);
 go
 

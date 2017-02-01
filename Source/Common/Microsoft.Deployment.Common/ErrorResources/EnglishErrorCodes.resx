@@ -172,7 +172,7 @@
     <value>Login to SQL failed</value>
   </data>
   <data name="SQL_VersionTooLow" xml:space="preserve">
-    <value>The target SQL server must be at least version 2012</value>
+    <value>The target SQL server must be at least version 2008 R2 SP3</value>
   </data>
   <data name="TwitterAccountsInvalid" xml:space="preserve">
     <value>Sorry, one or more of the accounts you entered could not be found</value>
