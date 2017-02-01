@@ -64,6 +64,7 @@ export class AzureLogin extends ViewModelBase {
                             this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
                         } else {
                             this.showPricingConfirmation = true;
+                            await this.MS.HttpService.executeAsync('Microsoft-PowerBiLogin');
                         }
                     }
                 }

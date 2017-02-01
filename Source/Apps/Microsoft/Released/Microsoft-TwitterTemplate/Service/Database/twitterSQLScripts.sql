@@ -90,25 +90,3 @@ CREATE TABLE [dbo].[entities2](
 	entitylength [int]
 );
 ALTER TABLE [dbo].[entities2]  ADD CONSTRAINT tweetentity2 FOREIGN KEY(masterid) REFERENCES tweets_normalized(masterid);
-
-CREATE TABLE [pbist_twitter].[TwitterQuery]
-(
-	[Id] INT NOT NULL PRIMARY KEY,
-	[IsAdvanced] TINYINT NOT NULL,
-	[QueryString] NVARCHAR(MAX) NOT NULL,
-	[TweetId] NCHAR(20)
-)
-
-CREATE TABLE [pbist_twitter].[TwitterQueryReadable] (
-	[Id] INT NOT NULL PRIMARY KEY,
-	[QueryId] INT NOT NULL,
-	[QueryReadable] NVARCHAR (MAX) NOT NULL,
-	[Query] NVARCHAR (MAX) NOT NULL
-)
-
-CREATE TABLE [pbist_twitter].[TwitterQueryDetails] (
-	[Id] INT NOT NULL PRIMARY KEY,
-	[ReadableId] INT NOT NULL,
-	[Operator] NVARCHAR(MAX) NOT NULL,
-	[Operand] NVARCHAR(MAX) NOT NULL
-)
