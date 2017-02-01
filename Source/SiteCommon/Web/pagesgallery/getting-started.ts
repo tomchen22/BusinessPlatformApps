@@ -19,7 +19,6 @@ export class Gettingstarted extends ViewModelBase {
     registrationEmail: string = '';
     registrationEmailConfirmation: string = '';
     registrationEmailsToBlock: string = '';
-    registrationError: string = '';
     registrationLink: string = '';
     registrationNameFirst: string = '';
     registrationNameLast: string = '';
@@ -53,7 +52,7 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async Register() {
-        this.registrationError = '';
+        this.MS.ErrorService.message = '';
 
         this.registrationNameFirst = this.registrationNameFirst.trim();
         this.registrationNameLast = this.registrationNameLast.trim();
@@ -67,21 +66,21 @@ export class Gettingstarted extends ViewModelBase {
             this.registrationEmail.length === 0 ||
             this.registrationEmail !== this.registrationEmailConfirmation ||
             this.registrationEmail.indexOf('@') === -1) {
-            this.registrationError = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR;
+            this.MS.ErrorService.message = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR;
         }
 
-        if (!this.registrationError) {
+        if (!this.MS.ErrorService.message) {
             let emailsToBlock: string[] = this.registrationEmailsToBlock.split(',');
-            for (let i = 0; i < emailsToBlock.length && !this.registrationError; i++) {
+            for (let i = 0; i < emailsToBlock.length && !this.MS.ErrorService.message; i++) {
                 let emailToBlock: string = emailsToBlock[i].replace('.', '\\.');
                 let pattern: any = new RegExp(`.*${emailToBlock}`);
                 if (pattern.test(this.registrationEmail)) {
-                    this.registrationError = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR_EMAIL;
+                    this.MS.ErrorService.message = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR_EMAIL;
                 }
             }
         }
 
-        if (!this.registrationError) {
+        if (!this.this.MS.ErrorService.message) {
             await this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
             this.registration = '';
             this.downloadLink = this.registrationDownload;

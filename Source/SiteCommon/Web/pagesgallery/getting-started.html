@@ -63,8 +63,6 @@
 
         <button class="primary" click.delegate="Register()" disabled.bind="!registrationAccepted || MS.HttpService.isServiceBusy">${MS.Translate.COMMON_REGISTER}</button>
 
-        <p class="st-text" if.bind="registrationError">${registrationError}</p>
-
         <p class="smallFontSize">
             <span>${registrationPrivacy}</span>
             <span><a href.bind="registrationLink" target="_blank">${registrationPrivacyTitle}</a></span>
