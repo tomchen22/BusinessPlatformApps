@@ -6,6 +6,14 @@ SET CONCAT_NULL_YIELDS_NULL ON;
 SET QUOTED_IDENTIFIER       ON;
 go
 
+CREATE PROCEDURE pbist_sccm.sp_get_last_updatetime AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT value AS lastLoadTimestamp FROM pbist_sccm.configuration WHERE name='lastLoadTimestamp' AND configuration_group='SolutionTemplate' AND configuration_subgroup='System Center';
+END;
+GO
+
 CREATE PROCEDURE pbist_sccm.sp_get_replication_counts AS
 BEGIN
     SET NOCOUNT ON;
@@ -15,8 +23,8 @@ BEGIN
     WITH TableCounts(EntityName, [Count]) AS
     (
         SELECT LEFT(ta.name, CASE WHEN CHARINDEX('_', ta.name)=0 THEN 100 ELSE CHARINDEX('_', ta.name)-1 END) AS EntityName, SUM(pa.rows) AS [Count]
-        FROM sys.tables ta INNER JOIN sys.partitions pa ON pa.OBJECT_ID = ta.OBJECT_ID
-                           INNER JOIN sys.schemas sc ON ta.schema_id = sc.schema_id
+        FROM sys.tables ta INNER JOIN sys.partitions pa ON pa.[OBJECT_ID] = ta.[OBJECT_ID]
+                           INNER JOIN sys.schemas sc ON ta.[schema_id] = sc.[schema_id]
         WHERE
             sc.name='pbist_sccm' AND ta.is_ms_shipped = 0 AND pa.index_id IN (0,1) AND
             ta.name IN ('computer', 'site', 'user', 'usercomputer', 'computerprogram', 'program', 'collection', 'computercollection', 'malware', 'computermalware', 'update', 'computerupdate', 'scanhistory',
@@ -25,8 +33,7 @@ BEGIN
     )
     SELECT UPPER(LEFT(EntityName, 1)) + LOWER(SUBSTRING(EntityName, 2, 100)) AS EntityName, [Count] FROM TableCounts;
 END;
-go
-
+GO
 
 CREATE PROCEDURE pbist_sccm.sp_get_prior_content AS
 BEGIN
@@ -38,22 +45,405 @@ BEGIN
            table_name IN ('computer', 'site', 'user', 'usercomputer', 'computerprogram', 'program', 'collection', 'computercollection', 'malware', 'computermalware', 'update', 'computerupdate', 'scanhistory',
                           'computer_staging', 'site_staging', 'user_staging', 'usercomputer_staging', 'computerprogram_staging', 'program_staging', 'collection_staging', 'computercollection_staging', 'malware_staging', 'computermalware_staging', 'update_staging', 'computerupdate_staging', 'scanhistory_staging');
 END;
-go
+GO
 
-CREATE PROCEDURE pbist_sccm.sp_get_last_updatetime AS
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthClientInstalledVersionDetails AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthClientInstalledVersionDetails;
+	INSERT INTO pbist_sccm.ClientHealthClientInstalledVersionDetails SELECT * FROM pbist_sccm.ClientHealthClientInstalledVersionDetails_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthClientInstalledVersionDetails_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthClientsinventorystatisticslast30days AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthClientsinventorystatisticslast30days;
+	INSERT INTO pbist_sccm.ClientHealthClientsinventorystatisticslast30days SELECT * FROM pbist_sccm.ClientHealthClientsinventorystatisticslast30days_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthClientsinventorystatisticslast30days_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthCountAssignedClientsBySite AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountAssignedClientsBySite;
+	INSERT INTO pbist_sccm.ClientHealthCountAssignedClientsBySite SELECT * FROM pbist_sccm.ClientHealthCountAssignedClientsBySite_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountAssignedClientsBySite_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthCountClientsInstalledVersion AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountClientsInstalledVersion;
+	INSERT INTO pbist_sccm.ClientHealthCountClientsInstalledVersion SELECT * FROM pbist_sccm.ClientHealthCountClientsInstalledVersion_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountClientsInstalledVersion_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthCountClientsInstalledVersionPerSite AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountClientsInstalledVersionPerSite;
+	INSERT INTO pbist_sccm.ClientHealthCountClientsInstalledVersionPerSite SELECT * FROM pbist_sccm.ClientHealthCountClientsInstalledVersionPerSite_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthCountClientsInstalledVersionPerSite_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthEvaluationCount AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthEvaluationCount;
+	INSERT INTO pbist_sccm.ClientHealthEvaluationCount SELECT * FROM pbist_sccm.ClientHealthEvaluationCount_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthEvaluationCount_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthSummary AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthSummary;
+	INSERT INTO pbist_sccm.ClientHealthSummary SELECT * FROM pbist_sccm.ClientHealthSummary_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthSummary_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ClientHealthWUAVersionAllClients AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ClientHealthWUAVersionAllClients;
+	INSERT INTO pbist_sccm.ClientHealthWUAVersionAllClients SELECT * FROM pbist_sccm.ClientHealthWUAVersionAllClients_staging;
+	TRUNCATE TABLE pbist_sccm.ClientHealthWUAVersionAllClients_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ComplianceSettingComplianceByComputers AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ComplianceSettingComplianceByComputers;
+	INSERT INTO pbist_sccm.ComplianceSettingComplianceByComputers SELECT * FROM pbist_sccm.ComplianceSettingComplianceByComputers_staging;
+	TRUNCATE TABLE pbist_sccm.ComplianceSettingComplianceByComputers_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ComplianceSettingComplianceCIForAllBaseline AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ComplianceSettingComplianceCIForAllBaseline;
+	INSERT INTO pbist_sccm.ComplianceSettingComplianceCIForAllBaseline SELECT * FROM pbist_sccm.ComplianceSettingComplianceCIForAllBaseline_staging;
+	TRUNCATE TABLE pbist_sccm.ComplianceSettingComplianceCIForAllBaseline_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ComponentStatus AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ComponentStatus;
+	INSERT INTO pbist_sccm.ComponentStatus SELECT * FROM pbist_sccm.ComponentStatus_staging;
+	TRUNCATE TABLE pbist_sccm.ComponentStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ConfigMgrServerHealthBackupStatus AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthBackupStatus;
+	INSERT INTO pbist_sccm.ConfigMgrServerHealthBackupStatus SELECT * FROM pbist_sccm.ConfigMgrServerHealthBackupStatus_staging;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthBackupStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ConfigMgrServerHealthComponentStatusDetails AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthComponentStatusDetails;
+	INSERT INTO pbist_sccm.ConfigMgrServerHealthComponentStatusDetails SELECT * FROM pbist_sccm.ConfigMgrServerHealthComponentStatusDetails_staging;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthComponentStatusDetails_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ConfigMgrServerHealthCountComponentStatusMessagesBySeverity AS
+BEGIN
+	SET NOCOUNT ON;
+
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthCountComponentStatusMessagesBySeverity;
+	INSERT INTO pbist_sccm.ConfigMgrServerHealthCountComponentStatusMessagesBySeverity SELECT * FROM pbist_sccm.ConfigMgrServerHealthCountComponentStatusMessagesBySeverity_staging;
+	TRUNCATE TABLE pbist_sccm.ConfigMgrServerHealthCountComponentStatusMessagesBySeverity_staging;
+	COMMIT;
+END;
+
+GO
+
+
+CREATE PROCEDURE pbist_sccm.sp_populate_DistributionPoints AS
 BEGIN
     SET NOCOUNT ON;
 
-    SELECT [value] AS lastLoadTimestamp FROM pbist_sccm.[configuration] WHERE name='lastLoadTimestamp' AND configuration_group='SolutionTemplate' AND configuration_subgroup='System Center';
-END;
-go
+    BEGIN TRANSACTION;
+    TRUNCATE TABLE pbist_sccm.DistributionPoints;
 
+    INSERT INTO pbist_sccm.DistributionPoints(failed, inprogress, success)
+    SELECT failed, inprogress, success
+    FROM pbist_sccm.DistributionPoints_staging;
+
+    TRUNCATE TABLE pbist_sccm.DistributionPoints_staging;
+    
+    COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_DistributionPointsCompliancebyDPStatus AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsCompliancebyDPStatus;
+	INSERT INTO pbist_sccm.DistributionPointsCompliancebyDPStatus SELECT * FROM pbist_sccm.DistributionPointsCompliancebyDPStatus_staging;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsCompliancebyDPStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_DistributionPointsCompliancebyPackagesStatus AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsCompliancebyPackagesStatus;
+	INSERT INTO pbist_sccm.DistributionPointsCompliancebyPackagesStatus SELECT * FROM pbist_sccm.DistributionPointsCompliancebyPackagesStatus_staging;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsCompliancebyPackagesStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_DistributionPointsConfigurationStatus AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsConfigurationStatus;
+	INSERT INTO pbist_sccm.DistributionPointsConfigurationStatus SELECT * FROM pbist_sccm.DistributionPointsConfigurationStatus_staging;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsConfigurationStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_DistributionPointsStatus AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsStatus;
+	INSERT INTO pbist_sccm.DistributionPointsStatus SELECT * FROM pbist_sccm.DistributionPointsStatus_staging;
+	TRUNCATE TABLE pbist_sccm.DistributionPointsStatus_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_OverallComplianceBaseline AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.OverallComplianceBaseline;
+	INSERT INTO pbist_sccm.OverallComplianceBaseline SELECT * FROM pbist_sccm.OverallComplianceBaseline_staging;
+	TRUNCATE TABLE pbist_sccm.OverallComplianceBaseline_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ReplicationStatus AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatus;
+	INSERT INTO pbist_sccm.ReplicationStatus SELECT * FROM pbist_sccm.ReplicationStatus_staging;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatus_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ReplicationStatusDetails AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatusDetails;
+	INSERT INTO pbist_sccm.ReplicationStatusDetails SELECT * FROM pbist_sccm.ReplicationStatusDetails_staging;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatusDetails_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_ReplicationStatusReplicationGroup AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatusReplicationGroup;
+	INSERT INTO pbist_sccm.ReplicationStatusReplicationGroup SELECT * FROM pbist_sccm.ReplicationStatusReplicationGroup_staging;
+	TRUNCATE TABLE pbist_sccm.ReplicationStatusReplicationGroup_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_SoftwareDistribution AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistribution;
+	INSERT INTO pbist_sccm.SoftwareDistribution SELECT * FROM pbist_sccm.SoftwareDistribution_staging;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistribution_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_SoftwareDistributionOverallApplicationDeployment AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallApplicationDeployment;
+	INSERT INTO pbist_sccm.SoftwareDistributionOverallApplicationDeployment SELECT * FROM pbist_sccm.SoftwareDistributionOverallApplicationDeployment_staging;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallApplicationDeployment_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_SoftwareDistributionOverallPackageDeployment AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallPackageDeployment;
+	INSERT INTO pbist_sccm.SoftwareDistributionOverallPackageDeployment SELECT * FROM pbist_sccm.SoftwareDistributionOverallPackageDeployment_staging;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallPackageDeployment_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_SoftwareDistributionOverallPckAPPDPdistribution AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallPckAPPDPdistribution;
+	INSERT INTO pbist_sccm.SoftwareDistributionOverallPckAPPDPdistribution SELECT * FROM pbist_sccm.SoftwareDistributionOverallPckAPPDPdistribution_staging;
+	TRUNCATE TABLE pbist_sccm.SoftwareDistributionOverallPckAPPDPdistribution_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_TaskSequenceDeployment AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.TaskSequenceDeployment;
+	INSERT INTO pbist_sccm.TaskSequenceDeployment SELECT * FROM pbist_sccm.TaskSequenceDeployment_staging;
+	TRUNCATE TABLE pbist_sccm.TaskSequenceDeployment_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_TasksequenceDPContentStatusReferencedPackagesTaskSequence AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.TasksequenceDPContentStatusReferencedPackagesTaskSequence;
+	INSERT INTO pbist_sccm.TasksequenceDPContentStatusReferencedPackagesTaskSequence SELECT * FROM pbist_sccm.TasksequenceDPContentStatusReferencedPackagesTaskSequence_staging;
+	TRUNCATE TABLE pbist_sccm.TasksequenceDPContentStatusReferencedPackagesTaskSequence_staging;
+	COMMIT;
+END;
+
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_TasksequenceOverallTaskSequenceByComputerDeployment AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.TasksequenceOverallTaskSequenceByComputerDeployment;
+	INSERT INTO pbist_sccm.TasksequenceOverallTaskSequenceByComputerDeployment SELECT * FROM pbist_sccm.TasksequenceOverallTaskSequenceByComputerDeployment_staging;
+	TRUNCATE TABLE pbist_sccm.TasksequenceOverallTaskSequenceByComputerDeployment_staging;
+	COMMIT;
+END;
+GO
+
+CREATE PROCEDURE pbist_sccm.sp_populate_TasksequenceOverallTaskSequencebyTaskSequenceDeployment AS
+BEGIN
+	SET NOCOUNT ON;
+	BEGIN TRANSACTION;
+	TRUNCATE TABLE pbist_sccm.TasksequenceOverallTaskSequencebyTaskSequenceDeployment;
+	INSERT INTO pbist_sccm.TasksequenceOverallTaskSequencebyTaskSequenceDeployment SELECT * FROM pbist_sccm.TasksequenceOverallTaskSequencebyTaskSequenceDeployment_staging;
+	TRUNCATE TABLE pbist_sccm.TasksequenceOverallTaskSequencebyTaskSequenceDeployment_staging;
+	COMMIT;
+END;
+GO
+
+-- =============================================
+-- Description: Move the rows from  Collection_staging to Collection.
+-- =============================================
+CREATE PROCEDURE pbist_sccm.sp_populatecollection AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRANSACTION;
+    TRUNCATE TABLE pbist_sccm.collection;
+
+    INSERT INTO pbist_sccm.collection(collectionid, [collection name])
+    SELECT collectionid, [collection name]
+    FROM pbist_sccm.collection_staging;
+
+    TRUNCATE TABLE pbist_sccm.collection_staging;
+    COMMIT;
+
+END;
+GO
 
 CREATE PROCEDURE pbist_sccm.sp_populatecomputer AS
 BEGIN
     SET NOCOUNT ON;
 
     BEGIN TRANSACTION;
+
 
     -- Mark rows as deleted not found in the staging table
     UPDATE pbist_sccm.computer
@@ -86,7 +476,8 @@ BEGIN
                 Target.manufacturer = Source.manufacturer,
                 Target.model = Source.model,
                 Target.[platform] = Source.[platform],
-                Target.[physical memory] = Source.[physical memory]
+                Target.[physical memory] = Source.[physical memory],
+				Target.[deleted date] = NULL
     WHEN NOT matched BY target THEN
     INSERT ( machineid,
                 sitecode,
@@ -111,7 +502,27 @@ BEGIN
 
     COMMIT;
 END;
-go
+GO
+
+-- =============================================
+-- Description: Move the rows from  ComputerCollection_staging to ComputerCollection.
+-- =============================================
+CREATE PROCEDURE pbist_sccm.sp_populatecomputercollection AS
+BEGIN
+    SET NOCOUNT ON;
+
+    BEGIN TRANSACTION;
+    TRUNCATE TABLE pbist_sccm.computercollection;
+
+    INSERT INTO pbist_sccm.computercollection(collectionid,resourceid)
+    SELECT collectionid, resourceid
+    FROM pbist_sccm.computercollection_staging;
+
+    TRUNCATE TABLE pbist_sccm.computercollection_staging;
+    
+    COMMIT;
+END;
+GO
 
 -- =============================================
 -- Description: Merges rows from ComputerMalware_staging into ComputerMalware. This is a simple truncate and insert.
@@ -124,9 +535,9 @@ BEGIN
     BEGIN TRANSACTION;
 
     -- Get the configured value for data retention from configuration table
-    SELECT @retention = [value]
-    FROM [pbist_sccm].[vw_configuration]
-    WHERE [name] = 'dataretentiondays';
+    SELECT @retention = value
+    FROM pbist_sccm.vw_configuration
+    WHERE name = 'dataretentiondays';
 
     -- IF null, use the default day (60 days)
     SET @retention = Coalesce(@retention, 60);
@@ -167,7 +578,7 @@ BEGIN
 
     COMMIT;
 END;
-go
+GO
 
 -- ============================================= 
 -- Description: Merges rows from ComputerProgram_staging into ComputerProgram.
@@ -183,8 +594,7 @@ BEGIN
     -- The * should obey the column order used when the table was created
     SELECT TOP 0 * INTO pbist_sccm.computerprogram_staging FROM pbist_sccm.computerprogram;
 END
-go
-
+GO
 
 -- =============================================
 -- Description: Merges rows from ComputerMalware_staging into ComputerMalware. This is a simple truncate and insert.
@@ -197,7 +607,7 @@ BEGIN
     BEGIN TRANSACTION;
 
     -- Get the configured value for data retention from configuration table
-    SELECT @retention = [value] FROM pbist_sccm.[vw_configuration] WHERE [name]='dataretentiondays' AND [configuration group]='SolutionTemplate' AND [configuration subgroup]='System Center';
+    SELECT @retention = value FROM pbist_sccm.vw_configuration WHERE name='dataretentiondays' AND [configuration group]='SolutionTemplate' AND [configuration subgroup]='System Center';
     -- IF null, use the default day (60 days)
     SET @retention = Coalesce(@retention, 60);
 
@@ -212,12 +622,12 @@ BEGIN
                 ci_id,
                 laststatuschangetime,
                 laststatuschecktime,
-                [status])
+                status)
     SELECT machineid,
             ci_id,
             laststatuschangetime,
             laststatuschecktime,
-            [status]
+            status
     FROM   pbist_sccm.computerupdate_staging
     WHERE  laststatuschangetime >= @mindate;
 
@@ -225,8 +635,7 @@ BEGIN
 
     COMMIT;
 END;
-go
-
+GO
 
 -- =============================================
 -- Description: Merges rows from Malware_staging into Malware. This is a simple truncate and insert.
@@ -255,8 +664,7 @@ BEGIN
 
     COMMIT;
 END ;
-go
-
+GO
 
 -- =============================================
 -- Description: Merges rows from Program_staging into Malware. This is a simple truncate and insert.
@@ -267,22 +675,12 @@ BEGIN
     BEGIN TRANSACTION;
     -- Empty the original table
     TRUNCATE TABLE pbist_sccm.program;
-
-INSERT INTO pbist_sccm.program
-           ([program name]
-           ,publisher
-           ,[version])
-    SELECT          
-            [program name],
-            publisher,
-            [version]
-    FROM   pbist_sccm.program_staging;
-    
+    INSERT INTO pbist_sccm.program([program name], publisher, [version])  SELECT [program name], publisher, [version] FROM pbist_sccm.program_staging;
     TRUNCATE TABLE pbist_sccm.program_staging;
 
     COMMIT;
 END;
-go
+GO
 
 -- =============================================
 -- Description: Append the rows from ScanHistory_staging to ScanHistory. This is a simply appending rows with the recent date.
@@ -295,7 +693,7 @@ BEGIN
 
     BEGIN TRANSACTION;
     -- Get the configured value for data retention from configuration table
-    SELECT @retention = [value] FROM pbist_sccm.vw_configuration WHERE [name]='dataretentiondays';
+    SELECT @retention = value FROM pbist_sccm.vw_configuration WHERE name='dataretentiondays';
 
     -- IF null, use the default day (60 days)
     SET @retention = COALESCE(@retention, 60);
@@ -449,8 +847,7 @@ BEGIN
 
     COMMIT;
 END;
-go
-
+GO
 
 -- =============================================
 -- Description: Append the rows from  Site_staging to Site.
@@ -462,21 +859,21 @@ BEGIN
     BEGIN TRANSACTION;
 
     TRUNCATE TABLE pbist_sccm.[site];
-    INSERT INTO [pbist_sccm].[site]
-           ([sitecode]
-           ,[site name]
-           ,[version]
-           ,[server name]
-           ,[availability]
-           ,[location]
-           ,[overalllinkstatus]
-           ,[client successfully communicating with mp]
-           ,[client failing to communicate with mp]
-           ,[health check count]
-           ,[ok health check count]
-           ,[av definition compliance count]
-           ,[scep count]
-           ,[av reach count])
+    INSERT INTO pbist_sccm.[site]
+           (sitecode,
+            [site name],
+            [version],
+            [server name],
+            [availability],
+            [location],
+            overalllinkstatus,
+            [client successfully communicating with mp],
+            [client failing to communicate with mp],
+            [health check count],
+            [ok health check count],
+            [av definition compliance count],
+            [scep count],
+            [av reach count])
     SELECT sitecode,
             [site name],
             [version],
@@ -497,7 +894,7 @@ BEGIN
 
     COMMIT;
 END;
-go
+GO
 
 -- =============================================
 -- Description: Append the rows from  Site_staging to Site.
@@ -509,14 +906,14 @@ BEGIN
     BEGIN TRANSACTION;
 
     TRUNCATE TABLE pbist_sccm.[update];
-    INSERT INTO [pbist_sccm].[update]
-           (ci_id
-           ,articleid
-           ,bulletinid
-           ,title
-           ,severity
-           ,severityname
-           ,infoURL)
+    INSERT INTO pbist_sccm.[update]
+           (ci_id,
+            articleid,
+            bulletinid,
+            title,
+            severity,
+            severityname,
+            infoURL)
     SELECT ci_id,
             articleid,
             bulletinid,
@@ -530,7 +927,7 @@ BEGIN
 
     COMMIT;
 END;
-go
+GO
 
 -- =============================================
 -- Description: Move the rows from  User_staging to User.
@@ -550,7 +947,7 @@ BEGIN
     
     COMMIT;
 END;
-go
+GO
 
 -- =============================================
 -- Description: Move the rows from  UserComputer_staging to UserComputer.
@@ -563,51 +960,11 @@ BEGIN
 
     TRUNCATE TABLE pbist_sccm.usercomputer;
 
-    INSERT INTO pbist_sccm.usercomputer(machineid, username,[full name])
+    INSERT INTO pbist_sccm.usercomputer(machineid, username, [full name])
     SELECT machineid, username, [full name]
     FROM pbist_sccm.usercomputer_staging;
 
     TRUNCATE TABLE pbist_sccm.usercomputer_staging;
     COMMIT;
 END;
-go
-
--- =============================================
--- Description: Move the rows from  Collection_staging to Collection.
--- =============================================
-CREATE PROCEDURE pbist_sccm.sp_populatecollection AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRANSACTION;
-    TRUNCATE TABLE pbist_sccm.[collection];
-
-    INSERT INTO pbist_sccm.[collection](collectionid, [collection name])
-    SELECT collectionid, [collection name]
-    FROM pbist_sccm.collection_staging;
-
-    TRUNCATE TABLE pbist_sccm.collection_staging;
-    COMMIT;
-
-END;
-go
-
--- =============================================
--- Description: Move the rows from  ComputerCollection_staging to ComputerCollection.
--- =============================================
-CREATE PROCEDURE pbist_sccm.sp_populatecomputercollection AS
-BEGIN
-    SET NOCOUNT ON;
-
-    BEGIN TRANSACTION;
-    TRUNCATE TABLE pbist_sccm.computercollection;
-
-    INSERT INTO pbist_sccm.computercollection(collectionid,resourceid)
-    SELECT collectionid, resourceid
-    FROM pbist_sccm.computercollection_staging;
-
-    TRUNCATE TABLE pbist_sccm.computercollection_staging;
-    
-    COMMIT;
-END;
-go
+GO
