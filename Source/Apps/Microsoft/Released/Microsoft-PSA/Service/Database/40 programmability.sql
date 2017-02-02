@@ -19,7 +19,9 @@ BEGIN
                            INNER JOIN sys.schemas sc ON ta.schema_id = sc.schema_id
         WHERE
             sc.name='dbo' AND ta.is_ms_shipped = 0 AND pa.index_id IN (0,1) AND
-            ta.name IN ('account', 'bookableresource', 'bookableresourcebooking', 'bookableresourcecategory', 'bookableresourcecategoryassn')
+            ta.name IN ('account', 'bookableresource', 'bookableresourcebooking', 'bookableresourcecategory', 'bookableresourcecategoryassn', 'bookingstatus', 
+                        'msdyn_actual', 'msdyn_estimateline', 'msdyn_orderlineresourcecategory', 'msdyn_organizationalunit', 'msdyn_project', 'msdyn_resourcerequest', 'msdyn_resourcerequirement', 'msdyn_resourcerequirementdetail',
+                        'msdyn_timeentry', 'msdyn_transactioncategory', 'opportunity', 'quote', 'quotedetail', 'salesorder', 'salesorderdetail', 'systemuser')
         GROUP BY LEFT(ta.name, CASE WHEN CHARINDEX('_', ta.name)=0 THEN 100 ELSE CHARINDEX('_', ta.name)-1 END)
     )
     SELECT UPPER(LEFT(EntityName, 1)) + LOWER(SUBSTRING(EntityName, 2, 100)) AS EntityName, [Count] FROM TableCounts;
@@ -33,8 +35,10 @@ BEGIN
 
     SELECT Count(*) AS ExistingObjectCount
     FROM   information_schema.tables
-    WHERE  table_schema = 'psa' AND
-           table_name IN ('account', 'bookableresource', 'bookableresourcebooking', 'bookableresourcecategory', 'bookableresourcecategoryassn');
+    WHERE  table_schema = 'dbo' AND
+           table_name IN ('account', 'bookableresource', 'bookableresourcebooking', 'bookableresourcecategory', 'bookableresourcecategoryassn', 'bookingstatus', 
+                          'msdyn_actual', 'msdyn_estimateline', 'msdyn_orderlineresourcecategory', 'msdyn_organizationalunit', 'msdyn_project', 'msdyn_resourcerequest', 'msdyn_resourcerequirement', 'msdyn_resourcerequirementdetail',
+                          'msdyn_timeentry', 'msdyn_transactioncategory', 'opportunity', 'quote', 'quotedetail', 'salesorder', 'salesorderdetail', 'systemuser');
 END;
 go
 
