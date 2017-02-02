@@ -85,7 +85,7 @@ export class Gettingstarted extends ViewModelBase {
         }
 
         if (!this.MS.ErrorService.message) {
-            await this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
+            this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
             this.registration = '';
             this.downloadLink = this.registrationDownload;
             this.isValidated = true;
