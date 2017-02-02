@@ -14,7 +14,7 @@ BEGIN
      
     WITH TableCounts(EntityName, [Count]) AS
     (
-        SELECT LEFT(ta.name, CASE WHEN CHARINDEX('_', ta.name)=0 THEN 100 ELSE CHARINDEX('_', ta.name)-1 END) AS EntityName, SUM(pa.rows) AS [Count]
+        SELECT ta.[name] AS EntityName, SUM(pa.[rows]) AS [Count]
         FROM sys.tables ta INNER JOIN sys.partitions pa ON pa.OBJECT_ID = ta.OBJECT_ID
                            INNER JOIN sys.schemas sc ON ta.schema_id = sc.schema_id
         WHERE
@@ -22,7 +22,7 @@ BEGIN
             ta.name IN ('account', 'bookableresource', 'bookableresourcebooking', 'bookableresourcecategory', 'bookableresourcecategoryassn', 'bookingstatus', 
                         'msdyn_actual', 'msdyn_estimateline', 'msdyn_orderlineresourcecategory', 'msdyn_organizationalunit', 'msdyn_project', 'msdyn_resourcerequest', 'msdyn_resourcerequirement', 'msdyn_resourcerequirementdetail',
                         'msdyn_timeentry', 'msdyn_transactioncategory', 'opportunity', 'quote', 'quotedetail', 'salesorder', 'salesorderdetail', 'systemuser')
-        GROUP BY LEFT(ta.name, CASE WHEN CHARINDEX('_', ta.name)=0 THEN 100 ELSE CHARINDEX('_', ta.name)-1 END)
+        GROUP BY ta.[name]
     )
     SELECT UPPER(LEFT(EntityName, 1)) + LOWER(SUBSTRING(EntityName, 2, 100)) AS EntityName, [Count] FROM TableCounts;
 END;
