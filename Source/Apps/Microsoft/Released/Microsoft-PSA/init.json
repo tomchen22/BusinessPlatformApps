@@ -31,7 +31,7 @@
                 "name": "Microsoft-GetDataPullStatus",
                 "displayname": "Waiting for data to appear in the destination",
                 "SqlServerIndex": 0,
-                "TargetSchema": "dbo",
+                "TargetSchema": "psa",
                 "IsWaiting": true,
                 "FinishedActionName": "Microsoft-CrmGetProfileStatus"
             }
