@@ -72,7 +72,7 @@
                 "LogicAppNameHistorical": "$(this.uniqueId, issaved=true)",
                 "SiteName": "$(this.uniqueIdFunction, issaved=true)",
                 "functionAppHostingPlan": "$(this.uniqueIdFunction, issaved=true)",
-                "filename": "$('TwitterTemplate.pbix', isSaved=true)"
+                "filename": "$('TwitterTemplate.pbix', issaved=true)"
             }
         ],
 

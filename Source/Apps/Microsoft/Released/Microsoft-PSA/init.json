@@ -89,7 +89,7 @@
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
-                "filename": "$('PSA_AccountManager.pbix|PSA_PracticeManager.pbix|PSA_ResourceManager.pbix', isSaved=true)",
+                "filename": "$('PSA_AccountManager.pbix|PSA_PracticeManager.pbix|PSA_ResourceManager.pbix', issaved=true)",
                 "showCounts": true,
                 "finishedActionName": "Microsoft-CrmGetProfileStatus"
             }
