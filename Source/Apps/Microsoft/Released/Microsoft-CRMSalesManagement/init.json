@@ -95,7 +95,7 @@
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
-                "filename": "$('SalesManagementReport.pbix', isSaved=true)",
+                "filename": "$('SalesManagementReport.pbix', issaved=true)",
                 "showCounts": true,
                 "finishedActionName": "Microsoft-CrmGetProfileStatus"
             }

@@ -106,7 +106,7 @@
                 "displayname": "Progress",
                 "finishedActionName": "Microsoft-GetTaskStatus",
                 "targetSchema": "sap",
-                "filename": "$('SAPSolutionTemplate.pbix', isSaved=true)",
+                "filename": "$('SAPSolutionTemplate.pbix', issaved=true)",
                 "showEmailSubmission": false
             }
         ]
