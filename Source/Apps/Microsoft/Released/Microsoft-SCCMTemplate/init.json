@@ -99,7 +99,7 @@
                 "displayname": "Progress",
                 "finishedActionName": "Microsoft-GetTaskStatus",
                 "targetSchema": "pbist_sccm",
-                "filename": "$('SCCMSolutionTemplate.pbix', issaved=true)",
+                "filename": "$save('SCCMSolutionTemplate.pbix')",
                 "showCounts": true,
                 "sqlServerIndex": 1,
                 "showEmailSubmission": false
