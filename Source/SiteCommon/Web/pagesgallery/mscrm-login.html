@@ -8,7 +8,7 @@
         </p>
 
         <p class="st-text">${MS.Translate.MSCRM_LOGIN_CONNECT}</p>
-        <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy">${MS.Translate.COMMON_CONNECT}</button>
+        <button class="primary" click.trigger="connect()" disabled.bind="MS.HttpService.isServiceBusy">${MS.Translate.COMMON_CONNECT}</button>
     </div>
 
     <div class="st-float" if.bind="msCrmOrganizations && msCrmOrganizations.length > 0">
