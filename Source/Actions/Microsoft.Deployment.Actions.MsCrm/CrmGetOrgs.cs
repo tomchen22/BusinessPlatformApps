@@ -56,6 +56,8 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
                     {
                         MsCrmOrganization o = JsonConvert.DeserializeObject<MsCrmOrganization>(resultsList[i].Result);
                         orgs[i].ConnectorUrl = o.ConnectorUrl;
+                        if (string.IsNullOrEmpty(o.ConnectorUrl))
+                            request.Logger.LogEvent("MSCRM-NoConnectorURL", new System.Collections.Generic.Dictionary<string, string> { { o.OrganizationName, o.OrganizationId } });
                     }
 
                 }
