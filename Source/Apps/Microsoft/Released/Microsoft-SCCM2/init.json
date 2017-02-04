@@ -48,6 +48,7 @@
 
             //SQL Server
             {
+                "credentialTarget": "pbi_sccm",
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "displayname": "Source",
                 "hideSqlAuth": true,
@@ -69,6 +70,7 @@
             {
                 "name": "$SiteCommon$/pagesgallery/sql-server.html",
                 "displayname": "Target",
+                "credentialTarget": "pbi_sccm",
                 "checkSqlVersion": true,
                 "useImpersonation": true,
                 "showSqlRecoveryModeHint": true,
@@ -98,7 +100,7 @@
                 "displayname": "Progress",
                 "finishedActionName": "Microsoft-GetTaskStatus",
                 "targetSchema": "pbist_sccm",
-                "filename": "$('SCCMSolutionTemplate2.pbix', isSaved=true)",
+                "filename": "$save('SCCMSolutionTemplate2.pbix')",
                 "showCounts": true,
                 "sqlServerIndex": 1,
                 "showEmailSubmission": false

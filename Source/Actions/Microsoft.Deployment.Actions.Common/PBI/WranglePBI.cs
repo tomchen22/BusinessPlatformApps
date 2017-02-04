@@ -72,7 +72,9 @@ namespace Microsoft.Deployment.Actions.Common.PBI
             }
             else
             {
-                serverPath = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{Path.GetRandomFileName()}/SolutionTemplate.zip";
+                string randomZipFolder = Path.GetRandomFileName();
+                DirectoryInfo d =  Directory.CreateDirectory(Path.Combine(request.Info.App.AppFilePath, "Temp", randomZipFolder));
+                serverPath = Path.Combine(d.FullName, "SolutionTemplate.zip");
                 using (FileStream zipFile = AVAwareOpen(serverPath, FileMode.CreateNew, FileAccess.ReadWrite, FileShare.Read))
                 {
                     using (ZipArchive z = new ZipArchive(zipFile, ZipArchiveMode.Update))
@@ -82,7 +84,7 @@ namespace Microsoft.Deployment.Actions.Common.PBI
                             ZipArchiveEntry entry = z.CreateEntry(originalFiles[i], CompressionLevel.Optimal);
                             using (Stream w = entry.Open())
                             {
-                                string fileToZip = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{tempFolders[i]}/{originalFiles[i]}";
+                                string fileToZip = Path.Combine(request.Info.App.AppFilePath, "Temp", tempFolders[i], originalFiles[i]);
                                 using (FileStream source = AVAwareOpen(fileToZip, FileMode.Open, FileAccess.Read, FileShare.Read))
                                 {
                                     source.CopyTo(w);
@@ -92,6 +94,9 @@ namespace Microsoft.Deployment.Actions.Common.PBI
                         }
                     }
                 }
+
+                // reconstruct a web server path
+                serverPath = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{randomZipFolder}/SolutionTemplate.zip";;
             }
 
             return new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(serverPath));
