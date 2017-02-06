@@ -51,6 +51,8 @@ export class ViewModelBase {
         }
 
         try {
+            this.isValidated = false;
+
             this.MS.NavigationService.isCurrentlyNavigating = true;
 
             let isNavigationSuccessful: boolean = await this.NavigatingNext();
