@@ -90,10 +90,6 @@
                 "SqlConfigTable": "[pbist_twitter].[configuration]"
             },
             {
-                "displayname": "Deploy Logic App DB",
-                "name": "Microsoft-ConfigurePowerAppTables"
-            },
-            {
                 "name": "Microsoft-DeployCognitiveServiceText",
                 "displayname": "Deploy Cognitive Service",
                 "DeploymentName": "Cognitive"
