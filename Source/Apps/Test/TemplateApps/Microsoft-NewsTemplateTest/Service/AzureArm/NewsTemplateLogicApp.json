@@ -49,7 +49,6 @@
               "On_new_news_article": {
                 "inputs": {
                   "host": {
-
                     "connection": {
                       "name": "@parameters('$connections')['bingsearch']['connectionId']"
                     }
