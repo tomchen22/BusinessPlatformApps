@@ -93,6 +93,22 @@ namespace Microsoft.Deployment.Common.Test
         }
 
         [TestMethod]
+        public void TestExceptionActionWithCommonController()
+        {
+            AppFactory factory = new AppFactory(true);
+            CommonControllerModel model = new CommonControllerModel()
+            {
+                AppFactory = factory
+            };
+            CommonController commonController = new CommonController(model);
+            UserInfo info = new UserInfo();
+            info.ActionName = "Microsoft-ExceptionAction";
+            info.AppName = "TestApp";
+            var result = commonController.ExecuteAction(info, new ActionRequest() { DataStore = new DataStore() }).Result;
+            Assert.IsTrue(result.Status == ActionStatus.Failure);
+        }
+
+        [TestMethod]
         public void TestAzureParam()
         {
             AzureArmParameterGenerator param = new AzureArmParameterGenerator();
