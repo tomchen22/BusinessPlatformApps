@@ -4,7 +4,7 @@ import { ViewModelBase } from '../../../../../SiteCommon/Web/services/viewmodelb
 export class Customize extends ViewModelBase {
     actuals: string = 'Closed opportunities';
     baseUrl: string = '';
-    fiscalMonth: string = 'January';
+    fiscalMonth: number = 1;
 
     async NavigatingNext(): Promise<boolean> {
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlGroup', 'data', DataStoreType.Public);
