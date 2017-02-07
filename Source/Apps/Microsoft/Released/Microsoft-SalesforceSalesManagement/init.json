@@ -43,8 +43,10 @@
         "newSqlDatabase": "SalesforceDB"
       },
       {
-        "name": "customize.html",
-        "displayname": "Customize"
+        "name": "$SiteCommon$/pagesgallery/customize.html",
+        "displayname": "Customize",
+        "showEmails": true,
+        "showRecurrenceOptions": true
       },
       {
         "name": "$SiteCommon$/pagesgallery/summary.html",
@@ -90,6 +92,12 @@
         "displayname": "Create DB relations",
         "SqlServerIndex": "0",
         "SqlScriptsFolder": "Service/Database/ADF"
+      },
+      {
+        "name": "Microsoft-SetConfigValueInSql",
+        "displayname": "Seting configuration",
+        "SqlServerIndex": "0",
+        "SqlConfigTable": "[smgt].[configuration]"
       },
       {
         "name": "Microsoft-ADFDeployLinkedServicesAndSqlCustomizations",
