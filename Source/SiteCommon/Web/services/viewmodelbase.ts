@@ -189,8 +189,6 @@ export class ViewModelBase {
         return true;
     }
 
-
-
     // Called when the view model is attached completely
     async OnLoaded() {
     }
