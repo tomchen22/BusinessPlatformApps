@@ -103,12 +103,12 @@ CREATE  TABLE  pbist_sccm.scanhistory
         [last online]                     DATETIME  NULL, 
         [health status message]           DATETIME  NULL, 
         [client state]                    SMALLINT  NULL,
-        [Last DDR]                        DATETIME  NULL,
-        [Last HW]                         DATETIME  NULL,
-        [Last SW]                         DATETIME  NULL,
-        [Last Status Message]             DATETIME  NULL,
-        [Last Policy Request]             DATETIME  NULL,
-        [Last Scan Time]                  DATETIME  NULL,
+        [last ddr]                        DATETIME  NULL,
+        [last hw]                         DATETIME  NULL,
+        [last sw]                         DATETIME  NULL,
+        [last status message]             DATETIME  NULL,
+        [last policy request]             DATETIME  NULL,
+        [last scan time]                  DATETIME  NULL,
 );
 
 CREATE TABLE pbist_sccm.[site]
