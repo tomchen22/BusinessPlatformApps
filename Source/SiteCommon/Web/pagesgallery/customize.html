@@ -36,28 +36,28 @@
 
     <!-- ADF Recurrence Options -->
     <div class="st-float-clear" if.bind="showRecurrenceOptions">
-        <p class="st-text">Configure how often you want to do an incremental refresh:</p>
+        <p class="st-text">>${MS.Translate.CUSTOMIZE_RECURRENCE_OPTIONS}</p>
         <select class="btn btn-default dropdown-toggle st-input" value.bind="recurrent">
-            <option>None</option>
-            <option>Every 15 minutes</option>
-            <option>Every 30 minutes</option>
-            <option>Hourly</option>
-            <option>Daily</option>
+            <option>${MS.Translate.RECURRENT_NEVER}</option>
+            <option>${MS.Translate.RECURRENT_15_MINUTES}</option>
+            <option>${MS.Translate.RECURRENT_30_MINUTES}</option>
+            <option>${MS.Translate.RECURRENT_HOURLY}</option>
+            <option>${MS.Translate.RECURRENT_DAILY}</option>
         </select>
     </div>
 
     <!-- ADF Email alerts -->
     <div class="st-float-clear" if.bind="showEmails">
         <p class="st-text">
-            Enter one or more email addresses that will be notified when a slice fails: <i>(Optional)</i>
-            <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="Multiple email adresses need to be comma separated."></span>
+            ${MS.Translate.ADF_EMAILS} ${MS.Translate.COMMON_OPTIONAL}
+            <span class="glyphicon pbi-glyph-info glyph-mini st-tooltip" title="${MS.Translate.ADF_EMAILS_TITLE}"></span>
         </p>
         <input class="st-input" type="text" placeholder="dave@contoso.com,jenny@contoso.com" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="emails" />
-    </div>
-
-    <div class="st-float-clear">
-        <p class="st-float-clear">
-            <button class="primary" click.trigger="OnValidate()" if.bind="!MS.HttpService.isServiceBusy">Validate</button>
-        </p>
+        
+        <div class="st-float-clear">
+            <p class="st-float-clear">
+                <button class="primary" click.trigger="OnValidate()" if.bind="!MS.HttpService.isServiceBusy">Validate</button>
+            </p>
+        </div>
     </div>
 </template>
