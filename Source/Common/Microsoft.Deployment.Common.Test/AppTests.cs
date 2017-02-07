@@ -92,6 +92,7 @@ namespace Microsoft.Deployment.Common.Test
             Assert.IsTrue(result.Status == ActionStatus.Success);
         }
 
+        [Ignore]
         [TestMethod]
         public void TestExceptionActionWithCommonController()
         {
