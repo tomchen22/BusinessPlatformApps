@@ -79,6 +79,13 @@ export class Customize extends ViewModelBase {
         this.MS.DataStore.addToDataStore('pipelineEnd', '', DataStoreType.Public);
         this.MS.DataStore.addToDataStore('pipelineType', "PreDeployment", DataStoreType.Public);
 
+        let url = this.MS.DataStore.getValue('SalesforceBaseUrl');
+
+        if (url && url.split('/').length >= 3) {
+            let urlParts = url.split('/');
+            this.baseUrl = urlParts[0] + '//' + urlParts[2] + '/';
+        }
+
         this.isValidated = true;
         this.showValidation = true;
         return true;
