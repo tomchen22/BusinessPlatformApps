@@ -100,7 +100,7 @@
         "SqlConfigTable": "[smgt].[configuration]"
       },
       {
-        "name": "Microsoft-ADFDeployLinkedServicesAndSqlCustomizations",
+        "name": "Microsoft-ADFDeployLinkedServices",
         "displayname": "Creating linked services",
         "DeploymentName": "ADFDeployment"
       },
