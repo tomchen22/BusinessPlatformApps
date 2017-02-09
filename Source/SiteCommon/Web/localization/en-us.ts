@@ -18,6 +18,7 @@
     AZURE_LOGIN_RESOURCE_GROUP: `Azure Resource Group Name:`,
     AZURE_LOGIN_SUBSCRIPTION: `Azure Subscription:`,
     AZURE_LOGIN_SUBSCRIPTION_ERROR: `You do not have any Azure subscriptions linked to your account. You can get started with a free trial by clicking the link at the top of the page.`,
+    AZURE_LOGIN_SUBSCRIPTION_ERROR_CRM: `You do not have any Azure subscriptions linked to your CRM account and tenant.`,
     AZURE_LOGIN_SUBTITLE: `To create the solution we will be using a number of Azure Services which require an Azure subscription.`,
     AZURE_LOGIN_UNKNOWN_ERROR: `You do not have any Azure subscriptions linked to your account. You can get started with a free trial by clicking the link at the top of the page.`,
     COMMON_ADVANCED_OPTIONAL: `Advanced (optional)`,
