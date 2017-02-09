@@ -166,27 +166,21 @@
                 },
                 "type": "Http"
               },
-              "ImageCacherApp": {
+              "MainImageExtractor": {
                 "inputs": {
                   "body": {
-                    "Request": {
-                      "DocumentID": "@Json(body('UrlCleaner'))?['triggerId']",
-                      "imgUrl": "@triggerBody()?['image']?['thumbnail']?['contentUrl']"
-                    }
+                    "html": "@body('ExtractArticle')['bodyInHtml']"
                   },
-                  "host": {
-                    "triggerName": "manual",
-                    "workflow": {
-                      "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Logic/workflows/', parameters('imagecachelogicapp'))]"
-                    }
+                  "function": {
+                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/MainImageExtractor')]"
                   }
                 },
                 "runAfter": {
-                  "UrlDomainWebHook": [
+                  "ExtractArticle": [
                     "Succeeded"
                   ]
                 },
-                "type": "Workflow"
+                "type": "Function"
               },
               "InsertDocument": {
                 "runAfter": {
@@ -199,7 +193,7 @@
                   "TimeUtilsWebHook_2": [
                     "Succeeded"
                   ],
-                  "ImageCacherApp": [
+                  "MainImageExtractor": [
                     "Succeeded"
                   ],
                   "Key_Phrases": [
@@ -215,7 +209,7 @@
                     "abstract": "@{triggerBody()?['description']}",
                     "docid": "@Json(body('UrlCleaner'))?['triggerId']",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
-                    "imageUrl": "@{body('ImageCacherApp')}",
+                    "imageUrl": "@{body('MainImageExtractor')['ImageUrl']}",
                     "imageWidth": "@triggerBody()?['image']?['thumbnail']?['width']",
                     "ingestDayPrecision": "@Json(body('TimeUtilsWebHook'))?['DayPrecision']",
                     "ingestHourPrecision": "@Json(body('TimeUtilsWebHook'))?['HourPrecision']",
