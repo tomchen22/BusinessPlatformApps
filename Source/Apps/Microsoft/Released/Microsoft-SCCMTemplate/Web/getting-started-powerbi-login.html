@@ -1,5 +1,5 @@
 ﻿<template>
-    <require from="../directives/bpst-link.html"></require>
+    <require from="../../../../../SiteCommon/Web/directives/bpst-link.html"></require>
 
     <!-- Heading -->
     <h1 class="st-title">${MS.Translate.GETTING_STARTED_TITLE} ${templateName}</h1>
@@ -62,16 +62,17 @@
             </label>
         </div>
 
-        <!-- Power BI Login -->
-
-        <p class="st-nav-buttons" if.bind="viewmodel && viewmodel.DeploymentService.NavigationService.templateName !== ''">
-            <button class="primary" click.delegate="connect()" disabled.bind="viewmodel.MS.HttpService.isServiceBusy" if.bind="!MS.HttpService.isOnPremise && !viewmodel.isAuthenticated">Login</button>
-        </p>
-
         <button class="primary" click.trigger="Register()" disabled.bind="!registrationAccepted || MS.HttpService.isServiceBusy">${MS.Translate.COMMON_REGISTER}</button>
 
         <p class="smallFontSize">
             <bpst-link a-description="${registrationPrivacy}" a-link="${registrationLink}" a-link-text="${registrationPrivacyTitle}" a-description2="${MS.Translate.COMMON_AND}" a-link2="${registrationEulaLink}" a-link-text2="${registrationEulaLinkText}"></bpst-link>
         <p>
+    </div>
+
+    <!-- Power BI Login -->
+    <div>
+        <p class="st-nav-buttons">
+            <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy" if.bind="!isAuthenticated">Login</button>
+        </p>
     </div>
 </template>

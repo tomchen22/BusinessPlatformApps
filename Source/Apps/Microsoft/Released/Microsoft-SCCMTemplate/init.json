@@ -8,9 +8,9 @@
     "Pages": [
       // Getting Started
       {
-        "name": "getting-started-powerbi-login.html",
-        "displayname": "Getting Started",
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
+        "displayname": "Getting Started",
+        "isDownload": "$(!this.MS.HttpService.isOnPremise)",
         "list1": [
           "System Center 2012 Configuration Manager R2 SP1 or later. Read access to System Center Configuration Manager database is required.",
           "Destination database: Azure SQL database or SQL Server database (SQL Server 2008 R2 SP3 or later).",
@@ -23,9 +23,9 @@
           "Data pulled daily from System Center Configuration Manager & stored in a SQL database optimized for reporting",
           "Import data into powerful Power BI reports"
         ],
+        "name": "getting-started-powerbi-login.html",
         "subtitle": "Welcome to the System Center Configuration Manager solution template.",
-        "templateName": "System Center Configuration Manager",
-        "isDownload": "$(!this.MS.HttpService.isOnPremise)"
+        "templateName": "System Center Configuration Manager"
       },
 
       // Login

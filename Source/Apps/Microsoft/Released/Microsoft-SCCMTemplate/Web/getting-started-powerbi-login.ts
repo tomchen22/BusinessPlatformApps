@@ -8,7 +8,6 @@ export class Gettingstarted extends ViewModelBase {
     architectureDiagram: string = '';
     downloadLink: string = '';
     isDownload: boolean = false;
-    isAuthenticated: boolean = false;
     list1: string[] = [];
     list2: string[] = [];
     list1Title: string = this.MS.Translate.GETTING_STARTED_LIST_1;
@@ -53,8 +52,8 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
-
-        if (!this.MS.HttpService.isOnPremise) {
+        this.isAuthenticated = false;
+        if (!this.isDownload) {
             this.isAuthenticated = true;
         } else {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
@@ -75,6 +74,7 @@ export class Gettingstarted extends ViewModelBase {
                     this.isAuthenticated = true;
                     if (!this.registration) {
                         this.isValidated = true;
+                        this.isDownload = true;
                     }
                     await this.MS.HttpService.executeAsync('Microsoft-PowerBiLogin');
                 }
