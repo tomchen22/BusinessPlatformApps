@@ -187,7 +187,7 @@
         "displayname": "Deploy Cognitive Service",
         "DeploymentName": "Cognitive",
         "KeyNumber": "1",
-        "CognitiveSkuName": "S1",
+        "CognitiveSkuName": "S2",
         "CognitiveServiceType": "Bing.Search",
         "CognitiveServiceKey": "",
         "CognitiveServiceName": "BingCognitiveService"
