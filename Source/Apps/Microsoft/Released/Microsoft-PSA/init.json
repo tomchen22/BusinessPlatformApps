@@ -31,7 +31,7 @@
                 "name": "Microsoft-GetDataPullStatus",
                 "displayname": "Waiting for data to appear in the destination",
                 "SqlServerIndex": 0,
-                "TargetSchema": "dbo",
+                "TargetSchema": "psa",
                 "IsWaiting": true,
                 "FinishedActionName": "Microsoft-CrmGetProfileStatus"
             }
@@ -89,7 +89,7 @@
             {
                 "displayname": "Progress",
                 "name": "$SiteCommon$/pagesgallery/progress.html",
-                "filename": "$('PSA_AccountManager.pbix|PSA_PracticeManager.pbix|PSA_ResourceManager.pbix', isSaved=true)",
+                "filename": "$save('PSA_AccountManager.pbix|PSA_PracticeManager.pbix|PSA_ResourceManager.pbix')",
                 "showCounts": true,
                 "finishedActionName": "Microsoft-CrmGetProfileStatus"
             }

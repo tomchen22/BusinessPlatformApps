@@ -144,11 +144,10 @@
         "WebServiceName": "$run('EntitiesWebService' + this.MS.DataStore.getValue('uniqueId'))"
       },
 
-
       {
         "name": "Microsoft-DeployCognitiveService",
         "displayname": "Deploy Cognitive Service",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveText",
         "CognitiveServiceName": "TextCognitiveService",
         "CognitiveServiceType": "TextAnalytics",
         "CognitiveSkuName": "S1"
@@ -156,36 +155,25 @@
       {
         "name": "Microsoft-GetCognitiveKey",
         "displayname": "Deploy Cognitive Service Key",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveText",
         "CognitiveServiceName": "TextCognitiveService",
         "CognitiveServiceType": "TextAnalytics"
       },
       {
-        "name": "Microsoft-CreateConnectorToLogicApp",
-        "displayname": "Create Connector to Logic App",
-        "DeploymentName": "Cognitive",
-        "ConnectorName": "cognitiveservicestextanalytics",
-        "ConnectorDisplayName": "TextAnalytics",
-        "ConnectorPayload": {
-          "apiKey": "$ds(CognitiveServiceKey)"
-        }
-      },
-      {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveText",
         "ConnectorName": "cognitiveservicestextanalytics",
         "ConnectorDisplayName": "TextAnalytics",
         "ConnectorPayload": {
           "apiKey": "$ds(CognitiveServiceKey)"
         }
       },
-
 
       {
         "name": "Microsoft-DeployCognitiveService",
         "displayname": "Deploy Cognitive Service",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveBing",
         "KeyNumber": "1",
         "CognitiveSkuName": "S2",
         "CognitiveServiceType": "Bing.Search",
@@ -195,44 +183,20 @@
       {
         "name": "Microsoft-GetCognitiveKey",
         "displayname": "Deploy Cognitive Service Key",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveBing",
         "CognitiveServiceName": "BingCognitiveService",
         "KeyNumber": "1"
       },
       {
-        "name": "Microsoft-CreateConnectorToLogicApp",
-        "displayname": "Create Connector to Logic App",
-        "DeploymentName": "Cognitive",
-        "ConnectorName": "bingsearch",
-        "ConnectorDisplayName": "bingsearch",
-        "ConnectorPayload": {
-          "apiKey": "$dsall(CognitiveServiceKey)[1]"
-        }
-      },
-      {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
-        "DeploymentName": "Cognitive",
+        "DeploymentName": "CognitiveBing",
         "ConnectorName": "bingsearch",
         "ConnectorDisplayName": "bingsearch",
         "ConnectorPayload": {
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }
       },
-
-
-      {
-        "name": "Microsoft-CreateConnectorToLogicApp",
-        "displayname": "Create Connector to Logic App",
-        "DeploymentName": "blob",
-        "ConnectorName": "azureblob",
-        "ConnectorDisplayName": "azureblob",
-        "ConnectorPayload": {
-          "accountName": "$ds(StorageAccountName)",
-          "accessKey": "$ds(StorageAccountKey)"
-        }
-      },
-
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
@@ -244,22 +208,6 @@
           "accessKey": "$ds(StorageAccountKey)"
         }
       },
-
-      {
-        "name": "Microsoft-CreateConnectorToLogicApp",
-        "displayname": "Create Connector to Logic App",
-        "DeploymentName": "sql",
-        "ConnectorName": "sql",
-        "ConnectorDisplayName": "SQLConnector",
-        "ConnectorPayload": {
-          "authType": "windows",
-          "database": "$ds(Database)",
-          "password": "$ds(Password)",
-          "server": "$ds(Server)",
-          "username": "$ds(Username)"
-        }
-      },
-
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
@@ -274,17 +222,6 @@
           "username": "$ds(Username)"
         }
       },
-
-      {
-        "name": "Microsoft-CreateConnectorToLogicApp",
-        "displayname": "Create Connector to Logic App",
-        "DeploymentName": "azureml",
-        "ConnectorName": "azureml",
-        "ConnectorDisplayName": "azureml",
-        "ConnectorPayload": {
-        }
-      },
-
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
