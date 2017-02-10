@@ -24,6 +24,7 @@
           "Import data into powerful Power BI reports"
         ],
         "name": "getting-started-powerbi-login.html",
+        "oauthType": "powerbi",
         "subtitle": "Welcome to the System Center Configuration Manager solution template.",
         "templateName": "System Center Configuration Manager"
       },
