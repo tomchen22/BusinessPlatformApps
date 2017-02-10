@@ -91,20 +91,27 @@ namespace Microsoft.Deployment.Common.Controller
         public void LogTrace(string objectString, ActionRequest obj, string traceId)
         {
             var objToLog = JsonUtility.GetJObjectFromObject(obj);
-            objToLog["DataStore"]["PrivateDataStore"] = null;
-            LogTraceInAppInsights(objectString, objToLog, traceId);
+            if (obj?.DataStore?.PrivateDataStore != null)
+            {
+                objToLog["DataStore"]["PrivateDataStore"] = null;
+                LogTraceInAppInsights(objectString, objToLog, traceId);
+            }
         }
 
         public void LogTrace(string objectString, ActionResponse obj, string traceId)
         {
             var objToLog = JsonUtility.GetJObjectFromObject(obj);
 
-            if (obj.IsResponseSensitive)
+            if (obj.IsResponseSensitive && obj.Body != null)
             {
                 objToLog["Body"] = null;
             }
-            objToLog["DataStore"]["PrivateDataStore"] = null;
-            LogTraceInAppInsights(objectString, objToLog, traceId);
+
+            if (obj?.DataStore?.PrivateDataStore != null)
+            {
+                objToLog["DataStore"]["PrivateDataStore"] = null;
+                LogTraceInAppInsights(objectString, objToLog, traceId);
+            }
         }
 
         public void LogTraceInAppInsights(string objectString, object obj, string traceId)
