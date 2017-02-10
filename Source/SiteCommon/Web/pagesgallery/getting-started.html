@@ -62,7 +62,7 @@
             </label>
         </div>
 
-        <button class="primary" click.delegate="Register()" disabled.bind="!registrationAccepted || MS.HttpService.isServiceBusy">${MS.Translate.COMMON_REGISTER}</button>
+        <button class="primary" click.trigger="Register()" disabled.bind="!registrationAccepted || MS.HttpService.isServiceBusy">${MS.Translate.COMMON_REGISTER}</button>
 
         <p class="smallFontSize">
             <bpst-link a-description="${registrationPrivacy}" a-link="${registrationLink}" a-link-text="${registrationPrivacyTitle}" a-description2="${MS.Translate.COMMON_AND}" a-link2="${registrationEulaLink}" a-link-text2="${registrationEulaLinkText}"></bpst-link>

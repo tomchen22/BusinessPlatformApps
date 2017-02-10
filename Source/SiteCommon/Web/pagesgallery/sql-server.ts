@@ -96,8 +96,10 @@ export class SqlServer extends ViewModelBase {
 
         if (this.sqlInstance === 'ExistingSql') {
             response = await this.MS.HttpService.executeAsync('Microsoft-GetSqlConnectionString', body);
+            this.MS.DataStore.addToDataStore('Database', this.database, DataStoreType.Public);
         } else if (this.sqlInstance === 'NewSql') {
             response = await this.CreateDatabaseServer();
+            this.MS.DataStore.addToDataStore('Database', this.newSqlDatabase, DataStoreType.Public);
         }
 
         if (!response || !response.IsSuccess) {
@@ -106,7 +108,6 @@ export class SqlServer extends ViewModelBase {
 
         this.MS.DataStore.addToDataStore('SqlConnectionString', response.Body.value, DataStoreType.Private);
         this.MS.DataStore.addToDataStore('Server', this.getSqlServer(), DataStoreType.Public);
-        this.MS.DataStore.addToDataStore('Database', this.database, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('Username', this.username, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('Password', this.password, DataStoreType.Private);
 
@@ -168,10 +169,8 @@ export class SqlServer extends ViewModelBase {
 
     private async CreateDatabaseServer() {
         this.navigationMessage = this.MS.Translate.SQL_SERVER_CREATING_NEW;
-
         let body = this.GetBody(true);
         body['SqlCredentials']['Database'] = this.newSqlDatabase;
-
         this.MS.DataStore.addToDataStore('SqlSku', this.sqlSku, DataStoreType.Public);
 
         return await this.MS.HttpService.executeAsync('Microsoft-CreateAzureSql', body);

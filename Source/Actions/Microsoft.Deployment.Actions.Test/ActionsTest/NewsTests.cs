@@ -122,8 +122,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "TextAnalytics");
-            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
@@ -133,7 +133,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
             dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
-            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveSkuName", "S2");
             dataStore.AddToDataStore("CognitiveServiceKey", "");
 
             response = await TestHarness.ExecuteActionAsync("Microsoft-DeployCognitiveService", dataStore, "Microsoft-NewsTemplateTest");
@@ -151,8 +151,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "bingsearch");
-            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
@@ -164,8 +164,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload.accessKey = dataStore.GetValue("StorageAccountKey");
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
-            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
@@ -182,8 +182,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "SQLConnector");
-            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
@@ -193,8 +193,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = new ExpandoObject();
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
-            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
@@ -293,7 +293,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
             dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
-            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveSkuName", "S2");
 
             response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
             Assert.IsTrue(response.IsSuccess);
@@ -325,8 +325,8 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
             Assert.IsTrue(response.IsSuccess);
-            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
-            Assert.IsTrue(response.IsSuccess);
+            //response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            //Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-DeployImageCachingLogicApp", dataStore);
@@ -342,7 +342,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             payload = JsonUtility.GetJObjectFromObject(payload);
             dataStore.AddToDataStore("ConnectorPayload", payload);
             dataStore.AddToDataStore("ConnectorDisplayName", "BingNews");
-            response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
+            //response = TestHarness.ExecuteAction("Microsoft-CreateConnectorToLogicApp", dataStore);
             Assert.IsTrue(response.IsSuccess);
             response = TestHarness.ExecuteAction("Microsoft-UpdateBlobStorageConnector", dataStore);
             Assert.IsTrue(response.IsSuccess);
