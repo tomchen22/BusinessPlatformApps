@@ -14,10 +14,6 @@
       "defaultValue": "idrequired",
       "type": "string"
     },
-    "imagecachelogicapp": {
-      "defaultValue": "ImageCacheLogicApp",
-      "type": "string"
-    },
     "sitename": {
       "defaultValue": "sitename",
       "type": "string"
