@@ -200,20 +200,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             #endregion
 
-            #region DeployLogicAppImageCache
-
-            ////Image Cache Logic App
-            dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
-            dataStore.AddToDataStore("LogicAppName", "testname");
-            dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
-
-            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployImageCachingLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
-            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
-
-            #endregion
-
             #region DeployAMLLogicApp
             dataStore.AddToDataStore("DeploymentName", "amllogicapp");
             dataStore.AddToDataStore("LogicAppName", "AmlLogicApp");
