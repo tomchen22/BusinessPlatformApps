@@ -133,7 +133,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
             dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
-            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveSkuName", "S2");
             dataStore.AddToDataStore("CognitiveServiceKey", "");
 
             response = await TestHarness.ExecuteActionAsync("Microsoft-DeployCognitiveService", dataStore, "Microsoft-NewsTemplateTest");
@@ -279,7 +279,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("DeploymentName", "CongitiveServiceDeployBing");
             dataStore.AddToDataStore("CognitiveServiceName", "TestCognitiveService2");
             dataStore.AddToDataStore("CognitiveServiceType", "Bing.Search");
-            dataStore.AddToDataStore("CognitiveSkuName", "S1");
+            dataStore.AddToDataStore("CognitiveSkuName", "S2");
 
             response = TestHarness.ExecuteAction("Microsoft-DeployCognitiveService", dataStore);
             Assert.IsTrue(response.IsSuccess);
