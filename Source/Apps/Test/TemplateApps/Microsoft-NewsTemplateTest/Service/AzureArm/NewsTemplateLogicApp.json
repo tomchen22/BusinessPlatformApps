@@ -208,7 +208,7 @@
                     "abstract": "@{triggerBody()?['description']}",
                     "docid": "@Json(body('UrlCleaner'))?['triggerId']",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
-                    "imageUrl": "@{body('MainImageExtractor')['ImageUrl']}",
+                    "imageUrl": "@Json(body('MainImageExtractor'))?['ImageUrl']",
                     "imageWidth": "@triggerBody()?['image']?['thumbnail']?['width']",
                     "ingestDayPrecision": "@Json(body('TimeUtilsWebHook'))?['DayPrecision']",
                     "ingestHourPrecision": "@Json(body('TimeUtilsWebHook'))?['HourPrecision']",
