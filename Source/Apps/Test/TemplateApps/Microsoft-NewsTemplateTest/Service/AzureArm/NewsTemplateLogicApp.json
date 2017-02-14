@@ -68,6 +68,23 @@
               }
             },
             "actions": {
+              "AbstractExtractor": {
+                "inputs": {
+                  "body": {
+                    "query": "@{trigger()['inputs']['queries']['q']}",
+                    "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
+                  },
+                  "function": {
+                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/AbstractExtractor')]"
+                  }
+                },
+                "runAfter": {
+                  "HTMLStripperWebHook": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "Function"
+              },
               "ArticleCleanerWebHook": {
                 "inputs": {
                   "body": {
@@ -99,7 +116,7 @@
                   "path": "/sentiment"
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
+                  "AbstractExtractor": [
                     "Succeeded"
                   ]
                 },
@@ -205,7 +222,7 @@
                     "category": "@{triggerBody()?['category']}",
                     "cleanedText": "@{body('HTMLStripperWebHook')['NoTags']}",
                     "cleanedTextLength": "@{body('HTMLStripperWebHook')['NoTagsLength']}",
-                    "abstract": "@{triggerBody()?['description']}",
+                    "abstract": "@{body('AbstractExtractor')?['Snippet']}",
                     "docid": "@Json(body('UrlCleaner'))?['triggerId']",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
                     "imageUrl": "@Json(body('MainImageExtractor'))?['ImageUrl']",
@@ -254,7 +271,7 @@
                   "path": "/keyPhrases"
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
+                  "AbstractExtractor": [
                     "Succeeded"
                   ]
                 },
@@ -294,7 +311,7 @@
                   }
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
+                  "AbstractExtractor": [
                     "Succeeded"
                   ]
                 },
