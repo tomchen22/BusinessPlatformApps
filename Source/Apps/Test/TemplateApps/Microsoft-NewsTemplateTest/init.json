@@ -197,17 +197,17 @@
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }
       },
-      {
-        "name": "Microsoft-UpdateBlobStorageConnector",
-        "displayname": "Update connector",
-        "DeploymentName": "blob",
-        "ConnectorName": "azureblob",
-        "ConnectorDisplayName": "azureblob",
-        "ConnectorPayload": {
-          "accountName": "$ds(StorageAccountName)",
-          "accessKey": "$ds(StorageAccountKey)"
-        }
-      },
+      //{
+      //  "name": "Microsoft-UpdateBlobStorageConnector",
+      //  "displayname": "Update connector",
+      //  "DeploymentName": "blob",
+      //  "ConnectorName": "azureblob",
+      //  "ConnectorDisplayName": "azureblob",
+      //  "ConnectorPayload": {
+      //    "accountName": "$ds(StorageAccountName)",
+      //    "accessKey": "$ds(StorageAccountKey)"
+      //  }
+      //},
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
@@ -231,11 +231,11 @@
         "ConnectorPayload": {
         }
       },
-      {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
-        "displayname": "Validate Logic App",
-        "DeploymentName": "LogicAppImageCache"
-      },
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Validate Logic App",
+      //  "DeploymentName": "LogicAppImageCache"
+      //},
       {
         "name": "Microsoft-DeployAzureMLSchedulerLogicApp",
         "displayname": "Deploy AML Scheduler Logic App",
