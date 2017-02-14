@@ -72,7 +72,7 @@
                 "inputs": {
                   "body": {
                     "query": "@{trigger()['inputs']['queries']['q']}",
-                    "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
+                    "text": "@{body('HTMLStripperWebHook')['NoTags']}"
                   },
                   "function": {
                     "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/AbstractExtractor')]"
