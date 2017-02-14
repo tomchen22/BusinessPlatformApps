@@ -72,6 +72,23 @@
               }
             },
             "actions": {
+			            "AbstractExtractor": {
+                "inputs": {
+                    "body": {
+                        "query": "@{trigger()['inputs']['queries']['q']}",
+                        "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
+                    },
+                    "function": {
+                        "id": "/subscriptions/657eb4a4-2e7c-485c-aee6-2816aef905c5/resourceGroups/SolutionTemplate-g0dama6/providers/Microsoft.Web/sites/functionn95erxokd9/Functions/AbstractExtractor"
+                    }
+                },
+                "runAfter": {
+                    "HTMLStripperWebHook": [
+                        "Succeeded"
+                    ]
+                },
+                "type": "Function"
+            },
               "ArticleCleanerWebHook": {
                 "inputs": {
                   "body": {
@@ -103,9 +120,9 @@
                   "path": "/sentiment"
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
-                    "Succeeded"
-                  ]
+                    "AbstractExtractor": [
+                        "Succeeded"
+                    ]
                 },
                 "type": "ApiConnection"
               },
@@ -212,7 +229,7 @@
                     "category": "@{triggerBody()?['category']}",
                     "cleanedText": "@{body('HTMLStripperWebHook')['NoTags']}",
                     "cleanedTextLength": "@{body('HTMLStripperWebHook')['NoTagsLength']}",
-                    "abstract": "@{triggerBody()?['description']}",
+                    "abstract": "@{body('AbstractExtractor')?['Snippet']}",
                     "docid": "@Json(body('UrlCleaner'))?['triggerId']",
                     "imageHeight": "@triggerBody()?['image']?['thumbnail']?['height']",
                     "imageUrl": "@{body('ImageCacherApp')}",
@@ -261,9 +278,9 @@
                   "path": "/keyPhrases"
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
-                    "Succeeded"
-                  ]
+                    "AbstractExtractor": [
+                        "Succeeded"
+                    ]
                 },
                 "type": "ApiConnection"
               },
@@ -301,9 +318,9 @@
                   }
                 },
                 "runAfter": {
-                  "HTMLStripperWebHook": [
-                    "Succeeded"
-                  ]
+                    "AbstractExtractor": [
+                        "Succeeded"
+                    ]
                 },
                 "type": "Function"
               }
