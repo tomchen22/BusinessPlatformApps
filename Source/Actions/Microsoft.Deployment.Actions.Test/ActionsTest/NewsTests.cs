@@ -51,31 +51,31 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             #endregion
 
-            //#region DeployStorageAccount
+            #region DeployStorageAccount
 
-            ////// Create Storage Account
-            //dataStore.AddToDataStore("DeploymentName", "StorageDeploymentTest");
-            //dataStore.AddToDataStore("StorageAccountName", "unitteststorage" + TestHarness.RandomCharacters);
-            //dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
-            //dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
+            //// Create Storage Account
+            dataStore.AddToDataStore("DeploymentName", "StorageDeploymentTest");
+            dataStore.AddToDataStore("StorageAccountName", "unitteststorage" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("StorageAccountType", "Standard_LRS");
+            dataStore.AddToDataStore("StorageAccountEncryptionEnabled", "false");
 
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateAzureStorageAccount", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
+            response = await TestHarness.ExecuteActionAsync("Microsoft-CreateAzureStorageAccount", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
 
-            ////Get key
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-GetStorageAccountKey", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
+            //Get key
+            response = await TestHarness.ExecuteActionAsync("Microsoft-GetStorageAccountKey", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
 
-            ////Deploy blob
-            //dataStore.AddToDataStore("StorageAccountContainer", "newsimages");
+            //Deploy blob
+            dataStore.AddToDataStore("StorageAccountContainer", "newsimages");
 
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-DeployStorageAccountContainer", dataStore, "Microsoft-NewsTemplateTest");
-            //Assert.IsTrue(response.IsSuccess);
-            //#endregion
+            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployStorageAccountContainer", dataStore, "Microsoft-NewsTemplateTest");
+            Assert.IsTrue(response.IsSuccess);
+            #endregion
 
             #region AMLWEBServiceDeployment
 

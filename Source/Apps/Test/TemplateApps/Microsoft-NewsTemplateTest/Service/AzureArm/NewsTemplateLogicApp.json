@@ -326,7 +326,7 @@
                 "bingsearch": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/bingsearch')]",
                   "connectionName": "bingsearch",
-                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/brazilsouth/managedApis/bingsearch')]"
+                  "id": "[concat('/subscriptions/', parameters('subscription'), '/providers/Microsoft.Web/locations/westus/managedApis/bingsearch')]"
                 },
                 "cognitiveservicestextanalytics": {
                   "connectionId": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/connections/cognitiveservicestextanalytics')]",
