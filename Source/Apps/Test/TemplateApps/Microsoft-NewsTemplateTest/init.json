@@ -89,35 +89,35 @@
         "name": "Microsoft-DeployPrivateAssemblyToFunction",
         "displayname": "Deploy News Function Assets"
       },
-      {
-        "name": "Microsoft-CreateAzureStorageAccount",
-        "displayname": "Deploy Storage Account",
-        "DeploymentName": "StorageAccount",
-        "StorageAccountName": "$save('storage' + this.MS.DataStore.getValue('uniqueId'))",
-        "StorageAccountType": "Standard_LRS",
-        "StorageAccountEncryptionEnabled": "false"
-      },
-      {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
-        "displayname": "Validating Storage Account",
-        "DeploymentName": "StorageAccount"
-      },
-      {
-        "name": "Microsoft-GetStorageAccountKey",
-        "displayname": "Get Storage Account Key",
-        "DeploymentName": "StorageAccount"
-      },
-      {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
-        "displayname": "Validating Key",
-        "DeploymentName": "StorageAccount"
-      },
-      {
-        "name": "Microsoft-DeployStorageAccountContainer",
-        "displayname": "Deploy Storage Account Container",
-        "DeploymentName": "StorageAccount",
-        "StorageAccountContainer": "newsimages"
-      },
+      //{
+      //  "name": "Microsoft-CreateAzureStorageAccount",
+      //  "displayname": "Deploy Storage Account",
+      //  "DeploymentName": "StorageAccount",
+      //  "StorageAccountName": "$save('storage' + this.MS.DataStore.getValue('uniqueId'))",
+      //  "StorageAccountType": "Standard_LRS",
+      //  "StorageAccountEncryptionEnabled": "false"
+      //},
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Validating Storage Account",
+      //  "DeploymentName": "StorageAccount"
+      //},
+      //{
+      //  "name": "Microsoft-GetStorageAccountKey",
+      //  "displayname": "Get Storage Account Key",
+      //  "DeploymentName": "StorageAccount"
+      //},
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Validating Key",
+      //  "DeploymentName": "StorageAccount"
+      //},
+      //{
+      //  "name": "Microsoft-DeployStorageAccountContainer",
+      //  "displayname": "Deploy Storage Account Container",
+      //  "DeploymentName": "StorageAccount",
+      //  "StorageAccountContainer": "newsimages"
+      //},
       {
         "name": "Microsoft-DeployAzureMLWebServiceFromFile",
         "displayname": "Deploy Azure ML Webservice",
@@ -197,17 +197,17 @@
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }
       },
-      {
-        "name": "Microsoft-UpdateBlobStorageConnector",
-        "displayname": "Update connector",
-        "DeploymentName": "blob",
-        "ConnectorName": "azureblob",
-        "ConnectorDisplayName": "azureblob",
-        "ConnectorPayload": {
-          "accountName": "$ds(StorageAccountName)",
-          "accessKey": "$ds(StorageAccountKey)"
-        }
-      },
+      //{
+      //  "name": "Microsoft-UpdateBlobStorageConnector",
+      //  "displayname": "Update connector",
+      //  "DeploymentName": "blob",
+      //  "ConnectorName": "azureblob",
+      //  "ConnectorDisplayName": "azureblob",
+      //  "ConnectorPayload": {
+      //    "accountName": "$ds(StorageAccountName)",
+      //    "accessKey": "$ds(StorageAccountKey)"
+      //  }
+      //},
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
@@ -231,11 +231,11 @@
         "ConnectorPayload": {
         }
       },
-      {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
-        "displayname": "Validate Logic App",
-        "DeploymentName": "LogicAppImageCache"
-      },
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Validate Logic App",
+      //  "DeploymentName": "LogicAppImageCache"
+      //},
       {
         "name": "Microsoft-DeployAzureMLSchedulerLogicApp",
         "displayname": "Deploy AML Scheduler Logic App",
