@@ -79,7 +79,7 @@
                         "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
                     },
                     "function": {
-                        "id": "/subscriptions/657eb4a4-2e7c-485c-aee6-2816aef905c5/resourceGroups/SolutionTemplate-g0dama6/providers/Microsoft.Web/sites/functionn95erxokd9/Functions/AbstractExtractor"
+                        "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/AbstractExtractor')]"
                     }
                 },
                 "runAfter": {
