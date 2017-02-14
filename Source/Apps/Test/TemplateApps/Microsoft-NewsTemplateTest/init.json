@@ -232,12 +232,6 @@
         }
       },
       {
-        "name": "Microsoft-DeployImageCachingLogicApp",
-        "displayname": "Deploy Image Cache Logic App",
-        "DeploymentName": "LogicAppImageCache",
-        "LogicAppName": "LogicAppImageCache"
-      },
-      {
         "name": "Microsoft-WaitForArmDeploymentStatus",
         "displayname": "Validate Logic App",
         "DeploymentName": "LogicAppImageCache"
