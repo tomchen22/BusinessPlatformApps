@@ -25,7 +25,7 @@
         "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate#pricing",
         "bingtermsofuse": "By deploying this template you agree to Bing's Terms of Use.",
         "bingUrl": "placeholder",
-        "defaultLocation": 12
+        "defaultLocation": 5
       },
       {
         "name": "$SiteCommon$/pagesgallery/sql-server.html",
@@ -197,17 +197,17 @@
           "apiKey": "$dsall(CognitiveServiceKey)[1]"
         }
       },
-      {
-        "name": "Microsoft-UpdateBlobStorageConnector",
-        "displayname": "Update connector",
-        "DeploymentName": "blob",
-        "ConnectorName": "azureblob",
-        "ConnectorDisplayName": "azureblob",
-        "ConnectorPayload": {
-          "accountName": "$ds(StorageAccountName)",
-          "accessKey": "$ds(StorageAccountKey)"
-        }
-      },
+      //{
+      //  "name": "Microsoft-UpdateBlobStorageConnector",
+      //  "displayname": "Update connector",
+      //  "DeploymentName": "blob",
+      //  "ConnectorName": "azureblob",
+      //  "ConnectorDisplayName": "azureblob",
+      //  "ConnectorPayload": {
+      //    "accountName": "$ds(StorageAccountName)",
+      //    "accessKey": "$ds(StorageAccountKey)"
+      //  }
+      //},
       {
         "name": "Microsoft-UpdateBlobStorageConnector",
         "displayname": "Update connector",
@@ -231,17 +231,11 @@
         "ConnectorPayload": {
         }
       },
-      {
-        "name": "Microsoft-DeployImageCachingLogicApp",
-        "displayname": "Deploy Image Cache Logic App",
-        "DeploymentName": "LogicAppImageCache",
-        "LogicAppName": "LogicAppImageCache"
-      },
-      {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
-        "displayname": "Validate Logic App",
-        "DeploymentName": "LogicAppImageCache"
-      },
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Validate Logic App",
+      //  "DeploymentName": "LogicAppImageCache"
+      //},
       {
         "name": "Microsoft-DeployAzureMLSchedulerLogicApp",
         "displayname": "Deploy AML Scheduler Logic App",
