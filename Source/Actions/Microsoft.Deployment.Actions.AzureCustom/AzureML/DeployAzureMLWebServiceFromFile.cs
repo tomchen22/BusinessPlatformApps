@@ -37,8 +37,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
 
-            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
-            SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+            
 
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
@@ -64,11 +63,19 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             string key = responseObject["StorageAccountKey"].ToString();
 
             // Get webservicedefinition
+            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
+            SqlCredentials sqlCredentials;
+
             string jsonDefinition = File.ReadAllText(request.Info.App.AppFilePath + "/" + webserviceFile);
-            string jsonFinal = ReplaceSqlPasswords(sqlCredentials, jsonDefinition);
+
+            if (!string.IsNullOrWhiteSpace(sqlConnectionString))
+            {
+                sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+                jsonDefinition = ReplaceSqlPasswords(sqlCredentials, jsonDefinition);
+            }
 
             // Create WebService - fixed to southcentralus
-            WebService webService = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(jsonFinal);
+            WebService webService = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(jsonDefinition);
 
             webService.Properties.StorageAccount = new StorageAccount
             {
