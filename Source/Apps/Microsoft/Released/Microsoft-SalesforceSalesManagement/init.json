@@ -106,23 +106,23 @@
       },
       {
         "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating datasets",
+        "displayname": "Creating mappings to historical data",
         "DeploymentName": "ADFPreDeploymentDatasets"
       },
       {
         "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Creating one time data load process",
+        "displayname": "Scheduling one time data load for historical data",
         "DeploymentName": "ADFPreDeploymentPipeline"
       },
       {
         "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating datasets",
+        "displayname": "Creating mappings to future data",
         "DeploymentName": "ADFPostDeploymentDatasets",
         "postDeploymentPipelineType": "PostDeployment"
       },
       {
         "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Creating data movement process",
+        "displayname": "Scheduling data loads for future data ",
         "DeploymentName": "ADFPostDeploymentPipeline",
         "postDeploymentPipelineType": "PostDeployment"
       },
