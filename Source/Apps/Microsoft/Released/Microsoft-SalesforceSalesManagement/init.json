@@ -75,21 +75,21 @@
     "Actions": [
       {
         "name": "Microsoft-DeploySQLScripts",
-        "displayname": "Deploy DB Scripts",
+        "displayname": "Deploying database scripts",
         "SqlServerIndex": "0",
         "SqlScriptsFolder": "Service/Database/Cleanup"
       },
       {
         "name": "Microsoft-SalesforceGetObjectMetadata",
-        "displayname": "Retrieve metadata from Salesforce"
+        "displayname": "Retrieving metadata from Salesforce"
       },
       {
         "name": "Microsoft-SalesforceSqlArtefacts",
-        "displayname": "Create objects in SQL"
+        "displayname": "Creating tables in database"
       },
       {
         "name": "Microsoft-DeploySQLScripts",
-        "displayname": "Create DB relations",
+        "displayname": "Creating relations between tables",
         "SqlServerIndex": "0",
         "SqlScriptsFolder": "Service/Database/ADF"
       },
@@ -101,28 +101,28 @@
       },
       {
         "name": "Microsoft-ADFDeployLinkedServices",
-        "displayname": "Creating linked services",
+        "displayname": "Creating data connections",
         "DeploymentName": "ADFDeployment"
       },
       {
         "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating historical datasets",
+        "displayname": "Creating mappings to historical data",
         "DeploymentName": "ADFPreDeploymentDatasets"
       },
       {
         "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Creating historical pipelines",
+        "displayname": "Scheduling one time data load for historical data",
         "DeploymentName": "ADFPreDeploymentPipeline"
       },
       {
         "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating current datasets",
+        "displayname": "Creating mappings to future data",
         "DeploymentName": "ADFPostDeploymentDatasets",
         "postDeploymentPipelineType": "PostDeployment"
       },
       {
         "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Creating current pipelines",
+        "displayname": "Scheduling data loads for future data ",
         "DeploymentName": "ADFPostDeploymentPipeline",
         "postDeploymentPipelineType": "PostDeployment"
       },
