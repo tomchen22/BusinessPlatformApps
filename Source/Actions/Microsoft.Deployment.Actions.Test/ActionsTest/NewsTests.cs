@@ -156,18 +156,18 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
-            // Create storage account connector
-            dataStore.AddToDataStore("ConnectorName", "azureblob");
-            dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
-            payload = new ExpandoObject();
-            payload.accountName = dataStore.GetValue("StorageAccountName");
-            payload.accessKey = dataStore.GetValue("StorageAccountKey");
-            payload = JsonUtility.GetJObjectFromObject(payload);
-            dataStore.AddToDataStore("ConnectorPayload", payload);
-            //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            //// Create storage account connector
+            //dataStore.AddToDataStore("ConnectorName", "azureblob");
+            //dataStore.AddToDataStore("ConnectorDisplayName", "azureblob");
+            //payload = new ExpandoObject();
+            //payload.accountName = dataStore.GetValue("StorageAccountName");
+            //payload.accessKey = dataStore.GetValue("StorageAccountKey");
+            //payload = JsonUtility.GetJObjectFromObject(payload);
+            //dataStore.AddToDataStore("ConnectorPayload", payload);
+            ////response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
+            ////Assert.IsTrue(response.IsSuccess);
+            //response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
             //Assert.IsTrue(response.IsSuccess);
-            response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
 
             //Create SQL Connector
             dataStore.AddToDataStore("ConnectorName", "sql");
@@ -196,20 +196,6 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             //response = await TestHarness.ExecuteActionAsync("Microsoft-CreateConnectorToLogicApp", dataStore, "Microsoft-NewsTemplateTest");
             //Assert.IsTrue(response.IsSuccess);
             response = await TestHarness.ExecuteActionAsync("Microsoft-UpdateBlobStorageConnector", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
-
-            #endregion
-
-            #region DeployLogicAppImageCache
-
-            ////Image Cache Logic App
-            dataStore.AddToDataStore("DeploymentName", "LogicAppDeploymentTest");
-            dataStore.AddToDataStore("LogicAppName", "testname");
-            dataStore.AddToDataStore("ImageCacheLogicApp", "testname");
-
-            response = await TestHarness.ExecuteActionAsync("Microsoft-DeployImageCachingLogicApp", dataStore, "Microsoft-NewsTemplateTest");
-            Assert.IsTrue(response.IsSuccess);
-            response = await TestHarness.ExecuteActionAsync("Microsoft-WaitForArmDeploymentStatus", dataStore, "Microsoft-NewsTemplateTest");
             Assert.IsTrue(response.IsSuccess);
 
             #endregion
