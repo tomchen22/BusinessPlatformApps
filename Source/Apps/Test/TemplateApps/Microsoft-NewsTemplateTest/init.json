@@ -25,7 +25,7 @@
         "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate#pricing",
         "bingtermsofuse": "By deploying this template you agree to Bing's Terms of Use.",
         "bingUrl": "placeholder",
-        "defaultLocation": 12
+        "defaultLocation": 5
       },
       {
         "name": "$SiteCommon$/pagesgallery/sql-server.html",
