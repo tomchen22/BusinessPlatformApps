@@ -55,6 +55,7 @@ export class Gettingstarted extends ViewModelBase {
         this.isAuthenticated = false;
         if (!this.isDownload) {
             this.isAuthenticated = true;
+            this.isValidated = true;
         } else {
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
