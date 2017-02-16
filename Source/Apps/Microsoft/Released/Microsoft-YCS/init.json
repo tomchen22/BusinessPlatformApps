@@ -57,19 +57,19 @@
                     "Target Username": "$(this.MS.DataStore.getValue('Username'))"
                 }
             },
-            {
-                "name": "$SiteCommon$/pagesgallery/progress.html",
-                "displayname": "Deploy",
-                "uniqueId": "$(this.MS.UtilityService.GetUniqueId(18))",
-                "uniqueIdFunction": "$(this.MS.UtilityService.GetUniqueId(18), )",
+          {
+            "name": "$SiteCommon$/pagesgallery/progress.html",
+            "displayname": "Deploy",
+            "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
+            "uniqueIdFunction": "$(this.MS.UtilityService.GetUniqueId(18), )",
 
-                "LogicAppHostingPlan": "$save(this.uniqueId)",
-                "LogicAppName": "$save(this.uniqueId)",
-                "LogicAppNameHistorical": "$save(this.uniqueId)",
-                "SiteName": "$save(this.uniqueIdFunction)",
-                "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
-                "filename": "$save('TwitterTemplate.pbix')"
-            }
+            "LogicAppHostingPlan": "$save(this.uniqueId)",
+            "LogicAppName": "$save(this.uniqueId)",
+            "LogicAppNameHistorical": "$save(this.uniqueId)",
+            "SiteName": "$save(this.uniqueIdFunction)",
+            "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
+            "filename": "$save('TwitterTemplate.pbix')"
+          }
         ],
 
       "Actions": [
@@ -100,7 +100,7 @@
           "displayname": "Deploy Azure ML Webservice",
           "DeploymentName": "AzureML",
           "CommitmentPlan": "commitmentplan",
-          "WebServiceFile": "Service/AzureML/Experiments/AML.json",
+          "WebServiceFile": "Service/Data/SentimentAnalysisWebServiceNew.json",
           "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"
         },
         {

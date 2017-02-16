@@ -36,9 +36,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var commitmentPlanName = request.DataStore.GetValue("CommitmentPlan");
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
-
             
-
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
             AzureMLCommitmentPlansManagementClient commitmentClient = new AzureMLCommitmentPlansManagementClient(creds);
@@ -103,59 +101,61 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
         private static string ReplaceSqlPasswords(SqlCredentials sqlCredentials, string json)
         {
             JObject obj = JsonUtility.GetJsonObjectFromJsonString(json);
-            var nodes = obj["properties"]["package"]["nodes"];
-            foreach (var node in nodes.Children())
+            var nodes = obj["properties"]?["package"]?["nodes"];
+            if (nodes != null)
             {
-                var nodeConverted = node.Children().First();
-
-                if (nodeConverted.SelectToken("parameters") != null)
+                foreach (var node in nodes.Children())
                 {
-                    if (nodeConverted["parameters"]["Database Server Name"] != null)
+                    var nodeConverted = node.Children().First();
+
+                    if (nodeConverted.SelectToken("parameters") != null)
                     {
-                        nodeConverted["parameters"]["Database Server Name"] = sqlCredentials.Server;
+                        if (nodeConverted["parameters"]["Database Server Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Database Server Name"] = sqlCredentials.Server;
+                        }
+
+                        if (nodeConverted["parameters"]["Database Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Database Name"] = sqlCredentials.Database;
+                        }
+
+                        if (nodeConverted["parameters"]["Server User Account Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Server User Account Name"] = sqlCredentials.Username;
+                        }
+
+                        if (nodeConverted["parameters"]["Server User Account Password"] != null)
+                        {
+                            nodeConverted["parameters"]["Server User Account Password"] = sqlCredentials.Password;
+                        }
+                    }
+                }
+
+
+                if (obj["properties"].SelectToken("parameters") != null)
+                {
+                    if (obj["properties"]["parameters"]["database server name"] != null)
+                    {
+                        obj["properties"]["parameters"]["database server name"] = sqlCredentials.Server;
                     }
 
-                    if (nodeConverted["parameters"]["Database Name"] != null)
+                    if (obj["properties"]["parameters"]["database name"] != null)
                     {
-                        nodeConverted["parameters"]["Database Name"] = sqlCredentials.Database;
+                        obj["properties"]["parameters"]["database name"] = sqlCredentials.Database;
                     }
 
-                    if (nodeConverted["parameters"]["Server User Account Name"] != null)
+                    if (obj["properties"]["parameters"]["user name"] != null)
                     {
-                        nodeConverted["parameters"]["Server User Account Name"] = sqlCredentials.Username;
+                        obj["properties"]["parameters"]["user name"] = sqlCredentials.Username;
                     }
 
-                    if (nodeConverted["parameters"]["Server User Account Password"] != null)
+                    if (obj["properties"]["parameters"]["Server User Account Password"] != null)
                     {
-                        nodeConverted["parameters"]["Server User Account Password"] = sqlCredentials.Password;
+                        obj["properties"]["parameters"]["Server User Account Password"] = sqlCredentials.Password;
                     }
                 }
             }
-
-
-            if (obj["properties"].SelectToken("parameters") != null)
-            {
-                if (obj["properties"]["parameters"]["database server name"] != null)
-                {
-                    obj["properties"]["parameters"]["database server name"] = sqlCredentials.Server;
-                }
-
-                if (obj["properties"]["parameters"]["database name"] != null)
-                {
-                    obj["properties"]["parameters"]["database name"] = sqlCredentials.Database;
-                }
-
-                if (obj["properties"]["parameters"]["user name"] != null)
-                {
-                    obj["properties"]["parameters"]["user name"] = sqlCredentials.Username;
-                }
-
-                if (obj["properties"]["parameters"]["Server User Account Password"] != null)
-                {
-                    obj["properties"]["parameters"]["Server User Account Password"] = sqlCredentials.Password;
-                }
-            }
-
             return obj.ToString();
         }
     }
