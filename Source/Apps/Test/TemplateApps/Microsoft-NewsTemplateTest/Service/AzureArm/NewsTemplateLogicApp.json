@@ -264,6 +264,7 @@
                     "sourceUrl": "@Json(body('UrlCleaner'))?['newUri']",
                     "text": "@{body('HTMLStripperWebHook')['Scrubbed']}",
                     "textLength": "@{body('HTMLStripperWebHook')['ScrubbedLength']}",
+                    "userDefinedEntities": "@{body('UserDefinedEntitiesExtractor')?['entities']}",
                     "title": "@{triggerBody()?['name']}"
                   },
                   "host": {
