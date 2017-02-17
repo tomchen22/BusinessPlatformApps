@@ -91,7 +91,7 @@
                     "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
                   },
                   "function": {
-                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/BringYourOwnEntities')]"
+                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/UserDefinedEntities')]"
                   }
                 },
                 "runAfter": {
