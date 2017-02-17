@@ -481,12 +481,6 @@ public class TweetHandler
                 GlobalParameters = new Dictionary<string, string>() { }
             };
 
-
-            //Document response = new Document()
-            //{
-            //    Text = tweet.TweetText.ToString(),
-            //};
-
             //Request headers
             string apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["apiKey"].ConnectionString;
             string url = System.Configuration.ConfigurationManager.ConnectionStrings["webserviceUrl"].ConnectionString;
