@@ -83,7 +83,7 @@ export class Customize extends ViewModelBase {
 
         if (url && url.split('/').length >= 3) {
             let urlParts = url.split('/');
-            this.baseUrl = urlParts[0] + '//' + urlParts[2] + '/';
+            this.baseUrl = urlParts[0] + '//' + urlParts[2];
         }
 
         this.isValidated = true;
@@ -92,11 +92,6 @@ export class Customize extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlGroup', 'data', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlSubGroup', 'actual_sales', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlEntryName', 'enabled', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlEntryValue', this.actuals === "Closed opportunities" ? 0 : 1, DataStoreType.Public);
-
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlGroup', 'SolutionTemplate', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlEntryName', 'BaseURL', DataStoreType.Public);
