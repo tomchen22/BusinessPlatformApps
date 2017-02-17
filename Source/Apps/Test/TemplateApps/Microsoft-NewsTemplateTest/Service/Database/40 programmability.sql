@@ -45,7 +45,7 @@ CREATE PROCEDURE bpst_news.sp_write_document
 	@keyPhraseJson NVARCHAR(max),
 
 	-- User Defined Entities
-	@userdefinedentities NVARCHAR(max)
+	@userDefinedEntities NVARCHAR(max)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -85,9 +85,9 @@ BEGIN
 		FROM OPENJSON(@keyPhraseJson);
 
 		DELETE FROM [bpst_news].[userdefinedentities] WHERE documentId = @docid;
-		INSERT INTO [byst_news].[userdefinedentities] (documentId, entityType, entityValue, offset, [length])
+		INSERT INTO [bpst_news].[userdefinedentities] (documentId, entityType, entityValue, offset, [length])
 		SELECT @docid AS documentId, *
-		FROM OPENJSON(@userdefinedentities)
+		FROM OPENJSON(@userDefinedEntities)
 		WITH (
 			entityType nvarchar(30) '$.type',
 		    entityValue nvarchar(max) '$.value',
