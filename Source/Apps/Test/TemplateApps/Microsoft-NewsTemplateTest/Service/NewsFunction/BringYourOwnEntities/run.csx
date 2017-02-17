@@ -33,6 +33,8 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         });
     }
 
+    var resultList = new LinkedList<EntityResult>();
+
     foreach (dynamic byoEntity in regularExpressions.entities)
     {
         var regex = new Regex(byoEntity.regex.ToString(), RegexOptions.IgnoreCase);
@@ -46,11 +48,13 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
                 lengthInText = match.Value.Length
             };
 
+            resultList.AddLast(entity);
+
             log.Verbose($"Found {match.Value} at position {match.Index}");
         }
     }
 
     return req.CreateResponse(HttpStatusCode.OK, new {
-        greeting = $"Hello {data.text}!"
+        entities = resultList
     });
 }
