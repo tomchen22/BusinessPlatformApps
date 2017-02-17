@@ -99,6 +99,7 @@
           "name": "Microsoft-DeployAzureMLWebServiceFromFile",
           "displayname": "Deploy Azure ML Webservice",
           "DeploymentName": "AzureML",
+          "IsRequestResponse": true,
           "CommitmentPlan": "commitmentplan",
           "WebServiceFile": "Service/Data/SentimentAnalysisWebServiceNew.json",
           "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"

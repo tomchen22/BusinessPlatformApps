@@ -36,6 +36,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var commitmentPlanName = request.DataStore.GetValue("CommitmentPlan");
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
+
+            bool isRequestResponse = bool.Parse(request.DataStore.GetValue("IsRequestResponse"));
             
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
@@ -88,8 +90,13 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 
             var keys = await client.WebServices.ListKeysAsync(resourceGroup, webserviceName);
             var swaggerLocation = result.Properties.SwaggerLocation;
-
             string url = swaggerLocation.Replace("swagger.json", "jobs?api-version=2.0");
+
+            if (isRequestResponse)
+            {
+                url = swaggerLocation.Replace("swagger.json", "execute?api-version=2.0&format=swagger");
+            }
+           
             string serviceKey = keys.Primary;
 
             request.DataStore.AddToDataStore("AzureMLUrl", url);
