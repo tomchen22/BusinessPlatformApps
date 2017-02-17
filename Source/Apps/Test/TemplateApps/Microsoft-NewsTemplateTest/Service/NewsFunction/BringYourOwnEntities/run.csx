@@ -10,7 +10,8 @@ using Newtonsoft.Json;
 
 /*
 Configuration:
-RegularExpressions: {"entities":[{"regex":"britax", "type":"Company", "canonicalValue": "Britax USA"}]}
+NOTE: Regular expression parser is configured to be case-insensitive
+RegularExpressions: {"entities":[{"regex":"Google", "type":"Company", "canonicalValue": "Google, Inc."}]}
 
 Input:
 {
@@ -20,7 +21,7 @@ Input:
 Output:
 {
     "entities":[
-        {"value":"Britax USA","type":"Company","position":0,"lengthInText":6}
+        {"value":"Google, Inc","type":"Company","position":0,"lengthInText":6}
         , etc
     ]
 }
