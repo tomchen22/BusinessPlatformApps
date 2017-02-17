@@ -8,6 +8,24 @@ using System.Net;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 
+/*
+Configuration:
+RegularExpressions: {"entities":[{"regex":"britax", "type":"Company", "canonicalValue": "Britax USA"}]}
+
+Input:
+{
+    text: "My Document Here"
+}
+
+Output:
+{
+    "entities":[
+        {"value":"Britax USA","type":"Company","position":0,"lengthInText":6}
+        , etc
+    ]
+}
+*/
+
 public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 {
     log.Info($"Webhook was triggered!");
