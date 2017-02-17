@@ -1,5 +1,5 @@
 ﻿export const EN_US = {
-    ADF_EMAILS: `Enter one or more email addresses that will be notified when a slice fails.`,
+    ADF_EMAILS: `Enter one or more email addresses that will be notified when the data movement process fails.`,
     ADF_EMAILS_TITLE: `Multiple email adresses need to be comma separated.`,
     AZURE_LOGIN_BING_TEXT: `To learn more about Bing Terms of Use click`,
     AZURE_LOGIN_CONNECT: `Connect to Azure`,

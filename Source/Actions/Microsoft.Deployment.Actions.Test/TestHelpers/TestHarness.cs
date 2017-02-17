@@ -169,11 +169,6 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             }
 
 
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                ResourceGroup = Environment.MachineName + RandomGenerator.GetRandomLowerCaseCharacters(6);
-            }
-
             dataStore.AddToDataStore("SelectedResourceGroup", ResourceGroup);
 
 
