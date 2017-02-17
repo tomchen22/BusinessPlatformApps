@@ -42,7 +42,10 @@ CREATE PROCEDURE bpst_news.sp_write_document
 	@sentimentScore float,
 
 	-- Key Phrases
-	@keyPhraseJson NVARCHAR(max)
+	@keyPhraseJson NVARCHAR(max),
+
+	-- User Defined Entities
+	@userdefinedentities NVARCHAR(max)
 AS
 BEGIN
 	-- SET NOCOUNT ON added to prevent extra result sets from
@@ -80,6 +83,17 @@ BEGIN
 		INSERT INTO [bpst_news].[documentkeyphrases] (documentId, phrase)
 		SELECT @docid AS documentId, value AS phrase
 		FROM OPENJSON(@keyPhraseJson);
+
+		DELETE FROM [bpst_news].[userdefinedentities] WHERE documentId = @docid;
+		INSERT INTO [byst_news].[userdefinedentities] (documentId, entityType, entityValue, offset, [length])
+		SELECT @docid AS documentId, *
+		FROM OPENJSON(@userdefinedentities)
+		WITH (
+			entityType nvarchar(30) '$.type',
+		    entityValue nvarchar(max) '$.value',
+			offset int '$.position',
+			[length] int '$.lengthInText'
+		)
 
 		COMMIT TRANSACTION;
 	END TRY
