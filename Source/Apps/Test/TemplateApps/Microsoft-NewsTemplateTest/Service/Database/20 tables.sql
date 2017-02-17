@@ -122,6 +122,14 @@ CREATE TABLE bpst_news.entities
     [length]					INT NOT NULL
 );
 
+CREATE TABLE bpst_news.userdefinedentities
+(
+    documentId					NCHAR(64) NOT NULL,
+    entityType					NVARCHAR(30) NOT NULL,
+    entityValue					NVARCHAR(MAX) NULL,
+    offset						INT NOT NULL,
+    [length]					INT NOT NULL
+);
 
 CREATE TABLE bpst_news.documentcompressedentities
 (
