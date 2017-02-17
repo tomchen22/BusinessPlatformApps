@@ -182,14 +182,14 @@
               "MainImageExtractor": {
                 "inputs": {
                   "body": {
-                    "html": "@body('ExtractArticle')['bodyInHtml']"
+                    "html": "@{body('HTTP')}"
                   },
                   "function": {
                     "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/MainImageExtractor')]"
                   }
                 },
                 "runAfter": {
-                  "ExtractArticle": [
+                  "HTTP": [
                     "Succeeded"
                   ]
                 },
