@@ -76,6 +76,20 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
         }
 
+        [TestMethod]
+        public async Task DeployFunctionStaticAppPlan()
+        {
+            var dataStore = await TestHarness.GetCommonDataStore();
+            dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
+            dataStore.AddToDataStore("FunctionName", "unittestfunction" + TestHarness.RandomCharacters);
+            dataStore.AddToDataStore("sku", "Standard");
+            dataStore.AddToDataStore("RepoUrl", "https://github.com/juluczni/AzureFunctionsNewsTemplate");
+
+            var response = TestHarness.ExecuteAction("Microsoft-DeployAzureFunction", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+            response = TestHarness.ExecuteAction("Microsoft-WaitForArmDeploymentStatus", dataStore);
+            Assert.IsTrue(response.IsSuccess);
+        }
     }
 }
 
