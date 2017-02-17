@@ -130,6 +130,7 @@ CREATE TABLE bpst_news.userdefinedentities
     offset						INT NOT NULL,
     [length]					INT NOT NULL
 );
+CREATE NONCLUSTERED INDEX idx_userdefinedentities_documentId ON bpst_news.userdefinedentities (documentId);
 
 CREATE TABLE bpst_news.documentcompressedentities
 (
