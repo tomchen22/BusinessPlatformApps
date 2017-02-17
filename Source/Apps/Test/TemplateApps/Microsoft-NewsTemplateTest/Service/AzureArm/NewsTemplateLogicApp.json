@@ -85,6 +85,22 @@
                 },
                 "type": "Function"
               },
+              "UserDefinedEntitiesExtractor": {
+                "inputs": {
+                  "body": {
+                    "text": "@{body('HTMLStripperWebHook')['Scrubbed']}"
+                  },
+                  "function": {
+                    "id": "[concat('/subscriptions/', parameters('subscription'), '/resourceGroups/',parameters('resourcegroup'),'/providers/Microsoft.Web/sites/', parameters('sitename'), '/Functions/BringYourOwnEntities')]"
+                  }
+                },
+                "runAfter": {
+                  "HTMLStripperWebHook": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "Function"
+              },
               "ArticleCleanerWebHook": {
                 "inputs": {
                   "body": {
@@ -210,6 +226,9 @@
                     "Succeeded"
                   ],
                   "UrlDomainWebHook": [
+                    "Succeeded"
+                  ],
+                  "UserDefinedEntitiesExtractor": [
                     "Succeeded"
                   ],
                   "Key_Phrases": [
