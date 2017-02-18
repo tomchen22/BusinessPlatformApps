@@ -37,7 +37,13 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
 
-            bool isRequestResponse = bool.Parse(request.DataStore.GetValue("IsRequestResponse"));
+            var responseType = request.DataStore.GetValue("IsRequestResponse");
+            bool isRequestResponse = false;
+
+            if (responseType != null)
+            {
+                isRequestResponse = bool.Parse(responseType);
+            }
             
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
@@ -85,35 +91,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 
             webService.Properties.CommitmentPlan = new CommitmentPlan(createdsCommitmentPlan.Id);
             webService.Name = webserviceName;
-            JObject webserviceRequest = JsonUtility.GetJObjectFromObject(webService);
-            webserviceRequest["properties"]["packageType"] = "Graph";
 
-
-            AzureHttpClient customClient = new AzureHttpClient(azureToken, subscription, resourceGroup);
-            var resultResponse = await customClient.ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Put, "/providers/Microsoft.MachineLearning/webServices/" + webserviceName, "2016-05-01-preview", webserviceRequest.ToString());
-            var result = JsonConvert.DeserializeObject<WebService>(JsonUtility.GetJObjectFromJsonString(await resultResponse.Content.ReadAsStringAsync()).ToString());
-
-            string requestUriForAsyncOpperation = resultResponse.GetHeadersAsJson()["Azure-AsyncOperation"].ToString();
-
-            while(true)
-            {
-                var statusResponse = await customClient.ExecuteGenericRequestWithHeaderAsync(HttpMethod.Get, requestUriForAsyncOpperation, "");
-                var status = JsonUtility.GetJObjectFromJsonString(await statusResponse.Content.ReadAsStringAsync());
-                if (status["status"]?.ToString() == "Failed")
-                {
-                    return new ActionResponse(ActionStatus.Failure, status, null, null, status["error"].ToString());
-                }
-
-                if (status["status"]?.ToString() == "Succeeded")
-                {
-                    break;
-                }
-                await Task.Delay(5000);
-            }
-
-
-            resultResponse = await customClient.ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Get, "/providers/Microsoft.MachineLearning/webServices/" + webserviceName, "2016-05-01-preview", "");
-            result = JsonConvert.DeserializeObject<WebService>(JsonUtility.GetJObjectFromJsonString(await resultResponse.Content.ReadAsStringAsync()).ToString());
+            var result = await client.WebServices.CreateOrUpdateAsync(resourceGroup, webserviceName, webService);
 
             var keys = await client.WebServices.ListKeysAsync(resourceGroup, webserviceName);
             var swaggerLocation = result.Properties.SwaggerLocation;

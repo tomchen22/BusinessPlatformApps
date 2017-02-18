@@ -37,10 +37,6 @@
                 "newSqlDatabase": "twitterDB"
             },
             {
-                "name": "$SiteCommon$/pagesgallery/cognitive-services.html",
-                "displayname": "Cognitive Api"
-            },
-            {
                 "name": "$SiteCommon$/pagesgallery/twitter.html",
                 "displayname": "Twitter"
             },
@@ -64,8 +60,8 @@
             {
                 "name": "$SiteCommon$/pagesgallery/progress.html",
                 "displayname": "Deploy",
-                "uniqueId": "$(this.MS.UtilityService.GetUniqueId(18))",
-                "uniqueIdFunction": "$(this.MS.UtilityService.GetUniqueId(18), )",
+                "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
+                "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(18))",
 
                 "LogicAppHostingPlan": "$save(this.uniqueId)",
                 "LogicAppName": "$save(this.uniqueId)",
@@ -76,99 +72,99 @@
             }
         ],
 
-        "Actions": [
-            {
-                "name": "Microsoft-DeploySQLScripts",
-                "displayname": "Deploy DB Scripts",
-                "SqlServerIndex": "0",
-                "SqlScriptsFolder": "Service/Database/LogicApps"
-            },
-            {
-                "name": "Microsoft-SetConfigValueInSql",
-                "displayname": "Deploy DB Configuration",
-                "SqlServerIndex": "0",
-                "SqlConfigTable": "[pbist_twitter].[configuration]"
-            },
-            {
-                "displayname": "Deploy Logic App DB",
-                "name": "Microsoft-ConfigurePowerAppTables"
-            },
-            {
-                "name": "Microsoft-DeployCognitiveServiceText",
-                "displayname": "Deploy Cognitive Service",
-                "DeploymentName": "Cognitive"
-            },
-            {
-                "name": "Microsoft-GetCognitiveServiceKeys",
-                "displayname": "Deploy Cognitive Service Key"
-            },
-            {
-                "name": "Microsoft-DeployTwitterFunction",
-                "displayname": "Deploy Twitter Function",
-                "DeploymentName": "Function"
-            },
-            {
-                "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Twitter Function",
-                "DeploymentName": "Function"
-            },
-            {
-                "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
-                "displayname": "Deploy Twitter Function Assets"
-            },
-            {
-                "name": "Microsoft-DeployTwitterHistoricalLogicApp",
-                "displayname": "Deploy Twitter Logic App",
-                "DeploymentName": "LogicApp"
-            },
-            {
-                "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Logic App",
-                "DeploymentName": "LogicApp"
-            },
-            {
-                "name": "Microsoft-CreateConnectorToLogicApp",
-                "displayname": "Create Connector to Logic App",
-                "DeploymentName": "sql",
-                "ConnectorName": "sql",
-                "ConnectorDisplayName": "SQLConnector",
-              "ConnectorPayload": {
-                "authType": "windows",
-                "database": "$ds(Database)",
-                "password": "$ds(Password)",
-                "server": "$ds(Server)",
-                "username": "$ds(Username)"
-              }
-            },
-            {
-                "name": "Microsoft-UpdateBlobStorageConnector",
-                "displayname": "Update connector",
-                "DeploymentName": "sql",
-                "ConnectorName": "sql",
-                "ConnectorDisplayName": "SQLConnector",
-                "ConnectorPayload": {
-                    "authType": "windows",
-                    "database": "$ds(Database)",
-                    "password": "$ds(Password)",
-                    "server": "$ds(Server)",
-                    "username": "$ds(Username)"
-                }
-            },
-            {
-                "name": "Microsoft-RunLogicAppHistorical",
-                "displayname": "Run Logic App Historical",
-                "DeploymentName": "LogicApp"
-            },
-            {
-                "name": "Microsoft-DeployTwitterLogicApp",
-                "displayname": "Deploy Twitter Logic App",
-                "DeploymentName": "LogicApp"
-            },
-            {
-                "name": "Microsoft-WaitForArmDeploymentStatus",
-                "displayname": "Validating Logic App",
-                "DeploymentName": "LogicApp"
-            }
-        ]
+      "Actions": [
+        {
+          "name": "Microsoft-DeploySQLScripts",
+          "displayname": "Deploy DB Scripts",
+          "SqlServerIndex": "0",
+          "SqlScriptsFolder": "Service/Database/LogicApps"
+        },
+        {
+          "name": "Microsoft-SetConfigValueInSql",
+          "displayname": "Deploy DB Configuration",
+          "SqlServerIndex": "0",
+          "SqlConfigTable": "[pbist_twitter].[configuration]"
+        },
+        {
+          "displayname": "Deploy Logic App DB",
+          "name": "Microsoft-ConfigurePowerAppTables"
+        },
+        {
+          "name": "Microsoft-DeployTwitterFunction",
+          "displayname": "Deploy Twitter Function",
+          "DeploymentName": "Function"
+        },
+        {
+          "name": "Microsoft-WaitForArmDeploymentStatus",
+          "displayname": "Validating Twitter Function",
+          "DeploymentName": "Function"
+        },
+        {
+          "name": "Microsoft-DeployAzureMLWebServiceFromFile",
+          "displayname": "Deploy Azure ML Webservice",
+          "DeploymentName": "AzureML",
+          "IsRequestResponse": true,
+          "CommitmentPlan": "commitmentplan",
+          "WebServiceFile": "Service/AzureArm/SentimentAnalysisWebServiceNew.json",
+          "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"
+        },
+        {
+          "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
+          "displayname": "Deploy Twitter Function Assets"
+        },
+        {
+          "name": "Microsoft-DeployTwitterHistoricalLogicApp",
+          "displayname": "Deploy Twitter Logic App",
+          "DeploymentName": "LogicApp"
+        },
+        {
+          "name": "Microsoft-WaitForArmDeploymentStatus",
+          "displayname": "Validating Logic App",
+          "DeploymentName": "LogicApp"
+        },
+        {
+          "name": "Microsoft-CreateConnectorToLogicApp",
+          "displayname": "Create Connector to Logic App",
+          "DeploymentName": "sql",
+          "ConnectorName": "sql",
+          "ConnectorDisplayName": "SQLConnector",
+          "ConnectorPayload": {
+            "authType": "windows",
+            "database": "$ds(Database)",
+            "password": "$ds(Password)",
+            "server": "$ds(Server)",
+            "username": "$ds(Username)"
+          }
+        },
+        {
+          "name": "Microsoft-UpdateBlobStorageConnector",
+          "displayname": "Update connector",
+          "DeploymentName": "sql",
+          "ConnectorName": "sql",
+          "ConnectorDisplayName": "SQLConnector",
+          "ConnectorPayload": {
+            "authType": "windows",
+            "database": "$ds(Database)",
+            "password": "$ds(Password)",
+            "server": "$ds(Server)",
+            "username": "$ds(Username)"
+          }
+        },
+        {
+          "name": "Microsoft-RunLogicAppHistorical",
+          "displayname": "Run Logic App Historical",
+          "DeploymentName": "LogicApp"
+        },
+        {
+          "name": "Microsoft-DeployTwitterLogicApp",
+          "displayname": "Deploy Twitter Logic App",
+          "DeploymentName": "LogicApp"
+        },
+        {
+          "name": "Microsoft-WaitForArmDeploymentStatus",
+          "displayname": "Validating Logic App",
+          "DeploymentName": "LogicApp"
+        }
+      ]
     }
 }
