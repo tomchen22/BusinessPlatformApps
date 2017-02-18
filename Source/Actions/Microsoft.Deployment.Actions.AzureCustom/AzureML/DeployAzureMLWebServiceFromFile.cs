@@ -37,9 +37,14 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
             var storageAccountName = request.DataStore.GetValue("StorageAccountName");
 
-            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
-            SqlCredentials sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+            var responseType = request.DataStore.GetValue("IsRequestResponse");
+            bool isRequestResponse = false;
 
+            if (responseType != null)
+            {
+                isRequestResponse = bool.Parse(responseType);
+            }
+            
             ServiceClientCredentials creds = new TokenCredentials(azureToken);
             AzureMLWebServicesManagementClient client = new AzureMLWebServicesManagementClient(creds);
             AzureMLCommitmentPlansManagementClient commitmentClient = new AzureMLCommitmentPlansManagementClient(creds);
@@ -64,11 +69,19 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
             string key = responseObject["StorageAccountKey"].ToString();
 
             // Get webservicedefinition
+            string sqlConnectionString = request.DataStore.GetValueAtIndex("SqlConnectionString", "SqlServerIndex");
+            SqlCredentials sqlCredentials;
+
             string jsonDefinition = File.ReadAllText(request.Info.App.AppFilePath + "/" + webserviceFile);
-            string jsonFinal = ReplaceSqlPasswords(sqlCredentials, jsonDefinition);
+
+            if (!string.IsNullOrWhiteSpace(sqlConnectionString))
+            {
+                sqlCredentials = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
+                jsonDefinition = ReplaceSqlPasswords(sqlCredentials, jsonDefinition);
+            }
 
             // Create WebService - fixed to southcentralus
-            WebService webService = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(jsonFinal);
+            WebService webService = ModelsSerializationUtil.GetAzureMLWebServiceFromJsonDefinition(jsonDefinition);
 
             webService.Properties.StorageAccount = new StorageAccount
             {
@@ -78,40 +91,18 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
 
             webService.Properties.CommitmentPlan = new CommitmentPlan(createdsCommitmentPlan.Id);
             webService.Name = webserviceName;
-            JObject webserviceRequest = JsonUtility.GetJObjectFromObject(webService);
-            webserviceRequest["properties"]["packageType"] = "Graph";
 
-
-            AzureHttpClient customClient = new AzureHttpClient(azureToken, subscription, resourceGroup);
-            var resultResponse = await customClient.ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Put, "/providers/Microsoft.MachineLearning/webServices/" + webserviceName, "2016-05-01-preview", webserviceRequest.ToString());
-            var result = JsonConvert.DeserializeObject<WebService>(JsonUtility.GetJObjectFromJsonString(await resultResponse.Content.ReadAsStringAsync()).ToString());
-
-            string requestUriForAsyncOpperation = resultResponse.GetHeadersAsJson()["Azure-AsyncOperation"].ToString();
-
-            while(true)
-            {
-                var statusResponse = await customClient.ExecuteGenericRequestWithHeaderAsync(HttpMethod.Get, requestUriForAsyncOpperation, "");
-                var status = JsonUtility.GetJObjectFromJsonString(await statusResponse.Content.ReadAsStringAsync());
-                if (status["status"]?.ToString() == "Failed")
-                {
-                    return new ActionResponse(ActionStatus.Failure, status, null, null, status["error"].ToString());
-                }
-
-                if (status["status"]?.ToString() == "Succeeded")
-                {
-                    break;
-                }
-                await Task.Delay(5000);
-            }
-
-
-            resultResponse = await customClient.ExecuteWithSubscriptionAndResourceGroupAsync(HttpMethod.Get, "/providers/Microsoft.MachineLearning/webServices/" + webserviceName, "2016-05-01-preview", "");
-            result = JsonConvert.DeserializeObject<WebService>(JsonUtility.GetJObjectFromJsonString(await resultResponse.Content.ReadAsStringAsync()).ToString());
+            var result = await client.WebServices.CreateOrUpdateAsync(resourceGroup, webserviceName, webService);
 
             var keys = await client.WebServices.ListKeysAsync(resourceGroup, webserviceName);
             var swaggerLocation = result.Properties.SwaggerLocation;
-
             string url = swaggerLocation.Replace("swagger.json", "jobs?api-version=2.0");
+
+            if (isRequestResponse)
+            {
+                url = swaggerLocation.Replace("swagger.json", "execute?api-version=2.0&format=swagger");
+            }
+           
             string serviceKey = keys.Primary;
 
             request.DataStore.AddToDataStore("AzureMLUrl", url);
@@ -123,59 +114,61 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureML
         private static string ReplaceSqlPasswords(SqlCredentials sqlCredentials, string json)
         {
             JObject obj = JsonUtility.GetJsonObjectFromJsonString(json);
-            var nodes = obj["properties"]["package"]["nodes"];
-            foreach (var node in nodes.Children())
+            var nodes = obj["properties"]?["package"]?["nodes"];
+            if (nodes != null)
             {
-                var nodeConverted = node.Children().First();
-
-                if (nodeConverted.SelectToken("parameters") != null)
+                foreach (var node in nodes.Children())
                 {
-                    if (nodeConverted["parameters"]["Database Server Name"] != null)
+                    var nodeConverted = node.Children().First();
+
+                    if (nodeConverted.SelectToken("parameters") != null)
                     {
-                        nodeConverted["parameters"]["Database Server Name"] = sqlCredentials.Server;
+                        if (nodeConverted["parameters"]["Database Server Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Database Server Name"] = sqlCredentials.Server;
+                        }
+
+                        if (nodeConverted["parameters"]["Database Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Database Name"] = sqlCredentials.Database;
+                        }
+
+                        if (nodeConverted["parameters"]["Server User Account Name"] != null)
+                        {
+                            nodeConverted["parameters"]["Server User Account Name"] = sqlCredentials.Username;
+                        }
+
+                        if (nodeConverted["parameters"]["Server User Account Password"] != null)
+                        {
+                            nodeConverted["parameters"]["Server User Account Password"] = sqlCredentials.Password;
+                        }
+                    }
+                }
+
+
+                if (obj["properties"].SelectToken("parameters") != null)
+                {
+                    if (obj["properties"]["parameters"]["database server name"] != null)
+                    {
+                        obj["properties"]["parameters"]["database server name"] = sqlCredentials.Server;
                     }
 
-                    if (nodeConverted["parameters"]["Database Name"] != null)
+                    if (obj["properties"]["parameters"]["database name"] != null)
                     {
-                        nodeConverted["parameters"]["Database Name"] = sqlCredentials.Database;
+                        obj["properties"]["parameters"]["database name"] = sqlCredentials.Database;
                     }
 
-                    if (nodeConverted["parameters"]["Server User Account Name"] != null)
+                    if (obj["properties"]["parameters"]["user name"] != null)
                     {
-                        nodeConverted["parameters"]["Server User Account Name"] = sqlCredentials.Username;
+                        obj["properties"]["parameters"]["user name"] = sqlCredentials.Username;
                     }
 
-                    if (nodeConverted["parameters"]["Server User Account Password"] != null)
+                    if (obj["properties"]["parameters"]["Server User Account Password"] != null)
                     {
-                        nodeConverted["parameters"]["Server User Account Password"] = sqlCredentials.Password;
+                        obj["properties"]["parameters"]["Server User Account Password"] = sqlCredentials.Password;
                     }
                 }
             }
-
-
-            if (obj["properties"].SelectToken("parameters") != null)
-            {
-                if (obj["properties"]["parameters"]["database server name"] != null)
-                {
-                    obj["properties"]["parameters"]["database server name"] = sqlCredentials.Server;
-                }
-
-                if (obj["properties"]["parameters"]["database name"] != null)
-                {
-                    obj["properties"]["parameters"]["database name"] = sqlCredentials.Database;
-                }
-
-                if (obj["properties"]["parameters"]["user name"] != null)
-                {
-                    obj["properties"]["parameters"]["user name"] = sqlCredentials.Username;
-                }
-
-                if (obj["properties"]["parameters"]["Server User Account Password"] != null)
-                {
-                    obj["properties"]["parameters"]["Server User Account Password"] = sqlCredentials.Password;
-                }
-            }
-
             return obj.ToString();
         }
     }
