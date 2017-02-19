@@ -62,109 +62,118 @@
                 "displayname": "Deploy",
                 "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
                 "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(18))",
-
                 "LogicAppHostingPlan": "$save(this.uniqueId)",
                 "LogicAppName": "$save(this.uniqueId)",
                 "LogicAppNameHistorical": "$save(this.uniqueId)",
                 "SiteName": "$save(this.uniqueIdFunction)",
                 "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
-                "filename": "$save('TwitterTemplate.pbix')"
+                "filename": "$save('TwitterTemplate.pbix')",
+                "hasPowerApp": true,
+                "powerAppFileName": "TwitterTemplate.msapp"
             }
         ],
 
-      "Actions": [
-        {
-          "name": "Microsoft-DeploySQLScripts",
-          "displayname": "Deploy DB Scripts",
-          "SqlServerIndex": "0",
-          "SqlScriptsFolder": "Service/Database/LogicApps"
-        },
-        {
-          "name": "Microsoft-SetConfigValueInSql",
-          "displayname": "Deploy DB Configuration",
-          "SqlServerIndex": "0",
-          "SqlConfigTable": "[pbist_twitter].[configuration]"
-        },
-        {
-          "displayname": "Deploy Logic App DB",
-          "name": "Microsoft-ConfigurePowerAppTables"
-        },
-        {
-          "name": "Microsoft-DeployTwitterFunction",
-          "displayname": "Deploy Twitter Function",
-          "DeploymentName": "Function"
-        },
-        {
-          "name": "Microsoft-WaitForArmDeploymentStatus",
-          "displayname": "Validating Twitter Function",
-          "DeploymentName": "Function"
-        },
-        {
-          "name": "Microsoft-DeployAzureMLWebServiceFromFile",
-          "displayname": "Deploy Azure ML Webservice",
-          "DeploymentName": "AzureML",
-          "IsRequestResponse": true,
-          "CommitmentPlan": "commitmentplan",
-          "WebServiceFile": "Service/AzureArm/SentimentAnalysisWebServiceNew.json",
-          "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"
-        },
-        {
-          "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
-          "displayname": "Deploy Twitter Function Assets"
-        },
-        {
-          "name": "Microsoft-DeployTwitterHistoricalLogicApp",
-          "displayname": "Deploy Twitter Logic App",
-          "DeploymentName": "LogicApp"
-        },
-        {
-          "name": "Microsoft-WaitForArmDeploymentStatus",
-          "displayname": "Validating Logic App",
-          "DeploymentName": "LogicApp"
-        },
-        {
-          "name": "Microsoft-CreateConnectorToLogicApp",
-          "displayname": "Create Connector to Logic App",
-          "DeploymentName": "sql",
-          "ConnectorName": "sql",
-          "ConnectorDisplayName": "SQLConnector",
-          "ConnectorPayload": {
-            "authType": "windows",
-            "database": "$ds(Database)",
-            "password": "$ds(Password)",
-            "server": "$ds(Server)",
-            "username": "$ds(Username)"
-          }
-        },
-        {
-          "name": "Microsoft-UpdateBlobStorageConnector",
-          "displayname": "Update connector",
-          "DeploymentName": "sql",
-          "ConnectorName": "sql",
-          "ConnectorDisplayName": "SQLConnector",
-          "ConnectorPayload": {
-            "authType": "windows",
-            "database": "$ds(Database)",
-            "password": "$ds(Password)",
-            "server": "$ds(Server)",
-            "username": "$ds(Username)"
-          }
-        },
-        {
-          "name": "Microsoft-RunLogicAppHistorical",
-          "displayname": "Run Logic App Historical",
-          "DeploymentName": "LogicApp"
-        },
-        {
-          "name": "Microsoft-DeployTwitterLogicApp",
-          "displayname": "Deploy Twitter Logic App",
-          "DeploymentName": "LogicApp"
-        },
-        {
-          "name": "Microsoft-WaitForArmDeploymentStatus",
-          "displayname": "Validating Logic App",
-          "DeploymentName": "LogicApp"
-        }
-      ]
+        "Actions": [
+            {
+                "name": "Microsoft-DeploySQLScripts",
+                "displayname": "Deploying database scripts",
+                "SqlServerIndex": "0",
+                "SqlScriptsFolder": "Service/Database/LogicApps"
+            },
+            {
+                "name": "Microsoft-SetConfigValueInSql",
+                "displayname": "Deploying database configuration",
+                "SqlServerIndex": "0",
+                "SqlConfigTable": "[pbist_twitter].[configuration]"
+            },
+            {
+                "displayname": "Deploying Logic App database",
+                "name": "Microsoft-ConfigurePowerAppTables"
+            },
+            {
+                "displayname": "Retrieving PowerApp environment",
+                "name": "Microsoft-GetPowerAppEnvironment"
+            },
+            {
+                "displayname": "Creating PowerApp SQL connection",
+                "name": "Microsoft-CreatePowerAppSqlConnection"
+            },
+            {
+                "name": "Microsoft-DeployTwitterFunction",
+                "displayname": "Deploying Twitter function",
+                "DeploymentName": "Function"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating Twitter function",
+                "DeploymentName": "Function"
+            },
+            {
+                "name": "Microsoft-DeployAzureMLWebServiceFromFile",
+                "displayname": "Deploying Azure ML web service",
+                "DeploymentName": "AzureML",
+                "IsRequestResponse": true,
+                "CommitmentPlan": "commitmentplan",
+                "WebServiceFile": "Service/AzureArm/SentimentAnalysisWebServiceNew.json",
+                "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"
+            },
+            {
+                "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
+                "displayname": "Deploying Twitter function assets"
+            },
+            {
+                "name": "Microsoft-DeployTwitterHistoricalLogicApp",
+                "displayname": "Deploying Twitter logic app",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating Logic App",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-CreateConnectorToLogicApp",
+                "displayname": "Creating Logic App connector",
+                "DeploymentName": "sql",
+                "ConnectorName": "sql",
+                "ConnectorDisplayName": "SQLConnector",
+                "ConnectorPayload": {
+                    "authType": "windows",
+                    "database": "$ds(Database)",
+                    "password": "$ds(Password)",
+                    "server": "$ds(Server)",
+                    "username": "$ds(Username)"
+                }
+            },
+            {
+                "name": "Microsoft-UpdateBlobStorageConnector",
+                "displayname": "Updating Logic App connector",
+                "DeploymentName": "sql",
+                "ConnectorName": "sql",
+                "ConnectorDisplayName": "SQLConnector",
+                "ConnectorPayload": {
+                    "authType": "windows",
+                    "database": "$ds(Database)",
+                    "password": "$ds(Password)",
+                    "server": "$ds(Server)",
+                    "username": "$ds(Username)"
+                }
+            },
+            {
+                "name": "Microsoft-RunLogicAppHistorical",
+                "displayname": "Running Logic App historical",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-DeployTwitterLogicApp",
+                "displayname": "Deploying Twitter Logic App",
+                "DeploymentName": "LogicApp"
+            },
+            {
+                "name": "Microsoft-WaitForArmDeploymentStatus",
+                "displayname": "Validating Twitter Logic App",
+                "DeploymentName": "LogicApp"
+            }
+        ]
     }
 }

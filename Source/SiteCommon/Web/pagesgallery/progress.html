@@ -57,7 +57,7 @@
     </div>
 
     <!-- PBIX Download -->
-    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError  && !isUninstall">
+    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError && !isUninstall">
         <p class="smallFontSize" if.bind="isPbixReady">
             <a href.bind="pbixDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
                 <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_PBIX}</button>
@@ -66,6 +66,19 @@
         <div class="smallFontSize" if.bind="!isPbixReady">
             <span class="st-loader st-loader-tiny st-loader-pbi"></span>
             <span>${MS.Translate.PROGRESS_GETTING_READY}</span>
+        </div>
+    </div>
+
+    <!-- PowerApp Download -->
+    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError && !isUninstall">
+        <p class="smallFontSize" if.bind="isPowerAppReady">
+            <a href.bind="powerAppDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
+                <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_POWERAPP}</button>
+            </a>
+        </p>
+        <div class="smallFontSize" if.bind="!isPbixReady">
+            <span class="st-loader st-loader-tiny st-loader-pbi"></span>
+            <span>${MS.Translate.PROGRESS_GETTING_READY_POWERAPP}</span>
         </div>
     </div>
 
