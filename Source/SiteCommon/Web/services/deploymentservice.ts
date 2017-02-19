@@ -52,7 +52,6 @@ export class DeploymentService {
 
             this.MS.LoggerService.TrackDeploymentStepStoptEvent(i, this.actions[i].OperationName, response.IsSuccess);
 
-
             if (!(response.IsSuccess)) {
                 this.hasError = true;
                 break;

@@ -3,12 +3,17 @@ import { ViewModelBase } from '../services/viewmodelbase';
 
 export class ProgressViewModel extends ViewModelBase {
     emailAddress: string = '';
+    filename: string = 'report.pbix';
     finishedActionName: string = '';
+    hasPowerApp: boolean = false;
     isDataPullDone: boolean = false;
     isPbixReady: boolean = false;
+    isUninstall: boolean = false;
     nameFirst: string = '';
     nameLast: string = '';
     pbixDownloadLink: string = '';
+    powerAppDownloadLink: string = '';
+    powerAppFileName: string = '';
     recordCounts: any[] = [];
     showCounts: boolean = false;
     showEmailSubmission: boolean = true;
@@ -16,8 +21,6 @@ export class ProgressViewModel extends ViewModelBase {
     sqlServerIndex: number = 0;
     successMessage: string = this.MS.Translate.PROGRESS_ALL_DONE;
     targetSchema: string = '';
-    filename: string = 'report.pbix';
-    isUninstall: boolean = false;
 
     constructor() {
         super();
@@ -42,6 +45,12 @@ export class ProgressViewModel extends ViewModelBase {
                     this.pbixDownloadLink = response.Body.value;
                     this.isPbixReady = true;
                 }
+
+                if (this.hasPowerApp) {
+                    let body: any = {};
+                    body.PowerAppFileName = this.powerAppFileName;
+                }
+
                 this.QueryRecordCounts();
             }
         }

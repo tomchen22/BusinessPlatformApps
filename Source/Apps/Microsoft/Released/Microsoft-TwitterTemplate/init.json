@@ -62,13 +62,14 @@
                 "displayname": "Deploy",
                 "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
                 "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(18))",
-
                 "LogicAppHostingPlan": "$save(this.uniqueId)",
                 "LogicAppName": "$save(this.uniqueId)",
                 "LogicAppNameHistorical": "$save(this.uniqueId)",
                 "SiteName": "$save(this.uniqueIdFunction)",
                 "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
-                "filename": "$save('TwitterTemplate.pbix')"
+                "filename": "$save('TwitterTemplate.pbix')",
+                "hasPowerApp": true,
+                "powerAppFileName": "TwitterTemplate.msapp"
             }
         ],
 
