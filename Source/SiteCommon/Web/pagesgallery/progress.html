@@ -4,9 +4,20 @@
 
     <!-- Progress -->
     <div class="st-float st-text st-text-progress">
-        
         <!-- Base Experience -->
-        <div class="st-progress" if.bind="(showCounts && !MS.DeploymentService.isFinished) || !showCounts" repeat.for="action of MS.DeploymentService.actions">
+        <div class="st-progress-bar-wrapper" if.bind="!MS.DeploymentService.isFinished">
+            <div class="st-progress-bar" css="width: ${MS.DeploymentService.progressPercentage}%;"></div>
+        </div>
+
+        <div class="st-progress" if.bind="!MS.DeploymentService.isFinished">
+            <span class="glyphicon pbi-glyph-circlering st-icon-progress"></span>
+            <span class="glyphicon pbi-glyph-close st-icon-progress st-icon-progress-close" if.bind="MS.DeploymentService.hasError"></span>
+            <span class="st-icon-progress ${$index + 1 < 10 ? 'st-icon-progress-index' : 'st-icon-progress-index-large'}" if.bind="!MS.DeploymentService.hasError">${$index + 1}</span>
+            <span class="semiboldFont st-progress-text">${action.DisplayName}</span>
+            <span class="smallFontSize" if.bind="MS.DeploymentService.message">(${MS.DeploymentService.message})</span>
+        </div>
+
+        <!--<div class="st-progress" if.bind="(showCounts && !MS.DeploymentService.isFinished) || !showCounts" repeat.for="action of MS.DeploymentService.actions">
             <span class="glyphicon pbi-glyph-circlering st-icon-progress"></span>
             <span class="powervisuals-glyph checkmark st-icon-progress st-icon-progress-check" if.bind="MS.DeploymentService.executingIndex > $index"></span>
             <span class="glyphicon pbi-glyph-close st-icon-progress st-icon-progress-close" if.bind="MS.DeploymentService.hasError && MS.DeploymentService.executingIndex == $index"></span>
@@ -14,7 +25,8 @@
             <span class="st-icon-progress ${$index + 1 < 10 ? 'st-icon-progress-index' : 'st-icon-progress-index-large'}" if.bind="MS.DeploymentService.executingIndex < $index">${$index + 1}</span>
             <span class="semiboldFont st-progress-text">${action.DisplayName}</span>
             <span class="smallFontSize" if.bind="MS.DeploymentService.message && MS.DeploymentService.executingIndex == $index">(${MS.DeploymentService.message})</span>
-        </div>
+        </div>-->
+
         <div class="st-progress" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError">
             <span class="glyphicon pbi-glyph-circlering st-icon-progress"></span>
             <span class="powervisuals-glyph checkmark st-icon-progress st-icon-progress-check"></span>
