@@ -3,9 +3,11 @@ import { ViewModelBase } from '../services/viewmodelbase';
 
 export class ProgressViewModel extends ViewModelBase {
     emailAddress: string = '';
+    filename: string = 'report.pbix';
     finishedActionName: string = '';
     isDataPullDone: boolean = false;
     isPbixReady: boolean = false;
+    isUninstall: boolean = false;
     nameFirst: string = '';
     nameLast: string = '';
     pbixDownloadLink: string = '';
@@ -16,8 +18,6 @@ export class ProgressViewModel extends ViewModelBase {
     sqlServerIndex: number = 0;
     successMessage: string = this.MS.Translate.PROGRESS_ALL_DONE;
     targetSchema: string = '';
-    filename: string = 'report.pbix';
-    isUninstall: boolean = false;
 
     constructor() {
         super();
