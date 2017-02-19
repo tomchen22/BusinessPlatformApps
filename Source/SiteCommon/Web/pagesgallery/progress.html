@@ -9,12 +9,11 @@
             <div class="st-progress-bar" css="width: ${MS.DeploymentService.progressPercentage}%;"></div>
         </div>
 
-        <div class="st-progress" if.bind="!MS.DeploymentService.isFinished">
+        <div class="st-progress" if.bind="!MS.DeploymentService.isFinished && MS.DeploymentService.executingAction">
             <span class="glyphicon pbi-glyph-circlering st-icon-progress"></span>
             <span class="glyphicon pbi-glyph-close st-icon-progress st-icon-progress-close" if.bind="MS.DeploymentService.hasError"></span>
-            <span class="st-icon-progress ${$index + 1 < 10 ? 'st-icon-progress-index' : 'st-icon-progress-index-large'}" if.bind="!MS.DeploymentService.hasError">${$index + 1}</span>
-            <span class="semiboldFont st-progress-text">${action.DisplayName}</span>
-            <span class="smallFontSize" if.bind="MS.DeploymentService.message">(${MS.DeploymentService.message})</span>
+            <span class="st-icon-progress ${MS.DeploymentService.executingIndex + 1 < 10 ? 'st-icon-progress-index' : 'st-icon-progress-index-large'}" if.bind="!MS.DeploymentService.hasError">${MS.DeploymentService.executingIndex + 1}</span>
+            <span class="semiboldFont st-progress-text">${MS.DeploymentService.executingAction.DisplayName}</span>
         </div>
 
         <!--<div class="st-progress" if.bind="(showCounts && !MS.DeploymentService.isFinished) || !showCounts" repeat.for="action of MS.DeploymentService.actions">
