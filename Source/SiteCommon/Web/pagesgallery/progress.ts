@@ -8,6 +8,7 @@ export class ProgressViewModel extends ViewModelBase {
     hasPowerApp: boolean = false;
     isDataPullDone: boolean = false;
     isPbixReady: boolean = false;
+    isPowerAppReady: boolean = false;
     isUninstall: boolean = false;
     nameFirst: string = '';
     nameLast: string = '';
@@ -47,8 +48,13 @@ export class ProgressViewModel extends ViewModelBase {
                 }
 
                 if (this.hasPowerApp) {
-                    let body: any = {};
-                    body.PowerAppFileName = this.powerAppFileName;
+                    let bodyPowerApp: any = {};
+                    bodyPowerApp.PowerAppFileName = this.powerAppFileName;
+                    let responsePowerApp = await this.MS.HttpService.executeAsync('Microsoft-WranglePowerApp', bodyPowerApp);
+                    if (responsePowerApp.IsSuccess) {
+                        this.isPowerAppReady = true;
+                        this.powerAppDownloadLink = responsePowerApp.Body.value;
+                    }
                 }
 
                 this.QueryRecordCounts();
