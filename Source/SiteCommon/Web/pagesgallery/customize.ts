@@ -14,6 +14,12 @@ export class Customize extends ViewModelBase {
     showCrmUrl: boolean = false;
     showRecurrenceOptions: boolean = false;
 
+    async OnLoaded() {
+        if (this.showCrmUrl) {
+            this.baseUrl = this.MS.DataStore.getValue('OrganizationUrl');
+        }
+    }
+
     async OnValidate(): Promise<boolean> {
         this.isValidated = false;
         this.showValidation = true;
