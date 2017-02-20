@@ -27,6 +27,12 @@
         "defaultLocation": 5
       },
       {
+        "displayname": "Cognitive API",
+        "name": "cognitive-text.html",
+        "cognitiveUrl": "placeholder",
+        "bingUrl": "placeholder"      
+      },
+      {
         "name": "$SiteCommon$/pagesgallery/sql-server.html",
         "displayname": "Source",
         "isAzureSql": true,
