@@ -46,6 +46,11 @@ export class DeploymentService {
 
             JsonCustomParser.loadVariables(param, param, this.MS, this);
 
+            // Skip action if requested to do so by variable
+            if (param && param.skip && param.skip.toLowerCase() === 'true') {
+                continue;
+            }
+
             this.MS.LoggerService.TrackDeploymentStepStartEvent(i, this.actions[i].OperationName);
             let response = await this.MS.HttpService.executeAsync(this.actions[i].OperationName, param);
             this.message = '';
