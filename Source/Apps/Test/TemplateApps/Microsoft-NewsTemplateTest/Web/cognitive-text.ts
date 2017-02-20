@@ -1,7 +1,7 @@
 ﻿import { ViewModelBase } from '../../../../../SiteCommon/Web/services/viewmodelbase'
 import { DataStoreType } from '../../../../../SiteCommon/Web/services/datastore'
 
-export class SearchTerms extends ViewModelBase {
+export class CognitiveText extends ViewModelBase {
     bingUrl: string = '';
     bingtermsofuse: string = '';
     cognitiveUrl: string = '';

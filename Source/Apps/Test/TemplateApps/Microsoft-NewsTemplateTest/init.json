@@ -28,7 +28,7 @@
       },
       {
         "displayname": "Cognitive API",
-        "name": "$SiteCommon$/pagesgallery/cognitive-text.html",
+        "name": "cognitive-text.html",
         "cognitiveUrl": "placeholder",
         "bingUrl": "placeholder"      
       },
