@@ -1,8 +1,7 @@
 ﻿export const EN_US = {
     ADF_EMAILS: `Enter one or more email addresses that will be notified when the data movement process fails.`,
     ADF_EMAILS_TITLE: `Multiple email adresses need to be comma separated.`,
-    AZURE_LOGIN_BING_TEXT: `To read the Bing Terms of Use click`,
-    AZURE_LOGIN_COGNITIVE_TEXT: `To read the Cognitive Service Terms of Use click`,
+    AZURE_LOGIN_BING_TEXT: `To learn more about Bing Terms of Use click`,
     AZURE_LOGIN_CONNECT: `Connect to Azure`,
     AZURE_LOGIN_CONNECTION: `How are you signing in to your Azure subscription?`,
     AZURE_LOGIN_DIRECTORY: `Azure Tenant:`,
