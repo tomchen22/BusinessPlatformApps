@@ -133,13 +133,14 @@ CREATE NONCLUSTERED INDEX idx_documentcompressedentities_documentId ON bpst_news
 -- Bring Your Own Entity Tables
 CREATE TABLE bpst_news.userdefinedentities
 (
+	id							BIGINT NOT NULL IDENTITY (1, 1),
     documentId					NCHAR(64) NOT NULL,
     entityType					NVARCHAR(30) NOT NULL,
     entityValue					NVARCHAR(MAX) NULL,
     offset						INT NOT NULL,
+    offsetDocumentPercentage	FLOAT NOT NULL,
     [length]					INT NOT NULL
 );
-CREATE NONCLUSTERED INDEX idx_userdefinedentities_documentId ON bpst_news.userdefinedentities (documentId);
 
 CREATE TABLE bpst_news.userdefinedentitydefinitions
 (
