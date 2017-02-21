@@ -22,7 +22,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             string paOriginal = request.Info.App.AppFilePath + $"/service/PowerApp/{paFileName}";
             string paWrangledDirectoryName = Path.GetRandomFileName();
 
-            string paWrangledDirectoryPath = request.Info.App.AppFilePath + $"/Temp/{paWrangledDirectoryName};
+            string paWrangledDirectoryPath = request.Info.App.AppFilePath + $"/Temp/{paWrangledDirectoryName}";
             string paWrangled = $"{paWrangledDirectoryPath}/{paFileName}";
 
             Directory.CreateDirectory(paWrangledDirectoryPath);
