@@ -143,7 +143,6 @@ BEGIN
 
     -- These tables are populated by AzureML batch processes.
     TRUNCATE TABLE bpst_news.stg_entities;
-    TRUNCATE TABLE bpst_news.stg_documentcompressedentities;
     TRUNCATE TABLE bpst_news.stg_documenttopics;
     TRUNCATE TABLE bpst_news.stg_documenttopicimages;
 END;
@@ -159,10 +158,6 @@ BEGIN
     TRUNCATE TABLE bpst_news.entities;
     INSERT INTO bpst_news.entities WITH (TABLOCK) (documentId, entityType, entityValue, offset, offsetDocumentPercentage, [length])
         SELECT documentId, entityType, entityValue, offset, offsetDocumentPercentage, [length] FROM bpst_news.stg_entities;
-
-    TRUNCATE TABLE bpst_news.documentcompressedentities;
-    INSERT INTO bpst_news.documentcompressedentities WITH (TABLOCK) (documentId, compressedEntitiesJson)
-        SELECT documentId, compressedEntitiesJson FROM bpst_news.stg_documentcompressedentities;
 
     TRUNCATE TABLE bpst_news.documenttopics;
     INSERT INTO bpst_news.documenttopics WITH (TABLOCK) (documentId, topicId, batchId, documentDistance, topicScore, topicKeyPhrase)

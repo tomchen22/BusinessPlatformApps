@@ -151,14 +151,23 @@ AS
 go
 
 
-CREATE VIEW bpst_news.vw_DocumentTopicImages
-AS
-    SELECT topicId			AS [Topic Id],
-           imageUrl1		AS [Image URL 1],
-           imageUrl2		AS [Image URL 2],
-           imageUrl3		AS [Image URL 3],
-           imageUrl4		AS [Image URL 4]
-    FROM   bpst_news.documenttopicimages;
+CREATE VIEW bpst_news.vw_DocumentCompressedEntities
+as
+	SELECT [id] AS [Document Id],
+	(
+		SELECT [Entity Type] AS entityType
+			,[Entity Value] AS entityValue
+			,[Offset] AS offset
+			,[Offset Document Percentage] AS offsetPercentage
+			,[Lenth] AS [length]
+			,[Entity Id] AS [entityId]
+			,[Entity Class] AS [cssClass]
+			,[Entity Color] AS [cssColor]
+		FROM [bpst_news].[vw_FullEntities]
+		where [document id] = docs.id
+		FOR JSON AUTO
+	) AS [Compressed Entities Json] FROM
+	bpst_news.documents AS docs;
 go
 
 CREATE VIEW bpst_news.vw_TopicKeyPhrases

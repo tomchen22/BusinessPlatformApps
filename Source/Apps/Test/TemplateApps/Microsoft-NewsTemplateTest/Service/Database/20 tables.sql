@@ -121,15 +121,6 @@ CREATE TABLE bpst_news.entities
     [length]					INT NOT NULL
 );
 
-
-CREATE TABLE bpst_news.documentcompressedentities
-(
-    documentId				NCHAR(64) NOT NULL,
-    compressedEntitiesJson	NVARCHAR(max),
-    CONSTRAINT pk_documentcompressedentities PRIMARY KEY CLUSTERED (documentId)
-);
-CREATE NONCLUSTERED INDEX idx_documentcompressedentities_documentId ON bpst_news.entities (documentId);
-
 -- Bring Your Own Entity Tables
 CREATE TABLE bpst_news.userdefinedentities
 (
