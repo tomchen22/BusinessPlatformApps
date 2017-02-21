@@ -13,6 +13,17 @@ export class Customize extends ViewModelBase {
     showEmails: boolean = false;
     showCrmUrl: boolean = false;
     showRecurrenceOptions: boolean = false;
+    sourceApplication: string = '';
+
+    async OnLoaded() {
+        if (this.showCrmUrl) {
+            let orgUrl: string = this.MS.DataStore.getValue('OrganizationUrl');
+            if (orgUrl && orgUrl[orgUrl.length - 1] === '/') {
+                orgUrl = orgUrl.substr(0, orgUrl.length - 1);
+            }
+            this.baseUrl = orgUrl;
+        }
+    }
 
     async OnValidate(): Promise<boolean> {
         this.isValidated = false;
@@ -83,7 +94,7 @@ export class Customize extends ViewModelBase {
 
         if (url && url.split('/').length >= 3) {
             let urlParts = url.split('/');
-            this.baseUrl = urlParts[0] + '//' + urlParts[2] + '/';
+            this.baseUrl = urlParts[0] + '//' + urlParts[2];
         }
 
         this.isValidated = true;
@@ -92,11 +103,6 @@ export class Customize extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlGroup', 'data', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlSubGroup', 'actual_sales', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlEntryName', 'enabled', DataStoreType.Public);
-        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeActuals', 'SqlEntryValue', this.actuals === "Closed opportunities" ? 0 : 1, DataStoreType.Public);
-
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlGroup', 'SolutionTemplate', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeBaseUrl', 'SqlEntryName', 'BaseURL', DataStoreType.Public);
@@ -106,6 +112,11 @@ export class Customize extends ViewModelBase {
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlEntryName', 'FiscalMonthStart', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlEntryValue', this.fiscalMonth, DataStoreType.Public);
+
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlGroup', 'SolutionTemplate', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlEntryName', 'SourceApplication', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlEntryValue', this.sourceApplication, DataStoreType.Public);
 
         return true;
     }
