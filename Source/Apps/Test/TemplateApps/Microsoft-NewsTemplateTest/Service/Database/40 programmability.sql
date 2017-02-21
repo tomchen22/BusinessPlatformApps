@@ -85,13 +85,14 @@ BEGIN
 		FROM OPENJSON(@keyPhraseJson);
 
 		DELETE FROM [bpst_news].[userdefinedentities] WHERE documentId = @docid;
-		INSERT INTO [bpst_news].[userdefinedentities] (documentId, entityType, entityValue, offset, [length])
+		INSERT INTO [bpst_news].[userdefinedentities] (documentId, entityType, entityValue, offset, offsetDocumentPercentage, [length])
 		SELECT @docid AS documentId, *
 		FROM OPENJSON(@userDefinedEntities)
 		WITH (
 			entityType nvarchar(30) '$.type',
 		    entityValue nvarchar(max) '$.value',
 			offset int '$.position',
+			offsetDocumentPercentage float '$.positionDocumentPercentage',
 			[length] int '$.lengthInText'
 		)
 
