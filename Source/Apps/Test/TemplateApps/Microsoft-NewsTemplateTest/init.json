@@ -21,11 +21,16 @@
       {
         "displayname": "Login",
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
-        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates.  The approximate base cost of the Azure resources used by this template is $6 a day, and every 1,000 tweets will incur an additional cost of approximately $0.80.  These costs are estimates only and subject to change.  View current Azure pricing here.')",
+        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates.  The approximate base cost of the Azure resources used by this template is $7 a day, and every 1,000 articles will incur an additional cost of approximately $12.  These costs are estimates only and subject to change.')",
         "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate#pricing",
-        "bingtermsofuse": "By deploying this template you agree to Bing's Terms of Use.",
-        "bingUrl": "placeholder",
+        "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
         "defaultLocation": 5
+      },
+      {
+        "displayname": "Cognitive API",
+        "name": "cognitive-text.html",
+        "cognitiveUrl": "placeholder",
+        "bingUrl": "placeholder"      
       },
       {
         "name": "$SiteCommon$/pagesgallery/sql-server.html",
