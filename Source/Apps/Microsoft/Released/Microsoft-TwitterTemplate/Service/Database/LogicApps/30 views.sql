@@ -100,9 +100,8 @@ AS
     FROM   pbist_twitter.tweets_processed;
 GO
 
-CREATE VIEW [pbist_twitter].[vw_minimum_tweets] 
-AS
-	SELECT [MinimumTweets] AS [Minimum Tweets] 
-	FROM [pbist_twitter].[minimum_tweets]
+create view [pbist_twitter].[vw_minimum_tweets] as
+select [MinimumTweets] as [Minimum Tweets] from [pbist_twitter].[minimum_tweets]
 go
+
 

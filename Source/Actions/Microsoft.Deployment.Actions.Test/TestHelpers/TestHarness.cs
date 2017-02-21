@@ -166,8 +166,9 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
 
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                ResourceGroup = Environment.MachineName + "test";
+                ResourceGroup = Environment.MachineName;
             }
+
 
             dataStore.AddToDataStore("SelectedResourceGroup", ResourceGroup);
 

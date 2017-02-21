@@ -35,3 +35,24 @@ INSERT [pbist_twitter].[configuration] ( [configuration_group], [configuration_s
 VALUES ( N'SolutionTemplate', N'SSAS', N'CurrentStatus', N'', 0)
 GO
 
+
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (0)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (1)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (2)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (3)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (4)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (5)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (10)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (20)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (50)
+go
+INSERT [pbist_twitter].[minimum_tweets] ([MinimumTweets]) VALUES (100)
+go
