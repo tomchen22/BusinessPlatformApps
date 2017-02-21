@@ -9,7 +9,7 @@
             <div class="st-progress-bar" css="width: ${MS.DeploymentService.progressPercentage}%;"></div>
         </div>
 
-        <div class="st-progress" if.bind="!MS.DeploymentService.isFinished && MS.DeploymentService.executingAction">
+        <div class="st-progress" if.bind="!MS.DeploymentService.isFinished && MS.DeploymentService.executingIndex >= 0">
             <span class="glyphicon pbi-glyph-circlering st-icon-progress"></span>
             <span class="glyphicon pbi-glyph-close st-icon-progress st-icon-progress-close" if.bind="MS.DeploymentService.hasError"></span>
             <span class="st-icon-progress ${MS.DeploymentService.executingIndex + 1 < 10 ? 'st-icon-progress-index' : 'st-icon-progress-index-large'}" if.bind="!MS.DeploymentService.hasError">${MS.DeploymentService.executingIndex + 1}</span>
@@ -70,7 +70,7 @@
     </div>
 
     <!-- PowerApp Download -->
-    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError && !isUninstall">
+    <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError && !isUninstall && hasPowerApp">
         <p class="smallFontSize" if.bind="isPowerAppReady">
             <a href.bind="powerAppDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
                 <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_POWERAPP}</button>
