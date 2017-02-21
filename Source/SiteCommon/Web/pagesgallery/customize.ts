@@ -13,10 +13,15 @@ export class Customize extends ViewModelBase {
     showEmails: boolean = false;
     showCrmUrl: boolean = false;
     showRecurrenceOptions: boolean = false;
+    sourceApplication: string = '';
 
     async OnLoaded() {
         if (this.showCrmUrl) {
-            this.baseUrl = this.MS.DataStore.getValue('OrganizationUrl');
+            let orgUrl: string = this.MS.DataStore.getValue('OrganizationUrl');
+            if (orgUrl && orgUrl[orgUrl.length - 1] === '/') {
+                orgUrl = orgUrl.substr(0, orgUrl.length - 1);
+            }
+            this.baseUrl = orgUrl;
         }
     }
 
@@ -107,6 +112,11 @@ export class Customize extends ViewModelBase {
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlEntryName', 'FiscalMonthStart', DataStoreType.Public);
         this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeFiscalMonth', 'SqlEntryValue', this.fiscalMonth, DataStoreType.Public);
+
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlGroup', 'SolutionTemplate', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlSubGroup', 'SalesManagement', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlEntryName', 'SourceApplication', DataStoreType.Public);
+        this.MS.DataStore.addToDataStoreWithCustomRoute('CustomizeSourceApplication', 'SqlEntryValue', this.sourceApplication, DataStoreType.Public);
 
         return true;
     }
