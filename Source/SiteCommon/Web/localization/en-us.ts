@@ -104,7 +104,7 @@
     NAVIGATION_VIEW_DETAILS: `View Details`,
     PROGRESS_ALL_DONE: `All done! You can now download your Power BI report and start exploring your data.`,
     PROGRESS_DOWNLOAD_PBIX: `Download PBIX`,
-    PROGRESS_DOWNLOAD_POWERAPP: `Download PowerApp`,
+    PROGRESS_DOWNLOAD_POWERAPP: `Download MSAPP`,
     PROGRESS_GETTING_READY: `Getting your Power BI file ready...`,
     PROGRESS_GETTING_READY_POWERAPP: `Getting your PowerApp file ready...`,
     PROGRESS_OKAY: `Okay, let's get your deployment started!`,
