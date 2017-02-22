@@ -6,17 +6,18 @@
         "displayname": "Getting Started",
         "list1": [
           "Azure Subscription",
+          "Azure access to Cognitive Services",
           "Power BI Desktop (latest version)",
           "Power BI Pro (to share the template with your organization)"
         ],
         "list2": [
-          "Pull data from hundreds of news publishers",
+          "Find articles from hundreds of news publishers",
           "Data enriched using machine learning techniques like topic modelling and entity extraction",
           "Full cloud solution with minimum set up and maintenance considerations"
         ],
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "subtitle": "Welcome to the brand management solution template.",
-        "templateName": "Brand Management for Bing News"
+        "subtitle": "Welcome to the Bing News solution template.",
+        "templateName": "Advanced Search with Bing News"
       },
       {
         "displayname": "Login",
