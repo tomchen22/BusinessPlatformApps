@@ -1,4 +1,5 @@
 ﻿export const EN_US = {
+    AZURE_ANALYSIS_PROVISIONING: `Would you like us to provision a new SSAS instance or use an existing SSAS instance?`,
     ADF_EMAILS: `Enter one or more email addresses that will be notified when the data movement process fails.`,
     ADF_EMAILS_TITLE: `Multiple email adresses need to be comma separated.`,
     AZURE_LOGIN_BING_TEXT: `To learn more about Bing Terms of Use click`,

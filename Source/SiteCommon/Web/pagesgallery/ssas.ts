@@ -2,9 +2,19 @@ import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Customize extends ViewModelBase {
-    ssasEnabled: string = 'false';
+    ssasType: string = 'New';
+    server: string = '';
+    email: string = '';
+    password: string ='';
+    sku: string = 'D1';
+
+    Invalidate() {
+        super.Invalidate();
+    }
 
     async OnLoaded() {
+       //let response = await this.MS.HttpService.executeAsync('Microsoft-GetSqlConnectionString', body);
+
     }
 
     async OnValidate(): Promise<boolean> {
@@ -14,7 +24,6 @@ export class Customize extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-        this.MS.DataStore.addToDataStore('ssasEnabled', this.ssasEnabled, DataStoreType.Public);
         return true;
     }
 }
