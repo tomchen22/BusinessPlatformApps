@@ -21,6 +21,9 @@
       },
       {
         "azureProviders": [
+          "Microsoft.MachineLearning"
+        ],
+        "bapiServices": [
           "Microsoft.PowerApps"
         ],
         "displayname": "Login",
