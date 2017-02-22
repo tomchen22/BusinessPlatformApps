@@ -22,6 +22,17 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
     public class AzureMLTests
     {
         [TestMethod]
+        public async Task RegisterAzureMlProvider()
+        {
+            var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
+            dataStore.AddToDataStore("AzureProvider", "Microsoft.MachineLearning");
+
+            var response = TestHarness.ExecuteAction("Microsoft-RegisterProvider", dataStore);
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+        }
+
+        [TestMethod]
         public async Task DeployAzureMlWorkspaceTest()
         {
             var dataStore = await TestHarness.GetCommonDataStoreWithUserToken();
