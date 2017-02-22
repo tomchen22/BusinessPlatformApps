@@ -1,4 +1,5 @@
 ﻿export const EN_US = {
+    AZURE_ANALYSIS_PROVISIONING: `Would you like us to provision a new SSAS instance or use an existing SSAS instance?`,
     ADF_EMAILS: `Enter one or more email addresses that will be notified when the data movement process fails.`,
     ADF_EMAILS_TITLE: `Multiple email adresses need to be comma separated.`,
     AZURE_LOGIN_BING_TEXT: `You can read the Bing Terms of Use`,
@@ -105,7 +106,7 @@
     NAVIGATION_VIEW_DETAILS: `View Details`,
     PROGRESS_ALL_DONE: `All done! You can now download your Power BI report and start exploring your data.`,
     PROGRESS_DOWNLOAD_PBIX: `Download PBIX`,
-    PROGRESS_DOWNLOAD_POWERAPP: `Download PowerApp`,
+    PROGRESS_DOWNLOAD_POWERAPP: `Download MSAPP`,
     PROGRESS_GETTING_READY: `Getting your Power BI file ready...`,
     PROGRESS_GETTING_READY_POWERAPP: `Getting your PowerApp file ready...`,
     PROGRESS_OKAY: `Okay, let's get your deployment started!`,

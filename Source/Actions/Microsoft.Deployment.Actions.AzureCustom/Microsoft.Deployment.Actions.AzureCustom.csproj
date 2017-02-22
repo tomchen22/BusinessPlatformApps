@@ -110,8 +110,8 @@
       <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6249.25283, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201702091402\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6261.30353, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201702211651\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging">
@@ -227,9 +227,11 @@
     <Compile Include="CDM\GetEnvironID.cs" />
     <Compile Include="CDM\GetObjID.cs" />
     <Compile Include="CDM\ProvisionCDM.cs" />
+    <Compile Include="Common\GetEmail.cs" />
     <Compile Include="Common\CheckAzureWebsiteExists.cs" />
     <Compile Include="Common\DeployAzureFunctionConnectionStrings.cs" />
     <Compile Include="Common\DeployPrivateAssemblyToFunction.cs" />
+    <Compile Include="Common\RegisterProvider.cs" />
     <Compile Include="Common\UpdateBlobStorageConnector.cs" />
     <Compile Include="Common\CreateAzureStorageAccount.cs" />
     <Compile Include="Common\CreateConnectorToLogicApp.cs" />

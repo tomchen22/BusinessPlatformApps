@@ -29,14 +29,14 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         foreach (var item in (JArray)tweets)
         {
             var individualtweet = item.ToString();
-            log.Info("******************** OH MY DAYS!!! **************************" + individualtweet.ToString());
+            log.Info("********************Run**************************" + individualtweet.ToString());
 
             await tweetHandler.ParseTweet(individualtweet, log);
         }
     }
     else
     {
-        //log.Info("******************** OH MY DAYS!!! **************************" + jsonContent.ToString());
+        //log.Info("********************Run**************************" + jsonContent.ToString());
         await tweetHandler.ParseTweet(jsonContent, log);
     }
 
