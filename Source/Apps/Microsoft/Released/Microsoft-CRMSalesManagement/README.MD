@@ -797,7 +797,8 @@ Finally, a slicer above the cumulative graph depicts the probability with which 
 
 ![PipelineCoverageF](Resources/Images/PBI_SM_PipelineCoverage100Filter.png)
 
+# Dynamics 365 Export Pricing
 
+For a detailed breakdown of Azure Key Vault costs you can refer to the [Key Vault Pricing Calculator](https://azure.microsoft.com/en-us/pricing/details/key-vault/)
 
-
-
+For a detailed breakdown of Azure SQL costs you can refer to the [SQL Database Pricing Calculator](https://azure.microsoft.com/en-us/pricing/details/sql-database)
