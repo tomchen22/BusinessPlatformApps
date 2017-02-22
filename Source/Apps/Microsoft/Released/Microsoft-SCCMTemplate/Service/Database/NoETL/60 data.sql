@@ -9,6 +9,24 @@ go
 /************************************
 * Date values                       *
 *************************************/
+-- Insert statemenets for the confgiuration table
+INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 
+VALUES ( N'SolutionTemplate', N'SSAS', N'ProcessOnNextSchedule', N'1', 0)
+GO
+
+INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 
+VALUES ( N'SolutionTemplate', N'SSAS', N'LastProcessedDateTime', N'', 0)
+GO
+
+INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 
+VALUES ( N'SolutionTemplate', N'SSAS', N'LastProcessedStatus', N'', 0)
+GO
+
+INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 
+VALUES ( N'SolutionTemplate', N'SSAS', N'CurrentStatus', N'', 0)
+GO
+
+
 BEGIN TRANSACTION;
 INSERT pbist_sccm.[date] ([date_key], [full_date], [day_of_week], [day_num_in_month], [day_name], [day_abbrev], [weekday_flag], [week_num_in_year], [week_begin_date], [week_begin_date_key], [month], [month_name], [month_abbrev], [quarter], [year], [yearmo], [fiscal_month], [fiscal_quarter], [fiscal_year], [last_day_in_month_flag], [same_day_year_ago_date], [same_day_year_ago_key]) VALUES (20130101, CAST(N'2013-01-01' AS Date), 2, 1, N'Tuesday  ', N'Tue', N'y', 1, CAST(N'2012-12-31' AS Date), 20121231, 1, N'January  ', N'Jan', 1, 2013, 201301, 1, 1, 2013, N'n', CAST(N'2012-01-01' AS Date), 20120101)
 INSERT pbist_sccm.[date] ([date_key], [full_date], [day_of_week], [day_num_in_month], [day_name], [day_abbrev], [weekday_flag], [week_num_in_year], [week_begin_date], [week_begin_date_key], [month], [month_name], [month_abbrev], [quarter], [year], [yearmo], [fiscal_month], [fiscal_quarter], [fiscal_year], [last_day_in_month_flag], [same_day_year_ago_date], [same_day_year_ago_key]) VALUES (20130102, CAST(N'2013-01-02' AS Date), 3, 2, N'Wednesday', N'Wed', N'y', 1, CAST(N'2012-12-31' AS Date), 20121231, 1, N'January  ', N'Jan', 1, 2013, 201301, 1, 1, 2013, N'n', CAST(N'2012-01-02' AS Date), 20120102)

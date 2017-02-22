@@ -88,6 +88,24 @@
         "useImpersonation": true
       },
 
+      // Adding azure actions
+      {
+        "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+        "displayname": "Use Analysis Services"
+      },
+
+      {
+        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "displayname": "Azure Login",
+        "skip": "$ds(ssasEnabled)"
+      },
+
+      {
+        "name": "$SiteCommon$/pagesgallery/ssas.html",
+        "displayname": "SSAS",
+        "skip": "$ds(ssasEnabled)"
+      },
+
       // Customize
       {
         "name": "customize.html",

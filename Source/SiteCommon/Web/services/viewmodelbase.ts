@@ -82,6 +82,7 @@ export class ViewModelBase {
                 this.MS = (<any>window).MainService;
                 this.MS.NavigationService.NavigateNext();
                 this.NavigatedNext();
+                this.isValidated = true;
             }
         } catch (e) {
         } finally {
