@@ -37,11 +37,10 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
                     }
                 }
 
-                AzureOperationResponse operationResponse;
                 if (!isRegistered)
                 {
-                    operationResponse = managementClient.Providers.Register(azureProvider);
-                    if (!(operationResponse.StatusCode == System.Net.HttpStatusCode.OK || operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted))
+                    AzureOperationResponse operationResponse = managementClient.Providers.Register(azureProvider);
+                    if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK || operationResponse.StatusCode != System.Net.HttpStatusCode.Accepted)
                         return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "RegisterProviderError");
                 }
             }
