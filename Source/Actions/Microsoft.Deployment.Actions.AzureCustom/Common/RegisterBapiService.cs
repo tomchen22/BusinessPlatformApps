@@ -11,7 +11,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
     [Export(typeof(IAction))]
     public class RegisterBapiService : BaseAction
     {
-        private string BASE_AZURE_ENROLL_URL = "https://management.azure.com/providers/";
+        private string BASE_AZURE_ENROLL_URL = "https://management.azure.com/providers";
 
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
