@@ -20,11 +20,12 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             string paSqlConnectionId = request.DataStore.GetValue("PowerAppSqlConnectionId");
 
             string paOriginal = request.Info.App.AppFilePath + $"/service/PowerApp/{paFileName}";
-            string paWrangledDirectory = Path.GetRandomFileName();
+            string paWrangledDirectoryName = Path.GetRandomFileName();
 
-            string paWrangled = request.Info.App.AppFilePath + $"/Temp/{paWrangledDirectory}/{paFileName}";
+            string paWrangledDirectoryPath = request.Info.App.AppFilePath + $"/Temp/{paWrangledDirectoryName}";
+            string paWrangled = $"{paWrangledDirectoryPath}/{paFileName}";
 
-            Directory.CreateDirectory(paWrangled);
+            Directory.CreateDirectory(paWrangledDirectoryPath);
             File.Copy(paOriginal, paWrangled, true);
 
             using (FileStream paStream = new FileStream(paWrangled, FileMode.Open))
@@ -40,7 +41,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
                 }
             }
 
-            string paUrl = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{paWrangledDirectory}/{paFileName}";
+            string paUrl = request.Info.ServiceRootUrl + request.Info.ServiceRelativePath + request.Info.App.AppRelativeFilePath + $"/Temp/{paWrangledDirectoryName}/{paFileName}";
 
             return new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(paUrl));
         }

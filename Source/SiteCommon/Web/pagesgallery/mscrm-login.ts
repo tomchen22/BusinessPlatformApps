@@ -72,6 +72,8 @@ export class MsCrmLogin extends AzureLogin {
                                         this.showAzureTrial = false;
                                     } else {
                                         this.showPricingConfirmation = true;
+                                        this.isValidated = true;
+                                        this.showValidation = true;
                                     }
                                 }
                             } else {

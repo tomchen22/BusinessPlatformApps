@@ -237,4 +237,7 @@
   <data name="MsCrm_MetadataError" xml:space="preserve">
     <value>Failed to read metadata for your Dynamics 365 organization</value>
   </data>
+  <data name="RegisterProviderError" xml:space="preserve">
+    <value>Provider registration failed</value>
+  </data>
 </root>

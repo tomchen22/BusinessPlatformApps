@@ -18,16 +18,6 @@
         <option value="12">${MS.Translate.COMMON_MONTH_11}</option>
     </select>
 
-    <p class="st-text" title="${MS.Translate.CUSTOMIZE_ACTUAL_REVENUE_DESCRIPTION}">${MS.Translate.CUSTOMIZE_ACTUAL_REVENUE}</p>
-    <label class="st-text">
-        <input type="radio" value="Closed opportunities" checked.bind="actuals">
-        <span>${MS.Translate.CUSTOMIZE_CLOSED_OPPORTUNITIES}</span>
-    </label>
-    <label class="st-text">
-        <input type="radio" value="Keep blank" checked.bind="actuals">
-        <span>${MS.Translate.CUSTOMIZE_KEEP_BLANK}</span>
-    </label>
-
     <!-- CRM url -->
     <div class="st-float-clear" if.bind="showCrmUrl">
         <p class="st-text" title="${MS.Translate.CUSTOMIZE_BASE_URL_DESCRIPTION}">${MS.Translate.CUSTOMIZE_BASE_URL} ${MS.Translate.COMMON_OPTIONAL}</p>
