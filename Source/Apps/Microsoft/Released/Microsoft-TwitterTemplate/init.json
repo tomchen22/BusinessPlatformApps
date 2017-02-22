@@ -20,6 +20,9 @@
         "templateName": "Brand and Campaign Management for Twitter"
       },
       {
+        "azureProviders": [
+          "Microsoft.MachineLearning"
+        ],
         "displayname": "Login",
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $6 a day, and every 1,000 tweets will incur an additional cost of approximately $0.8. These costs are estimates only and subject to change.')",
