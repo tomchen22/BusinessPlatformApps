@@ -8,6 +8,7 @@ export class AzureLogin extends ViewModelBase {
     authToken: any = {};
     azureConnection = AzureConnection;
     azureDirectory: string = '';
+    azureProviders: string[] = [];
     connectionType: AzureConnection = AzureConnection.Organizational;
     oauthType: string = '';
     selectedResourceGroup: string = `SolutionTemplate-${this.MS.UtilityService.GetUniqueId(5)}`;
@@ -109,6 +110,14 @@ export class AzureLogin extends ViewModelBase {
         }
 
         let response = await this.MS.HttpService.executeAsync('Microsoft-CreateResourceGroup', {});
+
+        for (let i = 0; i < this.azureProviders.length; i++) {
+            this.MS.DataStore.addToDataStore('AzureProvider', this.azureProviders[i], DataStoreType.Public);
+            let responseRegister = await this.MS.HttpService.executeAsync('Microsoft-RegisterProvider', {});
+            if (!responseRegister.IsSuccess) {
+                return false;
+            }
+        }
 
         if (!response.IsSuccess) {
             return false;
