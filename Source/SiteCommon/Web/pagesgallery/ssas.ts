@@ -13,8 +13,8 @@ export class Customize extends ViewModelBase {
     }
 
     async OnLoaded() {
-       //let response = await this.MS.HttpService.executeAsync('Microsoft-GetSqlConnectionString', body);
-
+       let response = await this.MS.HttpService.executeAsync('Microsoft-GetEmail', {});
+        this.email = response.Body.value;
     }
 
     async OnValidate(): Promise<boolean> {

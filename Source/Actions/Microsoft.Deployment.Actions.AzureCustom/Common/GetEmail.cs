@@ -7,7 +7,7 @@ using Microsoft.Deployment.Common.Helpers;
 namespace Microsoft.Deployment.Actions.AzureCustom.Common
 {
     [Export(typeof(IAction))]
-    public class GetEmial : BaseAction
+    public class GetEmail : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
