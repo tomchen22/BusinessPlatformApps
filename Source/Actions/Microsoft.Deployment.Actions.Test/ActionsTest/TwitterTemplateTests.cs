@@ -37,7 +37,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
             dataStore.AddToDataStore("ASServerName", "asserver5");
             dataStore.AddToDataStore("ASLocation", "westcentralus");
             dataStore.AddToDataStore("ASSku", "D1");
-            dataStore.AddToDataStore("ASAdminPassword", "Uthman77777");
+            dataStore.AddToDataStore("ASAdminPassword", "");
             dataStore.AddToDataStore("xmlaFilePath", "Service/SSAS/twitter.xmla");
             dataStore.AddToDataStore("ASDatabase", "TwitterModel");
 

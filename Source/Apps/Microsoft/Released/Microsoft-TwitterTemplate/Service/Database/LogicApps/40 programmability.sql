@@ -21,7 +21,7 @@ BEGIN
 	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='CurrentStatus';
 	
 	UPDATE [pbist_twitter].[configuration] 
-	SET [value]='0'
+	SET [value]='1'
 	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='ProcessOnNextSchedule';
 END
 GO
