@@ -11,7 +11,7 @@ go
 *************************************/
 -- Insert statemenets for the confgiuration table
 INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 
-VALUES ( N'SolutionTemplate', N'SSAS', N'ProcessOnNextSchedule', N'1', 0)
+VALUES ( N'SolutionTemplate', N'SSAS', N'ProcessOnNextSchedule', N'0', 0)
 GO
 
 INSERT [pbist_sccm].[configuration] ( [configuration_group], [configuration_subgroup], [name], [value], [visible]) 

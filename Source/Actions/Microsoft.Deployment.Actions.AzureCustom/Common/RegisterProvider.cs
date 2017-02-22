@@ -44,7 +44,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
                 if (!isRegistered)
                 {
                     operationResponse = managementClient.Providers.Register(azureProvider);
-                    if (operationResponse.StatusCode != System.Net.HttpStatusCode.OK || operationResponse.StatusCode != System.Net.HttpStatusCode.Accepted)
+                    if (!(operationResponse.StatusCode == System.Net.HttpStatusCode.OK || operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted))
                         return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "RegisterProviderError");
                 }
             }

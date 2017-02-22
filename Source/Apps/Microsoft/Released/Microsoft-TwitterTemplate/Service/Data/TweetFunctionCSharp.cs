@@ -21,7 +21,7 @@ using System.Web;
 public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 {
     string connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["connectionString"].ConnectionString;
-    TweetHandler tweetHandler = new TweetHandler(connectionString);
+    TweetHandler tweetHandler = new TweetHandler(connectionString, log);
     string jsonContent = await req.Content.ReadAsStringAsync();
     var tweets = JsonConvert.DeserializeObject(jsonContent);
     if (tweets is JArray)
@@ -29,14 +29,14 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
         foreach (var item in (JArray)tweets)
         {
             var individualtweet = item.ToString();
-            log.Info("******************** OH MY DAYS!!! **************************" + individualtweet.ToString());
+            //log.Info("********************Run**************************" + individualtweet.ToString());
 
             await tweetHandler.ParseTweet(individualtweet, log);
         }
     }
     else
     {
-        //log.Info("******************** OH MY DAYS!!! **************************" + jsonContent.ToString());
+        //log.Info("********************Run**************************" + jsonContent.ToString());
         await tweetHandler.ParseTweet(jsonContent, log);
     }
 
@@ -46,18 +46,20 @@ public static async Task<object> Run(HttpRequestMessage req, TraceWriter log)
 
 public class TweetHandler
 {
-    public TweetHandler(string connection)
+    public TweetHandler(string connection, TraceWriter log)
     {
         if (string.IsNullOrEmpty(connection))
         {
             throw new ArgumentNullException("connection", "Connection string is null or empty.");
         }
         this.connectionString = connection;
+        this.log = log;
     }
 
     private dynamic tweet = string.Empty;
     private JObject tweetObj = new JObject();
     private string connectionString;
+    private TraceWriter log = null;
 
     //Create dictionaries for SQL tables
     private Dictionary<string, string> originalTweets = new Dictionary<string, string>()
@@ -150,16 +152,17 @@ public class TweetHandler
             }
         }
 
-        log.Info("********************ParseTweet************************** Handles: " + twitterHandles);
-        log.Info("********************ParseTweet************************** Handle IDs: " + twitterHandleId);
-        log.Info("********************ParseTweet************************** Tweet Language: " + tweet.TweetLanguageCode.ToString());
+        //log.Info("********************ParseTweet************************** TweetText: " + tweet.TweetText.ToString());
+        //log.Info("********************ParseTweet************************** Handles: " + twitterHandles);
+        //log.Info("********************ParseTweet************************** Handle IDs: " + twitterHandleId);
+        //log.Info("********************ParseTweet************************** Tweet Language: " + tweet.TweetLanguageCode.ToString());
         // Check if language of tweet is supported for sentiment analysis
         originalTweets["lang"] = tweet.TweetLanguageCode.ToString();
         if (originalTweets["lang"] == "en")
         {
-            log.Info("********************ParseTweet**************************" + tweet.TweetId.ToString());
+            //log.Info("********************ParseTweet**************************" + tweet.TweetId.ToString());
             string sentiment = await MakeSentimentRequest(tweet, log);
-            log.Info("********************ParseTweet************************** Sentiment: " + sentiment);
+            //log.Info("********************ParseTweet************************** Sentiment: " + sentiment);
             string sentimentBin = (Math.Floor(double.Parse(sentiment) * 10) / 10).ToString(CultureInfo.InvariantCulture);
             string sentimentPosNeg = String.Empty;
             if (double.Parse(sentimentBin) > 0.1)
@@ -311,6 +314,7 @@ public class TweetHandler
         {
             connection.Open();
             var command = new SqlCommand(sqlQuery, connection);
+            //log.Info("*********************************ExecuteSqlNonQuery************************** Query: " + sqlQuery);
             command.ExecuteNonQuery();
         }
     }
@@ -321,6 +325,7 @@ public class TweetHandler
         using (SqlConnection connection = new SqlConnection(connectionString.ToString()))
         {
             connection.Open();
+            //log.Info("*********************************ExecuteSqlScalar************************** Query: " + sqlQuery);
             var command = new SqlCommand(sqlQuery, connection);
             return (int)command.ExecuteScalar();
         }
@@ -361,7 +366,10 @@ public class TweetHandler
             {
                 ExecuteSqlNonQuery(generateSQLQuery("pbist_twitter.tweets_normalized", originalTweets));
             }
-            catch (Exception e) { }
+            catch (Exception e)
+            {
+                //log.Info("******************Exception******************** Message:" + e);
+            }
         }
     }
 
@@ -370,11 +378,12 @@ public class TweetHandler
     {
         string sqlQueryGenerator = $"insert into " + tableName + "(" +
                                    String.Join(", ", dictionary.Select(x => x.Key)) + ")" + " VALUES " + "('" +
-                                   String.Join("','", dictionary.Select(x => {
+                                   String.Join("',N'", dictionary.Select(x => {
                                        if (string.IsNullOrEmpty(x.Value))
                                        {
                                            return x.Value;
                                        }
+                                       //log.Info("********************generateSQLQuery************************** Text: " + x.Value);
                                        return x.Value.Replace("'", "''");
                                    })) + "')";
         return sqlQueryGenerator;
@@ -462,7 +471,7 @@ public class TweetHandler
 
         dynamic objResult = null;
 
-        log.Info("*************MakeSentimentRequest***************** TweetText: " + tweet.TweetText.ToString());
+        //log.Info("*************MakeSentimentRequest***************** TweetText: " + tweet.TweetText.ToString());
 
         using (var client = new HttpClient())
         {
@@ -493,18 +502,18 @@ public class TweetHandler
             {
                 result = await response.Content.ReadAsStringAsync();
                 objResult = JsonConvert.DeserializeObject(result);
-                log.Info("*************MakeSentimentRequest***************** Score: " + objResult.Results.output1[0].score);
+                //log.Info("*************MakeSentimentRequest***************** Score: " + objResult.Results.output1[0].score);
             }
             else
             {
-                log.Info(string.Format("The request failed with status code: {0}", response.StatusCode));
+                //log.Info(string.Format("The request failed with status code: {0}", response.StatusCode));
 
                 // Print the headers - they include the requert ID and the timestamp,
                 // which are useful for debugging the failure
-                log.Info(response.Headers.ToString());
+                //log.Info(response.Headers.ToString());
 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                log.Info(responseContent);
+                //log.Info(responseContent);
             }
         }
         return objResult.Results.output1[0].score;
