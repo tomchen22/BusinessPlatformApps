@@ -25,6 +25,19 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             var environmentsString = await environmentsResponse.Content.ReadAsStringAsync();
             var environments = JsonUtility.GetJsonObjectFromJsonString(environmentsString);
 
+            if (environments["value"] == null)
+            {
+                var skipPowerApp = request.DataStore.GetValue("SkipPowerApp");
+                if (skipPowerApp == null)
+                {
+                    return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "PowerAppNoEnvironment");
+                }
+                else
+                {
+                    return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+                }
+            }
+
             foreach (var environment in environments["value"])
             {
                 bool isDefault = false;
@@ -37,7 +50,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             }
 
             return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "PowerAppNoEnvironment");
-            //TODO: Add this error message to common
         }
     }
 }

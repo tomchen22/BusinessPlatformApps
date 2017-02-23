@@ -17,7 +17,6 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
         {
             string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string bapiService = request.DataStore.GetLastValue("BapiService");
-            string subscriptionId = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
 
             AzureHttpClient client = new AzureHttpClient(azureToken);
 
@@ -25,8 +24,12 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
             string enrollUrl = $"{BASE_AZURE_ENROLL_URL}/{bapiService}/enroll?api-version=2016-11-01&id=@id";
 
             var enrollResponse = await client.ExecuteGenericRequestWithHeaderAsync(HttpMethod.Post, enrollUrl, enrollBody);
-            if (!(enrollResponse.StatusCode == System.Net.HttpStatusCode.OK || enrollResponse.StatusCode == System.Net.HttpStatusCode.Accepted))
-                return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "RegisterProviderError");
+            if (enrollResponse.StatusCode != System.Net.HttpStatusCode.OK)
+            {
+                //var enrollString = await enrollResponse.Content.ReadAsStringAsync();
+                //return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJsonObjectFromJsonString(enrollString), "RegisterProviderError");
+                request.DataStore.AddToDataStore("SkipPowerApp", "true", DataStoreType.Public);
+            }
 
             return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
         }
