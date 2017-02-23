@@ -106,7 +106,20 @@ AS
 			WHEN entityType = 'Location' THEN '#FF8000'
 			ELSE null
             END [Entity Color]
-     FROM bpst_news.entities;
+     FROM bpst_news.entities
+	 UNION ALL
+     SELECT
+			[entities].documentId							AS [Document Id],
+            [entities].entityType							AS [Entity Type],
+            [entities].entityValue							AS [Entity Value],
+            [entities].offset								AS [Offset],
+            [entities].offsetDocumentPercentage				AS [Offset Document Percentage],
+            [entities].[length]								AS [Lenth],
+            [entities].entityType + [entities].entityValue	AS [Entity Id],
+			[types].icon									AS [Entity Class],
+			[types].color									AS [Entity Color]
+     FROM bpst_news.userdefinedentities AS entities
+	 INNER JOIN bpst_news.typedisplayinformation AS [types] ON [entities].entityType = [types].entityType;
 go
 
 CREATE VIEW bpst_news.vw_EntityRankings AS
