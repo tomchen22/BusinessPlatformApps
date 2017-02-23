@@ -20,6 +20,12 @@
         "templateName": "Brand and Campaign Management for Twitter"
       },
       {
+        "azureProviders": [
+          "Microsoft.MachineLearning"
+        ],
+        "bapiServices": [
+          "Microsoft.PowerApps"
+        ],
         "displayname": "Login",
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $6 a day, and every 1,000 tweets will incur an additional cost of approximately $0.8. These costs are estimates only and subject to change.')",
@@ -49,6 +55,18 @@
         "name": "$SiteCommon$/pagesgallery/twitter-handles.html",
         "displayname": "Twitter Handles"
       },
+      // Adding azure actions
+      //{
+      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+      //  "displayname": "Use Analysis Services"
+      //},
+
+      //{
+      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
+      //  "displayname": "SSAS",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+
       {
         "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",
@@ -62,7 +80,7 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Deploy",
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
-        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(18))",
+        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "LogicAppHostingPlan": "$save(this.uniqueId)",
         "LogicAppName": "$save(this.uniqueId)",
         "LogicAppNameHistorical": "$save(this.uniqueId)",
@@ -175,6 +193,45 @@
         "displayname": "Validating Twitter Logic App",
         "DeploymentName": "LogicApp"
       }
+
+      //// AS Set up
+      //{
+      //  "name": "Microsoft-DeployAzureASModel",
+      //  "displayname": "Deploy AS Model",
+      //  "xmlaFilePath": "Service/SSAS/twitter.xmla",
+      //  "ASDatabase": "TwitterModel",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+
+      //{
+      //  "name": "Microsoft-DeployAzureFunction",
+      //  "displayname": "Deploying scheduler",
+      //  "DeploymentName": "ASFunction",
+      //  "FunctionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
+      //  "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
+      //  "sku": "Standard",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+
+      //{
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "displayname": "Waiting for scheduler",
+      //  "DeploymentName": "ASFunction",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+
+      //{
+      //  "name": "Microsoft-DeployAzureFunctionConnectionStrings",
+      //  "displayname": "Setting up scheduler Logic App",
+      //  "DeploymentName": "ASFunction",
+      //  "skip": "$ds(ssasEnabled)",
+      //  "AppSettingKeys": {
+      //    "connStringAS": "$ds(ASConnectionString)",
+      //    "connStringSql": "$ds(SqlConnectionString)",
+      //    "schema": "[pbist_twitter]",
+      //    "databaseAS": "TwitterModel"
+      //  }
+      //}
     ]
   }
 }

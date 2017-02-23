@@ -34,7 +34,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             // TEMP
             // CHANGE PASSWORD
-            dataStore.AddToDataStore("ASServerName", "asserver5");
+            dataStore.AddToDataStore("ASServerName", "asserver6");
             dataStore.AddToDataStore("ASLocation", "westcentralus");
             dataStore.AddToDataStore("ASSku", "D1");
             dataStore.AddToDataStore("ASAdminPassword", "Uthman77777");
@@ -54,7 +54,7 @@ namespace Microsoft.Deployment.Actions.Test.ActionsTest
 
             //// Deploy Function
             dataStore.AddToDataStore("DeploymentName", "FunctionDeploymentTest");
-            dataStore.AddToDataStore("FunctionName", "unittestfunction5");
+            dataStore.AddToDataStore("FunctionName", "unittestfunction6");
             dataStore.AddToDataStore("RepoUrl", "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh");
             dataStore.AddToDataStore("sku", "Standard");
 

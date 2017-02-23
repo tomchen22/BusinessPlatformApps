@@ -1,15 +1,12 @@
 ﻿using System.ComponentModel.Composition;
-using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
+
 using Microsoft.Azure;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.Azure.Management.Resources.Models;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
-using Microsoft.Deployment.Common.ErrorCode;
 using Microsoft.Deployment.Common.Helpers;
-using System.Linq;
 
 namespace Microsoft.Deployment.Actions.AzureCustom.Common
 {
@@ -40,10 +37,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
                     }
                 }
 
-                AzureOperationResponse operationResponse;
                 if (!isRegistered)
                 {
-                    operationResponse = managementClient.Providers.Register(azureProvider);
+                    AzureOperationResponse operationResponse = managementClient.Providers.Register(azureProvider);
                     if (!(operationResponse.StatusCode == System.Net.HttpStatusCode.OK || operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted))
                         return new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), "RegisterProviderError");
                 }

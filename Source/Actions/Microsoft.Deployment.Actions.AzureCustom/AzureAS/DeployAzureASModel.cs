@@ -15,28 +15,11 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string serverName = request.DataStore.GetValue("ASServerUrl");
-            string username = request.DataStore.GetValue("ASAdmin") ??
-                AzureUtility.GetEmailFromToken(request.DataStore.GetJson("AzureToken"));
-            string password = request.DataStore.GetValue("ASAdminPassword");
             string xmla = request.DataStore.GetValue("xmlaFilePath");
             string asDatabase = request.DataStore.GetValue("ASDatabase");
             string sqlConnectionString = request.DataStore.GetValue("SqlConnectionString");
             var connectionStringObj = SqlUtility.GetSqlCredentialsFromConnectionString(sqlConnectionString);
-
-            string connectionString = string.Empty;
-
-            if (serverName.ToLowerInvariant().StartsWith("asazure"))
-            {
-                connectionString += "Provider=MSOLAP;";
-            }
-
-            connectionString += $"Data Source={serverName};";
-
-            if (!string.IsNullOrEmpty(password))
-            {
-                connectionString += $"User ID={username};Password={password};Persist Security Info=True; Impersonation Level=Impersonate;";
-            }
+            string connectionString = request.DataStore.GetValue("ASConnectionString");
 
             Server server = new Server();
             server.Connect(connectionString);
