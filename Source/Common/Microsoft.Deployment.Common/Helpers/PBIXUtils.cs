@@ -2,6 +2,7 @@
 using System.IO;
 using System.IO.Packaging;
 using Microsoft.Deployment.Common.Model;
+using Newtonsoft.Json;
 
 namespace Microsoft.Deployment.Common.Helpers
 {
@@ -14,6 +15,7 @@ namespace Microsoft.Deployment.Common.Helpers
 
         private ZipPackagePart _mashup;
         private ZipPackagePart _model;
+        private ZipPackagePart _connections;
 
         public PBIXUtils() { }
 
@@ -29,7 +31,7 @@ namespace Microsoft.Deployment.Common.Helpers
 
             if (enumerator == null) return;
 
-            while (enumerator.MoveNext() && (_mashup == null || _model == null))
+            while (enumerator.MoveNext() && (_mashup == null || _model == null || _connections==null))
             {
                 var currentPart = enumerator.Current as ZipPackagePart;
                 if (currentPart == null) continue;
@@ -38,10 +40,39 @@ namespace Microsoft.Deployment.Common.Helpers
                     _mashup = currentPart;
                 else if (currentPart.Uri.OriginalString.Contains("/DataModel"))
                     _model = currentPart;
+                else if (currentPart.Uri.OriginalString.Contains("/Connections"))
+                    _connections = currentPart;
             }
 
         }
 
+        public void ReplaceSSASConnectionString(string server, string catalog, string cube)
+        {
+            if (_connections == null) return; // Nothing to do
+
+            string connectionJson = null;
+            using (MemoryStream m = new MemoryStream())
+            {
+                _connections.GetStream().CopyTo(m);  // Do not cache GetStream() result
+                connectionJson = m.ToArray().GetStringFromUTF8();
+            }
+
+            PbixConnection liveConnection = JsonConvert.DeserializeObject<PbixConnection>(connectionJson);
+            if (liveConnection.Version != 1)
+                throw new Exception("SSAS connection element has an unexpected version");
+
+            if (liveConnection.Connections.Length != 1)
+                throw new Exception("Ambiguous connection element change request");
+
+            liveConnection.Connections[0] = new SSASConnectionElement(server, catalog, cube);
+            connectionJson = JsonConvert.SerializeObject(liveConnection);
+
+            byte[] encodedJsonBytes = connectionJson.GetUTF8Bytes();
+            _connections.GetStream().Write(encodedJsonBytes, 0, encodedJsonBytes.Length); // Do not cache GetStream
+            _connections.GetStream().SetLength(encodedJsonBytes.Length);
+            _connections.GetStream().Flush();
+            _pbixPackage.Flush();
+        }
 
         public void ReplaceKnownVariableinMashup(string variable, string newValue)
         {
