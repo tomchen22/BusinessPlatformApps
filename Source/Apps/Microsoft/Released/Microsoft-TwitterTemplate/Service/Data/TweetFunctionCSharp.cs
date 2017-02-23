@@ -513,8 +513,13 @@ public class TweetHandler
                 //log.Info(response.Headers.ToString());
 
                 string responseContent = await response.Content.ReadAsStringAsync();
-                //log.Info(responseContent);
+                log.Info(responseContent);
             }
+        }
+
+        if (objResult == null)
+        {
+            return string.Empty;
         }
         return objResult.Results.output1[0].score;
     }
