@@ -112,6 +112,10 @@ export class AzureLogin extends ViewModelBase {
 
         let response = await this.MS.HttpService.executeAsync('Microsoft-CreateResourceGroup', {});
 
+        if (!response.IsSuccess) {
+            return false;
+        }
+
         for (let i = 0; i < this.azureProviders.length; i++) {
             this.MS.DataStore.addToDataStore('AzureProvider', this.azureProviders[i], DataStoreType.Public);
             let responseRegister = await this.MS.HttpService.executeAsync('Microsoft-RegisterProvider', {});
@@ -126,10 +130,6 @@ export class AzureLogin extends ViewModelBase {
             if (!responseRegister.IsSuccess) {
                 return false;
             }
-        }
-
-        if (!response.IsSuccess) {
-            return false;
         }
 
         return await super.NavigatingNext();
