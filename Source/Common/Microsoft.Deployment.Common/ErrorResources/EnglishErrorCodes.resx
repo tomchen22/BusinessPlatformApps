@@ -238,6 +238,9 @@
     <value>Failed to read metadata for your Dynamics 365 organization</value>
   </data>
   <data name="RegisterProviderError" xml:space="preserve">
-    <value>Provider registration failed</value>
+    <value>This Azure account does not have sufficient permissions to register the required provider</value>
+  </data>
+  <data name="PowerAppNoEnvironment" xml:space="preserve">
+    <value>No PowerApp environments were found for this Azure account</value>
   </data>
 </root>
