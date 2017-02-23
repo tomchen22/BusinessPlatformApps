@@ -144,14 +144,6 @@ go
 
 
 CREATE VIEW bpst_news.vw_DocumentCompressedEntities
-AS
-    SELECT documentid				AS [Document Id],
-           compressedEntitiesJson	AS [Compressed Entities Json]
-    FROM bpst_news.documentcompressedentities;
-go
-
-
-CREATE VIEW bpst_news.vw_DocumentCompressedEntities
 as
 	SELECT [id] AS [Document Id],
 	(
