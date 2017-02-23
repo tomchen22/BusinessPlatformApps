@@ -142,18 +142,18 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist
     DROP PROCEDURE pbist_sccm.sp_populatecomputercollection;
 
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_set_process_flag' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_set_process_flag;
+    DROP PROCEDURE pbist_sccm.sp_set_process_flag;
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_start_process' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_start_process;
+    DROP PROCEDURE pbist_sccm.sp_start_process;
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_finish_process' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_finish_process;
+    DROP PROCEDURE pbist_sccm.sp_finish_process;
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_get_process_flag' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_get_process_flag;
+    DROP PROCEDURE pbist_sccm.sp_get_process_flag;
 	
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_get_process_status_flag' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_get_process_status_flag;	
+    DROP PROCEDURE pbist_sccm.sp_get_process_status_flag;	
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.ROUTINES WHERE ROUTINE_SCHEMA='pbist_sccm' AND ROUTINE_NAME='sp_set_process_status_flag' AND ROUTINE_TYPE='PROCEDURE')
-    DROP PROCEDURE pbist_twitter.sp_set_process_status_flag;	
+    DROP PROCEDURE pbist_sccm.sp_set_process_status_flag;	
 
 
 IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name='pbist_sccm')
