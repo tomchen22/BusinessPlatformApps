@@ -64,11 +64,14 @@ namespace Microsoft.Deployment.Common.Helpers
             if (liveConnection.Connections.Length != 1)
                 throw new Exception("Ambiguous connection element change request");
 
-            liveConnection.Connections[0] = new SSASConnectionElement(server, catalog, cube);
+            if (liveConnection.Connections[0] == null)
+                throw new Exception("Unexpected null value for connection element");
+
+            liveConnection.Connections[0].InitializeConnectionElement(server, catalog, cube);
             connectionJson = JsonConvert.SerializeObject(liveConnection);
 
             byte[] encodedJsonBytes = connectionJson.GetUTF8Bytes();
-            _connections.GetStream().Write(encodedJsonBytes, 0, encodedJsonBytes.Length); // Do not cache GetStream
+            _connections.GetStream().Write(encodedJsonBytes, 0, encodedJsonBytes.Length);
             _connections.GetStream().SetLength(encodedJsonBytes.Length);
             _connections.GetStream().Flush();
             _pbixPackage.Flush();

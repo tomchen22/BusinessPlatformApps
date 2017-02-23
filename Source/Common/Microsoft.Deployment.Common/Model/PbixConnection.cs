@@ -13,7 +13,13 @@
             ConnectionString = null;
         }
 
-        public SSASConnectionElement(string server, string catalog, string cube) :this()
+        public SSASConnectionElement(string server, string catalog, string cube) : this()
+        {
+            InitializeConnectionElement(server, catalog, cube);
+        }
+
+
+        public void InitializeConnectionElement(string server, string catalog, string cube)
         {
             ConnectionString = $"Data Source={server};Initial Catalog=\"{catalog}\";Cube=\"{cube}\"";
         }
