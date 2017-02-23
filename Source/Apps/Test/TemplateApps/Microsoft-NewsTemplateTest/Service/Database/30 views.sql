@@ -159,7 +159,7 @@ go
 CREATE VIEW bpst_news.vw_DocumentCompressedEntities
 as
 	SELECT [id] AS [Document Id],
-	(
+	COALESCE((
 		SELECT [Entity Type] AS entityType
 			,[Entity Value] AS entityValue
 			,[Offset] AS offset
@@ -171,7 +171,7 @@ as
 		FROM [bpst_news].[vw_FullEntities]
 		where [document id] = docs.id
 		FOR JSON AUTO
-	) AS [Compressed Entities Json] FROM
+	), '[]') AS [Compressed Entities Json] FROM
 	bpst_news.documents AS docs;
 go
 
