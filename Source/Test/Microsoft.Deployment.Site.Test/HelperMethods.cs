@@ -10,7 +10,7 @@ using OpenQA.Selenium.Remote;
 
 namespace Microsoft.Deployment.Site.Web.Tests
 {
-    public class Helpers
+    public class HelperMethods
     {
         public static string baseURL;
         public static RemoteWebDriver driver;

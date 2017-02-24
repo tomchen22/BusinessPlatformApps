@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
+using Microsoft.Deployment.Site.Test.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.Remote;
 
 namespace Microsoft.Deployment.Site.Web.Tests
@@ -17,41 +16,43 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [TestMethod]
         public void Given_CorrectCredentials_When_AzureAuth_Then_Success()
         {
-            Helpers.OpenWebBrowserOnPage("login");
-            string username = "mohaali@pbist.onmicrosoft.com";
-            string password = "Corp123!";
-            Helpers.AzurePage(username, password);
+            HelperMethods.OpenWebBrowserOnPage("login");
+            string username = "";
+            string password = "";
+            HelperMethods.AzurePage(username, password);
 
             var validated = driver.FindElementByClassName("st-validated");
 
             Assert.IsTrue(validated.Text == "Successfully validated");
 
-            Helpers.ClickNextButton();
+            HelperMethods.ClickNextButton();
         }
 
         [TestMethod]
         public void Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully()
         {
-            Helpers.OpenWebBrowserOnPage("source");
-            string server = "pbisttest";
-            string username = "pbiadmin";
-            string password = "Billing.26";
-            Helpers.SqlPageExistingDatabase(server, username, password);
+            string server = Credential.Instance.Sql.Server;
+            string username = Credential.Instance.Sql.Username;
+            string password = Credential.Instance.Sql.Password;
+            string database = Credential.Instance.Sql.Database;
+
+            HelperMethods.OpenWebBrowserOnPage("source");
+            HelperMethods.SqlPageExistingDatabase(server, username, password);
 
             var validated = driver.FindElementByClassName("st-validated");
 
             Assert.IsTrue(validated.Text == "Successfully validated");
 
-            Helpers.SelectSqlDatabase("catdorTest");
+            HelperMethods.SelectSqlDatabase(database);
 
-            Helpers.ClickNextButton();
+            HelperMethods.ClickNextButton();
         }
 
         [TestMethod]
         public void Given_CorrectTwitterCredentials_When_Authenticating_Then_Success()
         {
-            Helpers.OpenWebBrowserOnPage("twitter");
-            Helpers.ClickButton("Connect to Twitter");
+            HelperMethods.OpenWebBrowserOnPage("twitter");
+            HelperMethods.ClickButton("Connect to Twitter");
 
             string username = "asdasd";
             string password = "asdas";
@@ -77,23 +78,23 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var elements = driver.FindElementByTagName("Button");
             elements.Click();
 
-            string username = "mohaali@pbist.onmicrosoft.com";
-            string password = "Corp123!";
-
+            string username = "";
+            string password = "";
         }
 
         [TestCleanup()]
         public void MyTestCleanup()
         {
-            Helpers.driver.Quit();
+            HelperMethods.driver.Quit();
         }
 
         [TestInitialize]
         public void Initialize()
         {
-            Helpers.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
-            Helpers.driver = new ChromeDriver();
-            this.driver = Helpers.driver;
+            Credential.Load();
+            HelperMethods.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
+            HelperMethods.driver = new ChromeDriver();
+            this.driver = HelperMethods.driver;
         }
     }
 }
