@@ -265,6 +265,11 @@ ul {
     padding-left: 8px;
 }
 
+.st-icon-tab-large {
+    font-size: 9px;
+    padding-left: 6px;
+}
+
 .st-import {
     height: 30px;
     line-height: 30px;
