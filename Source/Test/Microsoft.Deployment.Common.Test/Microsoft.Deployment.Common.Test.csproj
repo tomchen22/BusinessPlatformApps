@@ -69,7 +69,7 @@
     <Folder Include="Apps\TestApps\TestApp\Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Deployment.Common\Microsoft.Deployment.Common.csproj">
+    <ProjectReference Include="..\..\Actions\Microsoft.Deployment.Common\Microsoft.Deployment.Common.csproj">
       <Project>{38282763-a8de-485e-a5eb-e5e969f4385b}</Project>
       <Name>Microsoft.Deployment.Common</Name>
     </ProjectReference>

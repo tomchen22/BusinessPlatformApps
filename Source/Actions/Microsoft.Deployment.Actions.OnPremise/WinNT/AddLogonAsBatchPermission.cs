@@ -5,6 +5,7 @@ using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
 
+
 namespace Microsoft.Deployment.Actions.OnPremise.WinNT
 {
     [Export(typeof(IAction))]
