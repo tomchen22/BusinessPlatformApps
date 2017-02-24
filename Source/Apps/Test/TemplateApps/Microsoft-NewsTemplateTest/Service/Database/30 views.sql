@@ -54,7 +54,6 @@ AS
     SELECT documentsearchterms.[documentId]			AS [Document Id],
            documentsearchterms.[searchterms]		AS [Search Terms]
 FROM bpst_news.documentsearchterms;
-
 go
 
 CREATE VIEW bpst_news.vw_SearchTerms
