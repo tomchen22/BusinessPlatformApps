@@ -30,6 +30,8 @@ export class ProgressViewModel extends ViewModelBase {
 
     async OnLoaded() {
         if (!this.MS.DeploymentService.isFinished) {
+            this.hasPowerApp = this.hasPowerApp && this.MS.DataStore.getValue('SkipPowerApp') == null;
+
             // Run all actions
             let success: boolean = await this.MS.DeploymentService.ExecuteActions();
 
