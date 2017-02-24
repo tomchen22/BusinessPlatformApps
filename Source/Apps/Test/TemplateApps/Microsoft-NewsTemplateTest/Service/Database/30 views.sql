@@ -56,12 +56,6 @@ AS
 FROM bpst_news.documentsearchterms;
 go
 
-CREATE VIEW bpst_news.vw_SearchTerms
-AS 
-	SELECT DISTINCT documentsearchterms.[searchterms]  AS [Search Terms]
-	FROM bpst_news.documentsearchterms;
-go
-
 CREATE VIEW bpst_news.vw_FullDocumentTopics
 AS
     SELECT documenttopics.documentId					AS [Document Id],
