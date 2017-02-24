@@ -4,13 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 
 namespace Microsoft.Deployment.Site.Web.Tests
 {
-    public class Helpers
+    public class HelperMethods
     {
         public static string baseURL;
         public static RemoteWebDriver driver;
@@ -100,6 +101,38 @@ namespace Microsoft.Deployment.Site.Web.Tests
                             .FirstOrDefault(e => !e.Text.Contains("Windows"));
             }
             database.SendKeys(databaseName);
+        }
+
+
+        public static void CheckDeploymentStatus()
+        {
+            var popup = driver.FindElementByCssSelector("span[class='glyphicon pbi-glyph-close st-contact-us-close au-target']");
+            popup.Click();
+
+            var progressText = driver.FindElementsByCssSelector("span[class='semiboldFont st-progress-text']")
+                                     .FirstOrDefault(e => e.Text == "All done! You can now download your Power BI report and start exploring your data.");
+            var error = driver.FindElementsByCssSelector("span[class='st-tab-text st-error']")
+                                     .FirstOrDefault(e => string.IsNullOrEmpty(e.Text));
+
+            int i = 0;
+
+            while (progressText == null && i < 5)
+            {
+                progressText = driver.FindElementsByCssSelector("span[class='semiboldFont st-progress-text']")
+                                     .FirstOrDefault(e => e.Text == "All done! You can now download your Power BI report and start exploring your data.");
+
+                error = driver.FindElementByCssSelector("span[class='st-tab-text st-error']");
+
+                if (!string.IsNullOrEmpty(error.Text))
+                {
+                    Assert.Fail(error.Text);
+                }
+
+                i++;
+                Thread.Sleep(new TimeSpan(0, 0, 5));
+            }
+
+            Assert.IsTrue(progressText != null);
         }
     }
 }
