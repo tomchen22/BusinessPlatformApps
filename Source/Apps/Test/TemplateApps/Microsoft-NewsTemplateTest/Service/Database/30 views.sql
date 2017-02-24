@@ -49,6 +49,19 @@ AS
                                          LEFT OUTER JOIN documentsentimentscores 	ON documents.id=documentsentimentscores.id;
 go
 
+CREATE VIEW bpst_news.vw_DocumentSearchTerms
+AS
+    SELECT documentsearchterms.[documentId]			AS [Document Id],
+           documentsearchterms.[searchterms]		AS [Search Terms]
+FROM bpst_news.documentsearchterms;
+go
+
+CREATE VIEW bpst_news.vw_SearchTerms
+AS 
+	SELECT DISTINCT documentsearchterms.[searchterms]  AS [Search Terms]
+	FROM bpst_news.documentsearchterms;
+go
+
 CREATE VIEW bpst_news.vw_FullDocumentTopics
 AS
     SELECT documenttopics.documentId					AS [Document Id],
