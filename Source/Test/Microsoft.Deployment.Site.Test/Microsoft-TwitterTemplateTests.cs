@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Threading;
 using Microsoft.Deployment.Site.Test.TestHelpers;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium.Chrome;
@@ -14,6 +16,16 @@ namespace Microsoft.Deployment.Site.Web.Tests
         private string browser;
 
         [TestMethod]
+        public void Given_CorrectInformation_When_RunTwitter_TheSuccess()
+        {
+            //Given_CorrectCredentials_When_AzureAuth_Then_Success();
+            //Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
+            Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully();
+            Given_CorrectSearchTerms_When_Validating_Then_Success();
+            Given_CorrectHandles_When_Validating_Then_Success();
+        }
+
+        [TestMethod]
         public void Given_CorrectCredentials_When_AzureAuth_Then_Success()
         {
             HelperMethods.OpenWebBrowserOnPage("login");
@@ -24,8 +36,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var validated = driver.FindElementByClassName("st-validated");
 
             Assert.IsTrue(validated.Text == "Successfully validated");
-
-            HelperMethods.ClickNextButton();
         }
 
         [TestMethod]
@@ -44,8 +54,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
             Assert.IsTrue(validated.Text == "Successfully validated");
 
             HelperMethods.SelectSqlDatabase(database);
-
-            HelperMethods.ClickNextButton();
         }
 
         [TestMethod]
@@ -64,7 +72,51 @@ namespace Microsoft.Deployment.Site.Web.Tests
             passwordBox.SendKeys(password);
 
             var authorizeButton = driver.FindElementById("allow");
-            authorizeButton.Click();               
+            authorizeButton.Click();
+        }
+
+        [TestMethod]
+        public void Given_CorrectSearchTerms_When_Validating_Then_Success()
+        {
+            HelperMethods.OpenWebBrowserOnPage("searchterms");
+            string searchTerms = "@MSPowerBI OR Azure";
+
+            var searchTermsInput = driver.FindElementByCssSelector("input[class='st-input au-target']");
+
+            while (!searchTermsInput.Enabled)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 2));
+            }
+
+            searchTermsInput.SendKeys(searchTerms);
+
+            HelperMethods.ClickValidateButton();
+
+            var validated = driver.FindElementByClassName("st-validated");
+
+            Assert.IsTrue(validated.Text == "Successfully validated");
+        }
+
+        [TestMethod]
+        public void Given_CorrectHandles_When_Validating_Then_Success()
+        {
+            HelperMethods.OpenWebBrowserOnPage("twitterhandles");
+            string handles = "@MSPowerBI @Azure @Microsoft";
+
+            var handlesInput = driver.FindElementByCssSelector("input[class='st-input au-target']");
+
+            handlesInput.SendKeys(handles);
+
+            HelperMethods.ClickValidateButton();
+
+            var validated = driver.FindElementByClassName("st-validated");
+
+            Assert.IsTrue(validated.Text == "Successfully validated");
+
+            HelperMethods.ClickButton("Next");
+            HelperMethods.ClickButton("Run");
+
+            HelperMethods.CheckDeploymentStatus();
         }
 
         [TestMethod]
