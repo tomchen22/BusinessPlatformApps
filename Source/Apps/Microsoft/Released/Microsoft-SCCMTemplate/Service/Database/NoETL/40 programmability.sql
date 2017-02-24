@@ -611,3 +611,108 @@ BEGIN
     COMMIT;
 END;
 go
+
+
+
+-- =============================================
+-- SSAS set process flag
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_set_process_flag] 
+	@status_flag nvarchar = '1'
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+    UPDATE [pbist_sccm].[configuration] 
+	SET [value]=@status_flag
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='ProcessOnNextSchedule';
+END
+GO
+
+-- =============================================
+-- SSAS set process status
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_set_process_status_flag] 
+	@status_flag nvarchar(MAX) = 'Running'
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+    UPDATE [pbist_sccm].[configuration] 
+	SET [value]=@status_flag
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='CurrentStatus';
+END
+GO
+
+-- =============================================
+-- SSAS start process
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_start_process] 
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+    UPDATE [pbist_sccm].[configuration] 
+	SET [value]='Running'
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='CurrentStatus';
+END
+GO
+
+-- =============================================
+-- SSAS get process flag
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_get_process_flag]
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+    SELECT [value]
+	FROM [pbist_sccm].[configuration] 
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='ProcessOnNextSchedule';
+END
+GO
+
+-- =============================================
+-- SSAS get process status
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_get_process_status_flag]
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+    SELECT [value]
+	FROM [pbist_sccm].[configuration] 
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='CurrentStatus';
+END
+GO
+
+
+-- =============================================
+-- SSAS get process Finish
+-- =============================================
+CREATE PROCEDURE [pbist_sccm].[sp_finish_process]
+	@status_flag nvarchar(MAX) = 'Success'
+AS
+
+BEGIN
+
+	SET NOCOUNT ON;
+
+    UPDATE [pbist_sccm].[configuration] 
+	SET [value]=GETDATE()
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='LastProcessedDateTime';
+	
+	 UPDATE [pbist_sccm].[configuration] 
+	SET [value]=@status_flag
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='LastProcessedStatus';
+	
+	UPDATE [pbist_sccm].[configuration] 
+	SET [value]='Not Running'
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='CurrentStatus';
+	
+	UPDATE [pbist_sccm].[configuration] 
+	SET [value]='0'
+	WHERE [configuration_group] = 'SolutionTemplate' AND [configuration_subgroup]='SSAS' AND [name]='ProcessOnNextSchedule';
+END
+GO

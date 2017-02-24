@@ -19,6 +19,11 @@ namespace Microsoft.Deployment.Actions.AzureCustom.PowerApp
             string paFileName = request.DataStore.GetValue("PowerAppFileName");
             string paSqlConnectionId = request.DataStore.GetValue("PowerAppSqlConnectionId");
 
+            if (paSqlConnectionId == null)
+            {
+                return new ActionResponse(ActionStatus.Success, JsonUtility.GetEmptyJObject());
+            }
+
             string paOriginal = request.Info.App.AppFilePath + $"/service/PowerApp/{paFileName}";
             string paWrangledDirectoryName = Path.GetRandomFileName();
 

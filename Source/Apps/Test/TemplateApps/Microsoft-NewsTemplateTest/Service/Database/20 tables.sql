@@ -37,6 +37,12 @@ CREATE TABLE bpst_news.documents
     CONSTRAINT pk_documents PRIMARY KEY CLUSTERED (id)
 );
 
+CREATE TABLE bpst_news.documentsearchterms
+(
+	[documentId]		NCHAR(64),
+    [searchterms]		NVARCHAR(130)
+	CONSTRAINT pk_documentsearchterms PRIMARY KEY CLUSTERED (searchterms)
+);
 
 CREATE TABLE bpst_news.documentpublishedtimes
 (

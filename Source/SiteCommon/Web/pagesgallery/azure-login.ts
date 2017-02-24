@@ -8,6 +8,8 @@ export class AzureLogin extends ViewModelBase {
     authToken: any = {};
     azureConnection = AzureConnection;
     azureDirectory: string = '';
+    azureProviders: string[] = [];
+    bapiServices: string[] = [];
     connectionType: AzureConnection = AzureConnection.Organizational;
     oauthType: string = '';
     selectedResourceGroup: string = `SolutionTemplate-${this.MS.UtilityService.GetUniqueId(5)}`;
@@ -112,6 +114,22 @@ export class AzureLogin extends ViewModelBase {
 
         if (!response.IsSuccess) {
             return false;
+        }
+
+        for (let i = 0; i < this.azureProviders.length; i++) {
+            this.MS.DataStore.addToDataStore('AzureProvider', this.azureProviders[i], DataStoreType.Public);
+            let responseRegister = await this.MS.HttpService.executeAsync('Microsoft-RegisterProvider', {});
+            if (!responseRegister.IsSuccess) {
+                return false;
+            }
+        }
+
+        for (let i = 0; i < this.bapiServices.length; i++) {
+            this.MS.DataStore.addToDataStore('BapiService', this.bapiServices[i], DataStoreType.Public);
+            let responseRegister = await this.MS.HttpService.executeAsync('Microsoft-RegisterBapiService', {});
+            if (!responseRegister.IsSuccess) {
+                return false;
+            }
         }
 
         return await super.NavigatingNext();

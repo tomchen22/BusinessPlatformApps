@@ -96,7 +96,9 @@ export class NavigationService {
             JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
             if (body.skip && body.skip.toLowerCase() === "true") {
                 this.index = this.index + 1;
-            }
+                continue;
+            } 
+            break;
         }
 
         this.NavigateToIndex();
@@ -116,7 +118,9 @@ export class NavigationService {
             JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
             if (body.skip && body.skip.toLowerCase() === "true") {
                 this.index = this.index - 1;
+                continue;
             }
+            break;
         }
         this.NavigateToIndex();
     }

@@ -5,7 +5,7 @@
                 <div class="st-tab ${tab.isActive ? 'st-tab-active' : ''} ${tab.isComplete ? 'st-tab-complete' : ''}">
                     <span class="glyphicon glyph-small pbi-glyph-circlering st-icon"></span>
                     <span class="powervisuals-glyph checkmark st-icon st-icon-checkmark" if.bind="tab.isComplete"></span>
-                    <span class="st-icon st-icon-tab" if.bind="!tab.isComplete">${$index + 1}</span>
+                    <span class="st-icon ${$index + 1 < 10 ? 'st-icon-tab' : 'st-icon-tab-large'}" if.bind="!tab.isComplete">${$index + 1}</span>
                     <span class="st-tab-text">${tab.DisplayName}</span>
                 </div>
             </li>
