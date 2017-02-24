@@ -188,9 +188,3 @@ CREATE TABLE bpst_news.stg_entities
 );
 
 
-CREATE TABLE bpst_news.stg_documentcompressedentities
-(
-    documentId				NCHAR(64) NOT NULL,
-    compressedEntitiesJson	NVARCHAR(max)
-);
-

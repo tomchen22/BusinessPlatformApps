@@ -115,7 +115,7 @@ BEGIN
                         INNER JOIN sys.schemas sc ON ta.[schema_id] = sc.[schema_id]
     WHERE
         sc.name='bpst_news' AND ta.is_ms_shipped = 0 AND pa.index_id IN (0,1) AND
-        ta.name IN ('documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases','documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities', 'documentcompressedentities')
+        ta.name IN ('documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases','documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities')
     GROUP BY ta.name
 END;
 go
@@ -127,7 +127,7 @@ BEGIN
     SELECT Count(*) AS ExistingObjectCount
     FROM   information_schema.tables
     WHERE  ( table_schema = 'bpst_news' AND
-             table_name IN ('configuration', 'date', 'documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases', 'documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities', 'documentcompressedentities', 'stg_documenttopics', 'stg_documenttopicimages', 'stg_entities', 'stg_documentcompressedentities')
+             table_name IN ('configuration', 'date', 'documents', 'documentpublishedtimes', 'documentingestedtimes', 'documentkeyphrases', 'documentsentimentscores', 'documenttopics', 'documenttopicimages', 'entities', 'stg_documenttopics', 'stg_documenttopicimages', 'stg_entities')
            );
 END;
 go
