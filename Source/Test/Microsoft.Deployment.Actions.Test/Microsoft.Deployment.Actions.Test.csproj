@@ -39,103 +39,99 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AzureMLPS">
-      <HintPath>..\RefrencedAssemblies\AzureMLPS.dll</HintPath>
+      <HintPath>..\..\RefrencedAssemblies\AzureMLPS.dll</HintPath>
     </Reference>
     <Reference Include="Hyak.Common">
-      <HintPath>..\packages\Hyak.Common.1.1.0\lib\net45\Hyak.Common.dll</HintPath>
+      <HintPath>..\..\packages\Hyak.Common.1.1.0\lib\net45\Hyak.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.ApplicationInsights, Version=2.3.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.ApplicationInsights.2.3.0-beta1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.ApplicationInsights.2.3.0-beta1\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Common">
-      <HintPath>..\packages\Microsoft.Azure.Common.2.1.0\lib\net45\Microsoft.Azure.Common.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Common.2.1.0\lib\net45\Microsoft.Azure.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Common.NetFramework">
-      <HintPath>..\packages\Microsoft.Azure.Common.2.1.0\lib\net45\Microsoft.Azure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Common.2.1.0\lib\net45\Microsoft.Azure.Common.NetFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.MachineLearning, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.MachineLearning.0.9.2\lib\net45\Microsoft.Azure.MachineLearning.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.MachineLearning.0.9.2\lib\net45\Microsoft.Azure.MachineLearning.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.MachineLearning.Management, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.MachineLearning.Management.0.9.2\lib\net45\Microsoft.Azure.MachineLearning.Management.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.MachineLearning.Management.0.9.2\lib\net45\Microsoft.Azure.MachineLearning.Management.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.Management.MachineLearning, Version=0.9.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Management.MachineLearning.0.9.6-preview\lib\net45\Microsoft.Azure.Management.MachineLearning.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Management.MachineLearning.0.9.6-preview\lib\net45\Microsoft.Azure.Management.MachineLearning.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Azure.ResourceManager, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Azure.Management.Resources.2.20.1-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Azure.Management.Resources.2.20.1-preview\lib\net40\Microsoft.Azure.ResourceManager.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Data.Edm">
-      <HintPath>..\packages\Microsoft.Data.Edm.5.8.1\lib\net40\Microsoft.Data.Edm.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.Edm.5.8.1\lib\net40\Microsoft.Data.Edm.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.OData">
-      <HintPath>..\packages\Microsoft.Data.OData.5.8.1\lib\net40\Microsoft.Data.OData.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.OData.5.8.1\lib\net40\Microsoft.Data.OData.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Data.Services.Client">
-      <HintPath>..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Microsoft.Deployment.Common, Version=1.0.6262.39959, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Deployment.Common.1.4.3-CI201702222211\lib\net452\Microsoft.Deployment.Common.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Data.Services.Client.5.8.1\lib\net40\Microsoft.Data.Services.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory">
-      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Clients.ActiveDirectory.Platform">
-      <HintPath>..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Clients.ActiveDirectory.3.13.8\lib\net45\Microsoft.IdentityModel.Clients.ActiveDirectory.Platform.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging">
-      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Logging.1.1.2\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.IdentityModel.Tokens">
-      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.IdentityModel.Tokens.5.1.2\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.2.3.4\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.2.3.4\lib\net45\Microsoft.Rest.ClientRuntime.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Rest.ClientRuntime.Azure, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.4\lib\net45\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Rest.ClientRuntime.Azure.3.3.4\lib\net45\Microsoft.Rest.ClientRuntime.Azure.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks, Version=1.0.12.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Threading.Tasks.Extensions.Desktop">
-      <HintPath>..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Bcl.Async.1.0.168\lib\net40\Microsoft.Threading.Tasks.Extensions.Desktop.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common">
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.WindowsAzure.Common.NetFramework">
-      <HintPath>..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.WindowsAzure.Common.1.4.1\lib\net45\Microsoft.WindowsAzure.Common.NetFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.2-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\..\packages\Newtonsoft.Json.9.0.2-beta1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -144,31 +140,28 @@
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Formatting">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+      <HintPath>..\..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Net.Http.WebRequest" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Spatial">
-      <HintPath>..\packages\System.Spatial.5.8.1\lib\net40\System.Spatial.dll</HintPath>
+      <HintPath>..\..\packages\System.Spatial.5.8.1\lib\net40\System.Spatial.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Shared\SharedVersion.cs">
-      <Link>Properties\SharedVersion.cs</Link>
-    </Compile>
     <Compile Include="ActionsTest\AzureCommonTests.cs" />
     <Compile Include="ActionsTest\AzureFunctionsTests.cs" />
     <Compile Include="ActionsTest\AzureMLTests.cs" />
@@ -550,6 +543,10 @@
       <Name>Microsoft.Deployment.Actions.Custom</Name>
       <Properties>SkipValidatePackageReferences=true</Properties>
     </ProjectReference>
+    <ProjectReference Include="..\..\Actions\Microsoft.Deployment.Actions.MsCrm\Microsoft.Deployment.Actions.MsCrm.csproj">
+      <Project>{5951a918-2234-4963-80b6-66f27962b41f}</Project>
+      <Name>Microsoft.Deployment.Actions.MsCrm</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Actions\Microsoft.Deployment.Actions.OnPremise\Microsoft.Deployment.Actions.OnPremise.csproj">
       <Project>{34d595e2-3c6f-422b-a863-a7e8e1baae06}</Project>
       <Name>Microsoft.Deployment.Actions.OnPremise</Name>
@@ -564,6 +561,10 @@
       <Project>{e8162254-3b16-4509-bdb8-994a024bdf92}</Project>
       <Name>Microsoft.Deployment.Actions.SQL</Name>
       <Properties>SkipValidatePackageReferences=true</Properties>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Actions\Microsoft.Deployment.Common\Microsoft.Deployment.Common.csproj">
+      <Project>{38282763-a8de-485e-a5eb-e5e969f4385b}</Project>
+      <Name>Microsoft.Deployment.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
@@ -610,12 +611,12 @@
     <PreBuildEvent>
     </PreBuildEvent>
   </PropertyGroup>
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
+  <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
+    <Error Condition="!Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
