@@ -150,5 +150,15 @@ namespace Microsoft.Deployment.Common.Test
             Assert.Fail();
            
         }
+
+        [TestMethod]
+        public void TestSSASConnectionChange()
+        {
+            using (PBIXUtils pu = new PBIXUtils("..\\..\\Resources\\A1.pbix", "..\\..\\Resources\\A2.pbix"))
+            {
+                pu.ReplaceSSASConnectionString("s1", "c1", "cc1");
+            }
+
+        }
     }
 }
