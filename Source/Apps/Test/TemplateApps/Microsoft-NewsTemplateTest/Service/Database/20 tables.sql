@@ -78,7 +78,7 @@ CREATE TABLE bpst_news.documentkeyphrases
     documentid	NCHAR(64) NOT NULL,
     phrase		NVARCHAR(max) NOT NULL
 );
-
+CREATE NONCLUSTERED INDEX idx_documentkeyphrases_documentid ON [bpst_news].[documentkeyphrases] ([documentid]) INCLUDE ([phrase]) WITH (ONLINE = ON);
 
 CREATE TABLE bpst_news.documenttopics
 (
@@ -97,7 +97,6 @@ CREATE TABLE bpst_news.topickeyphrases
     topicId			INT NOT NULL,
     KeyPhrase		NVARCHAR(2000) NOT NULL
 );
-
 
 CREATE TABLE bpst_news.documenttopicimages
 (
