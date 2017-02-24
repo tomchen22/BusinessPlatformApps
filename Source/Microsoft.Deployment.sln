@@ -45,6 +45,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Site", "Site", "{D0A7D024-9346-46B7-9626-562611A43142}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bpst.App.Msi", "Site\Microsoft.Deployment.Site.Msi\Microsoft.Bpst.App.Msi.csproj", "{55BCDD2B-279C-4C91-8ECF-E46282A6E2B0}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B28BB976-B0FF-44CD-B042-125A3EA4545C} = {B28BB976-B0FF-44CD-B042-125A3EA4545C}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Deployment.Site.Service", "Site\Microsoft.Deployment.Site.Service\Microsoft.Deployment.Site.Service.csproj", "{398721F5-390C-434D-94DA-6AC281CC7318}"
 EndProject
