@@ -32,6 +32,11 @@
     <DnxInvisibleFolder Include="wwwroot\dist" />
     <DnxInvisibleFolder Include="wwwroot\jspm_packages" />
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\SharedVersion.cs">
+      <Link>Properties\SharedVersion.cs</Link>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(VSToolsPath)\DotNet.Web\Microsoft.DotNet.Web.targets" Condition="'$(VSToolsPath)' != ''" />
   <PropertyGroup>
     <PreBuildEvent>

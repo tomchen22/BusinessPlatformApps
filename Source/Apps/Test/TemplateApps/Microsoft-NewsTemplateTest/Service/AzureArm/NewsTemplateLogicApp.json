@@ -316,6 +316,34 @@
                   ]
                 },
                 "type": "Function"
+              },
+              "For_each": {
+                "actions": {
+                  "Insert_row": {
+                    "inputs": {
+                      "body": {
+                        "documentId": "@Json(body('UrlCleaner'))?['triggerId']",
+                        "searchterms": "@item()['match']"
+                      },
+                      "host": {
+                        "connection": {
+                          "name": "@parameters('$connections')['sql']['connectionId']"
+                        }
+                      },
+                      "method": "post",
+                      "path": "/datasets/default/tables/@{encodeURIComponent(encodeURIComponent('[bpst_news].[documentsearchterms]'))}/items"
+                    },
+                    "runAfter": {},
+                    "type": "ApiConnection"
+                  }
+                },
+                "foreach": "@body('AbstractExtractor')?['Matches']",
+                "runAfter": {
+                  "InsertDocument": [
+                    "Succeeded"
+                  ]
+                },
+                "type": "Foreach"
               }
             },
             "outputs": {}
