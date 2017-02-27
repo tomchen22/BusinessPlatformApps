@@ -15,7 +15,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         public static string baseURL;
         public static RemoteWebDriver driver;
-        
+
         public static void OpenWebBrowserOnPage(string page)
         {
             var url = baseURL + $"#/{page}";
@@ -38,11 +38,11 @@ namespace Microsoft.Deployment.Site.Web.Tests
 
         public static void ClickButton(string buttonText)
         {
-            var button = driver.FindElementsByTagName("Button").FirstOrDefault(e => e.Text == buttonText);
+            var button = driver.FindElementsByTagName("Button").FirstOrDefault(e => e.Enabled && e.Text == buttonText);
 
             while (button == null || !button.Enabled)
             {
-                button = driver.FindElementsByTagName("Button").FirstOrDefault(e => e.Text == buttonText);
+                button = driver.FindElementsByTagName("Button").FirstOrDefault(e => e.Enabled && e.Text == buttonText);
                 Thread.Sleep(1000);
             }
 
@@ -50,7 +50,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             js.ExecuteScript("arguments[0].click()", button);
         }
 
-        public static void AzurePage(string username, string password)
+        public static void AzurePage(string username, string password, string subscriptionName)
         {
             ClickButton("Connect to Azure");
 
@@ -66,15 +66,58 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var js = (IJavaScriptExecutor)driver;
             js.ExecuteScript("arguments[0].click()", signInButton);
 
+            var passLink = driver.FindElementsByClassName("normalText").First(e => e.Text == "Sign in with a username and password instead");
+            passLink.Click();
+
+            passwordBox = driver.FindElementById("passwordInput");
+            passwordBox.SendKeys(password);
+
+            Thread.Sleep(new TimeSpan(0, 0, 1));
+            signInButton = driver.FindElementById("submitButton");
+            js.ExecuteScript("arguments[0].click()", signInButton);
+
             Thread.Sleep(new TimeSpan(0, 0, 1));
             var acceptButton = driver.FindElementById("cred_accept_button");
             acceptButton.Click();
+
+            var azurePage = driver.FindElementsByClassName("st-text").FirstOrDefault(e => e.Text == "Azure Subscription:");
+                      
+            for (int i = 0; i < 10; i++)
+            {
+                azurePage = driver.FindElementsByClassName("st-text").FirstOrDefault(e => e.Text == "Azure Subscription:");
+                if (azurePage != null)
+                {
+                    var option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+                    if (option != null && option.Enabled == true)
+                    {
+                        option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+                        option.SendKeys(subscriptionName);
+                        break;
+                    }
+                    Thread.Sleep(new TimeSpan(0, 0, 10));
+                }
+                Thread.Sleep(new TimeSpan(0, 0, 10));
+            }
         }
 
         public static void SqlPageExistingDatabase(string server, string username, string password)
         {
+            Thread.Sleep(new TimeSpan(0, 0, 10));
+            
             var option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
-            option.SendKeys("Existing SQL Instance");
+
+            for (int i = 0; i < 10; i++)
+            {
+                option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+                if (option != null && option.Enabled == true)
+                {
+                    option.SendKeys("Existing SQL Instance");
+                    break;
+                }
+                Thread.Sleep(new TimeSpan(0, 0, 10));
+            }            
 
             var elements = driver.FindElementsByCssSelector("input[class='st-input au-target']");
 
@@ -93,13 +136,14 @@ namespace Microsoft.Deployment.Site.Web.Tests
         public static void SelectSqlDatabase(string databaseName)
         {
             var database = driver.FindElementsByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']")
-                            .FirstOrDefault(e => !e.Text.Contains("Windows"));
+                            .FirstOrDefault(e => !e.Text.Contains(databaseName));
 
             while (database == null)
             {
                 database = driver.FindElementsByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']")
-                            .FirstOrDefault(e => !e.Text.Contains("Windows"));
+                            .FirstOrDefault(e => !e.Text.Contains(databaseName));
             }
+
             database.SendKeys(databaseName);
         }
 
@@ -116,20 +160,20 @@ namespace Microsoft.Deployment.Site.Web.Tests
 
             int i = 0;
 
-            while (progressText == null && i < 5)
+            while (progressText == null && i < 10)
             {
                 progressText = driver.FindElementsByCssSelector("span[class='semiboldFont st-progress-text']")
                                      .FirstOrDefault(e => e.Text == "All done! You can now download your Power BI report and start exploring your data.");
 
-                error = driver.FindElementByCssSelector("span[class='st-tab-text st-error']");
+                error = driver.FindElementsByCssSelector("span[class='st-tab-text st-error']").FirstOrDefault(e => string.IsNullOrEmpty(e.Text));
 
-                if (!string.IsNullOrEmpty(error.Text))
+                if (error != null && !string.IsNullOrEmpty(error.Text))
                 {
                     Assert.Fail(error.Text);
                 }
 
                 i++;
-                Thread.Sleep(new TimeSpan(0, 0, 5));
+                Thread.Sleep(new TimeSpan(0, 0, 10));
             }
 
             Assert.IsTrue(progressText != null);

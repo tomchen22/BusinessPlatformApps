@@ -11,6 +11,10 @@ namespace Microsoft.Deployment.Site.Test.TestHelpers
 
         public SalesforceCreds Salesforce { get; set; }
 
+        public ServiceAccount ServiceAccount { get; set; }
+
+        public TwitterAccount TwitterAccount { get; set; }
+
         public static void Load()
         {
             Credential cred = new Credential();

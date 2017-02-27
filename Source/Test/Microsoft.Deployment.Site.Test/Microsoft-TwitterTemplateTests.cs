@@ -18,10 +18,13 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [TestMethod]
         public void Given_CorrectInformation_When_RunTwitter_TheSuccess()
         {
-            //Given_CorrectCredentials_When_AzureAuth_Then_Success();
-            //Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
+            Given_CorrectCredentials_When_AzureAuth_Then_Success();
+            HelperMethods.ClickNextButton();
             Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully();
+            HelperMethods.ClickNextButton();
+            Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
             Given_CorrectSearchTerms_When_Validating_Then_Success();
+            HelperMethods.ClickNextButton();
             Given_CorrectHandles_When_Validating_Then_Success();
         }
 
@@ -29,9 +32,11 @@ namespace Microsoft.Deployment.Site.Web.Tests
         public void Given_CorrectCredentials_When_AzureAuth_Then_Success()
         {
             HelperMethods.OpenWebBrowserOnPage("login");
-            string username = "";
-            string password = "";
-            HelperMethods.AzurePage(username, password);
+            string username = Credential.Instance.ServiceAccount.Username;
+            string password = Credential.Instance.ServiceAccount.Password;
+            string subscriptionName = Credential.Instance.ServiceAccount.SubscriptionName;
+
+            HelperMethods.AzurePage(username, password, subscriptionName);
 
             var validated = driver.FindElementByClassName("st-validated");
 
@@ -46,7 +51,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             string password = Credential.Instance.Sql.Password;
             string database = Credential.Instance.Sql.Database;
 
-            HelperMethods.OpenWebBrowserOnPage("source");
+            //HelperMethods.OpenWebBrowserOnPage("source");
             HelperMethods.SqlPageExistingDatabase(server, username, password);
 
             var validated = driver.FindElementByClassName("st-validated");
@@ -59,11 +64,11 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [TestMethod]
         public void Given_CorrectTwitterCredentials_When_Authenticating_Then_Success()
         {
-            HelperMethods.OpenWebBrowserOnPage("twitter");
+            //HelperMethods.OpenWebBrowserOnPage("twitter");
             HelperMethods.ClickButton("Connect to Twitter");
 
-            string username = "asdasd";
-            string password = "asdas";
+            string username = Credential.Instance.TwitterAccount.Username;
+            string password = Credential.Instance.TwitterAccount.Password;
 
             var usernameBox = driver.FindElementById("username_or_email");
             usernameBox.SendKeys(username);
@@ -100,7 +105,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [TestMethod]
         public void Given_CorrectHandles_When_Validating_Then_Success()
         {
-            HelperMethods.OpenWebBrowserOnPage("twitterhandles");
+            //HelperMethods.OpenWebBrowserOnPage("twitterhandles");
             string handles = "@MSPowerBI @Azure @Microsoft";
 
             var handlesInput = driver.FindElementByCssSelector("input[class='st-input au-target']");
