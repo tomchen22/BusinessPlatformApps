@@ -12,6 +12,7 @@ using OpenQA.Selenium.Remote;
 namespace Microsoft.Deployment.Site.Web.Tests
 {
     [TestClass]
+    [Ignore]
     public class SCCMTemplateTests
     {
         // For the tests to work we need the following on the test box

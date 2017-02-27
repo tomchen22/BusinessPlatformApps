@@ -14,6 +14,7 @@ using OpenQA.Selenium.Support.UI;
 namespace Microsoft.Deployment.Site.Web.Tests
 {
     [TestClass]
+    [Ignore]
     public class SalesforceSalesManagementTests
     {
         private string baseURL = Constants.Host + "?name=Microsoft-SalesforceSalesManagement";
