@@ -159,7 +159,7 @@ namespace Microsoft.Deployment.Actions.Test.TestHelpers
             dataStore.AddToDataStore("SelectedSubscription", subscriptionId, DataStoreType.Public);
 
             var locationResult = await TestHarness.ExecuteActionAsync("Microsoft-GetLocations", dataStore);
-            Assert.IsTrue(locationResult.IsSuccess);
+            Assert.IsTrue(locationResult.IsSuccess, "LocationResult failed.  Error: {0}", locationResult.ExceptionDetail != null ? locationResult.ExceptionDetail.ExceptionCaught : null);
             var location = locationResult.Body.GetJObject()["value"][5];
             dataStore.AddToDataStore("SelectedLocation", location, DataStoreType.Public);
 
