@@ -115,7 +115,6 @@ CREATE TABLE bpst_news.documenttopicimages
 );
 
 
-
 CREATE TABLE bpst_news.entities
 (
 	id							BIGINT NOT NULL IDENTITY (1, 1),
@@ -127,15 +126,32 @@ CREATE TABLE bpst_news.entities
     [length]					INT NOT NULL
 );
 
-
-CREATE TABLE bpst_news.documentcompressedentities
+-- Bring Your Own Entity Tables
+CREATE TABLE bpst_news.userdefinedentities
 (
-    documentId				NCHAR(64) NOT NULL,
-    compressedEntitiesJson	NVARCHAR(max),
-    CONSTRAINT pk_documentcompressedentities PRIMARY KEY CLUSTERED (documentId)
+	id							BIGINT NOT NULL IDENTITY (1, 1),
+    documentId					NCHAR(64) NOT NULL,
+    entityType					NVARCHAR(30) NOT NULL,
+    entityValue					NVARCHAR(MAX) NULL,
+    offset						INT NOT NULL,
+    offsetDocumentPercentage	FLOAT NOT NULL,
+    [length]					INT NOT NULL
 );
-CREATE NONCLUSTERED INDEX idx_documentcompressedentities_documentId ON bpst_news.entities (documentId);
 
+CREATE TABLE bpst_news.userdefinedentitydefinitions
+(
+    regex			NVARCHAR(200) NOT NULL,
+    entityType		NVARCHAR(30) NOT NULL,
+    entityValue		NVARCHAR(MAX) NULL
+);
+
+CREATE TABLE bpst_news.typedisplayinformation
+(
+   entityType		NVARCHAR(30) NOT NULL,
+   icon				NVARCHAR(30) NOT NULL,
+   color			NVARCHAR(7) NOT NULL
+);
+CREATE INDEX idx_typedisplayinformation_entityType ON bpst_news.typedisplayinformation (entityType);
 
 -- Staging tables
 
@@ -171,8 +187,3 @@ CREATE TABLE bpst_news.stg_entities
 );
 
 
-CREATE TABLE bpst_news.stg_documentcompressedentities
-(
-    documentId				NCHAR(64) NOT NULL,
-    compressedEntitiesJson	NVARCHAR(max)
-);
