@@ -33,8 +33,6 @@ IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='bpst_news
     DROP VIEW bpst_news.vw_configuration;
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='bpst_news' AND TABLE_NAME='vw_topickeyphrases' AND TABLE_TYPE='VIEW')
     DROP VIEW bpst_news.vw_topickeyphrases;
-IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='bpst_news' AND TABLE_NAME='vw_searchterms' AND TABLE_TYPE='VIEW')
-    DROP VIEW bpst_news.vw_searchterms;
 IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='bpst_news' AND TABLE_NAME='vw_documentsearchterms' AND TABLE_TYPE='VIEW')
     DROP VIEW bpst_news.vw_documentsearchterms;
 
