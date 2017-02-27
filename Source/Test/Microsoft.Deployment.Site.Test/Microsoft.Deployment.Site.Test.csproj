@@ -74,11 +74,17 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Constants.cs" />
-    <Compile Include="Helpers.cs" />
+    <Compile Include="TestHelpers\HelperMethods.cs" />
     <Compile Include="Microsoft-SalesforceSalesManagementTests.cs" />
     <Compile Include="Microsoft-SCCMTemplateTests.cs" />
     <Compile Include="Microsoft-TwitterTemplateTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestHelpers\Credential.cs" />
+    <Compile Include="TestHelpers\ObjectExtensionMethods.cs" />
+    <Compile Include="TestHelpers\SalesforceCreds.cs" />
+    <Compile Include="TestHelpers\ServiceAccount.cs" />
+    <Compile Include="TestHelpers\SqlCreds.cs" />
+    <Compile Include="TestHelpers\TwitterAccount.cs" />
     <Compile Include="WebUITests.cs" />
   </ItemGroup>
   <ItemGroup>
