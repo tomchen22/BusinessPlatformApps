@@ -82,7 +82,9 @@
     <Compile Include="TestHelpers\Credential.cs" />
     <Compile Include="TestHelpers\ObjectExtensionMethods.cs" />
     <Compile Include="TestHelpers\SalesforceCreds.cs" />
+    <Compile Include="TestHelpers\ServiceAccount.cs" />
     <Compile Include="TestHelpers\SqlCreds.cs" />
+    <Compile Include="TestHelpers\TwitterAccount.cs" />
     <Compile Include="WebUITests.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -11,12 +11,12 @@
           "Power BI Pro (to share the template with your organization)"
         ],
         "list2": [
-          "Find articles from hundreds of news publishers",
-          "Data enriched using machine learning techniques like topic modelling and entity extraction",
+          "Search articles from hundreds of news publishers to find the most relevant results",
+          "Data and search results enriched using machine learning techniques like topic modelling and entity extraction",
           "Full cloud solution with minimum set up and maintenance considerations"
         ],
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "subtitle": "Welcome to the Bing News solution template.",
+        "subtitle": "Welcome to the Bing News Adavanced Search solution template.",
         "templateName": "Advanced Search with Bing News"
       },
       {
@@ -42,7 +42,7 @@
         "isAzureSql": true,
         "showAzureSql": false,
         "showNewSqlOption": "true",
-        "subtitle": "Set up a connection to SQL so we can bring in Bing news data.",
+        "subtitle": "Set up a connection to SQL so we can bring in Bing News data.",
         "title": "Connect to your SQL Database",
         "sqlInstance": "NewSql",
         "newSqlDatabase": "bingNews"
