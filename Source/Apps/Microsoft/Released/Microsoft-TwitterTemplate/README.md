@@ -10,7 +10,7 @@ Brand & Campaign Management Solution Template Documentation
 6. [Model Schema] (#model-schema)
 7. [Reports Walkthrough](#report-walkthrough)
 8. [Customizations](#customizations)
-9. [Pricing] (#pricing)
+9. [Estimated Costs] (#estimated-costs)
 
 
 
@@ -651,15 +651,15 @@ The Python script inside the Azure Function is completely customizable. You can 
 
 Other examples could be to add [Cognitive APIs](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) to do things like topic or keyword extraction on top of the twitter data.
 
-#Pricing
+#Estimated Costs
 
-Here is an estimate of the Azure costs (Logic App, Azure Function, Azure SQL, Cognitive Services) based on the number of tweets processed:
+Here is an estimate of the Azure costs (Logic App, Azure Function, Azure SQL, Azure ML) based on the number of tweets processed:
 
-Processing 10K tweets a month will cost approximately $210
+Processing 10K tweets a month will cost approximately $160
 
-Processing 50K tweets a month will cost approximately $315
+Processing 50K tweets a month will cost approximately $265
 
-Processing 100K tweets a month will cost approximately $385
+Processing 100K tweets a month will cost approximately $335
 
 Please keep in mind these are **estimated costs and subject to change.** For a more detailed breakdown of the various components please refer to the [Azure calculator](https://azure.microsoft.com/en-us/pricing/calculator/) and select Logic App, Azure Function, Azure SQL and Congitive Services. You can tweak all the options to see what the costs will look like and what modifications may suit your needs best.
 
@@ -673,8 +673,8 @@ The following defaults are set for you in the template (you can modify any of th
 
 -   Azure Functions
 
--   Cognitive Services (Text Analytics API)
+-   Azure ML (S1)
 
-For example, if you know you will be processing very few tweets a month, you could change the SQL Server from S1 to Basic. In that case you could bring down the costs of processing 10K tweets a month from about $210 to about $180.
+For example, if you know you will be processing very few tweets a month, you could change the SQL Server from S1 to Basic. In that case you could bring down the costs of processing 10K tweets a month from about $160 to about $130.
 
 Whilst the default setting should cater to most twitter template requirements, we encourage you to familiarize yourself with the various pricing options and tweak things to suit your needs.
