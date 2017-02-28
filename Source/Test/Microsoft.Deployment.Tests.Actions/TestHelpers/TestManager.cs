@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Deployment.Actions.AzureCustom.AzureToken;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.AppLoad;
 using Microsoft.Deployment.Common.Controller;
@@ -26,11 +27,33 @@ namespace Microsoft.Deployment.Tests.Actions.TestHelpers
             if (File.Exists("datastore.json"))
             {
                 string filecontents = File.ReadAllText("datastore.json");
-                return JsonConvert.DeserializeObject<DataStore>(filecontents);
+                var jsonObj = JsonConvert.DeserializeObject<DataStore>(filecontents);
+
+
+                RefreshAzureToken token = new RefreshAzureToken();
+                ActionRequest req = new ActionRequest()
+                {
+                    DataStore = jsonObj
+                };
+
+                try
+                {
+                    var intercept = await token.CanInterceptAsync(null, req);
+                    if (intercept == InterceptorStatus.Intercept)
+                    {
+                        await TestManager.ExecuteActionAsync("Microsoft-RefreshAzureToken", jsonObj);
+                        System.IO.File.WriteAllText("datastore.json", JsonUtility.GetJObjectFromObject(jsonObj).ToString());
+                    }
+
+                    return jsonObj;
+                }
+                catch (Exception)
+                {
+                    // Skip over error and try again
+                }
             }
 
-            // Refresh Token - if refresh faile
-
+ 
             // If not found or refresh failed prompt
             Credential.Load();
             var dataStore = await AAD.GetUserTokenFromPopup();
