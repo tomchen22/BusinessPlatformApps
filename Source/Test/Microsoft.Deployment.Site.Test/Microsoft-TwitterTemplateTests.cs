@@ -16,7 +16,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         private string baseURL = Constants.Slot3;
         private RemoteWebDriver driver;
-        private string browser;
+        //private string browser;
 
         [TestMethod]
         
@@ -140,13 +140,13 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var url = this.baseURL + "#/azure";
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             driver.Navigate().GoToUrl(url);
             var elements = driver.FindElementByTagName("Button");
             elements.Click();
 
-            string username = "";
-            string password = "";
+            //string username = "";
+            //string password = "";
         }
 
         [TestCleanup()]
