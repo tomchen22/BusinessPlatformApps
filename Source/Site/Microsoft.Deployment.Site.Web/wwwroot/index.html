@@ -10,6 +10,14 @@
     <title>Solution template Setup</title>
     <link rel="stylesheet" href="dist/SiteCommon/Web/styles/pbi.css" />
     <link rel="stylesheet" href="dist/SiteCommon/Web/styles/bpst.css" />
+    <script>
+        if (window && window.navigator && window.navigator.userAgent && /Edge\/\d./i.test(window.navigator.userAgent)) {
+            var js = document.createElement('script');
+            js.src = 'jspm_packages/npm/bluebird@3.4.1/js/browser/bluebird.min.js';
+            js.type = 'text/javascript';
+            document.getElementsByTagName('head')[0].appendChild(js);
+        }
+    </script>
 </head>
 <body aurelia-app="main">
     <div class="st-header semiboldFont">
@@ -22,12 +30,11 @@
         <div class="st-center-outer">
             <div class="st-center-inner">
                 <span class="st-loader st-loader-small"></span>
-                <p style="text-align: center">Loading page, this could take 10-15 seconds</p>
+                <p style="text-align: center">Getting things ready</p>
             </div>
         </div>
     </div>
 
-    <script src="jspm_packages/npm/bluebird@3.4.1/js/browser/bluebird.min.js"></script>
     <script src="jspm_packages/system.js"></script>
     <script src="dist/SiteCommon/Web/scripts/ai.1.0.0-build00159.min.js"></script>
     <script src="config.js"></script>
