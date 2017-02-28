@@ -21,6 +21,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
+            var token = request.DataStore.GetJson("AzureToken");
             string refreshToken = request.DataStore.GetJson("AzureToken")["refresh_token"].ToString();
             string aadTenant = request.DataStore.GetValue("AADTenant");
 
@@ -33,6 +34,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
             var response = await client.PostAsync(new Uri(tokenUrl), content).Result.Content.ReadAsStringAsync();
 
             var primaryResponse = JsonUtility.GetJsonObjectFromJsonString(response);
+            primaryResponse.Add("id_token", token["id_token"]);
+
             var obj = new JObject(new JProperty("AzureToken", primaryResponse));
 
             return new ActionResponse(ActionStatus.Success, obj, true);
