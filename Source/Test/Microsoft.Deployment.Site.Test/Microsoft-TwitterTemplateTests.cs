@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Remote;
 
 namespace Microsoft.Deployment.Site.Web.Tests
@@ -161,7 +162,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
-            HelperMethods.driver = new ChromeDriver(options);
+            HelperMethods.driver = new InternetExplorerDriver(); //new ChromeDriver(options);
             this.driver = HelperMethods.driver;
         }
     }
