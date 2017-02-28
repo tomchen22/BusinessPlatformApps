@@ -20,7 +20,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         {
             var url = baseURL + $"#/{page}";
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+            driver.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 30);
             driver.Navigate().GoToUrl(url);
         }
 
@@ -81,7 +81,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             acceptButton.Click();
 
             var azurePage = driver.FindElementsByClassName("st-text").FirstOrDefault(e => e.Text == "Azure Subscription:");
-                      
+
             for (int i = 0; i < 10; i++)
             {
                 azurePage = driver.FindElementsByClassName("st-text").FirstOrDefault(e => e.Text == "Azure Subscription:");
@@ -104,7 +104,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         public static void SqlPageExistingDatabase(string server, string username, string password)
         {
             Thread.Sleep(new TimeSpan(0, 0, 10));
-            
+
             var option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
 
             for (int i = 0; i < 10; i++)
@@ -117,7 +117,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
                     break;
                 }
                 Thread.Sleep(new TimeSpan(0, 0, 10));
-            }            
+            }
 
             var elements = driver.FindElementsByCssSelector("input[class='st-input au-target']");
 
