@@ -163,7 +163,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
-            HelperMethods.driver = new InternetExplorerDriver(); //new ChromeDriver(options);
+            HelperMethods.driver = new ChromeDriver(options);
             this.driver = HelperMethods.driver;
         }
     }
