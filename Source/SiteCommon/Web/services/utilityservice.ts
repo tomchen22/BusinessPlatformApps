@@ -75,16 +75,6 @@ export class UtilityService {
         return usernameSplit[1];
     }
 
-    reloadEdge(): void {
-        let isEdge: boolean = false;
-        if (window && window.navigator && window.navigator.userAgent) {
-            isEdge = /Edge\/\d./i.test(window.navigator.userAgent)
-        }
-        if (isEdge) {
-            window.location.reload();
-        }
-    }
-
     validateUsername(username: string): string {
         if (username.includes('\\')) {
             return '';

@@ -87,7 +87,6 @@ export class ViewModelBase {
         } catch (e) {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
-            this.MS.UtilityService.reloadEdge();
         }
     }
 
@@ -119,7 +118,6 @@ export class ViewModelBase {
         this.MS.ErrorService.Clear();
 
         this.MS.NavigationService.isCurrentlyNavigating = false;
-        this.MS.UtilityService.reloadEdge();
     }
 
     async activate(params, navigationInstruction) {
