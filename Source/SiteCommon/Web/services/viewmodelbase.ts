@@ -87,6 +87,7 @@ export class ViewModelBase {
         } catch (e) {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
+            this.MS.UtilityService.reloadEdge();
         }
     }
 
@@ -118,10 +119,10 @@ export class ViewModelBase {
         this.MS.ErrorService.Clear();
 
         this.MS.NavigationService.isCurrentlyNavigating = false;
+        this.MS.UtilityService.reloadEdge();
     }
 
     async activate(params, navigationInstruction) {
-
         this.isActivated = false;
         this.MS.UtilityService.SaveItem('Current Page', window.location.href);
         let currentRoute = this.MS.NavigationService.getCurrentSelectedPage().RoutePageName.toLowerCase();
@@ -156,7 +157,6 @@ export class ViewModelBase {
     determineActivationStrategy() {
         return activationStrategy.replace; //replace the viewmodel with a new instance
     }
-
 
     ///////////////////////////////////////////////////////////////////////
     /////////////////// Methods to override ///////////////////////////////
