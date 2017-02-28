@@ -114,6 +114,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [Ignore]
         public void Given_CorrectHandles_When_Validating_Then_Success()
         {
+            Thread.Sleep(new TimeSpan(0, 0, 10));
             //HelperMethods.OpenWebBrowserOnPage("twitterhandles");
             string handles = "@MSPowerBI @Azure @Microsoft";
 
