@@ -16,6 +16,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         private string browser;
 
         [TestMethod]
+        
         public void Given_CorrectInformation_When_RunTwitter_TheSuccess()
         {
             Given_CorrectCredentials_When_AzureAuth_Then_Success();
@@ -29,6 +30,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void Given_CorrectCredentials_When_AzureAuth_Then_Success()
         {
             HelperMethods.OpenWebBrowserOnPage("login");
@@ -44,6 +46,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully()
         {
             string server = Credential.Instance.Sql.Server;
@@ -62,6 +65,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void Given_CorrectTwitterCredentials_When_Authenticating_Then_Success()
         {
             //HelperMethods.OpenWebBrowserOnPage("twitter");
@@ -81,6 +85,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void Given_CorrectSearchTerms_When_Validating_Then_Success()
         {
             HelperMethods.OpenWebBrowserOnPage("searchterms");
@@ -103,6 +108,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void Given_CorrectHandles_When_Validating_Then_Success()
         {
             //HelperMethods.OpenWebBrowserOnPage("twitterhandles");
@@ -125,6 +131,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         }
 
         [TestMethod]
+        [Ignore]
         public void TestAzurePageFlowCredentials()
         {
             var url = this.baseURL + "#/azure";
