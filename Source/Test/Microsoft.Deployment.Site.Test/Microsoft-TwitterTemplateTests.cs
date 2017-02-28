@@ -114,6 +114,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [Ignore]
         public void Given_CorrectHandles_When_Validating_Then_Success()
         {
+            Thread.Sleep(new TimeSpan(0, 0, 10));
             //HelperMethods.OpenWebBrowserOnPage("twitterhandles");
             string handles = "@MSPowerBI @Azure @Microsoft";
 
@@ -162,7 +163,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
-            HelperMethods.driver = new InternetExplorerDriver(); //new ChromeDriver(options);
+            HelperMethods.driver = new ChromeDriver(options);
             this.driver = HelperMethods.driver;
         }
     }
