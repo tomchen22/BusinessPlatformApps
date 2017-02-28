@@ -74,7 +74,6 @@ export class NavigationService {
                 this.index = i;
             }
         }
-
         for (let i = 0; i < this.pages.length; i++) {
             this.pages[i].isActive = i === this.index;
             this.pages[i].isComplete = i < this.index;
@@ -131,7 +130,7 @@ export class NavigationService {
     NavigateToIndex() {
         // do not update index here
 
-        // Initialise the page
+        // Initialize the page
         this.MS.DataStore.CurrentRoutePage = this.pages[this.index].RoutePageName.toLowerCase();
 
         // The index is set to the next step
@@ -150,11 +149,7 @@ export class NavigationService {
     }
 
     isLastPage(): boolean {
-        if (this.pages.length - 1 === this.getIndex()) {
-            return true;
-        }
-
-        return false;
+        return this.pages.length - 1 === this.getIndex();
     }
 
     isFirstPage(): boolean {
