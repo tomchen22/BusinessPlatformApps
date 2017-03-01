@@ -100,7 +100,7 @@ export class AzureLogin extends ViewModelBase {
         window.location.href = response.Body.value;
     }
 
-    public async NavigatingNext(): Promise<boolean> {
+    async NavigatingNext(): Promise<boolean> {
         let subscriptionObject = this.subscriptionsList.find(x => x.SubscriptionId === this.selectedSubscriptionId);
         this.MS.DataStore.addToDataStore('SelectedSubscription', subscriptionObject, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('SelectedResourceGroup', this.selectedResourceGroup, DataStoreType.Public);
