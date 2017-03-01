@@ -2,7 +2,7 @@
 import { JsonCustomParser } from "../base/JsonCustomParser";
 import { DataStoreType } from "./datastore";
 import { ActionResponse } from "./actionresponse";
-import {activationStrategy} from 'aurelia-router';
+import { activationStrategy } from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
