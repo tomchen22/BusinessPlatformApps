@@ -268,7 +268,6 @@ System.config({
       "npm:aurelia-templating@1.3.0/aurelia-templating.js"
     ]
   },
-
   depCache: {
     "npm:aurelia-polyfills@1.0.0.js": [
       "npm:aurelia-polyfills@1.0.0/aurelia-polyfills"
@@ -917,7 +916,6 @@ System.config({
       "aurelia-pal"
     ]
   },
-
   map: {
     "aurelia-animator-css": "npm:aurelia-animator-css@1.0.1",
     "aurelia-bootstrapper": "npm:aurelia-bootstrapper@1.0.1",
