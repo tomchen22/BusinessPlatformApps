@@ -140,7 +140,6 @@ export class LoggerService {
     }
 
     GetPropertiesForTelemtry(): any {
-
         let obj: any = {};
         obj.AppName = this.MS.NavigationService.appName;
         obj.FullUrl = window.location.href;
@@ -154,7 +153,7 @@ export class LoggerService {
             obj.PageModuleId = this.MS.NavigationService.getCurrentSelectedPage().Path.replace(/\\/g, "/");
             obj.PageDisplayName = this.MS.NavigationService.getCurrentSelectedPage().DisplayName;
         }
-     
+
         obj.RootSource = - this.MS.HttpService.isOnPremise ? 'MSI' : 'WEB';
         return obj;
     }

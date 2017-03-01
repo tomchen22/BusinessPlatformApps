@@ -19,8 +19,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         private string baseURL = Constants.Host + "?name=Microsoft-SalesforceSalesManagement";
         private RemoteWebDriver driver;
-        private string browser;
-
+        //private string browser;
 
         [TestMethod]
         public void NavigateToAzurePage()
@@ -218,7 +217,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var url = this.baseURL + $"#/{page}";
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             driver.Navigate().GoToUrl(url);
         }
 

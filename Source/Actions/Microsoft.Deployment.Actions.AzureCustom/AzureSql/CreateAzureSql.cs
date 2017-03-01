@@ -24,8 +24,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureSql
             var subscription = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             var resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
 
-            var location = request.DataStore.GetValue("SqlLocation") ?? "westus";
-            var databaseTier = request.DataStore.GetValue("SqlSku") ?? "S1";
+            var location = request.DataStore.GetLastValue("SqlLocation") ?? "westus";
+            var databaseTier = request.DataStore.GetLastValue("SqlSku") ?? "S1";
 
             string server = request.DataStore.GetJson("SqlCredentials").SelectToken("Server")?.ToString();
             string user = request.DataStore.GetJson("SqlCredentials").SelectToken("User")?.ToString();

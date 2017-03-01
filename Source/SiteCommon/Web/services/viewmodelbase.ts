@@ -2,7 +2,7 @@
 import { JsonCustomParser } from "../base/JsonCustomParser";
 import { DataStoreType } from "./datastore";
 import { ActionResponse } from "./actionresponse";
-import {activationStrategy} from 'aurelia-router';
+import { activationStrategy } from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
@@ -88,6 +88,10 @@ export class ViewModelBase {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
         }
+
+        setTimeout(() => {
+            this.VerifyNavigation();
+        }, 100);
     }
 
     NavigateBack() {
@@ -118,10 +122,13 @@ export class ViewModelBase {
         this.MS.ErrorService.Clear();
 
         this.MS.NavigationService.isCurrentlyNavigating = false;
+
+        setTimeout(() => {
+            this.VerifyNavigation();
+        }, 100);
     }
 
     async activate(params, navigationInstruction) {
-
         this.isActivated = false;
         this.MS.UtilityService.SaveItem('Current Page', window.location.href);
         let currentRoute = this.MS.NavigationService.getCurrentSelectedPage().RoutePageName.toLowerCase();
@@ -149,6 +156,12 @@ export class ViewModelBase {
     NavigatedNext(): void {
     }
 
+    VerifyNavigation(): void {
+        if (this.MS.UtilityService.isEdge()) {
+            this.MS.NavigationService.NavigateToIndex();
+        }
+    }
+
     async attached() {
         await this.OnLoaded();
     }
@@ -156,7 +169,6 @@ export class ViewModelBase {
     determineActivationStrategy() {
         return activationStrategy.replace; //replace the viewmodel with a new instance
     }
-
 
     ///////////////////////////////////////////////////////////////////////
     /////////////////// Methods to override ///////////////////////////////

@@ -155,7 +155,6 @@ export class DataStore {
         if (val || val === '') {
             return val.toString();
         }
-
         return val;
     }
 

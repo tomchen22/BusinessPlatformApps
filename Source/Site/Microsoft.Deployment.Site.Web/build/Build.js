@@ -13,8 +13,8 @@ gulp.task('build-TS', function () {
             emitDecoratorMetadata: true,
             experimentalDecorators: true,
             module: 'commonjs',
-            noExternalResolve: false,
             noImplicitAny: false,
+            noResolve: false,
             removeComments: true,
             sourceMap: true,
             target: 'es6'
