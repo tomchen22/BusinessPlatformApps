@@ -37,8 +37,6 @@ namespace Microsoft.Deployment.Actions.Salesforce
 
             string fullServerUrl = request.DataStore.GetValue("SalesforceBaseUrl");
             string connString = request.DataStore.GetValue("SqlConnectionString");
-            string fiscalMonth = request.DataStore.GetValue("fiscalMonth");
-            string actuals = request.DataStore.GetValue("actuals");
             string emails = request.DataStore.GetValue("EmailAddresses");
 
             string dataFactoryName = resourceGroup + "SalesforceCopyFactory";

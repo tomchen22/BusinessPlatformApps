@@ -79,7 +79,7 @@
         "name": "Microsoft-DeploySQLScripts",
         "displayname": "Deploying database scripts",
         "SqlServerIndex": "0",
-        "SqlScriptsFolder": "Service/Database/Cleanup"
+        "SqlScriptsFolder": "Service/Database"
       },
       {
         "name": "Microsoft-SalesforceGetObjectMetadata",
@@ -88,12 +88,6 @@
       {
         "name": "Microsoft-SalesforceSqlArtefacts",
         "displayname": "Creating tables in database"
-      },
-      {
-        "name": "Microsoft-DeploySQLScripts",
-        "displayname": "Creating relations between tables",
-        "SqlServerIndex": "0",
-        "SqlScriptsFolder": "Service/Database/ADF"
       },
       {
         "name": "Microsoft-SetConfigValueInSql",
