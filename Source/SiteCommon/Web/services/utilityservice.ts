@@ -75,6 +75,10 @@ export class UtilityService {
         return usernameSplit[1];
     }
 
+    isEdge(): boolean {
+        return window && window.navigator && window.navigator.userAgent && /Edge\/\d./i.test(window.navigator.userAgent);
+    }
+
     validateUsername(username: string): string {
         if (username.includes('\\')) {
             return '';

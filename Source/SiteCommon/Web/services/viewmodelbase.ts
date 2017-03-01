@@ -88,6 +88,10 @@ export class ViewModelBase {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
         }
+
+        setTimeout(() => {
+            this.VerifyNavigation();
+        }, 100);
     }
 
     NavigateBack() {
@@ -118,6 +122,10 @@ export class ViewModelBase {
         this.MS.ErrorService.Clear();
 
         this.MS.NavigationService.isCurrentlyNavigating = false;
+
+        setTimeout(() => {
+            this.VerifyNavigation();
+        }, 100);
     }
 
     async activate(params, navigationInstruction) {
@@ -146,6 +154,12 @@ export class ViewModelBase {
 
     // Called when object has navigated next -only simple cleanup logic should go here
     NavigatedNext(): void {
+    }
+
+    VerifyNavigation(): void {
+        if (this.MS.UtilityService.isEdge()) {
+            this.MS.NavigationService.NavigateToIndex();
+        }
     }
 
     async attached() {
