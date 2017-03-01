@@ -1,10 +1,10 @@
 ﻿import MainService from './mainservice';
 import { ActionResponse } from './actionresponse';
 import { ActionStatus } from './actionresponse';
-import {DataStoreType} from "./datastore";
+import { DataStoreType } from "./datastore";
 
-import {ExperienceType} from '../base/ExperienceType';
-import {JsonCustomParser} from "../base/JsonCustomParser";
+import { ExperienceType } from '../base/ExperienceType';
+import { JsonCustomParser } from "../base/JsonCustomParser";
 
 export class DeploymentService {
     MS: MainService;
