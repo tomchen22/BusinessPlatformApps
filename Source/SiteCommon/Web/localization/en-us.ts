@@ -10,6 +10,7 @@
     APP_PRIVACY_COOKIES_LINK: `https://www.microsoft.com/en-us/privacystatement/OnlineServices/Default.aspx`,
     APP_TERMS_USE: `TERMS OF USE`,
     APP_TERMS_USE_LINK: `https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx`,
+    APP_TRADEMARKS: `TRADEMARKS`,
     APP_TRADEMARKS_LINK: `https://www.microsoft.com/en-us/legal/intellectualproperty/trademarks/en-us.aspx`,
     AZURE_ANALYSIS_PROVISIONING: `Would you like us to provision a new SSAS instance or use an existing SSAS instance?`,
     AZURE_LOGIN_BING_TEXT: `You can read the Bing Terms of Use`,
