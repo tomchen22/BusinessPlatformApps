@@ -17,8 +17,7 @@ AS
          NULL           AS [Business Unit Id],
          billingcity    AS [City],
          billingstate   AS [State],
-         billingcountry AS [Country],
-         annualrevenue  AS [Annual Revenue]
+         billingcountry AS [Country]         
   FROM   dbo.Account
   WHERE  isdeleted=0
   UNION ALL
@@ -31,8 +30,7 @@ AS
          NULL    AS [Business Unit Id],
          NULL    AS [City],
          NULL    AS [State],
-         NULL    AS [Country],
-         NULL    AS [Annual Revenue]
+         NULL    AS [Country]
   FROM   dbo.Opportunity
   WHERE  ( isdeleted=0 AND accountid IS NULL );
 go 

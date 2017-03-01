@@ -16,7 +16,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         private string baseURL = Constants.Slot3;
         private RemoteWebDriver driver;
-        private string browser;
+        //private string browser;
 
         [TestMethod]
         
@@ -114,6 +114,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [Ignore]
         public void Given_CorrectHandles_When_Validating_Then_Success()
         {
+            Thread.Sleep(new TimeSpan(0, 0, 10));
             //HelperMethods.OpenWebBrowserOnPage("twitterhandles");
             string handles = "@MSPowerBI @Azure @Microsoft";
 
@@ -140,13 +141,13 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var url = this.baseURL + "#/azure";
             driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitlyWait(TimeSpan.FromSeconds(30));
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
             driver.Navigate().GoToUrl(url);
             var elements = driver.FindElementByTagName("Button");
             elements.Click();
 
-            string username = "";
-            string password = "";
+            //string username = "";
+            //string password = "";
         }
 
         [TestCleanup()]
@@ -162,7 +163,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.baseURL = baseURL + "?name=Microsoft-TwitterTemplate";
             var options = new ChromeOptions();
             options.AddArgument("no-sandbox");
-            HelperMethods.driver = new InternetExplorerDriver(); //new ChromeDriver(options);
+            HelperMethods.driver = new ChromeDriver(options);
             this.driver = HelperMethods.driver;
         }
     }
