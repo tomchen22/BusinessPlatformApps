@@ -58,3 +58,37 @@ CREATE TABLE smgt.usermapping
     userid     VARCHAR(50) NULL,
     domainuser VARCHAR(50) NULL
 );
+
+CREATE TABLE dbo.account
+(
+	id					NVARCHAR(18) NULL,
+	name				NVARCHAR(255) NULL,
+	ownerid				NVARCHAR(18) NULL,
+	industry			NVARCHAR(40) NULL,
+	billingcity			NVARCHAR(40) NULL,
+	billingstate		NVARCHAR(80) NULL,
+	billingcountry		NVARCHAR(80) NULL
+);
+
+CREATE TABLE dbo.opportunity
+(
+	id					NVARCHAR(18) NULL,
+	name				NVARCHAR(120) NULL,
+	ownerid				NVARCHAR(18) NULL,
+	createddate			DATETIME NULL,
+	isclosed			INT NULL,
+	probability			DECIMAL(3,0) NULL,
+	accountid			NVARCHAR(18) NULL,
+	amount				DECIMAL(3,0) NULL,
+	expectedrevenue		DECIMAL(18,2) NULL,
+	forecastcategoryname	NVARCHAR(40) NULL,
+	stagename			NVARCHAR(40) NULL,
+	leadsource			NVARCHAR(40) NULL
+);
+
+CREATE TABLE dbo.userrole
+(
+	id					NVARCHAR(18) NULL,
+	name				NVARCHAR(80) NULL,
+	parentroleid		NVARCHAR(18) NULL
+);
