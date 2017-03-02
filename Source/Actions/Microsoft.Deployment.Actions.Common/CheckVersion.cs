@@ -24,7 +24,7 @@ namespace Microsoft.Deployment.Actions.Common
 
             try
             {
-                var webVersion = client.DownloadString(Constants.ServiceUrl + "api/version");
+                var webVersion = client.DownloadString("https://bpstservice-slot3.azurewebsites.net/" + "api/version");
 
                 if (localVersion == webVersion)
                 {
