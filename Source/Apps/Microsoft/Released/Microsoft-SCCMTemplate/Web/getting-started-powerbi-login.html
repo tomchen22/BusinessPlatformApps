@@ -72,7 +72,10 @@
     <!-- Power BI Login -->
     <div>
         <p class="st-nav-buttons">
-            <button class="primary" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy" if.bind="!isAuthenticated">Login</button>
+            <button class="primary st-button-powerbi-login" click.delegate="connect()" disabled.bind="MS.HttpService.isServiceBusy" if.bind="!isAuthenticated">${MS.Translate.POWER_BI_SIGN_IN}</button>
+            <a href="https://app.powerbi.com/signupredirect?pbi_source=web" target="_blank" if.bind="!isAuthenticated">
+                <button class="primary">${MS.Translate.POWER_BI_SIGN_UP}</button>
+            </a>
         </p>
     </div>
 </template>
