@@ -348,6 +348,7 @@
     <Compile Include="Controllers\ActionController.cs" />
     <Compile Include="Controllers\TelemetryController.cs" />
     <Compile Include="Controllers\AppController.cs" />
+    <Compile Include="Controllers\VersionController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
