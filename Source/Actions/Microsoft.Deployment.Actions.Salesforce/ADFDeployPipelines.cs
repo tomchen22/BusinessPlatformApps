@@ -33,10 +33,6 @@ namespace Microsoft.Deployment.Actions.Salesforce
             string connString = request.DataStore.GetValue("SqlConnectionString");
             string schema = "dbo";
 
-            string sfUsername = request.DataStore.GetValue("SalesforceUser");
-            string sfPassword = request.DataStore.GetValue("SalesforcePassword");
-            string sfToken = request.DataStore.GetValue("SalesforceToken");
-
             string postDeploymentPipelineType = request.DataStore.GetValue("postDeploymentPipelineType");
             string pipelineFrequency = request.DataStore.GetValue("pipelineFrequency");
             string pipelineInterval = request.DataStore.GetValue("pipelineInterval");
@@ -82,24 +78,17 @@ namespace Microsoft.Deployment.Actions.Salesforce
                 var sqlCreds = SqlUtility.GetSqlCredentialsFromConnectionString(connString);
                 var param = new AzureArmParameterGenerator();
                 param.AddStringParam("dataFactoryName", dataFactoryName);
-                param.AddStringParam("sqlServerName", sqlCreds.Server.Split('.')[0]);
-                param.AddStringParam("sqlServerUsername", sqlCreds.Username);
-                param.AddStringParam("targetDatabaseName", sqlCreds.Database);
                 param.AddStringParam("targetSqlSchema", schema);
-                param.AddStringParam("targetSqlTable", o.Item1);
-                param.AddStringParam("salesforceUsername", sfUsername);
+                param.AddStringParam("targetSqlTable", o.Item1.ToLowerInvariant());
                 param.AddStringParam("targetSalesforceTable", o.Item1);
                 param.AddStringParam("pipelineName", o.Item1 + "_CopyPipeline");
-                param.AddStringParam("sqlWritableTypeName", o.Item1 + "Type");
-                param.AddStringParam("sqlWriterStoredProcedureName", "spMerge" + o.Item1);
+                param.AddStringParam("sqlWritableTypeName", o.Item1.ToLowerInvariant() + "type");
+                param.AddStringParam("sqlWriterStoredProcedureName", "spMerge" + o.Item1.ToLowerInvariant());
                 param.AddStringParam("pipelineStartDate", pipelineStart);
                 param.AddStringParam("pipelineEndDate", pipelineEnd);
+                param.AddStringParam("pipelineType", pipelineType);
                 param.AddStringParam("sliceFrequency", pipelineFrequency);
                 param.AddStringParam("sliceInterval", pipelineInterval);
-                param.AddStringParam("pipelineType", pipelineType);
-                param.AddParameter("salesforcePassword", "securestring", sfPassword);
-                param.AddParameter("sqlServerPassword", "securestring", sqlCreds.Password);
-                param.AddParameter("salesforceSecurityToken", "securestring", sfToken);
 
                 var armTemplate = JsonUtility.GetJsonObjectFromJsonString(System.IO.File.ReadAllText(Path.Combine(request.Info.App.AppFilePath, "Service/ADF/pipeline.json")));
                 var armParamTemplate = JsonUtility.GetJObjectFromObject(param.GetDynamicObject());
