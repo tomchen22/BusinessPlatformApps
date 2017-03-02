@@ -220,7 +220,6 @@
     <Compile Include="CDM\GetObjID.cs" />
     <Compile Include="CDM\ProvisionCDM.cs" />
     <Compile Include="CognitiveServices\ValidateCognitiveServices.cs" />
-    <Compile Include="CognitiveServices\IsAccountAdminForCognitiveServices.cs" />
     <Compile Include="Common\GetEmail.cs" />
     <Compile Include="Common\CheckAzureWebsiteExists.cs" />
     <Compile Include="Common\DeployAzureFunctionConnectionStrings.cs" />
