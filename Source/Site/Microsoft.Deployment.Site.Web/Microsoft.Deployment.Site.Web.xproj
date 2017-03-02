@@ -29,6 +29,7 @@
     <DnxInvisibleContent Include=".bowerrc" />
     <DnxInvisibleFolder Include="jspm_packages\" />
     <DnxInvisibleFolder Include="node_modules" />
+    <DnxInvisibleFolder Include="typings\" />
     <DnxInvisibleFolder Include="wwwroot\dist" />
     <DnxInvisibleFolder Include="wwwroot\jspm_packages" />
   </ItemGroup>
