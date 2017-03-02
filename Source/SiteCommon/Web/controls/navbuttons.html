@@ -3,7 +3,6 @@
     <p class="st-float" if.bind="viewmodel.useDefaultValidateButton">
         <button class="primary" click.trigger="viewmodel.OnValidate()" disabled.bind="viewmodel.MS.HttpService.isServiceBusy" if.bind="!MS.HttpService.isServiceBusy">${viewmodel.MS.Translate.COMMON_VALIDATE}</button>
     </p>
-
     <p class="st-validated" if.bind="viewmodel.showValidation || viewmodel.MS.ErrorService.message">
         <span class="glyphicon glyph-small pbi-glyph-circlering st-icon"></span>
         <span class="glyphicon pbi-glyph-close st-icon st-icon-checkmark" if.bind="viewmodel.MS.ErrorService.message"></span>
@@ -42,8 +41,6 @@
     <!-- Privacy Statement -->
     <div class="st-privacy smallFontSize" if.bind="viewmodel.showPrivacy">
         <p>${viewmodel.MS.Translate.NAVIGATION_MS_PRIVACY}</p>
-        <p>
-            <a href="${viemodel.MS.Translate.NAVIGATION_MS_PRIVACY_LINK}" target="_blank">${viewmodel.MS.Translate.NAVIGATION_MS_PRIVACY_LINK_TEXT}</a>
-        </p>
+        <a href="${viemodel.MS.Translate.NAVIGATION_MS_PRIVACY_LINK}" target="_blank">${viewmodel.MS.Translate.NAVIGATION_MS_PRIVACY_LINK_TEXT}</a>
     </div>
 </template>

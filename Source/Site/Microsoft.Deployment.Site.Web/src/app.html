@@ -10,7 +10,7 @@
         <span class="glyphicon pbi-glyph-close glyph-small st-close" click.trigger="MS.HttpService.Close()" if.bind="MS.HttpService.isOnPremise"></span>
     </div>
     <div class="st-content regularFont">
-        <navbar router.bind="MS.NavigationService"></navbar>
+        <navbar router.bind="MS.NavigationService" viewmodel.bind="MS.NavigationService.currentViewModel"></navbar>
         <div class="st-main">
             <div class="st-section">
                 <div class="st-section-wrapper">
