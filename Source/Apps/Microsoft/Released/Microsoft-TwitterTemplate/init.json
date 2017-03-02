@@ -28,47 +28,47 @@
         ],
         "displayname": "Login",
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
         "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $4.33 a day, and every 1,000 tweets will incur an additional cost of approximately $0.8. These costs are estimates only and subject to change.')",
-        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/blob/dev/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate/README.md#estimated-costs",
-        "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/"
+        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/blob/dev/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate/README.md#estimated-costs"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
         "displayname": "Source",
         "isAzureSql": true,
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "newSqlDatabase": "twitterDB",
         "showAzureSql": false,
         "showNewSqlOption": "true",
-        "subtitle": "Set up a connection to SQL so we can bring in your Twitter data.",
-        "title": "Connect to your SQL Database",
         "sqlInstance": "NewSql",
-        "newSqlDatabase": "twitterDB"
+        "subtitle": "Set up a connection to SQL so we can bring in your Twitter data.",
+        "title": "Connect to your SQL Database"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/twitter.html",
-        "displayname": "Twitter"
+        "displayname": "Twitter",
+        "name": "$SiteCommon$/pagesgallery/twitter.html"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/search-terms.html",
-        "displayname": "Search Terms"
+        "displayname": "Search Terms",
+        "name": "$SiteCommon$/pagesgallery/search-terms.html"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/twitter-handles.html",
-        "displayname": "Twitter Handles"
+        "displayname": "Twitter Handles",
+        "name": "$SiteCommon$/pagesgallery/twitter-handles.html"
       },
       // Adding azure actions
       //{
-      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
-      //  "displayname": "Use Analysis Services"
+      //  "displayname": "Use Analysis Services",
+      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html"
       //},
 
       //{
-      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
       //  "displayname": "SSAS",
+      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
       //  "skip": "$ds(ssasEnabled)"
       //},
       {
-        "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",
+        "name": "$SiteCommon$/pagesgallery/summary.html",
         "values": {
           "Target Server": "$(this.MS.DataStore.getValue('Server'))",
           "Target Database": "$(this.MS.DataStore.getValue('Database'))",
@@ -76,33 +76,32 @@
         }
       },
       {
-        "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Deploy",
-        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
-        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))",
+        "filename": "$save('TwitterTemplate.pbix')",
+        "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
+        "hasPowerApp": true,
         "LogicAppHostingPlan": "$save(this.uniqueId)",
         "LogicAppName": "$save(this.uniqueId)",
         "LogicAppNameHistorical": "$save(this.uniqueId)",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "powerAppFileName": "TwitterTemplate.msapp",
         "SiteName": "$save(this.uniqueIdFunction)",
-        "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
-        "filename": "$save('TwitterTemplate.pbix')",
-        "hasPowerApp": true,
-        "powerAppFileName": "TwitterTemplate.msapp"
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
+        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))"
       }
     ],
-
     "Actions": [
       {
-        "name": "Microsoft-DeploySQLScripts",
         "displayname": "Deploying database scripts",
-        "SqlServerIndex": "0",
-        "SqlScriptsFolder": "Service/Database/LogicApps"
+        "name": "Microsoft-DeploySQLScripts",
+        "SqlScriptsFolder": "Service/Database/LogicApps",
+        "SqlServerIndex": "0"
       },
       {
-        "name": "Microsoft-SetConfigValueInSql",
         "displayname": "Deploying database configuration",
-        "SqlServerIndex": "0",
-        "SqlConfigTable": "[pbist_twitter].[configuration]"
+        "name": "Microsoft-SetConfigValueInSql",
+        "SqlConfigTable": "[pbist_twitter].[configuration]",
+        "SqlServerIndex": "0"
       },
       {
         "displayname": "Deploying Logic App database",
@@ -117,119 +116,115 @@
         "name": "Microsoft-CreatePowerAppSqlConnection"
       },
       {
-        "name": "Microsoft-DeployTwitterFunction",
+        "DeploymentName": "Function",
         "displayname": "Deploying Twitter function",
-        "DeploymentName": "Function"
+        "name": "Microsoft-DeployTwitterFunction"
       },
       {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
+        "DeploymentName": "Function",
         "displayname": "Validating Twitter function",
-        "DeploymentName": "Function"
+        "name": "Microsoft-WaitForArmDeploymentStatus"
       },
       {
-        "name": "Microsoft-DeployAzureMLWebServiceFromFile",
-        "displayname": "Deploying Azure ML web service",
-        "DeploymentName": "AzureML",
-        "IsRequestResponse": true,
         "CommitmentPlan": "commitmentplan",
+        "DeploymentName": "AzureML",
+        "displayname": "Deploying Azure ML web service",
+        "IsRequestResponse": true,
+        "name": "Microsoft-DeployAzureMLWebServiceFromFile",
         "WebServiceFile": "Service/AzureArm/SentimentAnalysisWebServiceNew.json",
         "WebServiceName": "$run('SentimentService' + this.MS.DataStore.getValue('uniqueId'))"
       },
       {
-        "name": "Microsoft-DeployTwitterCSharpFunctionAssets",
-        "displayname": "Deploying Twitter function assets"
+        "displayname": "Deploying Twitter function assets",
+        "name": "Microsoft-DeployTwitterCSharpFunctionAssets"
       },
       {
-        "name": "Microsoft-DeployTwitterHistoricalLogicApp",
+        "DeploymentName": "LogicApp",
         "displayname": "Deploying Twitter logic app",
-        "DeploymentName": "LogicApp"
+        "name": "Microsoft-DeployTwitterHistoricalLogicApp"
       },
       {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
+        "DeploymentName": "LogicApp",
         "displayname": "Validating Logic App",
-        "DeploymentName": "LogicApp"
+        "name": "Microsoft-WaitForArmDeploymentStatus"
       },
       {
-        "name": "Microsoft-CreateConnectorToLogicApp",
+        "ConnectorDisplayName": "SQLConnector",
+        "ConnectorName": "sql",
+        "ConnectorPayload": {
+          "authType": "windows",
+          "database": "$ds(Database)",
+          "password": "$ds(Password)",
+          "server": "$ds(Server)",
+          "username": "$ds(Username)"
+        },
+        "DeploymentName": "sql",
         "displayname": "Creating Logic App connector",
-        "DeploymentName": "sql",
-        "ConnectorName": "sql",
+        "name": "Microsoft-CreateConnectorToLogicApp"
+      },
+      {
         "ConnectorDisplayName": "SQLConnector",
+        "ConnectorName": "sql",
         "ConnectorPayload": {
           "authType": "windows",
           "database": "$ds(Database)",
           "password": "$ds(Password)",
           "server": "$ds(Server)",
           "username": "$ds(Username)"
-        }
-      },
-      {
-        "name": "Microsoft-UpdateBlobStorageConnector",
+        },
+        "DeploymentName": "sql",
         "displayname": "Updating Logic App connector",
-        "DeploymentName": "sql",
-        "ConnectorName": "sql",
-        "ConnectorDisplayName": "SQLConnector",
-        "ConnectorPayload": {
-          "authType": "windows",
-          "database": "$ds(Database)",
-          "password": "$ds(Password)",
-          "server": "$ds(Server)",
-          "username": "$ds(Username)"
-        }
+        "name": "Microsoft-UpdateBlobStorageConnector"
       },
       {
-        "name": "Microsoft-RunLogicAppHistorical",
+        "DeploymentName": "LogicApp",
         "displayname": "Running Logic App historical",
-        "DeploymentName": "LogicApp"
+        "name": "Microsoft-RunLogicAppHistorical"
       },
       {
-        "name": "Microsoft-DeployTwitterLogicApp",
+        "DeploymentName": "LogicApp",
         "displayname": "Deploying Twitter Logic App",
-        "DeploymentName": "LogicApp"
+        "name": "Microsoft-DeployTwitterLogicApp"
       },
       {
-        "name": "Microsoft-WaitForArmDeploymentStatus",
+        "DeploymentName": "LogicApp",
         "displayname": "Validating Twitter Logic App",
-        "DeploymentName": "LogicApp"
+        "name": "Microsoft-WaitForArmDeploymentStatus"
       }
-
       //// AS Set up
       //{
-      //  "name": "Microsoft-DeployAzureASModel",
-      //  "displayname": "Deploy AS Model",
-      //  "xmlaFilePath": "Service/SSAS/twitter.xmla",
       //  "ASDatabase": "TwitterModel",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
-
-      //{
-      //  "name": "Microsoft-DeployAzureFunction",
-      //  "displayname": "Deploying scheduler",
-      //  "DeploymentName": "ASFunction",
-      //  "FunctionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
-      //  "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
-      //  "sku": "Standard",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
-
-      //{
-      //  "name": "Microsoft-WaitForArmDeploymentStatus",
-      //  "displayname": "Waiting for scheduler",
-      //  "DeploymentName": "ASFunction",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
-
-      //{
-      //  "name": "Microsoft-DeployAzureFunctionConnectionStrings",
-      //  "displayname": "Setting up scheduler Logic App",
-      //  "DeploymentName": "ASFunction",
+      //  "displayname": "Deploy AS Model",
+      //  "name": "Microsoft-DeployAzureASModel",
       //  "skip": "$ds(ssasEnabled)",
+      //  "xmlaFilePath": "Service/SSAS/twitter.xmla"
+      //},
+      //{
+      //  "DeploymentName": "ASFunction",
+      //  "displayname": "Deploying scheduler",
+      //  "FunctionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
+      //  "name": "Microsoft-DeployAzureFunction",
+      //  "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
+      //  "skip": "$ds(ssasEnabled)",
+      //  "sku": "Standard"
+      //},
+      //{
+      //  "DeploymentName": "ASFunction",
+      //  "displayname": "Waiting for scheduler",
+      //  "name": "Microsoft-WaitForArmDeploymentStatus",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+      //{
       //  "AppSettingKeys": {
       //    "connStringAS": "$ds(ASConnectionString)",
       //    "connStringSql": "$ds(SqlConnectionString)",
       //    "schema": "[pbist_twitter]",
       //    "databaseAS": "TwitterModel"
-      //  }
+      //  },
+      //  "DeploymentName": "ASFunction",
+      //  "displayname": "Setting up scheduler Logic App",
+      //  "name": "Microsoft-DeployAzureFunctionConnectionStrings",
+      //  "skip": "$ds(ssasEnabled)"
       //}
     ]
   }
