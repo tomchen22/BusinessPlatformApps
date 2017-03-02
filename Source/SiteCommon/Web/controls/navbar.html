@@ -1,4 +1,4 @@
-﻿<template bindable="router">
+﻿<template bindable="router, viewmodel">
     <div class="st-nav">
         <ul class="st-tabs">
             <li repeat.for="tab of router.pages">
@@ -13,11 +13,11 @@
         <div class="st-legal">
             <div class="st-legal-tabs">
                 <span class="glyphicon pbi-glyph-link glyph-small st-icon-legal"></span>
-                <span><a class="st-legal-text" href="https://www.microsoft.com/en-us/privacystatement/OnlineServices/Default.aspx" target="_blank">Microsoft's Privacy Statement</a></span>
+                <span><a class="st-legal-text" href="${viewmodel.MS.Translate.NAVBAR_MICROSOFT_PRIVACY_STATEMENT_LINK}" target="_blank">${viewmodel.MS.Translate.NAVBAR_MICROSOFT_PRIVACY_STATEMENT}</a></span>
             </div>
             <div class="st-legal-tabs">
                 <span class="glyphicon pbi-glyph-link glyph-small st-icon-legal"></span>
-                <span><a class="st-legal-text" href="https://pbist.azurewebsites.net/pages/termsOfUse.html" target="_blank">Terms of Use</a></span>
+                <span><a class="st-legal-text" href="${viewmodel.MS.Translate.NAVBAR_TERMS_USE_LINK}" target="_blank">${viewmodel.MS.Translate.NAVBAR_TERMS_USE}</a></span>
             </div>
         </div>
     </div>
