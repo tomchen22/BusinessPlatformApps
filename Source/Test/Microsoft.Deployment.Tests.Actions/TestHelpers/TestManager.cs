@@ -97,10 +97,10 @@ namespace Microsoft.Deployment.Tests.Actions.TestHelpers
             Credential.Load();
         }
 
-        [AssemblyCleanup()]
-        public static async void AssemblyCleanup()
-        {
-        }
+        //[AssemblyCleanup()]
+        //public static async void AssemblyCleanup()
+        //{
+        //}
 
         public static ActionResponse ExecuteAction(string actionName, DataStore datastore)
         {

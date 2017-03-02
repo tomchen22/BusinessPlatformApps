@@ -9,6 +9,7 @@ export class SqlServer extends ViewModelBase {
     title: string = '';
 
     auth: string = 'Windows';
+    azureLocations: AzureLocation[] = [];
     azureSqlSuffix: string = '.database.windows.net';
     checkSqlVersion: boolean = false;
     database: string = null;
@@ -28,6 +29,7 @@ export class SqlServer extends ViewModelBase {
     showSkuS1: boolean = true;
     showSqlRecoveryModeHint: boolean = false;
     sqlInstance: string = 'ExistingSql';
+    sqlLocation: string = '';
     sqlServer: string = '';
     sqlSku: string = 'S1';
     username: string = '';
@@ -40,6 +42,16 @@ export class SqlServer extends ViewModelBase {
     constructor() {
         super();
         this.isValidated = false;
+    }
+
+    async OnLoaded() {
+        let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
+        if (locationsResponse.IsSuccess) {
+            this.azureLocations = locationsResponse.Body.value;
+            if (this.azureLocations && this.azureLocations.length > 5) {
+                this.sqlLocation = this.azureLocations[5].Name;
+            }
+        }
     }
 
     Invalidate() {
@@ -169,6 +181,8 @@ export class SqlServer extends ViewModelBase {
         this.navigationMessage = this.MS.Translate.SQL_SERVER_CREATING_NEW;
         let body = this.GetBody(true);
         body['SqlCredentials']['Database'] = this.newSqlDatabase;
+
+        this.MS.DataStore.addToDataStore('SqlLocation', this.sqlLocation, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('SqlSku', this.sqlSku, DataStoreType.Public);
 
         return await this.MS.HttpService.executeAsync('Microsoft-CreateAzureSql', body);
@@ -178,7 +192,13 @@ export class SqlServer extends ViewModelBase {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
     }
+}
 
-    async OnLoaded() {
-    }
+class AzureLocation {
+    DisplayName: string;
+    Id: string;
+    Latitude: string;
+    Longitude: string;
+    Name: string;
+    SubscriptionId: string;
 }

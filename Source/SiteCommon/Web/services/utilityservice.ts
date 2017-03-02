@@ -75,6 +75,10 @@ export class UtilityService {
         return usernameSplit[1];
     }
 
+    isEdge(): boolean {
+        return window && window.navigator && window.navigator.userAgent && /Edge\/\d./i.test(window.navigator.userAgent);
+    }
+
     validateUsername(username: string): string {
         if (username.includes('\\')) {
             return '';
@@ -83,18 +87,7 @@ export class UtilityService {
         }
 
         return 'Please enter your username';
-
-
-        //if (isValid) {
-        //    let responseAdmin = await this.MS.HttpService.executeAsync('Microsoft-ValidateAdminPrivileges', {});
-        //    isValid = responseAdmin.IsSuccess;
-        //    if (isValid) {
-        //        let responseSecurity = await this.MS.HttpService.executeAsync('Microsoft-ValidateSecurityOptions', {});
-        //        isValid = responseSecurity.IsSuccess;
-        //    }
     }
-
-
 
     // Add items to the session storage - should use DataStore where possible
     SaveItem(key, value) {

@@ -1,7 +1,7 @@
 ﻿import { Aurelia } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import MainService from './mainservice';
-import {JsonCustomParser} from "../base/JsonCustomParser";
+import { JsonCustomParser } from "../base/JsonCustomParser";
 
 export class NavigationService {
     currentViewModel: any = null;
@@ -26,7 +26,7 @@ export class NavigationService {
                 this.MS.Router.addRoute({
                     route: this.pages[i].RoutePageName.toLowerCase(),
                     name: this.pages[i].PageName,
-                    moduleId: '.' + this.pages[i].Path.replace(/\\/g,"/"),
+                    moduleId: '.' + this.pages[i].Path.replace(/\\/g, "/"),
                     title: this.pages[i].DisplayName,
                     nav: true
                 });
@@ -42,7 +42,6 @@ export class NavigationService {
 
             this.pages[0].isActive = true;
             this.pages[0].RoutePageName = '';
-            this.MS.Router.refreshNavigation();
         }
 
         this.UpdateIndex();
@@ -65,7 +64,7 @@ export class NavigationService {
     GetRoute(): string {
         let history: any = this.MS.Router.history;
         let route: string = history.location.hash;
-        return route.replace('#', '').replace('/','');
+        return route.replace('#', '').replace('/', '');
     }
 
     UpdateIndex() {
@@ -75,7 +74,6 @@ export class NavigationService {
                 this.index = i;
             }
         }
-
         for (let i = 0; i < this.pages.length; i++) {
             this.pages[i].isActive = i === this.index;
             this.pages[i].isComplete = i < this.index;
@@ -85,7 +83,7 @@ export class NavigationService {
 
     NavigateNext() {
         this.UpdateIndex();
-        if (this.index >= this.pages.length - 1 && this.index < this.pages.length-1) {
+        if (this.index >= this.pages.length - 1 && this.index < this.pages.length - 1) {
             return;
         }
         this.index = this.index + 1;
@@ -97,7 +95,7 @@ export class NavigationService {
             if (body.skip && body.skip.toLowerCase() === "true") {
                 this.index = this.index + 1;
                 continue;
-            } 
+            }
             break;
         }
 
@@ -111,9 +109,8 @@ export class NavigationService {
         }
         this.index = this.index - 1;
 
-
         // If you skip the last page then we should throw an error - no check in place - to be added
-        while (this.pages[this.index].Parameters.skip && this.index > 0 ) {
+        while (this.pages[this.index].Parameters.skip && this.index > 0) {
             let body: any = {};
             JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
             if (body.skip && body.skip.toLowerCase() === "true") {
@@ -131,20 +128,16 @@ export class NavigationService {
     }
 
     NavigateToIndex() {
-         // do not update index here
+        // do not update index here
 
-        // Initialise the page
+        // Initialize the page
         this.MS.DataStore.CurrentRoutePage = this.pages[this.index].RoutePageName.toLowerCase();
-
 
         // The index is set to the next step
         this.MS.Router.navigate('#/' + this.pages[this.index].RoutePageName.toLowerCase());
 
-        
-        this.MS.Router.refreshNavigation();
         this.UpdateIndex();
-        this.MS.LoggerService.TrackPageView(this.appName + '/' + this.pages[this.index].RoutePageName.toLowerCase(),
-            window.location.href);
+        this.MS.LoggerService.TrackPageView(this.appName + '/' + this.pages[this.index].RoutePageName.toLowerCase(), window.location.href);
     }
 
     getCurrentSelectedPage() {
@@ -156,11 +149,7 @@ export class NavigationService {
     }
 
     isLastPage(): boolean {
-        if (this.pages.length - 1 === this.getIndex()) {
-            return true;
-        }
-
-        return false;
+        return this.pages.length - 1 === this.getIndex();
     }
 
     isFirstPage(): boolean {
