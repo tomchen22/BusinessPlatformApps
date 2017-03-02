@@ -66,7 +66,6 @@
       //  "displayname": "SSAS",
       //  "skip": "$ds(ssasEnabled)"
       //},
-
       {
         "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",

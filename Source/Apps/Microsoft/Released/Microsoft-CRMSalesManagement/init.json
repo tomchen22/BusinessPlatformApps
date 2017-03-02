@@ -2,44 +2,44 @@
   "Install": {
     "Actions": [
       {
+        "displayname": "Deploying database scripts",
         "name": "Microsoft-DeploySQLScripts",
-        "displayname": "Deploy DB Scripts",
-        "SqlServerIndex": "0",
-        "SqlScriptsFolder": "Database"
+        "SqlScriptsFolder": "Database",
+        "SqlServerIndex": "0"
       },
       {
+        "displayname": "Deploying database configuration",
         "name": "Microsoft-SetConfigValueInSql",
-        "displayname": "Deploy DB Configuration",
-        "SqlServerIndex": "0",
-        "SqlConfigTable": "[smgt].[configuration]"
+        "SqlConfigTable": "[smgt].[configuration]",
+        "SqlServerIndex": "0"
       },
       {
         "displayname": "Configuring Azure Key Vault",
         "name": "Microsoft-CrmCreateVaultSecret"
       },
       {
-        "displayname": "Cleaning Dynamics 365 Environment",
+        "displayname": "Cleaning up the Dynamics 365 Environment",
         "name": "Microsoft-CrmDeleteProfile"
       },
       {
-        "displayname": "Validating Dynamics 365 Profile",
+        "displayname": "Validating the Dynamics 365 Profile",
         "name": "Microsoft-CrmValidateProfile"
       },
       {
-        "displayname": "Creating Dynamics 365 Profile",
+        "displayname": "Creating the Dynamics 365 Profile",
         "name": "Microsoft-CrmCreateProfile"
       },
       {
-        "displayname": "Starting Dynamics 365 Profile",
+        "displayname": "Starting the Dynamics 365 Profile",
         "name": "Microsoft-CrmStartProfile"
       },
       {
-        "name": "Microsoft-GetDataPullStatus",
         "displayname": "Waiting for data to appear in the destination",
-        "SqlServerIndex": 0,
-        "TargetSchema": "dbo",
+        "FinishedActionName": "Microsoft-CrmGetProfileStatus",
         "IsWaiting": true,
-        "FinishedActionName": "Microsoft-CrmGetProfileStatus"
+        "name": "Microsoft-GetDataPullStatus",
+        "SqlServerIndex": 0,
+        "TargetSchema": "dbo"
       }
     ],
     "Pages": [
@@ -77,9 +77,9 @@
         "oauthType": "keyvault"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
         "displayname": "Target",
         "isAzureSql": true,
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
         "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))",
         "showAzureSql": false,
         "showNewSqlOption": true,
@@ -91,18 +91,18 @@
       },
       {
         "displayname": "Customize",
+        "isValidated": true,
         "name": "$SiteCommon$/pagesgallery/customize.html",
         "showCrmUrl": true,
-        "isValidated": true,
         "showValidation": false,
         "sourceApplication": "DynamicsCRM"
       },
       {
         "displayname": "Progress",
-        "name": "$SiteCommon$/pagesgallery/progress.html",
         "filename": "$save('SalesManagementReport.pbix')",
-        "showCounts": true,
-        "finishedActionName": "Microsoft-CrmGetProfileStatus"
+        "finishedActionName": "Microsoft-CrmGetProfileStatus",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "showCounts": true
       }
     ]
   },
