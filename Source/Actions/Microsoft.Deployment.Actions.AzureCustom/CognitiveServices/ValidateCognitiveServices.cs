@@ -24,7 +24,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
             var location = request.DataStore.GetValue("CognitiveLocation");
             string permissionsToCheck =  request.DataStore.GetValue("CognitiveServices");
    
-            string[] cognitiveServicesToCheck = permissionsToCheck.Split(',').Select(p=> p.Trim()).ToArray();
+            List<string> cognitiveServicesToCheck = permissionsToCheck.Split(',').Select(p=> p.Trim()).ToList();
             AzureHttpClient client = new AzureHttpClient(azureToken, subscription, resourceGroup);
 
             bool passPermissionCheck = true;
@@ -39,12 +39,19 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
             {
                 if(cognitiveServicesToCheck.Contains(permission["kind"].ToString()) && permission["allowCreate"].ToString().ToLowerInvariant() == "false")
                 {
-                    permission["allowCreate"] = "true";
+                    
                     passPermissionCheck = false;
+                }
+
+                if (cognitiveServicesToCheck.Contains(permission["kind"].ToString()))
+                {
+                    cognitiveServicesToCheck.Remove(permission["kind"].ToString());
                 }
             }
 
-            if (passPermissionCheck)
+           
+
+            if (passPermissionCheck && cognitiveServicesToCheck.Count == 0)
             {
                 return new ActionResponse(ActionStatus.Success);
             }
@@ -65,8 +72,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
             // User does not have permission but we can enable permission for the user as they are the admin
             dynamic obj = new ExpandoObject();
             obj.resourceType = "accounts";
-            obj.settings = new ExpandoObject[cognitiveServicesToCheck.Length];
-            for (int i = 0; i < cognitiveServicesToCheck.Length; i++)
+            obj.settings = new ExpandoObject[cognitiveServicesToCheck.Count];
+            for (int i = 0; i < cognitiveServicesToCheck.Count; i++)
             {
                 obj.settings[i] = new ExpandoObject();
                 obj.settings[i].kind = cognitiveServicesToCheck[i];

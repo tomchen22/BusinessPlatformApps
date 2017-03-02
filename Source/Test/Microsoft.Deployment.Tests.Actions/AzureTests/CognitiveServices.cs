@@ -26,6 +26,17 @@ namespace Microsoft.Deployment.Tests.Actions.AzureTests
             dataStore.AddToDataStore("CognitiveServices", "TextAnalytics");
             var response = await TestManager.ExecuteActionAsync("Microsoft-ValidateCognitiveServices", dataStore);
             Assert.IsTrue(response.Status == ActionStatus.Success);
+
+
+            
+            dataStore.AddToDataStore("CognitiveLocation", "global", DataStoreType.Public);
+
+            // Deploy Twitter Database Scripts
+            dataStore.AddToDataStore("CognitiveServices", "Bing.Search");
+            response = await TestManager.ExecuteActionAsync("Microsoft-ValidateCognitiveServices", dataStore);
+            Assert.IsTrue(response.Status == ActionStatus.Success);
+
+
         }
     }
 }

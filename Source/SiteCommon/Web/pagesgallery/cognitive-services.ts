@@ -55,6 +55,22 @@ export class CognitiveService extends ViewModelBase {
         this.MS.DataStore.addToDataStore('CognitiveServiceName', this.cognitiveServiceName, DataStoreType.Public);
         this.MS.DataStore.addToDataStore('CognitiveSkuName', "S1", DataStoreType.Public);
 
+        let body: any = {};
+        body.CognitiveServices = "TextAnalytics";
+        body.CognitiveLocation = "westus";
+        let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        if (!response.isSuccess) {
+            return false;
+        }
+
+        body = {};
+        body.CognitiveServices = "Bing.Search";
+        body.CognitiveLocation = "global";
+        response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        if (!response.isSuccess) {
+            return false;
+        }
+
         return true;
     }
 }
