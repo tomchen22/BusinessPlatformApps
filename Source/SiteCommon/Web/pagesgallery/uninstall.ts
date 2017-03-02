@@ -1,4 +1,4 @@
-﻿import {ViewModelBase} from '../services/viewmodelbase';
+﻿import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Uninstall extends ViewModelBase {
     architectureDiagram: string = '';
@@ -7,10 +7,10 @@ export class Uninstall extends ViewModelBase {
     isDownload: boolean = false;
     isEvaluation: boolean = false;
     pricing: string[] = [];
-    uninstallList: string[] = [];
+    showPrivacy: boolean;
     subtitle: string;
     templateName: string = '';
-    showPrivacy: boolean;
+    uninstallList: string[] = [];
 
     constructor() {
         super();
