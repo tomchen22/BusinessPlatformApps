@@ -140,6 +140,7 @@
     <Compile Include="AzureTests\AzureAnalysisServicesTest.cs" />
     <Compile Include="AzureTests\AzureFunctionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sql\DeploySqlScripts.cs" />
     <Compile Include="TestHelpers\AAD.cs" />
     <Compile Include="TestHelpers\Credential.cs" />
     <Compile Include="TestHelpers\ObjectExtensionMethods.cs" />
@@ -186,6 +187,7 @@
     <None Include="packages.config" />
     <None Include="Template.proj" />
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>
