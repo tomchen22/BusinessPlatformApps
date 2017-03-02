@@ -100,6 +100,7 @@
     <Compile Include="..\..\SharedVersion.cs">
       <Link>Properties\SharedVersion.cs</Link>
     </Compile>
+    <Compile Include="CheckVersion.cs" />
     <Compile Include="EmailSubscription.cs" />
     <Compile Include="GetMsiDownloadLink.cs" />
     <Compile Include="PBI\WranglePBI.cs" />

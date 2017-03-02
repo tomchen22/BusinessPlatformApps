@@ -16,4 +16,27 @@ export class CognitiveText extends ViewModelBase {
         this.isValidated = this.isBingChecked;
     }
 
+    async NavigatingNext(): Promise<boolean> {
+        if (!super.NavigatingNext()) {
+            return false;
+        }
+        let body: any = {};
+        body.CognitiveServices = "TextAnalytics";
+        body.CognitiveLocation = "westus";
+        let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        if (!response.IsSuccess) {
+            return false;
+        }
+
+        body = {};
+        body.CognitiveServices = "Bing.Search";
+        body.CognitiveLocation = "global";
+        response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        if (!response.IsSuccess) {
+            return false;
+        }
+
+        return true;
+    }
+
 }
