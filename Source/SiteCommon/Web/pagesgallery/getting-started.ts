@@ -1,3 +1,5 @@
+import { Registration } from '../classes/registration';
+
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 
@@ -12,24 +14,7 @@ export class Gettingstarted extends ViewModelBase {
     prerequisiteDescription: string = '';
     prerequisiteLink: string = '';
     prerequisiteLinkText: string = '';
-    registration: string = '';
-    registrationAccepted: boolean = false;
-    registrationAction: string = '';
-    registrationCompany: string = '';
-    registrationContactLink: string = '';
-    registrationContactLinkText: string = '';
-    registrationDownload: string = '';
-    registrationEmail: string = '';
-    registrationEmailConfirmation: string = '';
-    registrationEmailsToBlock: string = '';
-    registrationEulaLink: string = '';
-    registrationEulaLinkText: string = '';
-    registrationLink: string = '';
-    registrationNameFirst: string = '';
-    registrationNameLast: string = '';
-    registrationPrivacy: string = '';
-    registrationPrivacyTitle: string = '';
-    registrationValidation: string = '';
+    registration: Registration = new Registration();
     showPrivacy: boolean = true;
     subtitle: string = '';
     templateName: string = '';
@@ -40,8 +25,8 @@ export class Gettingstarted extends ViewModelBase {
 
     async GetDownloadLink() {
         let response = await this.MS.HttpService.executeAsync('Microsoft-GetMsiDownloadLink');
-        if (this.registration) {
-            this.registrationDownload = response.Body.value;
+        if (this.registration.text) {
+            this.registration.download = response.Body.value;
         } else {
             this.downloadLink = response.Body.value;
         }
@@ -52,47 +37,47 @@ export class Gettingstarted extends ViewModelBase {
         if (this.isDownload) {
             this.GetDownloadLink();
         } else {
-            this.registration = '';
+            this.registration.text = '';
         }
     }
 
     async Register() {
         this.MS.ErrorService.Clear();
 
-        this.registrationNameFirst = this.registrationNameFirst.trim();
-        this.registrationNameLast = this.registrationNameLast.trim();
-        this.registrationCompany = this.registrationCompany.trim();
-        this.registrationEmail = this.registrationEmail.trim();
-        this.registrationEmailConfirmation = this.registrationEmailConfirmation.trim();
+        this.registration.nameFirst = this.registration.nameFirst.trim();
+        this.registration.nameLast = this.registration.nameLast.trim();
+        this.registration.company = this.registration.company.trim();
+        this.registration.email = this.registration.email.trim();
+        this.registration.emailConfirmation = this.registration.emailConfirmation.trim();
 
-        if (this.registrationNameFirst.length === 0 ||
-            this.registrationNameLast.length === 0 ||
-            this.registrationCompany.length === 0 ||
-            this.registrationEmail.length === 0 ||
-            this.registrationEmail !== this.registrationEmailConfirmation ||
-            this.registrationEmail.indexOf('@') === -1) {
+        if (this.registration.nameFirst.length === 0 ||
+            this.registration.nameLast.length === 0 ||
+            this.registration.company.length === 0 ||
+            this.registration.email.length === 0 ||
+            this.registration.email !== this.registration.emailConfirmation ||
+            this.registration.email.indexOf('@') === -1) {
             this.MS.ErrorService.message = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR;
         }
 
         if (!this.MS.ErrorService.message) {
-            let emailsToBlock: string[] = this.registrationEmailsToBlock.split(',');
+            let emailsToBlock: string[] = this.registration.emailsToBlock.split(',');
             for (let i = 0; i < emailsToBlock.length && !this.MS.ErrorService.message; i++) {
                 let emailToBlock: string = emailsToBlock[i].replace('.', '\\.');
                 let pattern: any = new RegExp(`.*${emailToBlock}`);
-                if (pattern.test(this.registrationEmail)) {
+                if (pattern.test(this.registration.email)) {
                     this.MS.ErrorService.message = this.MS.Translate.GETTING_STARTED_REGISTRATION_ERROR_EMAIL;
                 }
             }
         }
 
         if (!this.MS.ErrorService.message) {
-            this.MS.DataStore.addToDataStore('FirstName', this.registrationNameFirst, DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('LastName', this.registrationNameLast, DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('CompanyName', this.registrationCompany, DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('RowKey', this.registrationEmail, DataStoreType.Public);
-            this.MS.HttpService.executeAsync(this.registrationAction, { isInvisible: true });
-            this.registration = '';
-            this.downloadLink = this.registrationDownload;
+            this.MS.DataStore.addToDataStore('FirstName', this.registration.nameFirst, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('LastName', this.registration.nameLast, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('CompanyName', this.registration.company, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('RowKey', this.registration.email, DataStoreType.Public);
+            this.MS.HttpService.executeAsync(this.registration.action, { isInvisible: true });
+            this.registration.text = '';
+            this.downloadLink = this.registration.download;
             this.isValidated = true;
         }
     }
