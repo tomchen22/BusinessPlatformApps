@@ -1,95 +1,5 @@
 {
   "Install": {
-    "Pages": [
-      {
-        "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-TwitterTemplate/Web/twitterArchitectureDiagram.png",
-        "displayname": "Getting Started",
-        "list1": [
-          "Azure Subscription",
-          "Power BI Desktop (latest version)",
-          "Power BI Pro (to share the template with your organization)",
-          "Twitter Account"
-        ],
-        "list2": [
-          "Full cloud solution with minimum set up and maintenance considerations",
-          "Real time data pulled from Twitter & enriched using machine learning",
-          "Connect to Azure SQL and import data into Power BI"
-        ],
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "subtitle": "Welcome to the brand and campaign management solution template.",
-        "templateName": "Brand and Campaign Management for Twitter"
-      },
-      {
-        "azureProviders": [
-          "Microsoft.MachineLearning"
-        ],
-        "bapiServices": [
-          "Microsoft.PowerApps"
-        ],
-        "displayname": "Login",
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
-        "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
-        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $4.33 a day, and every 1,000 tweets will incur an additional cost of approximately $0.8. These costs are estimates only and subject to change.')",
-        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/blob/dev/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate/README.md#estimated-costs"
-      },
-      {
-        "displayname": "Source",
-        "isAzureSql": true,
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
-        "newSqlDatabase": "twitterDB",
-        "showAzureSql": false,
-        "showNewSqlOption": "true",
-        "sqlInstance": "NewSql",
-        "subtitle": "Set up a connection to SQL so we can bring in your Twitter data.",
-        "title": "Connect to your SQL Database"
-      },
-      {
-        "displayname": "Twitter",
-        "name": "$SiteCommon$/pagesgallery/twitter.html"
-      },
-      {
-        "displayname": "Search Terms",
-        "name": "$SiteCommon$/pagesgallery/search-terms.html"
-      },
-      {
-        "displayname": "Twitter Handles",
-        "name": "$SiteCommon$/pagesgallery/twitter-handles.html"
-      },
-      // Adding azure actions
-      //{
-      //  "displayname": "Use Analysis Services",
-      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html"
-      //},
-
-      //{
-      //  "displayname": "SSAS",
-      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
-      {
-        "displayname": "Summary",
-        "name": "$SiteCommon$/pagesgallery/summary.html",
-        "values": {
-          "Target Server": "$(this.MS.DataStore.getValue('Server'))",
-          "Target Database": "$(this.MS.DataStore.getValue('Database'))",
-          "Target Username": "$(this.MS.DataStore.getValue('Username'))"
-        }
-      },
-      {
-        "displayname": "Deploy",
-        "filename": "$save('TwitterTemplate.pbix')",
-        "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
-        "hasPowerApp": true,
-        "LogicAppHostingPlan": "$save(this.uniqueId)",
-        "LogicAppName": "$save(this.uniqueId)",
-        "LogicAppNameHistorical": "$save(this.uniqueId)",
-        "name": "$SiteCommon$/pagesgallery/progress.html",
-        "powerAppFileName": "TwitterTemplate.msapp",
-        "SiteName": "$save(this.uniqueIdFunction)",
-        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
-        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))"
-      }
-    ],
     "Actions": [
       {
         "displayname": "Deploying database scripts",
@@ -226,6 +136,96 @@
       //  "name": "Microsoft-DeployAzureFunctionConnectionStrings",
       //  "skip": "$ds(ssasEnabled)"
       //}
+    ],
+    "Pages": [
+      {
+        "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-TwitterTemplate/Web/twitterArchitectureDiagram.png",
+        "displayname": "Getting Started",
+        "list1": [
+          "Azure Subscription",
+          "Power BI Desktop (latest version)",
+          "Power BI Pro (to share the template with your organization)",
+          "Twitter Account"
+        ],
+        "list2": [
+          "Full cloud solution with minimum set up and maintenance considerations",
+          "Real time data pulled from Twitter & enriched using machine learning",
+          "Connect to Azure SQL and import data into Power BI"
+        ],
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "subtitle": "Welcome to the brand and campaign management solution template.",
+        "templateName": "Brand and Campaign Management for Twitter"
+      },
+      {
+        "azureProviders": [
+          "Microsoft.MachineLearning"
+        ],
+        "bapiServices": [
+          "Microsoft.PowerApps"
+        ],
+        "displayname": "Login",
+        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
+        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $4.33 a day, and every 1,000 tweets will incur an additional cost of approximately $0.8. These costs are estimates only and subject to change.')",
+        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/blob/dev/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate/README.md#estimated-costs"
+      },
+      {
+        "displayname": "Source",
+        "isAzureSql": true,
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "newSqlDatabase": "twitterDB",
+        "showAzureSql": false,
+        "showNewSqlOption": "true",
+        "sqlInstance": "NewSql",
+        "subtitle": "Set up a connection to SQL so we can bring in your Twitter data.",
+        "title": "Connect to your SQL Database"
+      },
+      {
+        "displayname": "Twitter",
+        "name": "$SiteCommon$/pagesgallery/twitter.html"
+      },
+      {
+        "displayname": "Search Terms",
+        "name": "$SiteCommon$/pagesgallery/search-terms.html"
+      },
+      {
+        "displayname": "Twitter Handles",
+        "name": "$SiteCommon$/pagesgallery/twitter-handles.html"
+      },
+      // Adding azure actions
+      //{
+      //  "displayname": "Use Analysis Services",
+      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html"
+      //},
+
+      //{
+      //  "displayname": "SSAS",
+      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+      {
+        "displayname": "Summary",
+        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "values": {
+          "Target Server": "$(this.MS.DataStore.getValue('Server'))",
+          "Target Database": "$(this.MS.DataStore.getValue('Database'))",
+          "Target Username": "$(this.MS.DataStore.getValue('Username'))"
+        }
+      },
+      {
+        "displayname": "Deploy",
+        "filename": "$save('TwitterTemplate.pbix')",
+        "functionAppHostingPlan": "$save(this.uniqueIdFunction)",
+        "hasPowerApp": true,
+        "LogicAppHostingPlan": "$save(this.uniqueId)",
+        "LogicAppName": "$save(this.uniqueId)",
+        "LogicAppNameHistorical": "$save(this.uniqueId)",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "powerAppFileName": "TwitterTemplate.msapp",
+        "SiteName": "$save(this.uniqueIdFunction)",
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
+        "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))"
+      }
     ]
   }
 }

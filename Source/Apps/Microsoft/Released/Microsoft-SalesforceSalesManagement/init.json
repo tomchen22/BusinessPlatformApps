@@ -16,7 +16,7 @@
         "name": "Microsoft-SalesforceSqlArtefacts"
       },
       {
-        "displayname": "Seting configuration",
+        "displayname": "Setting configuration",
         "name": "Microsoft-SetConfigValueInSql",
         "SqlConfigTable": "[smgt].[configuration]",
         "SqlServerIndex": "0"
