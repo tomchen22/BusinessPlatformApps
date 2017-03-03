@@ -1,7 +1,4 @@
 ﻿{
-  "MSI": {
-    "Guid": "2F142293-C7B5-4C57-8FFE-75F636688C9B"
-  },
   "Install": {
     "Actions": [
       {
@@ -47,114 +44,133 @@
         "TargetSchema": "pbist_sccm",
         "useImpersonation": true
       }
+    ],
+    "Pages": [
+      {
+        "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
+        "displayname": "Getting Started",
+        "isDownload": "$(!this.MS.HttpService.isOnPremise)",
+        "list1": [
+          "System Center 2012 Configuration Manager R2 SP1 or later. Read access to System Center Configuration Manager database is required.",
+          "Destination database: Azure SQL database or SQL Server database (SQL Server 2008 R2 SP3 or later).",
+          "For the machine where the installation is run, Microsoft .NET Framework 4.5 or later & PowerShell version 3.0 or later.",
+          "Power BI Desktop (latest version)",
+          "Power BI Pro (to share the template with your organization)"
+        ],
+        "list2": [
+          "Scalable and extensible solution with minimum set up and maintenance considerations",
+          "Data pulled daily from System Center Configuration Manager & stored in a SQL database optimized for reporting",
+          "Import data into powerful Power BI reports"
+        ],
+        "name": "getting-started-powerbi-login.html",
+        "oauthType": "powerbi",
+        "subtitle": "Welcome to the System Center Configuration Manager solution template.",
+        "templateName": "System Center Configuration Manager"
+      },
+      {
+        "displayname": "Login",
+        "name": "$SiteCommon$/pagesgallery/windows-auth.html",
+        "onValidate": [
+          {
+            "name": "Microsoft-ValidateAdminPrivileges"
+          },
+          {
+            "name": "Microsoft-ValidateSecurityOptions"
+          },
+          {
+            "name": "Microsoft-ValidatePowerShellVersion"
+          }
+        ],
+        "subtitle": "Specify your windows credentials to create a recurring schedule. The credentials you specify will also be used to connect to the SCCM database"
+      },
+      {
+        "credentialTarget": "pbi_sccm",
+        "displayname": "Source",
+        "hideSqlAuth": true,
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "onNext": [
+          {
+            "name": "Microsoft-CheckSCCMVersion",
+            "useImpersonation": true
+          }
+        ],
+        "showAllWriteableDatabases": false,
+        "showAzureSql": false,
+        "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
+        "title": "Connect to your System Center Configuration Manager database",
+        "useImpersonation": true
+      },
+      {
+        "checkSqlVersion": true,
+        "credentialTarget": "pbi_sccm",
+        "displayname": "Target",
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "onNext": [
+          {
+            "name": "Microsoft-CheckSQLVersion",
+            "useImpersonation": true
+          },
+          {
+            "name": "Microsoft-CompareSqlLCIDs",
+            "useImpersonation": true
+          }
+        ],
+        "showSqlRecoveryModeHint": true,
+        "subtitle": "Set up a connection to your target database so we can transfer your data.",
+        "title": "Connect to your SQL database",
+        "useImpersonation": true
+      },
+      //// Adding azure actions
+      //{
+      //  "displayname": "Use Analysis Services",
+      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html"
+      //},
+      //{
+      //  "displayname": "Azure Login",
+      //  "name": "$SiteCommon$/pagesgallery/azure-login.html",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+      //{
+      //  "displayname": "SSAS",
+      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
+      //  "skip": "$ds(ssasEnabled)"
+      //},
+      {
+        "displayname": "Customize",
+        "name": "customize.html"
+      },
+      {
+        "displayname": "Progress",
+        "filename": "$save('SCCMSolutionTemplate.pbix')",
+        "finishedActionName": "Microsoft-GetTaskStatus",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "showCounts": true,
+        "showEmailSubmission": false,
+        "sqlServerIndex": 1,
+        "targetSchema": "pbist_sccm"
+      }
     ]
   },
-  "Pages": [
-    {
-      "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
-      "displayname": "Getting Started",
-      "isDownload": "$(!this.MS.HttpService.isOnPremise)",
-      "list1": [
-        "System Center 2012 Configuration Manager R2 SP1 or later. Read access to System Center Configuration Manager database is required.",
-        "Destination database: Azure SQL database or SQL Server database (SQL Server 2008 R2 SP3 or later).",
-        "For the machine where the installation is run, Microsoft .NET Framework 4.5 or later & PowerShell version 3.0 or later.",
-        "Power BI Desktop (latest version)",
-        "Power BI Pro (to share the template with your organization)"
-      ],
-      "list2": [
-        "Scalable and extensible solution with minimum set up and maintenance considerations",
-        "Data pulled daily from System Center Configuration Manager & stored in a SQL database optimized for reporting",
-        "Import data into powerful Power BI reports"
-      ],
-      "name": "getting-started-powerbi-login.html",
-      "oauthType": "powerbi",
-      "subtitle": "Welcome to the System Center Configuration Manager solution template.",
-      "templateName": "System Center Configuration Manager"
-    },
-    {
-      "displayname": "Login",
-      "name": "$SiteCommon$/pagesgallery/windows-auth.html",
-      "onValidate": [
-        {
-          "name": "Microsoft-ValidateAdminPrivileges"
-        },
-        {
-          "name": "Microsoft-ValidateSecurityOptions"
-        },
-        {
-          "name": "Microsoft-ValidatePowerShellVersion"
-        }
-      ],
-      "subtitle": "Specify your windows credentials to create a recurring schedule. The credentials you specify will also be used to connect to the SCCM database"
-    },
-    {
-      "credentialTarget": "pbi_sccm",
-      "displayname": "Source",
-      "hideSqlAuth": true,
-      "name": "$SiteCommon$/pagesgallery/sql-server.html",
-      "onNext": [
-        {
-          "name": "Microsoft-CheckSCCMVersion",
-          "useImpersonation": true
-        }
-      ],
-      "showAllWriteableDatabases": false,
-      "showAzureSql": false,
-      "subtitle": "Set up a connection to your SCCM database so we can bring in your data.",
-      "title": "Connect to your System Center Configuration Manager database",
-      "useImpersonation": true
-    },
-    {
-      "checkSqlVersion": true,
-      "credentialTarget": "pbi_sccm",
-      "displayname": "Target",
-      "name": "$SiteCommon$/pagesgallery/sql-server.html",
-      "onNext": [
-        {
-          "name": "Microsoft-CheckSQLVersion",
-          "useImpersonation": true
-        },
-        {
-          "name": "Microsoft-CompareSqlLCIDs",
-          "useImpersonation": true
-        }
-      ],
-      "showSqlRecoveryModeHint": true,
-      "subtitle": "Set up a connection to your target database so we can transfer your data.",
-      "title": "Connect to your SQL database",
-      "useImpersonation": true
-    },
-    //// Adding azure actions
-    //{
-    //  "displayname": "Use Analysis Services",
-    //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html"
-    //},
-    //{
-    //  "displayname": "Azure Login",
-    //  "name": "$SiteCommon$/pagesgallery/azure-login.html",
-    //  "skip": "$ds(ssasEnabled)"
-    //},
-    //{
-    //  "displayname": "SSAS",
-    //  "name": "$SiteCommon$/pagesgallery/ssas.html",
-    //  "skip": "$ds(ssasEnabled)"
-    //},
-    {
-      "displayname": "Customize",
-      "name": "customize.html"
-    },
-    {
-      "displayname": "Progress",
-      "filename": "$save('SCCMSolutionTemplate.pbix')",
-      "finishedActionName": "Microsoft-GetTaskStatus",
-      "name": "$SiteCommon$/pagesgallery/progress.html",
-      "showCounts": true,
-      "showEmailSubmission": false,
-      "sqlServerIndex": 1,
-      "targetSchema": "pbist_sccm"
-    }
-  ],
+  "MSI": {
+    "Guid": "2F142293-C7B5-4C57-8FFE-75F636688C9B"
+  },
   "Uninstall": {
+    "Actions": [
+      {
+        "displayname": "Remove task",
+        "name": "Microsoft-RemoveTask",
+        "TaskName": "Power BI Solution Template - SCCM"
+      },
+      {
+        "displayname": "Remove files",
+        "name": "Microsoft-RemoveFiles"
+      },
+      {
+        "displayname": "Finishing cleanup",
+        "name": "Microsoft-RemoveFiles",
+        "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SCCMTemplate\\Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
+      }
+    ],
     "Pages": [
       {
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SCCMTemplate/Web/Images/SCCMArchitectureDiagram.png",
@@ -174,22 +190,6 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "showEmailSubmission": false,
         "successMessage": "Uninstall complete"
-      }
-    ],
-    "Actions": [
-      {
-        "displayname": "Remove task",
-        "name": "Microsoft-RemoveTask",
-        "TaskName": "Power BI Solution Template - SCCM"
-      },
-      {
-        "displayname": "Remove files",
-        "name": "Microsoft-RemoveFiles"
-      },
-      {
-        "displayname": "Finishing cleanup",
-        "name": "Microsoft-RemoveFiles",
-        "TargetPath": "C:\\Program Files\\Microsoft Templates\\Microsoft-SCCMTemplate\\Apps\\Microsoft\\Released\\Microsoft-SCCMTemplate\\Temp"
       }
     ]
   }

@@ -1,12 +1,66 @@
 ﻿{
   "Install": {
+    "Actions": [
+      {
+        "displayname": "Deploying database scripts",
+        "name": "Microsoft-DeploySQLScripts",
+        "SqlScriptsFolder": "Service/Database",
+        "SqlServerIndex": "0"
+      },
+      {
+        "displayname": "Retrieving metadata from Salesforce",
+        "name": "Microsoft-SalesforceGetObjectMetadata"
+      },
+      {
+        "displayname": "Creating tables in database",
+        "name": "Microsoft-SalesforceSqlArtefacts"
+      },
+      {
+        "displayname": "Seting configuration",
+        "name": "Microsoft-SetConfigValueInSql",
+        "SqlConfigTable": "[smgt].[configuration]",
+        "SqlServerIndex": "0"
+      },
+      {
+        "DeploymentName": "ADFDeployment",
+        "displayname": "Creating data connections",
+        "name": "Microsoft-ADFDeployLinkedServices"
+      },
+      {
+        "DeploymentName": "ADFPreDeploymentDatasets",
+        "displayname": "Creating mappings to historical data",
+        "name": "Microsoft-ADFDeployDatasets"
+      },
+      {
+        "DeploymentName": "ADFPreDeploymentPipeline",
+        "displayname": "Scheduling one time data load for historical data",
+        "name": "Microsoft-ADFDeployPipelines"
+      },
+      {
+        "DeploymentName": "ADFPostDeploymentDatasets",
+        "displayname": "Creating mappings to future data",
+        "name": "Microsoft-ADFDeployDatasets",
+        "postDeploymentPipelineType": "PostDeployment"
+      },
+      {
+        "DeploymentName": "ADFPostDeploymentPipeline",
+        "displayname": "Scheduling data loads for future data ",
+        "name": "Microsoft-ADFDeployPipelines",
+        "postDeploymentPipelineType": "PostDeployment"
+      },
+      {
+        "displayname": "Checking data exists in target",
+        "FinishedActionName": "Microsoft-ADFSliceStatus",
+        "IsWaiting": true,
+        "name": "Microsoft-GetDataPullStatus",
+        "SqlServerIndex": 0,
+        "TargetSchema": "dbo"
+      }
+    ],
     "Pages": [
       {
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "templateName": "Salesforce Sales Management",
-        "subtitle": "Welcome to the Salesforce Sales Management solution template.",
-        "displayname": "Getting Started",
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-SalesforceSalesManagement/Web/Images/salesforceArchitectureDiagram.png",
+        "displayname": "Getting Started",
         "list1": [
           "Azure Subscription",
           "Salesforce Subscription",
@@ -19,128 +73,74 @@
           "Data pulled from Salesforce into an Azure SQL Database using Azure Data Factory",
           "Connect to Azure SQL and import data into Power BI"
         ],
-        "showBack": "$(false)"
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "showBack": "$(false)",
+        "subtitle": "Welcome to the Salesforce Sales Management solution template.",
+        "templateName": "Salesforce Sales Management"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "displayname": "Azure",
-        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $1.50 a day. The cost will vary with the amount of data that will be moved. These costs are estimates only and subject to change.')",
+        "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
+        "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate base cost of the Azure resources used by this template is $1.50 a day. The cost will vary with the amount of data that will be moved. These costs are estimates only and subject to change.')",
         "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-SalesforceSalesManagement#azure-data-factory-pricing"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/salesforce-login.html",
         "displayname": "Salesforce",
+        "name": "$SiteCommon$/pagesgallery/salesforce-login.html",
         "salesforceObjects": "Opportunity,Account,Lead,Product2,OpportunityLineItem,OpportunityStage,User,UserRole"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
         "displayname": "SQL Target",
         "isAzureSql": true,
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "newSqlDatabase": "SalesforceDB",
         "showAzureSql": false,
         "showNewSqlOption": true,
         "subtitle": "Set up a connection to SQL so we can bring in your Salesforce data.",
-        "title": "Connect to your SQL Database",
-        "newSqlDatabase": "SalesforceDB"
+        "title": "Connect to your SQL Database"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/customize.html",
         "displayname": "Customize",
+        "name": "$SiteCommon$/pagesgallery/customize.html",
         "showEmails": true,
         "showRecurrenceOptions": true,
         "sourceApplication": "Salesforce"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",
+        "name": "$SiteCommon$/pagesgallery/summary.html",
         "values": {
-          "Subscription": "$(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
+          "Actuals": "$(this.MS.DataStore.getValue(\"actuals\"))",
+          "Database": "$(this.MS.DataStore.getJson(\"SqlCredentials\").Database)",
+          "Emails": "$(this.MS.DataStore.getValue(\"EmailAddresses\"))",
+          "FiscalStart": "$(this.MS.DataStore.getValue(\"fiscalMonth\"))",
+          "PipelineFrequency": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
+          "PipelineInterval": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))",
           "ResourceGroup": "$(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
           "SqlServer": "$(this.MS.DataStore.getJson(\"SqlCredentials\").Server)",
-          "Database": "$(this.MS.DataStore.getJson(\"SqlCredentials\").Database)",
-          "FiscalStart": "$(this.MS.DataStore.getValue(\"fiscalMonth\"))",
-          "Emails": "$(this.MS.DataStore.getValue(\"EmailAddresses\"))",
-          "Actuals": "$(this.MS.DataStore.getValue(\"actuals\"))",
-          "PipelineFrequency": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
-          "PipelineInterval": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))"
+          "Subscription": "$(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)"
         }
       },
       {
-        "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Progress",
-        "finishedActionName": "Microsoft-ADFSliceStatus",
-        "targetSchema": "dbo",
         "filename": "$save('SalesManagementReport.pbix')",
-        "showCounts": true
-      }
-    ],
-    "Actions": [
-      {
-        "name": "Microsoft-DeploySQLScripts",
-        "displayname": "Deploying database scripts",
-        "SqlServerIndex": "0",
-        "SqlScriptsFolder": "Service/Database"
-      },
-      {
-        "name": "Microsoft-SalesforceGetObjectMetadata",
-        "displayname": "Retrieving metadata from Salesforce"
-      },
-      {
-        "name": "Microsoft-SalesforceSqlArtefacts",
-        "displayname": "Creating tables in database"
-      },
-      {
-        "name": "Microsoft-SetConfigValueInSql",
-        "displayname": "Seting configuration",
-        "SqlServerIndex": "0",
-        "SqlConfigTable": "[smgt].[configuration]"
-      },
-      {
-        "name": "Microsoft-ADFDeployLinkedServices",
-        "displayname": "Creating data connections",
-        "DeploymentName": "ADFDeployment"
-      },
-      {
-        "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating mappings to historical data",
-        "DeploymentName": "ADFPreDeploymentDatasets"
-      },
-      {
-        "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Scheduling one time data load for historical data",
-        "DeploymentName": "ADFPreDeploymentPipeline"
-      },
-      {
-        "name": "Microsoft-ADFDeployDatasets",
-        "displayname": "Creating mappings to future data",
-        "DeploymentName": "ADFPostDeploymentDatasets",
-        "postDeploymentPipelineType": "PostDeployment"
-      },
-      {
-        "name": "Microsoft-ADFDeployPipelines",
-        "displayname": "Scheduling data loads for future data ",
-        "DeploymentName": "ADFPostDeploymentPipeline",
-        "postDeploymentPipelineType": "PostDeployment"
-      },
-      {
-        "name": "Microsoft-GetDataPullStatus",
-        "displayname": "Checking data exists in target",
-        "SqlServerIndex": 0,
-        "TargetSchema": "dbo",
-        "IsWaiting": true,
-        "FinishedActionName": "Microsoft-ADFSliceStatus"
+        "finishedActionName": "Microsoft-ADFSliceStatus",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "showCounts": true,
+        "targetSchema": "dbo"
       }
     ]
   },
   "Uninstall": {
     "Pages": [
       {
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "displayname": "Uninstall Start"
+        "displayname": "Uninstall Start",
+        "name": "$SiteCommon$/pagesgallery/getting-started.html"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
-        "displayname": " Uninstall Login"
+        "displayname": " Uninstall Login",
+        "name": "$SiteCommon$/pagesgallery/azure-login.html"
       }
     ],
     "Actions": []
