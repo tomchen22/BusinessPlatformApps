@@ -4,9 +4,9 @@ Here is an estimate of the Azure costs (Logic Apps, Azure Functions, Azure SQL, 
 
 Processing 10K articles a month will cost approximately $420
 
-Processing 50K tweets a month will cost approximately $875
+Processing 50K articles a month will cost approximately $875
 
-Processing 100K tweets a month will cost approximately $1443
+Processing 100K articles a month will cost approximately $1443
 
 Please keep in mind these are estimated costs and subject to change. For a more detailed breakdown of the various components please refer to the [Azure calculator](https://azure.microsoft.com/en-us/pricing/calculator/) and select Logic App, Azure Function, Azure SQL, Cognitive Services and Azure ML. You can tweak all the options to see what the costs will look like and what modifications may suit your needs best.
 
