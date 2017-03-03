@@ -25,19 +25,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.Common
 
             using (ResourceManagementClient managementClient = new ResourceManagementClient(creds))
             {
-                bool isRegistered = false;
-                ProviderListResult providers = managementClient.Providers.List(null);
 
-                foreach (var provider in providers.Providers)
-                {
-                    if (provider.Namespace.EqualsIgnoreCase(azureProvider))
-                    {
-                        isRegistered = provider.RegistrationState.EqualsIgnoreCase(REGISTERED);
-                        break;
-                    }
-                }
-
-                if (!isRegistered)
+                var prov = await managementClient.Providers.GetAsync(azureProvider);
+                if (!prov.Provider.RegistrationState.EqualsIgnoreCase((REGISTERED)))
                 {
                     AzureOperationResponse operationResponse = managementClient.Providers.Register(azureProvider);
                     if (!(operationResponse.StatusCode == System.Net.HttpStatusCode.OK || operationResponse.StatusCode == System.Net.HttpStatusCode.Accepted))
