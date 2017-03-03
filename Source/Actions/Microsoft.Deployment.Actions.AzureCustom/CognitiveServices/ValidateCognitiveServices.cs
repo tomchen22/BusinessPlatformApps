@@ -5,8 +5,11 @@ using System.Dynamic;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AnalysisServices.Tabular;
+using Microsoft.Azure;
+using Microsoft.Azure.Management.Resources;
 using Microsoft.Deployment.Common.ActionModel;
 using Microsoft.Deployment.Common.Actions;
 using Microsoft.Deployment.Common.Helpers;
@@ -26,6 +29,16 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
    
             List<string> cognitiveServicesToCheck = permissionsToCheck.Split(',').Select(p=> p.Trim()).ToList();
             AzureHttpClient client = new AzureHttpClient(azureToken, subscription, resourceGroup);
+
+            SubscriptionCloudCredentials creds = new TokenCloudCredentials(subscription, azureToken);
+            Microsoft.Azure.Management.Resources.ResourceManagementClient registrationClient = new ResourceManagementClient(creds);
+            await registrationClient.Providers.UnregisterAsync("Microsoft.CognitiveServices");
+            var registration = await registrationClient.Providers.RegisterAsync("Microsoft.CognitiveServices");
+
+            while(true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+            }
 
             bool passPermissionCheck = true;
             // Check if permissions are fine
