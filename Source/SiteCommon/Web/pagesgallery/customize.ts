@@ -22,6 +22,7 @@ export class Customize extends ViewModelBase {
                 orgUrl = orgUrl.substr(0, orgUrl.length - 1);
             }
             this.baseUrl = orgUrl;
+            this.isValidated = true;
         }
     }
 
