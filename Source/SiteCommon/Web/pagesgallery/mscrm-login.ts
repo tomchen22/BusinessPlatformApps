@@ -1,5 +1,7 @@
 ﻿import { QueryParameter } from '../base/query-parameter';
 
+import { MsCrmOrganization } from '../classes/ms-crm-organization';
+
 import { AzureLogin } from './azure-login';
 import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
@@ -118,14 +120,4 @@ export class MsCrmLogin extends AzureLogin {
             return false;
         }
     }
-}
-
-class MsCrmOrganization {
-    ConnectorUrl: string;
-    ErrorCategory: number;
-    ErrorCode: number;
-    ErrorMessage: string;
-    OrganizationId: string;
-    OrganizationName: string;
-    OrganizationUrl: string;
 }

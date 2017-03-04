@@ -1,5 +1,7 @@
 ﻿import { QueryParameter } from '../base/query-parameter';
 
+import { AzureConnection } from '../enums/azure-connection';
+
 import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
@@ -134,9 +136,4 @@ export class AzureLogin extends ViewModelBase {
 
         return await super.NavigatingNext();
     }
-}
-
-enum AzureConnection {
-    Microsoft,
-    Organizational
 }

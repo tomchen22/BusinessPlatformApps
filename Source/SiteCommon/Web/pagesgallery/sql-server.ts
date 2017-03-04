@@ -1,5 +1,7 @@
 ﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
 
+import { AzureLocation } from '../classes/azure-location';
+
 import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
@@ -194,13 +196,4 @@ export class SqlServer extends ViewModelBase {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
     }
-}
-
-class AzureLocation {
-    DisplayName: string;
-    Id: string;
-    Latitude: string;
-    Longitude: string;
-    Name: string;
-    SubscriptionId: string;
 }
