@@ -1,4 +1,7 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
+﻿import { Entry } from '../classes/entry';
+import { EntryRow } from '../classes/entry-row';
+
+import { ViewModelBase } from '../services/viewmodelbase';
 
 export class SummaryViewModel extends ViewModelBase {
     summaryRows:EntryRow[];
@@ -30,18 +33,4 @@ export class SummaryViewModel extends ViewModelBase {
     async OnLoaded(): Promise<void> {
         this.loadSummaryObjectIntoRows();
     }
-}
-
-class Entry {
-    text: string;
-    value: string;
-
-    constructor(text: string, value: string) {
-        this.text = text;
-        this.value = value;
-    }
-}
-
-class EntryRow {
-    entries: Entry[] = [];
 }

@@ -72,19 +72,19 @@
                 "name": "$SiteCommon$/pagesgallery/keyvault-login.html",
                 "oauthType": "keyvault"
             },
-            {
-                "name": "$SiteCommon$/pagesgallery/sql-server.html",
-                "displayname": "Target",
-                "isAzureSql": true,
-                "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))",
-                "showAzureSql": false,
-                "showNewSqlOption": true,
-                "showSkuS1": false,
-                "sqlInstance": "NewSql",
-                "sqlSku": "S2",
-                "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
-                "title": "Connect to your SQL Database"
-            },
+          {
+            "name": "$SiteCommon$/pagesgallery/sql-server.html",
+            "displayname": "Target",
+            "isAzureSql": true,
+            "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))",
+            "showAzureSql": false,
+            "showNewSqlOption": true,
+            "showSkuS1": false,
+            "sqlInstance": "NewSql",
+            "sqlSku": "S2",
+            "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
+            "title": "Connect to your SQL Database"
+          },
 
             {
                 "displayname": "Progress",

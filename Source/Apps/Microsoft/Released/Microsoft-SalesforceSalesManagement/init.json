@@ -91,7 +91,7 @@
       },
       {
         "name": "Microsoft-SetConfigValueInSql",
-        "displayname": "Seting configuration",
+        "displayname": "Setting configuration",
         "SqlServerIndex": "0",
         "SqlConfigTable": "[smgt].[configuration]"
       },
