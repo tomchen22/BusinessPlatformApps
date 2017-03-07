@@ -54,9 +54,9 @@ export class Gettingstarted extends ViewModelBase {
 
     async OnLoaded() {
 
-        let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
+        //let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
 
-        this.upgrade = res.Body;
+        //this.upgrade = res.Body;
         
         this.isAuthenticated = false;
         if (!this.isDownload) {

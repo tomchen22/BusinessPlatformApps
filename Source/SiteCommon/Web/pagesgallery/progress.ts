@@ -2,6 +2,7 @@
 import { ViewModelBase } from '../services/viewmodelbase';
 
 export class ProgressViewModel extends ViewModelBase {
+    downloadPbiText: string = this.MS.Translate.PROGRESS_DOWNLOAD_PBIX_INFO;
     emailAddress: string = '';
     filename: string = 'report.pbix';
     finishedActionName: string = '';
