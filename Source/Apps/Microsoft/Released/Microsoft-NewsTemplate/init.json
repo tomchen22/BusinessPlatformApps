@@ -65,7 +65,9 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Deploy",
         "filename": "$save('BingNewsTemplate.pbix')",
-        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(8))"
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(8))",
+        "downloadPbiText": "Open the Power BI report (.pbix file) to explore your data. If you have opened your report but are not seeing any data, check back in a few hours. It could take some time to find articles. Publish the report for others to see in your Power BI workspace. You will need Power BI Desktop to open this file - download it"
+
       }
     ],
 

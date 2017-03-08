@@ -21,11 +21,12 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
             string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string subscription = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
-            request.DataStore.AddToDataStore("register", "azureProvider", "Microsoft.CognitiveServices");
+
+            request.DataStore.AddToDataStore("requestparameters", "AzureProvider", "Microsoft.CognitiveServices");
             var location = request.DataStore.GetValue("CognitiveLocation");
             string permissionsToCheck = request.DataStore.GetValue("CognitiveServices");
 
-            if (!(await RequestUtility.CallAction(request, "Microsoft-RegisterProvider")).IsSuccess)
+            if (!(await RequestUtility.CallAction(request, "Microsoft-RegisterProviderBeta")).IsSuccess)
             {
                 return new ActionResponse(ActionStatus.Failure, null,null, null, "Unable to register Cognitive Services");
             }
