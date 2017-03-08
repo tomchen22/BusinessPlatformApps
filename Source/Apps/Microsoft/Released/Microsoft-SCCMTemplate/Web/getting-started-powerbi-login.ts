@@ -53,16 +53,18 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
-
-        //let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
-
-        //this.upgrade = res.Body;
         
+        if (this.MS.HttpService.isOnPremise) {
+            let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
+            this.upgrade = res.Body;
+        }
+
         this.isAuthenticated = false;
         if (!this.isDownload) {
             this.isAuthenticated = true;
             this.isValidated = true;
         } else {
+
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
 
@@ -139,5 +141,9 @@ export class Gettingstarted extends ViewModelBase {
             this.downloadLink = this.registrationDownload;
             this.isValidated = true;
         }
+    }
+
+    OpenNewMSILink() {
+        window.open("https://bpsolutiontemplates.com/?name=Microsoft-SCCMTemplate");
     }
 }
