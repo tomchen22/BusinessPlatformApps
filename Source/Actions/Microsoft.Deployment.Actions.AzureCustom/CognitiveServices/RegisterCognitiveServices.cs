@@ -26,7 +26,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
             var location = request.DataStore.GetValue("CognitiveLocation");
             string permissionsToCheck = request.DataStore.GetValue("CognitiveServices");
 
-            if (!(await RequestUtility.CallAction(request, "Microsoft-RegisterProvider")).IsSuccess)
+            if (!(await RequestUtility.CallAction(request, "Microsoft-RegisterProviderBeta")).IsSuccess)
             {
                 return new ActionResponse(ActionStatus.Failure, null,null, null, "Unable to register Cognitive Services");
             }
