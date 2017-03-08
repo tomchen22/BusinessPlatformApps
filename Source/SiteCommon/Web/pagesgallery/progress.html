@@ -72,7 +72,7 @@
 
     <!-- PowerApp Download -->
     <div class="st-float" if.bind="MS.DeploymentService.isFinished && !MS.DeploymentService.hasError && !isUninstall && hasPowerApp">
-        <p class="smallFontSize" if.bind="isPowerAppReady">
+        <p class="st-privacy smallFontSize" if.bind="isPowerAppReady">
             <a href.bind="powerAppDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
                 <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_POWERAPP}</button>
             </a>
