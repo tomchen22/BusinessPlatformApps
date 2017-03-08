@@ -58,7 +58,7 @@
           "Target Server": "$(this.MS.DataStore.getValue('Server'))",
           "Target Database": "$(this.MS.DataStore.getValue('Database'))",
           "Target Username": "$(this.MS.DataStore.getValue('Username'))",
-          "Search Query": "$(this.MS.DataStore.getValue('SearchQuery'))"
+          "Search Query": "$(this.MS.DataStore.getValue('SearchQuery'))",
         }
       },
       {
