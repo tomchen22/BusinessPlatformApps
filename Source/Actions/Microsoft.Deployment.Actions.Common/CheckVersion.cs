@@ -25,7 +25,7 @@ namespace Microsoft.Deployment.Actions.Common
             try
             {
                 Version webVersion = new Version();
-                Version.TryParse(client.DownloadString("https://bpstservice-slot3.azurewebsites.net/" + "api/version"), out webVersion);
+                Version.TryParse(client.DownloadString("https://bpstservice.azurewebsites.net/" + "api/version"), out webVersion);
 
                 if (localVersion < webVersion)
                 {
