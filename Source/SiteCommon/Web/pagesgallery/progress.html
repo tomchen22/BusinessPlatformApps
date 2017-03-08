@@ -62,7 +62,7 @@
             <a href.bind="pbixDownloadLink" target="${MS.HttpService.isOnPremise ? '_self' : '_blank'}">
                 <button class="primary">${MS.Translate.PROGRESS_DOWNLOAD_PBIX}</button>
             </a>
-            <span><br />${MS.Translate.PROGRESS_DOWNLOAD_PBIX_INFO} <a href="https://powerbi.microsoft.com/en-us/downloads/" target="_blank">${MS.Translate.COMMON_HERE}.</a></span>
+            <span><br />${downloadPbiText} <a href="https://powerbi.microsoft.com/en-us/downloads/" target="_blank">${MS.Translate.COMMON_HERE}.</a></span>
         </p>
         <div class="smallFontSize" if.bind="!isPbixReady">
             <span class="st-loader st-loader-tiny st-loader-pbi"></span>
