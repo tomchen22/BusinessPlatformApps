@@ -35,15 +35,16 @@ export class Gettingstarted extends ViewModelBase {
 
     async OnLoaded() {
 
-        let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
-
-        this.upgrade = res.Body;
-
         this.isValidated = true;
         if (this.isDownload) {
             this.GetDownloadLink();
         } else {
             this.registration.text = '';
+        }
+
+        if (this.MS.HttpService.isOnPremise) {
+            let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
+            this.upgrade = res.Body;
         }
     }
 
@@ -86,5 +87,9 @@ export class Gettingstarted extends ViewModelBase {
             this.downloadLink = this.registration.download;
             this.isValidated = true;
         }
+    }
+
+    OpenNewMSILink() {
+        window.open("https://bpsolutiontemplates.com/?name=Microsoft-SCCMTemplate");
     }
 }
