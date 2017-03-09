@@ -56,11 +56,14 @@ export class MsCrmLogin extends AzureLogin {
                                     this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR_CRM;
                                     this.showAzureTrial = false;
                                 } else {
+                                    this.selectedSubscriptionId = this.subscriptionsList[0].SubscriptionId;
                                     this.showPricingConfirmation = true;
                                     this.isValidated = true;
                                     this.showValidation = true;
                                 }
                             }
+                        } else {
+                            this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_AUTHORIZATION;
                         }
                     } else {
                         this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
@@ -70,7 +73,7 @@ export class MsCrmLogin extends AzureLogin {
             this.MS.UtilityService.RemoveItem('queryUrl');
         }
     }
-    
+
 
     async connect() {
         this.MS.DataStore.addToDataStore('oauthType', this.oauthType, DataStoreType.Public);
@@ -80,16 +83,9 @@ export class MsCrmLogin extends AzureLogin {
     }
 
     public async NavigatingNext(): Promise<boolean> {
-        let msCrmOrganization: MsCrmOrganization = null;
-
-        for (let i = 0; i < this.msCrmOrganizations.length && msCrmOrganization === null; i++) {
-            if (this.msCrmOrganizations[i].OrganizationId === this.msCrmOrganizationId) {
-                msCrmOrganization = this.msCrmOrganizations[i];
-            }
-        }
+        let msCrmOrganization: MsCrmOrganization = this.msCrmOrganizations.find(o => o.OrganizationId === this.msCrmOrganizationId);
 
         if (msCrmOrganization) {
-            // this.MS.DataStore.addToDataStore('ConnectorUrl', msCrmOrganization.ConnectorUrl, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('Entities', this.entities, DataStoreType.Public);
             this.MS.DataStore.addToDataStore('OrganizationId', msCrmOrganization.OrganizationId, DataStoreType.Private);
             this.MS.DataStore.addToDataStore('OrganizationUrl', msCrmOrganization.OrganizationUrl, DataStoreType.Private);

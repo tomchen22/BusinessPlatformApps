@@ -131,6 +131,7 @@
     <Compile Include="SAP\WriteSAPJson.cs" />
     <Compile Include="SCCM\CheckSCCMVersion.cs" />
     <Compile Include="SCCM\InstallSCCM.cs" />
+    <Compile Include="Scribe\GetScribeOrganizations.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -142,10 +143,7 @@
       <Name>Microsoft.Deployment.Common</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Informatica\" />
-    <Folder Include="Scribe\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <PropertyGroup>

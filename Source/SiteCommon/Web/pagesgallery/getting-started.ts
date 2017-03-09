@@ -1,4 +1,5 @@
 import { Registration } from '../classes/registration';
+import { Selection } from '../classes/selection';
 
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
@@ -16,7 +17,9 @@ export class Gettingstarted extends ViewModelBase {
     prerequisiteLink: string = '';
     prerequisiteLinkText: string = '';
     registration: Registration = new Registration();
+    selection: Selection = new Selection();
     showPrivacy: boolean = true;
+    showSelection: boolean = false;
     subtitle: string = '';
     templateName: string = '';
 
@@ -34,7 +37,6 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
-
         this.isValidated = true;
         if (this.isDownload) {
             this.GetDownloadLink();
@@ -88,6 +90,20 @@ export class Gettingstarted extends ViewModelBase {
             this.registration.text = '';
             this.downloadLink = this.registration.download;
             this.isValidated = true;
+        }
+    }
+
+    SelectionChanged() {
+        if (this.selection.choice === this.selection.choiceDownload) {
+            this.isDownload = true;
+            this.selection.list1Previous = this.list1;
+            this.selection.list2Previous = this.list2;
+            this.list1 = this.selection.list1;
+            this.list2 = this.selection.list2;
+        } else {
+            this.isDownload = false;
+            this.list1 = this.selection.list1Previous;
+            this.list2 = this.selection.list2Previous;
         }
     }
 

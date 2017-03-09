@@ -8,6 +8,14 @@
     <!-- Prerequisites -->
     <bpst-link if.bind="prerequisiteDescription" a-description="${prerequisiteDescription}" a-link="${prerequisiteLink}" a-link-text="${prerequisiteLinkText}" a-is-important="true"></bpst-link>
 
+    <!-- Selection -->
+    <div if.bind="selection.label">
+        <p class="st-subtitle">${selection.label}</p>
+        <select class="btn btn-default dropdown-toggle st-input" change.delegate="SelectionChanged()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="selection.choice">
+            <option repeat.for="selectionOption of selection.options" value.bind="selectionOption">${selectionOption}</option>
+        </select>
+    </div>
+
     <!-- Setup -->
     <div if.bind="list1.length > 0">
         <p class="st-subtitle">${list1Title}</p>

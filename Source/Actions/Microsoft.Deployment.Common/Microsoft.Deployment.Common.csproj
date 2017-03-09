@@ -102,12 +102,16 @@
     <Compile Include="Helpers\ResponseObjectConverter.cs" />
     <Compile Include="Helpers\RestClient.cs" />
     <Compile Include="Helpers\RetryUtility.cs" />
+    <Compile Include="Helpers\ScribeUtility.cs" />
     <Compile Include="Helpers\SqlUtility.cs" />
     <Compile Include="Helpers\StringEnumConverterLower.cs" />
     <Compile Include="Helpers\StringExtension.cs" />
     <Compile Include="Controller\Logger.cs" />
     <Compile Include="Model\PbixConnection.cs" />
     <Compile Include="Model\QDEFF.cs" />
+    <Compile Include="Model\Scribe\ScribeObject.cs" />
+    <Compile Include="Model\Scribe\ScribeOrganization.cs" />
+    <Compile Include="Model\Scribe\ScribeSubscription.cs" />
     <Compile Include="Model\SqlCredentials.cs" />
     <Compile Include="Model\TagReturn.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
