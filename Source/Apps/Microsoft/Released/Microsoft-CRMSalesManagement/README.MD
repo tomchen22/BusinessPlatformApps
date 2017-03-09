@@ -50,8 +50,7 @@ Setting up the template requires the following:
 -	SQL Server Database 2008 R2 or later, or an Azure Subscription with an Azure SQL Database
 -	Power BI Desktop (latest version)
 -	Power BI Pro (to share the template with others)
--	Dynamics CRM 2015 or later, on-premises or Online. You must have administrative permissions.
--	SQL Server Analysis Services 2008 R2 (only required for the AS option). Note that in SQL Server 2016, the Standard edition can be used for the solution template. For earlier versions, Enterprise edition is required. More details on SSAS tabular model features available in SQL Server 2016 can be found [here](https://msdn.microsoft.com/en-us/library/cc645993.aspx).
+-	Dynamics CRM 2015 or later, on-premises or Online. **You must have administrative permissions on your Dynamics 365 for Sales instance**.
 
 # How to Install
 Installing the Sales Management solution template for Dynamics 365 configures the following:
@@ -70,20 +69,22 @@ There are three distinct flows for the installation:
 **Azure SQL DB installation**: This has all the advantages of Software as a Service where you pay as you go. All the patching and upkeep is handled for you. You can also later publish your reports to PowerBi.com without having to install a gateway (more on this later).
 
 **On-premises installation**: This encompasses the option for on-premises SQL Server and SQL Server running on an Azure virtual machine. In the first case data will be moved to an instance of an on-premises SQL Server (i.e. SQL Server on hardware you own and that you maintain). The second option consists of SQL Server running on an Azure virtual machine.
-Analysisis Services is optin in this configuration. In this architecture, you are responsible for all patching and upkeep. 
+ In this architecture, you are responsible for all patching and upkeep. 
 
 ## Step 1: Azure SQL DB  or SQL Server
-The first step is to choose where the data will be replicated to - an Azure SQL Database or to SQL Server (on premise or in an Azure VM)
+The first step is to choose the source of the data - Dynamics 365 Online or on premise:
 
 ![ArchChoices](Resources/Images/ArchChoices.png)
 
-_Note: Azure Analysis Services is not yet supported with Azure SQL Database._
 
-If Azure SQL DB is chosen, jump to Step 2a: Azure SQL DB Installation. Otherwise jump to Step 2b: SQL Server Installation, 
+If Dynamics 365 Online is chosen, jump to Step 2a:Connect to Dynamics 365 Online. Otherwise jump to Step 2b: SQL Server Installation.
 
-## Step 2a: Connect to Dynamics 365
+## Step 2a: Connect to Dynamics 365 Online
 
 Next, connect to your Dynamics 365 instance to give permission to the provisioning application to set up data export service to populate the Azure SQL DB destiniation.
+
+**Note: You must have an Azure subscription in the same tenant as Dynamics 365.** If a subscription does not exist, this step will fail. You can create
+a new subscription here: <https://account.windowsazure.com/subscriptions/>. 
 
 ![Get Started](Resources/Images/Dynamics365AzSub.png)
 
