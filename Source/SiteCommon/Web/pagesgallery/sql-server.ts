@@ -27,6 +27,7 @@ export class SqlServer extends ViewModelBase {
     passwordConfirmation: string = '';
     showAllWriteableDatabases: boolean = true;
     showAzureSql: boolean = true;
+    showGovAzure: boolean = false;
 
     showDatabases: boolean = false;
     showNewSqlOption: boolean = false;

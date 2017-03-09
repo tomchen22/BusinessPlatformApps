@@ -51,14 +51,14 @@
             <p>
         </div>
 
-        <p class="st-float st-text" click.trigger="viewmodel.showAdvanced = !viewmodel.showAdvanced" if.bind="!MS.HttpService.isServiceBusy && !showDatabases">
+        <p class="st-float st-text" click.trigger="viewmodel.showAdvanced = !viewmodel.showAdvanced" if.bind="!MS.HttpService.isServiceBusy && !showDatabases && showGovAzure">
             <span class="glyphicon pbi-glyph-circlering glyph-small st-toggle" if.bind="viewmodel.showAdvanced"></span>
             <span class="st-toggle-collapse" if.bind="viewmodel.showAdvanced">-</span>
             <span class="glyphicon pbi-glyph-addcircle glyph-small st-toggle" if.bind="!viewmodel.showAdvanced"></span>
             <span>${MS.Translate.COMMON_ADVANCED_OPTIONAL}</span>
         </p>
 
-        <div class="st-float" if.bind="viewmodel.showAdvanced && !showDatabases && !MS.HttpService.isServiceBusy">
+        <div class="st-float" if.bind="viewmodel.showAdvanced && !showDatabases && !MS.HttpService.isServiceBusy && showGovAzure">
             <label class="st-label">
                 <input type="checkbox" tabindex="-1" checked.bind="isGovAzureSql" disabled.bind="MS.HttpService.isServiceBusy">
                 <span class="st-text">${MS.Translate.SQL_SERVER_USING_GOV_AZURE}</span>
