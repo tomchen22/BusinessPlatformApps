@@ -13,11 +13,13 @@ export class SqlServer extends ViewModelBase {
     auth: string = 'Windows';
     azureLocations: AzureLocation[] = [];
     azureSqlSuffix: string = '.database.windows.net';
+    azureGovtSuffix: string = '.database.usgovcloudapi.net';
     checkSqlVersion: boolean = false;
     database: string = null;
     databases: string[] = [];
     hideSqlAuth: boolean = false;
     isAzureSql: boolean = false;
+    isGovAzureSql: boolean = false;
     isWindowsAuth: boolean = true;
 
     newSqlDatabase: string = null;
@@ -175,7 +177,13 @@ export class SqlServer extends ViewModelBase {
 
     private getSqlServer(): string {
         let sqlServer: string = this.sqlServer;
-        if (this.isAzureSql && !sqlServer.includes(this.azureSqlSuffix)) {
+        if (this.isAzureSql &&
+            this.isGovAzureSql &&
+            !sqlServer.includes(this.azureSqlSuffix) &&
+            !sqlServer.includes(this.azureSqlSuffix)) {
+            sqlServer += this.azureGovtSuffix;
+        }
+        if (this.isAzureSql && !this.isGovAzureSql && !sqlServer.includes(this.azureSqlSuffix)) {
             sqlServer += this.azureSqlSuffix;
         }
         return sqlServer;

@@ -197,6 +197,7 @@
     SQL_SERVER_STANDARD_AZURE: `We will create a Standard Azure instance inside your Azure Subscription.`,
     SQL_SERVER_USERNAME: `SQL Username:`,
     SQL_SERVER_USING_AZURE: `Using Azure SQL?`,
+    SQL_SERVER_USING_GOV_AZURE: `Government Azure`,
     SQL_SERVER_WINDOWS: `Windows Username: `,
     SQL_SERVER_WINDOWS_DESCRIPTION: `Must be in <domain>\<username> or <machinename>\<username> format`,
     SSAS_SUBTITLE: `Would you like to use Azure Analysis Services? Azure Analysis Services scales beyond the Power BI 1GB compressed data limit and has better performance.`,
