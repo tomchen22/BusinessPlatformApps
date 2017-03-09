@@ -46,6 +46,7 @@
       {
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-CRMSalesManagement/Web/Images/crm-sales-management.png",
         "displayname": "Getting Started",
+        "downloadLink": "https://pbistservice.azurewebsites.net/Installers/Dynamics_Template_Installer.exe",
         "list1": [
           "December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
           "You must be a Dynamics 365 Administrator",
@@ -60,6 +61,28 @@
           "Connect to Azure SQL and import data into Power BI"
         ],
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "selection": {
+          "choice": "Dynamics 365 Online",
+          "choiceDownload": "Dynamics 365 On Premise",
+          "label": "What Dynamics 365 instance do you use?",
+          "list1": [
+            "Azure Subscription",
+            "Azure SQL Database",
+            "Power BI Desktop (latest version)",
+            "Power BI Pro (to share the template with your organization)"
+          ],
+          "list2": [
+            "Full cloud solution with minimum set up and maintenance considerations",
+            "Data pulled from Dynamics 365 into an Azure SQL Database",
+            "Connect to Azure SQL and import data into Power BI",
+            "Compressed data model size doesn't exceed 1GB (about 10 million rows for opportunities, accounts, and leads)"
+          ],
+          "options": [
+            "Dynamics 365 Online",
+            "Dynamics 365 On Premise"
+          ]
+        },
+        "showSelection": true,
         "templateName": "Sales Management for Dynamics 365"
       },
       {

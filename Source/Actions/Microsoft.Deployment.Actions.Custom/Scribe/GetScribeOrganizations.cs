@@ -65,7 +65,7 @@ namespace Microsoft.Deployment.Actions.Custom.Scribe
             }
             catch
             {
-                // Failed to get subscriptions - BPST service IP address wasn't safe listed
+                // Failed to get subscriptions - IP address wasn't safe listed
             }
 
             return isConfigured;
