@@ -30,17 +30,19 @@ namespace Microsoft.Deployment.Actions.Custom.Scribe
 
             if (orgs != null && orgs.Count > 0)
             {
-                Parallel.ForEach(orgs, async (org) =>
+                foreach(ScribeOrganization org in orgs)
                 {
                     if (await IsConfigured(rc, org))
                     {
                         await ProvisionCloudAgent(rc, org);
                         configuredOrgs.Add(org);
                     }
-                });
+                }
             }
 
-            return new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(JsonConvert.SerializeObject(configuredOrgs)));
+            return configuredOrgs.Count == 0
+                ? new ActionResponse(ActionStatus.Failure, JsonUtility.GetEmptyJObject(), null, "Scribe_No_Organizations")
+                : new ActionResponse(ActionStatus.Success, JsonUtility.GetJObjectFromStringValue(JsonConvert.SerializeObject(configuredOrgs)));
         }
 
         private async Task<bool> IsConfigured(RestClient rc, ScribeOrganization org)
