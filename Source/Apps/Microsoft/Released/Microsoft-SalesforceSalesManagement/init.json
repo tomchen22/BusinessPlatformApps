@@ -41,7 +41,8 @@
         "showNewSqlOption": true,
         "subtitle": "Set up a connection to SQL so we can bring in your Salesforce data.",
         "title": "Connect to your SQL Database",
-        "newSqlDatabase": "SalesforceDB"
+        "newSqlDatabase": "SalesforceDB",
+        "showGovAzure": true
       },
       {
         "name": "$SiteCommon$/pagesgallery/customize.html",
