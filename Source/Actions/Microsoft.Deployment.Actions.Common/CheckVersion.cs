@@ -17,26 +17,27 @@ namespace Microsoft.Deployment.Actions.Common
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            bool versionsMatch = false;
-            string localVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            bool upgrade = false;
+            Version localVersion = Assembly.GetExecutingAssembly().GetName().Version;
             WebClient client = new WebClient();
             ActionResponse result = new ActionResponse(ActionStatus.Success);
 
             try
             {
-                var webVersion = client.DownloadString(Constants.ServiceUrl + "api/version");
+                Version webVersion = new Version();
+                Version.TryParse(client.DownloadString("https://bpstservice.azurewebsites.net/" + "api/version"), out webVersion);
 
-                if (localVersion == webVersion)
+                if (localVersion < webVersion)
                 {
-                    versionsMatch = true;
-                    result = new ActionResponse(ActionStatus.Success, versionsMatch);
+                    upgrade = true;
+                    result = new ActionResponse(ActionStatus.Success, upgrade);
                 }
 
-                result = new ActionResponse(ActionStatus.Success, versionsMatch);
+                result = new ActionResponse(ActionStatus.Success, upgrade);
             }
-            catch (WebException e)
+            catch
             {
-                result = new ActionResponse(ActionStatus.Success, e.Message);
+                result = new ActionResponse(ActionStatus.Success, upgrade);
             }
 
             return result;

@@ -23,7 +23,7 @@ export class CognitiveText extends ViewModelBase {
         let body: any = {};
         body.CognitiveServices = "TextAnalytics";
         body.CognitiveLocation = "westus";
-        let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        let response = await this.MS.HttpService.executeAsync('Microsoft-RegisterCognitiveServices', body);
         if (!response.IsSuccess) {
             return false;
         }
@@ -31,7 +31,7 @@ export class CognitiveText extends ViewModelBase {
         body = {};
         body.CognitiveServices = "Bing.Search";
         body.CognitiveLocation = "global";
-        response = await this.MS.HttpService.executeAsync('Microsoft-ValidateCognitiveServices', body);
+        response = await this.MS.HttpService.executeAsync('Microsoft-RegisterCognitiveServices', body);
         if (!response.IsSuccess) {
             return false;
         }

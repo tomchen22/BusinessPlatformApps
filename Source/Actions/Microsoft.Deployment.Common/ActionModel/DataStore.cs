@@ -182,7 +182,7 @@ namespace Microsoft.Deployment.Common.ActionModel
 
         private JToken GetFirstValueFromDataStore(string key, DataStoreType dataStoreType = DataStoreType.Any)
         {
-            List<DataStoreItem> itemsList = null;
+            List<DataStoreItem> itemsList = new List<DataStoreItem>();
             JToken itemToReturn = null;
 
             if (dataStoreType == DataStoreType.Private || dataStoreType == DataStoreType.Any)
@@ -190,7 +190,7 @@ namespace Microsoft.Deployment.Common.ActionModel
                 var values = GetValueAndRoutesFromDataStore(this.PrivateDataStore, key, DataStoreType.Private);
                 if (values.Any())
                 {
-                    itemsList = values;
+                    itemsList.AddRange(values);
                 }
             }
 
@@ -199,11 +199,11 @@ namespace Microsoft.Deployment.Common.ActionModel
                 var values = GetValueAndRoutesFromDataStore(this.PublicDataStore, key, DataStoreType.Private);
                 if (values.Any())
                 {
-                    itemsList = values;
+                    itemsList.AddRange(values);
                 }
             }
 
-            if (itemsList != null)
+            if (itemsList.Count > 0)
             {
                 itemToReturn = itemsList.Any(p => p.Route.ToLowerInvariant() == "requestparameters")
                     ? itemsList.Single(p => p.Route.ToLowerInvariant() == "requestparameters").Value

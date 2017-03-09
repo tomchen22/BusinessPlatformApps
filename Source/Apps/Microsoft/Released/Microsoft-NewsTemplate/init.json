@@ -27,7 +27,7 @@
         "displayname": "Login",
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
         "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates.  The approximate base cost of the Azure resources used by this template is $7 a day, and every 1,000 articles will incur an additional cost of approximately $12.  These costs are estimates only and subject to change.')",
-        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/tree/master/Source/Apps/Microsoft/Released/Microsoft-TwitterTemplate#pricing",
+        "pricingUrl": "https://github.com/Microsoft/BusinessPlatformApps/blob/dev/Source/Apps/Microsoft/Released/Microsoft-NewsTemplate/README.md",
         "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/"
       },
       {
@@ -65,7 +65,9 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Deploy",
         "filename": "$save('BingNewsTemplate.pbix')",
-        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(8))"
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(8))",
+        "downloadPbiText": "Open the Power BI report (.pbix file) to explore your data. If you have opened your report but are not seeing any data, check back in a few hours. It could take some time to find articles. Publish the report for others to see in your Power BI workspace. You will need Power BI Desktop to open this file - download it"
+
       }
     ],
 

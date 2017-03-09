@@ -52,9 +52,10 @@ namespace Microsoft.Deployment.Actions.Salesforce
 
             if (!connection.IsSuccessStatusCode)
             {
+                var result = connection.Content.ReadAsStringAsync().Result;
                 return new ActionResponse(ActionStatus.FailureExpected,
-                    JsonUtility.GetJObjectFromJsonString(connection.Content.ReadAsStringAsync().Result), null, DefaultErrorCodes.DefaultErrorCode,
-                    "Failed to get consent");
+                    JsonUtility.GetJObjectFromJsonString(result), null, DefaultErrorCodes.DefaultErrorCode,
+                    result);
             }
 
             var connectionData = JsonUtility.GetJObjectFromJsonString(connection.Content.ReadAsStringAsync().Result);
@@ -80,9 +81,10 @@ namespace Microsoft.Deployment.Actions.Salesforce
 
                         if (!sliceConnection.IsSuccessStatusCode)
                         {
+                            var result = connection.Content.ReadAsStringAsync().Result;
                             return new ActionResponse(ActionStatus.FailureExpected,
-                                JsonUtility.GetJObjectFromJsonString(connection.Content.ReadAsStringAsync().Result), null, DefaultErrorCodes.DefaultErrorCode,
-                                "Failed to get consent");
+                                JsonUtility.GetJObjectFromJsonString(result), null, DefaultErrorCodes.DefaultErrorCode,
+                                result);
                         }
 
                         var data = JsonUtility.GetJObjectFromJsonString(sliceConnection.Content.ReadAsStringAsync().Result);

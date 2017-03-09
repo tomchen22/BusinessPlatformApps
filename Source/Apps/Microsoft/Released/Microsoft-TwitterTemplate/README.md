@@ -651,7 +651,7 @@ The Python script inside the Azure Function is completely customizable. You can 
 
 Other examples could be to add [Cognitive APIs](https://azure.microsoft.com/en-us/services/cognitive-services/text-analytics/) to do things like topic or keyword extraction on top of the twitter data.
 
-#Estimated Costs
+### Estimated Costs
 
 Here is an estimate of the Azure costs (Logic App, Azure Function, Azure SQL, Azure ML) based on the number of tweets processed:
 
@@ -661,7 +661,7 @@ Processing 50K tweets a month will cost approximately $265
 
 Processing 100K tweets a month will cost approximately $335
 
-Please keep in mind these are **estimated costs and subject to change.** For a more detailed breakdown of the various components please refer to the [Azure calculator](https://azure.microsoft.com/en-us/pricing/calculator/) and select Logic App, Azure Function, Azure SQL and Congitive Services. You can tweak all the options to see what the costs will look like and what modifications may suit your needs best.
+Please keep in mind these are **estimated costs and subject to change.** For a more detailed breakdown of the various components please refer to the [Azure calculator](https://azure.microsoft.com/en-us/pricing/calculator/) and select Logic App, Azure Function, Azure SQL and Azure ML. You can tweak all the options to see what the costs will look like and what modifications may suit your needs best.
 
 The following defaults are set for you in the template (you can modify any of these after things get set up):
 

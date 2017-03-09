@@ -1,5 +1,7 @@
 ﻿import { QueryParameter } from '../base/query-parameter';
 
+import { AzureConnection } from '../enums/azure-connection';
+
 import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
@@ -65,6 +67,7 @@ export class AzureLogin extends ViewModelBase {
                             (this.subscriptionsList && this.subscriptionsList.length === 0)) {
                             this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
                         } else {
+                            this.selectedSubscriptionId = this.subscriptionsList[0].SubscriptionId;
                             this.showPricingConfirmation = true;
                             this.isValidated = true;
                             this.showValidation = true;
@@ -134,9 +137,4 @@ export class AzureLogin extends ViewModelBase {
 
         return await super.NavigatingNext();
     }
-}
-
-enum AzureConnection {
-    Microsoft,
-    Organizational
 }

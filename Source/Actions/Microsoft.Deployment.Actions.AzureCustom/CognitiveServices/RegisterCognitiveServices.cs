@@ -14,17 +14,25 @@ using Microsoft.Deployment.Common.Helpers;
 namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
 {
     [Export(typeof(IAction))]
-    public class ValidateCognitiveServices : BaseAction
+    public class RegisterCognitiveServices : BaseAction
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string azureToken = request.DataStore.GetJson("AzureToken")["access_token"].ToString();
             string subscription = request.DataStore.GetJson("SelectedSubscription")["SubscriptionId"].ToString();
             string resourceGroup = request.DataStore.GetValue("SelectedResourceGroup");
+
+            request.DataStore.AddToDataStore("requestparameters", "AzureProvider", "Microsoft.CognitiveServices");
             var location = request.DataStore.GetValue("CognitiveLocation");
-            string permissionsToCheck =  request.DataStore.GetValue("CognitiveServices");
-   
-            List<string> cognitiveServicesToCheck = permissionsToCheck.Split(',').Select(p=> p.Trim()).ToList();
+            string permissionsToCheck = request.DataStore.GetValue("CognitiveServices");
+
+            if (!(await RequestUtility.CallAction(request, "Microsoft-RegisterProviderBeta")).IsSuccess)
+            {
+                return new ActionResponse(ActionStatus.Failure, null,null, null, "Unable to register Cognitive Services");
+            }
+
+
+            List<string> cognitiveServicesToCheck = permissionsToCheck.Split(',').Select(p => p.Trim()).ToList();
             AzureHttpClient client = new AzureHttpClient(azureToken, subscription, resourceGroup);
 
             bool passPermissionCheck = true;
@@ -37,19 +45,19 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
 
             foreach (var permission in getPermissionsBody["settings"])
             {
-                if(cognitiveServicesToCheck.Contains(permission["kind"].ToString()) && permission["allowCreate"].ToString().ToLowerInvariant() == "false")
+                if (cognitiveServicesToCheck.Contains(permission["kind"].ToString()) && permission["allowCreate"].ToString().ToLowerInvariant() == "false")
                 {
-                    
+
                     passPermissionCheck = false;
                 }
 
-                if (cognitiveServicesToCheck.Contains(permission["kind"].ToString()))
+                if (cognitiveServicesToCheck.Contains(permission["kind"].ToString()) && permission["allowCreate"].ToString().ToLowerInvariant() == "true")
                 {
                     cognitiveServicesToCheck.Remove(permission["kind"].ToString());
                 }
             }
 
-           
+
 
             if (passPermissionCheck && cognitiveServicesToCheck.Count == 0)
             {
@@ -66,7 +74,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
 
             if (getOwnerBody["isAccountOwner"].ToString().ToLowerInvariant() == "false")
             {
-                return new ActionResponse(ActionStatus.Failure, getOwnerBody, null, null, $"Your account admin ({getOwnerBody["accountOwnerEmail"].ToString()}) needs to enable cognitive services for this subscription, the following cognitive services should be enabled in order to proceed- {permissionsToCheck}");
+                return new ActionResponse(ActionStatus.Failure, getOwnerBody, null, null, $"Your account admin ({getOwnerBody["accountOwnerEmail"].ToString()}) needs to enable cognitive services for this subscription. Ensure the account admin has at least contributor privileges to the Azure subscription. " +
+                                                                                          $"The following cognitive service should be enabled in order to proceed- {permissionsToCheck}");
             }
 
             // User does not have permission but we can enable permission for the user as they are the admin
@@ -85,11 +94,8 @@ namespace Microsoft.Deployment.Actions.AzureCustom.CognitiveServices
                JsonUtility.GetJObjectFromObject(obj).ToString());
             if (!setPermissionsResponse.IsSuccessStatusCode)
             {
-                return new ActionResponse(ActionStatus.Failure, await setPermissionsResponse.Content.ReadAsStringAsync(), null, null, $"Unable to assign permissions for the cogntivie services {permissionsToCheck}. Use the Azure Portal to enable these services");
+                return new ActionResponse(ActionStatus.Failure, await setPermissionsResponse.Content.ReadAsStringAsync(), null, null, $"Unable to assign permissions for the cogntivie services {permissionsToCheck}. Use the Azure Portal to enable these services. Ensure you have at least contributor privilige to the subscription");
             }
-
-
-
 
             return new ActionResponse(ActionStatus.Success);
         }

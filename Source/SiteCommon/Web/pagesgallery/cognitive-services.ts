@@ -9,7 +9,6 @@ export class CognitiveService extends ViewModelBase {
     constructor() {
         super();
         this.isValidated = true;
-
     }
 
     onKeyTypeChange() {

@@ -18,8 +18,7 @@
           "Full cloud solution with minimum set up and maintenance considerations",
           "Data pulled from Salesforce into an Azure SQL Database using Azure Data Factory",
           "Connect to Azure SQL and import data into Power BI"
-        ],
-        "showBack": "$(false)"
+        ]
       },
       {
         "name": "$SiteCommon$/pagesgallery/azure-login.html",
@@ -35,13 +34,14 @@
       },
       {
         "name": "$SiteCommon$/pagesgallery/sql-server.html",
-        "displayname": "SQL Target",
+        "displayname": "Target",
         "isAzureSql": true,
         "showAzureSql": false,
         "showNewSqlOption": true,
         "subtitle": "Set up a connection to SQL so we can bring in your Salesforce data.",
         "title": "Connect to your SQL Database",
-        "newSqlDatabase": "SalesforceDB"
+        "newSqlDatabase": "SalesforceDB",
+        "showGovAzure": true
       },
       {
         "name": "$SiteCommon$/pagesgallery/customize.html",
@@ -91,7 +91,7 @@
       },
       {
         "name": "Microsoft-SetConfigValueInSql",
-        "displayname": "Seting configuration",
+        "displayname": "Setting configuration",
         "SqlServerIndex": "0",
         "SqlConfigTable": "[smgt].[configuration]"
       },

@@ -1,5 +1,7 @@
 ﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
 
+import { AzureLocation } from '../classes/azure-location';
+
 import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
@@ -11,11 +13,13 @@ export class SqlServer extends ViewModelBase {
     auth: string = 'Windows';
     azureLocations: AzureLocation[] = [];
     azureSqlSuffix: string = '.database.windows.net';
+    azureGovtSuffix: string = '.database.usgovcloudapi.net';
     checkSqlVersion: boolean = false;
     database: string = null;
     databases: string[] = [];
     hideSqlAuth: boolean = false;
     isAzureSql: boolean = false;
+    isGovAzureSql: boolean = false;
     isWindowsAuth: boolean = true;
 
     newSqlDatabase: string = null;
@@ -23,6 +27,7 @@ export class SqlServer extends ViewModelBase {
     passwordConfirmation: string = '';
     showAllWriteableDatabases: boolean = true;
     showAzureSql: boolean = true;
+    showGovAzure: boolean = false;
 
     showDatabases: boolean = false;
     showNewSqlOption: boolean = false;
@@ -45,11 +50,13 @@ export class SqlServer extends ViewModelBase {
     }
 
     async OnLoaded() {
-        let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
-        if (locationsResponse.IsSuccess) {
-            this.azureLocations = locationsResponse.Body.value;
-            if (this.azureLocations && this.azureLocations.length > 5) {
-                this.sqlLocation = this.azureLocations[5].Name;
+        if (this.showNewSqlOption) {
+            let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
+            if (locationsResponse.IsSuccess) {
+                this.azureLocations = locationsResponse.Body.value;
+                if (this.azureLocations && this.azureLocations.length > 5) {
+                    this.sqlLocation = this.azureLocations[5].Name;
+                }
             }
         }
     }
@@ -171,7 +178,13 @@ export class SqlServer extends ViewModelBase {
 
     private getSqlServer(): string {
         let sqlServer: string = this.sqlServer;
-        if (this.isAzureSql && !sqlServer.includes(this.azureSqlSuffix)) {
+        if (this.isAzureSql &&
+            this.isGovAzureSql &&
+            !sqlServer.includes(this.azureSqlSuffix) &&
+            !sqlServer.includes(this.azureSqlSuffix)) {
+            sqlServer += this.azureGovtSuffix;
+        }
+        if (this.isAzureSql && !this.isGovAzureSql && !sqlServer.includes(this.azureSqlSuffix)) {
             sqlServer += this.azureSqlSuffix;
         }
         return sqlServer;
@@ -192,13 +205,4 @@ export class SqlServer extends ViewModelBase {
         let body = this.GetBody(false);
         return await this.MS.HttpService.executeAsync('Microsoft-ValidateAzureSqlExists', body);
     }
-}
-
-class AzureLocation {
-    DisplayName: string;
-    Id: string;
-    Latitude: string;
-    Longitude: string;
-    Name: string;
-    SubscriptionId: string;
 }

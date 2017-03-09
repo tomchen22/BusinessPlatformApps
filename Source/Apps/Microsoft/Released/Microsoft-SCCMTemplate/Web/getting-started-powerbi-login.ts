@@ -8,6 +8,7 @@ export class Gettingstarted extends ViewModelBase {
     architectureDiagram: string = '';
     downloadLink: string = '';
     isDownload: boolean = false;
+    upgrade: boolean = false;
     list1: string[] = [];
     list2: string[] = [];
     list1Title: string = this.MS.Translate.GETTING_STARTED_LIST_1;
@@ -52,11 +53,20 @@ export class Gettingstarted extends ViewModelBase {
     }
 
     async OnLoaded() {
+        
+        if (this.MS.HttpService.isOnPremise) {
+            let res = await this.MS.HttpService.executeAsync('Microsoft-CheckVersion');
+            if (res.Body === true) {
+                this.upgrade = res.Body;
+            }
+        }
+
         this.isAuthenticated = false;
         if (!this.isDownload) {
             this.isAuthenticated = true;
             this.isValidated = true;
         } else {
+
             let queryParam = this.MS.UtilityService.GetItem('queryUrl');
             if (queryParam) {
 
@@ -133,5 +143,9 @@ export class Gettingstarted extends ViewModelBase {
             this.downloadLink = this.registrationDownload;
             this.isValidated = true;
         }
+    }
+
+    OpenNewMSILink() {
+        window.open("https://bpsolutiontemplates.com/?name=Microsoft-SCCMTemplate");
     }
 }

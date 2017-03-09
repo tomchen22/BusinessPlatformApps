@@ -219,12 +219,13 @@
     <Compile Include="CDM\GetEnvironID.cs" />
     <Compile Include="CDM\GetObjID.cs" />
     <Compile Include="CDM\ProvisionCDM.cs" />
-    <Compile Include="CognitiveServices\ValidateCognitiveServices.cs" />
+    <Compile Include="CognitiveServices\RegisterCognitiveServices.cs" />
     <Compile Include="Common\GetEmail.cs" />
     <Compile Include="Common\CheckAzureWebsiteExists.cs" />
     <Compile Include="Common\DeployAzureFunctionConnectionStrings.cs" />
     <Compile Include="Common\DeployPrivateAssemblyToFunction.cs" />
     <Compile Include="Common\RegisterBapiService.cs" />
+    <Compile Include="Common\RegisterProviderBeta.cs" />
     <Compile Include="Common\RegisterProvider.cs" />
     <Compile Include="Common\UpdateBlobStorageConnector.cs" />
     <Compile Include="Common\CreateAzureStorageAccount.cs" />
