@@ -15,40 +15,14 @@ namespace Microsoft.Deployment.Common.Helpers
 {
     public class ScribeUtility
     {
-        private const string REPLICATION_SERVICES = "Replication Services (RS)";
         private const string URL_ENDPOINT = "https://api.scribesoft.com";
-        private const string URL_ORGANIZATIONS = "/v1/orgs";
-        private const string URL_PROVISION_CLOUD_AGENT = "/v1/orgs/{0}/agents/provision_cloud_agent";
-        private const string URL_SUBSCRIPTIONS = "/v1/orgs/{0}/subscriptions";
 
-        private RestClient rc;
-
-        public ScribeUtility(string username, string password)
+        public static RestClient Initialize(string username, string password)
         {
-            rc = new RestClient(URL_ENDPOINT, new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Concat(username, ":", password)))));
+            return new RestClient(URL_ENDPOINT, new AuthenticationHeaderValue("Basic", Convert.ToBase64String(Encoding.ASCII.GetBytes(string.Concat(username, ":", password)))));
         }
 
-        public async Task<List<ScribeOrganization>> GetOrganizations()
-        {
-            List<ScribeOrganization> orgs = JsonConvert.DeserializeObject<List<ScribeOrganization>>(await rc.Get(URL_ORGANIZATIONS));
-            List<ScribeOrganization> configuredOrgs = new List<ScribeOrganization>();
-
-            if (orgs != null && orgs.Count > 0)
-            {
-                Parallel.ForEach(orgs, async (org) =>
-                {
-                    if (await IsConfigured(org))
-                    {
-                        await ProvisionCloudAgent(org);
-                        configuredOrgs.Add(org);
-                    }
-                });
-            }
-
-            return configuredOrgs;
-        }
-
-        private string AesEncrypt(string apiToken, string message)
+        public string AesEncrypt(string apiToken, string message)
         {
             const string salt = "ac103458-fcb6-41d3-94r0-43d25b4f4ff4";
             byte[] saltBytes = Encoding.UTF8.GetBytes(salt);
@@ -96,44 +70,6 @@ namespace Microsoft.Deployment.Common.Helpers
             }
 
             return result;
-        }
-
-        private async Task<bool> IsConfigured(ScribeOrganization org)
-        {
-            bool isConfigured = false;
-
-            try
-            {
-                string response = await rc.Get(string.Format(CultureInfo.InvariantCulture, URL_SUBSCRIPTIONS, org.Id));
-                List<ScribeSubscription> subscriptions = JsonConvert.DeserializeObject<List<ScribeSubscription>>(response);
-
-                if (subscriptions != null)
-                {
-                    for (int i = 0; i < subscriptions.Count && !isConfigured; i++)
-                    {
-                        isConfigured = subscriptions[i].Name.Equals(REPLICATION_SERVICES, StringComparison.OrdinalIgnoreCase) &&
-                            DateTime.Now.CompareTo(Convert.ToDateTime(subscriptions[i].ExpirationDate)) < 0;
-                    }
-                }
-            }
-            catch
-            {
-                // Failed to get subscriptions - BPST service IP address wasn't safe listed
-            }
-
-            return isConfigured;
-        }
-
-        private async Task ProvisionCloudAgent(ScribeOrganization org)
-        {
-            try
-            {
-                await rc.Post(string.Format(CultureInfo.InvariantCulture, URL_PROVISION_CLOUD_AGENT, org.Id), string.Empty);
-            }
-            catch (Exception)
-            {
-                // Silently ignore exception if the cloud agent was already provisioned
-            }
         }
     }
 }

@@ -1,0 +1,73 @@
+﻿{
+  "Install": {
+    "Actions": [
+      {
+        "name": "Microsoft-DeploySQLScripts",
+        "displayname": "Deploy DB Scripts",
+        "SqlServerIndex": "0",
+        "SqlScriptsFolder": "../Microsoft-CRMSalesManagement/Database"
+      },
+      {
+        "name": "Microsoft-SetConfigValueInSql",
+        "displayname": "Deploy DB Configuration",
+        "SqlServerIndex": "0",
+        "SqlConfigTable": "[smgt].[configuration]"
+      },
+      {
+        "name": "Microsoft-GetDataPullStatus",
+        "displayname": "Waiting for data to appear in the destination",
+        "SqlServerIndex": 0,
+        "TargetSchema": "dbo",
+        "IsWaiting": true,
+        "FinishedActionName": "Microsoft-CrmGetProfileStatus"
+      }
+    ],
+    "Pages": [
+      {
+        "architectureDiagram": "",
+        "displayname": "Getting Started",
+        "list1": [
+          "December 2016 update for Microsoft Dynamics 365 (online) or a later instance",
+          "The target Azure Database must support the volume of data being replicated from your Dynamics 365 instance",
+          "Power BI Desktop (latest version)",
+          "Power BI Pro (to share the template with your organization)"
+        ],
+        "list2": [
+          "Full cloud solution with minimum set up and maintenance considerations",
+          "Data pulled from Dynamics 365 into a SQL Database using Scribe",
+          "Connect to Azure SQL and import data into Power BI"
+        ],
+        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "templateName": "Sales Management for Dynamics 365"
+      },
+      {
+        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "displayname": "Target",
+        "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
+        "title": "Connect to your SQL Database"
+      },
+      {
+        "displayname": "Customize",
+        "name": "$SiteCommon$/pagesgallery/customize.html",
+        "showCrmUrl": true,
+        "isValidated": true,
+        "showValidation": false,
+        "sourceApplication": "DynamicsCRM"
+      },
+      {
+        "displayname": "Progress",
+        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "filename": "$save('SalesManagementReport.pbix')",
+        "showCounts": true,
+        "finishedActionName": ""
+      }
+    ]
+  },
+  "MSI": {
+    "Guid": "2F142293-C7B5-4C57-8BBE-75F636688C9B"
+  },
+  "Uninstall": {
+    "Pages": [],
+    "Actions": []
+  }
+}

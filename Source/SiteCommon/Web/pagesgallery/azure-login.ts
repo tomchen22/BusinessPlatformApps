@@ -67,6 +67,7 @@ export class AzureLogin extends ViewModelBase {
                             (this.subscriptionsList && this.subscriptionsList.length === 0)) {
                             this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR;
                         } else {
+                            this.selectedSubscriptionId = this.subscriptionsList[0].SubscriptionId;
                             this.showPricingConfirmation = true;
                             this.isValidated = true;
                             this.showValidation = true;

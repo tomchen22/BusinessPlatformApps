@@ -56,11 +56,14 @@ export class MsCrmLogin extends AzureLogin {
                                     this.MS.ErrorService.message = this.MS.Translate.AZURE_LOGIN_SUBSCRIPTION_ERROR_CRM;
                                     this.showAzureTrial = false;
                                 } else {
+                                    this.selectedSubscriptionId = this.subscriptionsList[0].SubscriptionId;
                                     this.showPricingConfirmation = true;
                                     this.isValidated = true;
                                     this.showValidation = true;
                                 }
                             }
+                        } else {
+                            this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_AUTHORIZATION;
                         }
                     } else {
                         this.MS.ErrorService.message = this.MS.Translate.MSCRM_LOGIN_NO_ORGANIZATIONS;
@@ -70,7 +73,7 @@ export class MsCrmLogin extends AzureLogin {
             this.MS.UtilityService.RemoveItem('queryUrl');
         }
     }
-    
+
 
     async connect() {
         this.MS.DataStore.addToDataStore('oauthType', this.oauthType, DataStoreType.Public);
