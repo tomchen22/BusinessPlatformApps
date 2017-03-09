@@ -43,7 +43,7 @@ namespace Microsoft.Deployment.Actions.Salesforce
             var param = new AzureArmParameterGenerator();
             var sqlCreds = SqlUtility.GetSqlCredentialsFromConnectionString(connString);
             param.AddStringParam("dataFactoryName", dataFactoryName);
-            param.AddStringParam("sqlServerName", sqlCreds.Server.Split('.')[0]);
+            param.AddStringParam("sqlServerFullyQualifiedName", sqlCreds.Server);
             param.AddStringParam("sqlServerUsername", sqlCreds.Username);
             param.AddStringParam("targetDatabaseName", sqlCreds.Database);
             param.AddStringParam("salesforceUsername", sfUsername);
