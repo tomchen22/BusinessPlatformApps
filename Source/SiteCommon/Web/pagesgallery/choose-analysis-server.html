@@ -5,10 +5,14 @@
     <h4 class="st-subtitle">${MS.Translate.SSAS_SUBTITLE}</h4>
 
     <p class="st-text">${MS.Translate.CHOOSE_SSAS_DATA_STORAGE_MODE}</p>
-    <label><input type="radio" name="data-storage-mode" model.bind="true" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_AZURE_ANALYSIS_SERVICES}</label>
-    <label><input type="radio" name="data-storage-mode" model.bind="false" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_IMPORT_TO_PBI}</label>
+    <div class="st-text">
+        <label><input type="radio" name="data-storage-mode" model.bind="true" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_AZURE_ANALYSIS_SERVICES}</label>
+        <label><input type="radio" name="data-storage-mode" model.bind="false" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_IMPORT_TO_PBI}</label>
+    </div>
 
-    <p class="st-text" if.bind="showDescription">${MS.Translate.CHOOSE_SSAS_DESCRIPTION}</p>
-    <bpst-link a-description="${MS.Translate.CHOOSE_SSAS_LEARN_MORE}" a-link="${MS.Translate.CHOOSE_SSAS_LEARN_MORE_LINK}" a-link-text="${MS.Translate.COMMON_HERE}"></bpst-link>
-    <p class="st-text" if.bind="showDescription">${MS.Translate.CHOOSE_SSAS_DESCRIPTION2}</p>
+    <div class="st-text">
+        <p if.bind="showDescription">${MS.Translate.CHOOSE_SSAS_DESCRIPTION}</p>
+        <bpst-link a-description="${MS.Translate.CHOOSE_SSAS_LEARN_MORE}" a-link="${MS.Translate.CHOOSE_SSAS_LEARN_MORE_LINK}" a-link-text="${MS.Translate.COMMON_HERE}"></bpst-link>
+        <p if.bind="showDescription">${MS.Translate.CHOOSE_SSAS_DESCRIPTION2}</p>
+    </div>
 </template>
