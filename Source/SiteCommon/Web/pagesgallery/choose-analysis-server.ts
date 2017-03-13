@@ -2,6 +2,7 @@ import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Customize extends ViewModelBase {
+    showDescription: boolean = false;
     ssasEnabled: string = 'false';
 
     async OnLoaded() {
@@ -21,7 +22,7 @@ export class Customize extends ViewModelBase {
         } else {
             this.MS.DataStore.addToDataStore('ssasEnabled', 'true', DataStoreType.Public);
         }
-       
+
         return true;
     }
 }
