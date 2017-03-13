@@ -14,7 +14,7 @@
         "list1": [
           "System Center 2012 Configuration Manager R2 SP1 or later. Read access to System Center Configuration Manager database is required.",
           "Destination database: Azure SQL database or SQL Server database (SQL Server 2008 R2 SP3 or later).",
-          "For the machine where the installation is run, Microsoft .NET Framework 4.5 or later & PowerShell version 3.0 or later.",
+          "For the machine where the installation is run, Microsoft .NET Framework 4.5 or later & PowerShell version 5.0 or later.",
           "Power BI Desktop (latest version)",
           "Power BI Pro (to share the template with your organization)"
         ],
