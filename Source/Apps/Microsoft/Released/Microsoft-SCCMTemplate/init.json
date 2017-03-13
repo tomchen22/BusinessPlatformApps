@@ -88,7 +88,7 @@
         "useImpersonation": true
       },
 
-      // Adding azure actions
+      // Adding azure pages
       {
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "Use Analysis Services"
@@ -105,6 +105,7 @@
         "displayname": "SSAS",
         "skip": "$ds(ssasEnabled)"
       },
+      // Finish azure pages
 
       // Customize
       {
@@ -119,6 +120,8 @@
         "finishedActionName": "Microsoft-GetTaskStatus",
         "targetSchema": "pbist_sccm",
         "filename": "$save('SCCMSolutionTemplate.pbix')",
+        "ASDatabase": "Sccm",
+        "filenameSSAS": "SCCMSolutionTemplateAS.pbix",
         "showCounts": true,
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "sqlServerIndex": 1,
