@@ -3,7 +3,7 @@ import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Customize extends ViewModelBase {
     showDescription: boolean = false;
-    ssasEnabled: boolean = true;
+    ssasEnabled: string = 'true';
 
     async OnLoaded() {
         this.isValidated = true;
@@ -17,7 +17,7 @@ export class Customize extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-        this.MS.DataStore.addToDataStore('ssasEnabled', this.ssasEnabled ? 'false' : 'true', DataStoreType.Public);
+        this.MS.DataStore.addToDataStore('ssasEnabled', this.ssasEnabled === 'true' ? 'false' : 'true', DataStoreType.Public);
 
         return true;
     }

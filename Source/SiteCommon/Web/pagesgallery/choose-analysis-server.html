@@ -5,10 +5,10 @@
     <h4 class="st-subtitle">${MS.Translate.SSAS_SUBTITLE}</h4>
 
     <p class="st-text">${MS.Translate.CHOOSE_SSAS_DATA_STORAGE_MODE}</p>
-    <div class="st-text">
-        <label><input type="radio" name="data-storage-mode" model.bind="true" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_AZURE_ANALYSIS_SERVICES}</label>
-        <label><input type="radio" name="data-storage-mode" model.bind="false" checked.bind="ssasEnabled" />${MS.Translate.CHOOSE_SSAS_IMPORT_TO_PBI}</label>
-    </div>
+    <select class="btn btn-default dropdown-toggle st-input" value.bind="ssasEnabled">
+        <option value="true">${MS.Translate.CHOOSE_SSAS_AZURE_ANALYSIS_SERVICES}</option>
+        <option value="false">${MS.Translate.CHOOSE_SSAS_IMPORT_TO_PBI}</option>
+    </select>
 
     <div class="st-text">
         <p if.bind="showDescription">${MS.Translate.CHOOSE_SSAS_DESCRIPTION}</p>
