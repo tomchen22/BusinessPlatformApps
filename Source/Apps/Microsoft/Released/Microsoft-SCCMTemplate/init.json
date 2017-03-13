@@ -88,23 +88,23 @@
         "useImpersonation": true
       },
 
-      //// Adding azure actions
-      //{
-      //  "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
-      //  "displayname": "Use Analysis Services"
-      //},
+      // Adding azure actions
+      {
+        "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+        "displayname": "Use Analysis Services"
+      },
 
-      //{
-      //  "name": "$SiteCommon$/pagesgallery/azure-login.html",
-      //  "displayname": "Azure Login",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
+      {
+        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "displayname": "Azure Login",
+        "skip": "$ds(ssasEnabled)"
+      },
 
-      //{
-      //  "name": "$SiteCommon$/pagesgallery/ssas.html",
-      //  "displayname": "SSAS",
-      //  "skip": "$ds(ssasEnabled)"
-      //},
+      {
+        "name": "$SiteCommon$/pagesgallery/ssas.html",
+        "displayname": "SSAS",
+        "skip": "$ds(ssasEnabled)"
+      },
 
       // Customize
       {
@@ -120,6 +120,7 @@
         "targetSchema": "pbist_sccm",
         "filename": "$save('SCCMSolutionTemplate.pbix')",
         "showCounts": true,
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "sqlServerIndex": 1,
         "showEmailSubmission": false
       }
@@ -141,6 +142,48 @@
         "SqlConfigTable": "pbist_sccm.[configuration]",
         "useImpersonation": true
       },
+
+      // AS Set up
+      {
+        "name": "Microsoft-DeployAzureASModel",
+        "displayname": "Deploy AS Model",
+        "xmlaFilePath": "Service/SSAS/CreateSCCMDB_v2.xmla",
+        "SqlConnectionString": "$dsall(SqlConnectionString)[1]",
+        "ASDatabase": "Sccm",
+        "skip": "$ds(ssasEnabled)"
+      },
+
+      {
+        "name": "Microsoft-DeployAzureFunction",
+        "displayname": "Deploying scheduler",
+        "DeploymentName": "ASFunction",
+        "FunctionName": "$save('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
+        "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
+        "sku": "Standard",
+        "skip": "$ds(ssasEnabled)"
+      },
+
+      {
+        "name": "Microsoft-WaitForArmDeploymentStatus",
+        "displayname": "Waiting for scheduler",
+        "DeploymentName": "ASFunction",
+        "skip": "$ds(ssasEnabled)"
+      },
+
+      {
+        "name": "Microsoft-DeployAzureFunctionConnectionStrings",
+        "displayname": "Setting up scheduler",
+        "DeploymentName": "ASFunction",
+        "skip": "$ds(ssasEnabled)",
+        "AppSettingKeys": {
+          "connStringAS": "$ds(ASConnectionString)",
+          "connStringSql": "$dsall(SqlConnectionString)[1]",
+          "schema": "[pbist_sccm]",
+          "databaseAS": "Sccm"
+        }
+      },
+      // AS Finish set up
+
       {
         "name": "Microsoft-InstallSqlTools",
         "displayname": "Installing SQL Tools"
