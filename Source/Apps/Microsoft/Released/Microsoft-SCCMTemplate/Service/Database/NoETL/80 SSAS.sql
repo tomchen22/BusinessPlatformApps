@@ -228,7 +228,7 @@ BEGIN
 		EXECUTE @validateSchemaResult = pbist_sccm.sp_validate_schema;
 		if(@validateSchemaResult = 0)
 		BEGIN
-			SET @errorMessage = @errorMessage + 'Validate Scehma unsuccessfull. ';
+			SET @errorMessage = @errorMessage + 'Validate Schema unsuccessfull. ';
 			SET @checksPassed = 0;
 		END
 	END;

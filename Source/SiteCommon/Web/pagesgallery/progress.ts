@@ -44,9 +44,9 @@ export class ProgressViewModel extends ViewModelBase {
 
             if (!this.isUninstall) {
                 let body: any = {};
-                let ssas = this.MS.DataStore.getValue("ssasEnabled");
+                let ssas = this.MS.DataStore.getValue("ssasDisabled");
                 let response = null;
-                if (ssas && ssas === 'true') {
+                if (ssas && ssas === 'false') {
                     body.FileNameSSAS = this.filenameSSAS;
                     body.ASDatabase = this.asDatabase;
                     response = await this.MS.HttpService.executeAsync('Microsoft-WranglePBISSAS', body);

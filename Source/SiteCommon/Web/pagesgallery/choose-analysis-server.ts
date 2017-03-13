@@ -17,7 +17,7 @@ export class Customize extends ViewModelBase {
     }
 
     async NavigatingNext(): Promise<boolean> {
-        this.MS.DataStore.addToDataStore('ssasEnabled', this.ssasEnabled ? 'false' : 'true', DataStoreType.Public);
+        this.MS.DataStore.addToDataStore('ssasDisabled', this.ssasEnabled ? 'false' : 'true', DataStoreType.Public);
 
         return true;
     }

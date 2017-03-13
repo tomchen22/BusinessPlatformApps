@@ -41,6 +41,7 @@ export class Customize extends ViewModelBase {
             let response = await this.MS.HttpService.executeAsync('Microsoft-ValidateConnectionToAS', body);
             if (response.IsSuccess) {
                 this.isValidated = true;
+                this.MS.DataStore.addToDataStore("ASServerUrl", this.server, DataStoreType.Public);
                 return true;
             }
 
