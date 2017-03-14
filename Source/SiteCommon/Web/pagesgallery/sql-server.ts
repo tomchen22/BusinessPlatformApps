@@ -145,6 +145,8 @@ export class SqlServer extends ViewModelBase {
             }
         }
 
+        this.MS.DataStore.addToDataStore('azureSqlEnabled', this.isAzureSql || this.isGovAzureSql ? 'false' : 'true', DataStoreType.Public);
+
         return true;
     }
 

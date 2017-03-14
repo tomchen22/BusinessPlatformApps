@@ -92,7 +92,8 @@
       {
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
-        "showDescription": true
+        "showDescription": true,
+        "skip": "$dsall(azureSqlEnabled)[1]"
       },
 
       {
@@ -121,7 +122,7 @@
         "finishedActionName": "Microsoft-GetTaskStatus",
         "targetSchema": "pbist_sccm",
         "filename": "$save('SCCMSolutionTemplate.pbix')",
-        "ASDatabase": "Sccm",
+        "asDatabase": "Sccm",
         "filenameSSAS": "SCCMSolutionTemplateAS.pbix",
         "showCounts": true,
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",
