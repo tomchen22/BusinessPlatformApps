@@ -1,4 +1,5 @@
 ﻿<template>
+    <require from="../directives/bpst-link.html"></require>
     <h1 class="st-title">Connect to Azure Analysis Services</h1>
     <h4 class="st-subtitle"></h4>
 
@@ -20,27 +21,21 @@
         <p class="st-text">Azure Password</p>
         <input class="st-input" type="password" change.delegate="Invalidate()" disabled.bind="MS.HttpService.isServiceBusy" value.bind="password" />
 
-    </div>
-    <p class="st-float st-text" click.trigger="viewmodel.showAdvanced = !viewmodel.showAdvanced" if.bind="!MS.HttpService.isServiceBusy && ssasType == 'New'">
-            <span class="glyphicon pbi-glyph-circlering glyph-small st-toggle" if.bind="viewmodel.showAdvanced"></span>
-            <span class="st-toggle-collapse" if.bind="viewmodel.showAdvanced">-</span>
-            <span class="glyphicon pbi-glyph-addcircle glyph-small st-toggle" if.bind="!viewmodel.showAdvanced"></span>
-            <span>${MS.Translate.COMMON_ADVANCED_OPTIONAL}</span>
-        </p>
-        
-        <div class="st-float" if.bind="viewmodel.showAdvanced">
-            <p class="st-text">SSAS SKU Type</p>
-            <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" value.bind="sku">
-                <option value="D1">Developer</option>
-                <option value="S0">Standard 0</option>
-                <option value="S1">Standard 1</option>
-                <option value="S2">Standard 2</option>
-            </select>
+        <p class="st-text">AAS SKU</p>
+        <select class="btn btn-default dropdown-toggle st-input" disabled.bind="MS.HttpService.isServiceBusy" value.bind="sku">
+            <option value="D1">Developer</option>
+            <option value="S0">Standard 0</option>
+            <option value="S1">Standard 1</option>
+            <option value="S2">Standard 2</option>
+        </select>
+
+        <div class="st-text">
+            <bpst-link a-description="${MS.Translate.AZURE_ANALYSIS_PRICING}" a-link="${MS.Translate.AZURE_ANALYSIS_PRICING_LINK}" a-link-text="${MS.Translate.COMMON_HERE}"></bpst-link>
         </div>
-        
-        <p class="st-float">
-            <button class="primary" click.trigger="OnValidate()" if.bind="!MS.HttpService.isServiceBusy">${MS.Translate.COMMON_VALIDATE}</button>
-        </p>
-    
+    </div>
+    <p class="st-float">
+        <button class="primary" click.trigger="OnValidate()" if.bind="!MS.HttpService.isServiceBusy">${MS.Translate.COMMON_VALIDATE}</button>
+    </p>
+
 
 </template>
