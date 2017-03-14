@@ -49,15 +49,14 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$dsall(azureSqlDisabled)[0]"
       },
 
       {
         "name": "$SiteCommon$/pagesgallery/ssas.html",
         "displayname": "AAS Login",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-      // end azure pages
 
       {
         "name": "$SiteCommon$/pagesgallery/customize.html",
