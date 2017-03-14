@@ -69,15 +69,15 @@
         "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",
         "values": {
-          "Subscription": "$save(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
-          "ResourceGroup": "$save(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
-          "SqlServer": "$save(this.MS.DataStore.getValue(\"Server\"))",
-          "Database": "$save(this.MS.DataStore.getValue(\"Database\"))",
-          "FiscalStart": "$save(this.MS.DataStore.getValue(\"fiscalMonth\"))",
-          "Emails": "$save(this.MS.DataStore.getValue(\"EmailAddresses\"))",
-          "Actuals": "$save(this.MS.DataStore.getValue(\"actuals\"))",
-          "PipelineFrequency": "$save(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
-          "PipelineInterval": "$save(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))"
+          "Subscription": "$(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
+          "ResourceGroup": "$(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
+          "SqlServer": "$(this.MS.DataStore.getValue(\"Server\"))",
+          "Database": "$(this.MS.DataStore.getValue(\"Database\"))",
+          "Fiscal Start": "$(this.MS.DataStore.getValue(\"fiscalMonth\"))",
+          "Emails": "$(this.MS.DataStore.getValue(\"EmailAddresses\"))",
+          "Actuals": "$(this.MS.DataStore.getValue(\"actuals\"))",
+          "Future data load frequency": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
+          "Future data load interval": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))"
         }
       },
       {
