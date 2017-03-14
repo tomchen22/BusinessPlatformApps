@@ -72,8 +72,8 @@
         "values": {
           "Subscription": "$save(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
           "ResourceGroup": "$save(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
-          "SqlServer": "$save(this.MS.DataStore.getJson(\"SqlCredentials\").Server)",
-          "Database": "$save(this.MS.DataStore.getJson(\"SqlCredentials\").Database)",
+          "SqlServer": "$save(this.MS.DataStore.getValue(\"Server\"))",
+          "Database": "$save(this.MS.DataStore.getValue(\"Database\"))",
           "FiscalStart": "$save(this.MS.DataStore.getValue(\"fiscalMonth\"))",
           "Emails": "$save(this.MS.DataStore.getValue(\"EmailAddresses\"))",
           "Actuals": "$save(this.MS.DataStore.getValue(\"actuals\"))",
