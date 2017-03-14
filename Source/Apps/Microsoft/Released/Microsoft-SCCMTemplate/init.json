@@ -91,7 +91,7 @@
       // Adding azure pages
       {
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
-        "displayname": "Use Analysis Services",
+        "displayname": "AAS",
         "showDescription": true
       },
 
@@ -103,7 +103,7 @@
 
       {
         "name": "$SiteCommon$/pagesgallery/ssas.html",
-        "displayname": "SSAS",
+        "displayname": "AAS Login",
         "skip": "$ds(ssasDisabled)"
       },
       // Finish azure pages
