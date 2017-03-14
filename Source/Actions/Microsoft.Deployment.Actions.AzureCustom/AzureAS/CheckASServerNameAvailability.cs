@@ -39,7 +39,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureAS
                 var json = JsonUtility.GetJsonObjectFromJsonString(body);
                 if(json["nameAvailable"].ToString().ToLower() == "false")
                 {
-                    return new ActionResponse(ActionStatus.FailureExpected, json, null, null, json["reason"].ToString());
+                    return new ActionResponse(ActionStatus.FailureExpected, json, null, null, json["reason"].ToString() + ": " + json["message"].ToString());
                 }
 
                 if (json["nameAvailable"].ToString().ToLower() == "true")
