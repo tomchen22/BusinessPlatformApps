@@ -93,7 +93,7 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "skip": "$dsall(azureSqlEnabled)[1]"
+        "skip": "$ds(ssasDisabled)"
       },
 
       {
