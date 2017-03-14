@@ -62,13 +62,12 @@
         "displayname": "AAS",
         "showDescription": true,
         "ssasEnabled": "false",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$ds(azureSqlDisabled)"
       },
-
       {
         "name": "$SiteCommon$/pagesgallery/ssas.html",
         "displayname": "AAS Login",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
       // end azure pages
 
