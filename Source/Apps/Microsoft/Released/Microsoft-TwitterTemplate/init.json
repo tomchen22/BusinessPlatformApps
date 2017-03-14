@@ -84,7 +84,7 @@
       {
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Deploy",
-        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(18))",
+        "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "uniqueIdFunction": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "LogicAppHostingPlan": "$save(this.uniqueId)",
         "LogicAppName": "$save(this.uniqueId)",

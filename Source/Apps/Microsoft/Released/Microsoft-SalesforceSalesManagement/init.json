@@ -53,12 +53,6 @@
       },
 
       {
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
-        "displayname": "Azure Login",
-        "skip": "$ds(ssasDisabled)"
-      },
-
-      {
         "name": "$SiteCommon$/pagesgallery/ssas.html",
         "displayname": "AAS Login",
         "skip": "$ds(ssasDisabled)"
