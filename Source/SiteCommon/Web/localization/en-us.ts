@@ -212,6 +212,7 @@
     SQL_SERVER_USING_GOV_AZURE: `Government Azure`,
     SQL_SERVER_WINDOWS: `Windows Username: `,
     SQL_SERVER_WINDOWS_DESCRIPTION: `Must be in <domain>\<username> or <machinename>\<username> format`,
+    SSAS_INVALID_SERVER_NAME: `Server name must begin with a letter, be lowercase alphanumeric, and be between 3 and 63 characters in length.`,
     SSAS_SUBTITLE: `Would you like to use Azure Analysis Services? Azure Analysis Services scales beyond the Power BI 1GB compressed data limit and has better performance.`,
     SSAS_TITLE: `Scale with Azure Analysis Services`,
     TWITTER_CONNECT: 'Connect to Twitter',
