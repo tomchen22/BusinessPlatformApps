@@ -62,6 +62,9 @@ export class Customize extends ViewModelBase {
             if (!response.IsSuccess) {
                 return false;
             }
+
+            this.server = this.MS.DataStore.getValue("ASServerUrl");
+            this.ssasType = "Existing";
   
             // validate creds
             let body2: any = {};
