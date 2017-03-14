@@ -6,7 +6,7 @@ export class Customize extends ViewModelBase {
     server: string = '';
     email: string = '';
     password: string = '';
-    sku: string = 'D1';
+    sku: string = 'S0';
 
     Invalidate() {
         super.Invalidate();

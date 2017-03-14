@@ -186,7 +186,6 @@
         "finishedActionName": "Microsoft-CrmGetProfileStatus",
         "asDatabase": "d365",
         "filenameSSAS": "SalesManagementReportAS.pbix",
-        "targetSchema": "smgt",
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))"
       }
     ]

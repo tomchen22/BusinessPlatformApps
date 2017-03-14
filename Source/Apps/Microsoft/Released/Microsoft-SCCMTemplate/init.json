@@ -120,14 +120,14 @@
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "displayname": "Progress",
         "finishedActionName": "Microsoft-GetTaskStatus",
-        "targetSchema": "pbist_sccm",
         "filename": "$save('SCCMSolutionTemplate.pbix')",
         "asDatabase": "Sccm",
         "filenameSSAS": "SCCMSolutionTemplateAS.pbix",
         "showCounts": true,
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",
         "sqlServerIndex": 1,
-        "showEmailSubmission": false
+        "showEmailSubmission": false,
+        "targetSchema": "pbist_sccm"
       }
     ],
 
