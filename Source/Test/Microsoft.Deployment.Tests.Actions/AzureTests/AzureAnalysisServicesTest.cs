@@ -27,6 +27,17 @@ namespace Microsoft.Deployment.Tests.Actions.AzureTests
         }
 
         [TestMethod]
+        public async Task ErrorMessageValidation()
+        {
+            // Deploy AS Model based of the following pramaters
+            var dataStore = await TestManager.GetDataStore();
+
+            dataStore.AddToDataStore("ASServerName", "Test123");
+            var response = await TestManager.ExecuteActionAsync("Microsoft-CheckASServerNameAvailability", dataStore, "Microsoft-TwitterTemplate");
+            Assert.IsTrue(response.IsSuccess);
+        }
+
+        [TestMethod]
         public async Task DeployASModelTest()
         {
             // Deploy AS Model based of the following pramaters
