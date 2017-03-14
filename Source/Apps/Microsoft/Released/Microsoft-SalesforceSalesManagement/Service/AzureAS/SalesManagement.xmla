@@ -83,12 +83,6 @@
                 "dataCategory": "Country"
               },
               {
-                "name": "Annual Revenue",
-                "dataType": "double",
-                "sourceColumn": "Annual Revenue",
-                "sourceProviderType": "Numeric"
-              },
-              {
                 "type": "calculated",
                 "name": "Account Link",
                 "dataType": "string",
@@ -1160,9 +1154,9 @@
               },
               {
                 "name": "Source",
-                "dataType": "int64",
+                "dataType": "string",
                 "sourceColumn": "Source",
-                "sourceProviderType": "Integer"
+                "sourceProviderType": "WChar"
               },
               {
                 "type": "calculated",

@@ -94,6 +94,17 @@
         "displayname": "Customize"
       },
 
+      // Summary
+      {
+        "displayname": "Summary",
+        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "values": {
+          "Target Server": "$(this.MS.DataStore.getValue('Server'))",
+          "Target Database": "$(this.MS.DataStore.getValue('Database'))",
+          "Target Username": "$(this.MS.DataStore.getValue('Username'))"
+        }
+      },
+
       // Progress
       {
         "name": "$SiteCommon$/pagesgallery/progress.html",
