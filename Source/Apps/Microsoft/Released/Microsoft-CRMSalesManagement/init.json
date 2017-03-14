@@ -180,6 +180,16 @@
         "sourceApplication": "DynamicsCRM"
       },
       {
+        "displayname": "Summary",
+        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "values": {
+          "Organization URL": "$(this.MS.DataStore.getValue('OrganizationUrl'))",
+          "Target Server": "$(this.MS.DataStore.getValue('Server'))",
+          "Target Database": "$(this.MS.DataStore.getValue('Database'))",
+          "Target Username": "$(this.MS.DataStore.getValue('Username'))"
+        }
+      },
+      {
         "displayname": "Progress",
         "name": "$SiteCommon$/pagesgallery/progress.html",
         "filename": "$save('SalesManagementReport.pbix')",

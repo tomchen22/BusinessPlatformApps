@@ -23,10 +23,10 @@ gulp.task('build-TS', function () {
             plugins: ['transform-runtime'],
             presets: ['es2015']
         }))
-        .pipe(sourcemaps.write('.', {
-            includeContent: false,
-            sourceRoot: '/'
-        }))
+        //.pipe(sourcemaps.write('.', {
+        //    includeContent: false,
+        //    sourceRoot: '/'
+        //}))
         .pipe(gulp.dest('wwwroot/'));
 });
 
