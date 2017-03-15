@@ -15,7 +15,6 @@ export class Uninstall extends ViewModelBase {
     constructor() {
         super();
         this.showPrivacy = true;
-        this.showNext = true;
         this.isValidated = true;
     }
 

@@ -6,7 +6,7 @@ import { activationStrategy } from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
-    isValidated: boolean = false;
+    isValidated: boolean = true;
     isAuthenticated: boolean = true;
 
     showValidation: boolean = false;
@@ -16,9 +16,6 @@ export class ViewModelBase {
     MS: MainService;
 
     textNext: string = 'Next';
-
-    showBack: boolean = true;
-    showNext: boolean = true;
 
     onNext: any[] = [];
     onValidate: any[] = [];
@@ -33,7 +30,6 @@ export class ViewModelBase {
     constructor() {
         this.MS = (<any>window).MainService;
         this.viewmodel = this;
-        this.isValidated = true;
     }
 
     loadParameters() {
