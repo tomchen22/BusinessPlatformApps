@@ -11,7 +11,6 @@ export class WindowsAuth extends ViewModelBase {
 
     constructor() {
         super();
-        this.isValidated = false;
     }
 
     loginSelectionChanged() {
@@ -53,6 +52,8 @@ export class WindowsAuth extends ViewModelBase {
     }
 
     async OnLoaded(): Promise<void> {
+        this.isValidated = false;
+
         if (!this.username) {
             var response = await this.MS.HttpService.executeAsync('Microsoft-GetCurrentUserAndDomain', {});
             this.discoveredUsername = response.Body.Value;

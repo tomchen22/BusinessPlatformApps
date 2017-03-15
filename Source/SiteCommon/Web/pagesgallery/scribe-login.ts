@@ -12,7 +12,6 @@ export class ScribeLogin extends ViewModelBase {
 
     constructor() {
         super();
-        this.isValidated = false;
     }
 
     async NavigatingNext(): Promise<boolean> {
@@ -20,6 +19,10 @@ export class ScribeLogin extends ViewModelBase {
         this.MS.DataStore.addToDataStore('ScribeApiToken', selectedScribeOrganization.apiToken, DataStoreType.Private);
         this.MS.DataStore.addToDataStore('ScribeOrganizationId', selectedScribeOrganization.id, DataStoreType.Private);
         return true;
+    }
+
+    async OnLoaded() {
+        this.isValidated = false;
     }
 
     async OnValidate(): Promise<boolean> {

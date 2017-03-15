@@ -120,9 +120,9 @@
         "displayname": "Summary",
         "name": "$SiteCommon$/pagesgallery/summary.html",
         "values": {
-          "Target Server": "$(this.MS.DataStore.getValue('Server'))",
-          "Target Database": "$(this.MS.DataStore.getValue('Database'))",
-          "Target Username": "$(this.MS.DataStore.getValue('Username'))"
+          "Source Server": "$(this.MS.DataStore.getValue('Server'))",
+          "Source Database": "$(this.MS.DataStore.getValue('Database'))",
+          "Source Username": "$(this.MS.DataStore.getValue('Username'))"
         }
       },
 
