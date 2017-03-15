@@ -12,7 +12,6 @@ export class Twitter extends ViewModelBase {
 
     constructor() {
         super();
-        this.isValidated = false;
     }
 
     async OnLoaded(){

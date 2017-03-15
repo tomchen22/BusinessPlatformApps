@@ -8,6 +8,9 @@ export class TwitterHandles extends ViewModelBase {
 
     constructor() {
         super();
+    }
+
+    async OnLoaded {
         this.isValidated = true;
         this.showValidation = false;
     }

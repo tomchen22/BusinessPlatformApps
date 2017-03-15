@@ -7,7 +7,6 @@ export class SummaryViewModel extends ViewModelBase {
     summaryRows:EntryRow[];
     values: any = {};
 
-
     constructor() {
         super();
     }
@@ -32,5 +31,6 @@ export class SummaryViewModel extends ViewModelBase {
 
     async OnLoaded(): Promise<void> {
         this.loadSummaryObjectIntoRows();
+        this.isValidated = true;
     }
 }

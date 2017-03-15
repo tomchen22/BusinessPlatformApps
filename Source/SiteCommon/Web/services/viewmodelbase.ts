@@ -201,5 +201,6 @@ export class ViewModelBase {
 
     // Called when the view model is attached completely
     async OnLoaded() {
+        this.isValidated = true;
     }
 }
