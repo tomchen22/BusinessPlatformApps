@@ -49,15 +49,14 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$dsall(azureSqlDisabled)[0]"
       },
 
       {
         "name": "$SiteCommon$/pagesgallery/ssas.html",
         "displayname": "AAS Login",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-      // end azure pages
 
       {
         "name": "$SiteCommon$/pagesgallery/customize.html",
@@ -70,15 +69,15 @@
         "name": "$SiteCommon$/pagesgallery/summary.html",
         "displayname": "Summary",
         "values": {
-          "Subscription": "$save(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
-          "ResourceGroup": "$save(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
-          "SqlServer": "$save(this.MS.DataStore.getJson(\"SqlCredentials\").Server)",
-          "Database": "$save(this.MS.DataStore.getJson(\"SqlCredentials\").Database)",
-          "FiscalStart": "$save(this.MS.DataStore.getValue(\"fiscalMonth\"))",
-          "Emails": "$save(this.MS.DataStore.getValue(\"EmailAddresses\"))",
-          "Actuals": "$save(this.MS.DataStore.getValue(\"actuals\"))",
-          "PipelineFrequency": "$save(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
-          "PipelineInterval": "$save(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))"
+          "Subscription": "$(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
+          "ResourceGroup": "$(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
+          "SqlServer": "$(this.MS.DataStore.getValue(\"Server\"))",
+          "Database": "$(this.MS.DataStore.getValue(\"Database\"))",
+          "Fiscal Start": "$(this.MS.DataStore.getValue(\"fiscalMonth\"))",
+          "Emails": "$(this.MS.DataStore.getValue(\"EmailAddresses\"))",
+          "Actuals": "$(this.MS.DataStore.getValue(\"actuals\"))",
+          "Future data load frequency": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineFrequency\"))",
+          "Future data load interval": "$(this.MS.DataStore.getValue(\"postDeploymentPipelineInterval\"))"
         }
       },
       {
@@ -116,6 +115,18 @@
       },
 
       // AS Set up
+
+      {
+        "name": "Microsoft-SetConfigValueInSql",
+        "displayname": "Setting configuration",
+        "SqlServerIndex": "0",
+        "SqlConfigTable": "[smgt].[configuration]",
+        "SqlGroup": "SolutionTemplate",
+        "SqlSubGroup": "SSAS",
+        "SqlEntryName": "FunctionName",
+        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
+      },
+
       {
         "name": "Microsoft-DeployAzureASModel",
         "displayname": "Deploy AS Model",
@@ -151,7 +162,8 @@
           "connStringAS": "$ds(ASConnectionString)",
           "connStringSql": "$dsall(SqlConnectionString)[0]",
           "schema": "[smgt]",
-          "databaseAS": "salesforce"
+          "databaseAS": "salesforce",
+          "functionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
         }
       },
       // AS Finish set up
