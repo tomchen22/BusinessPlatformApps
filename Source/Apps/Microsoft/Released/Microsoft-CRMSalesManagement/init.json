@@ -16,6 +16,17 @@
 
       // AS Set up
       {
+        "name": "Microsoft-SetConfigValueInSql",
+        "displayname": "Deploy DB Configuration",
+        "SqlServerIndex": "0",
+        "SqlConfigTable": "[smgt].[configuration]",
+        "SqlGroup": "SolutionTemplate",
+        "SqlSubGroup": "SSAS",
+        "SqlEntryName": "FunctionName",
+        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
+      },
+
+      {
         "name": "Microsoft-DeployAzureASModel",
         "displayname": "Deploy AS Model",
         "xmlaFilePath": "Service/AzureAS/SalesManagement.xmla",
@@ -50,7 +61,8 @@
           "connStringAS": "$ds(ASConnectionString)",
           "connStringSql": "$dsall(SqlConnectionString)[0]",
           "schema": "[smgt]",
-          "databaseAS": "d365"
+          "databaseAS": "d365",
+          "functionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
         }
       },
       // AS Finish set up

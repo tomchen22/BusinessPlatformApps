@@ -202,6 +202,17 @@
 
       // AS Set up
       {
+        "name": "Microsoft-SetConfigValueInSql",
+        "displayname": "Deploying database configuration",
+        "SqlServerIndex": "0",
+        "SqlConfigTable": "[pbist_twitter].[configuration]",
+        "SqlGroup": "SolutionTemplate",
+        "SqlSubGroup": "SSAS",
+        "SqlEntryName": "FunctionName",
+        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
+      },
+
+      {
         "name": "Microsoft-DeployAzureASModel",
         "displayname": "Deploy AS Model",
         "xmlaFilePath": "Service/SSAS/twitter.xmla",
@@ -236,7 +247,8 @@
           "connStringAS": "$ds(ASConnectionString)",
           "connStringSql": "$dsall(SqlConnectionString)[0]",
           "schema": "[pbist_twitter]",
-          "databaseAS": "twitter"
+          "databaseAS": "twitter",
+          "functionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
         }
       }
       // AS Finish set up

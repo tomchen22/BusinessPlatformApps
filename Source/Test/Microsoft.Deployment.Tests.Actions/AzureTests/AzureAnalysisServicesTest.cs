@@ -44,28 +44,28 @@ namespace Microsoft.Deployment.Tests.Actions.AzureTests
             var dataStore = await TestManager.GetDataStore();
 
             // Deploy Twitter Database Scripts
-            dataStore.AddToDataStore("SqlConnectionString", SqlCreds.GetSqlPagePayload("ssas"));
+            dataStore.AddToDataStore("SqlConnectionString", SqlCreds.GetSqlPagePayload("modb1"));
             dataStore.AddToDataStore("SqlServerIndex", "0");
-            dataStore.AddToDataStore("SqlScriptsFolder", "Service/Database/LogicApps");
+            dataStore.AddToDataStore("SqlScriptsFolder", "Database/");
 
-            var response = await TestManager.ExecuteActionAsync("Microsoft-DeploySQLScripts", dataStore, "Microsoft-TwitterTemplate");
+            var response = await TestManager.ExecuteActionAsync("Microsoft-DeploySQLScripts", dataStore, "Microsoft-CRMSalesManagement");
             Assert.IsTrue(response.Status == ActionStatus.Success);
 
-            dataStore.AddToDataStore("ASServerName", "asservermo");
+            dataStore.AddToDataStore("ASServerName", "asservermo2345");
             dataStore.AddToDataStore("ASLocation", "westcentralus");
             dataStore.AddToDataStore("ASSku", "D1");
 
-            dataStore.AddToDataStore("ASAdminPassword", "Uthman77777");
-            dataStore.AddToDataStore("xmlaFilePath", "Service/SSAS/twitter.xmla");
+            dataStore.AddToDataStore("ASAdminPassword", "Uthman88888");
+            dataStore.AddToDataStore("xmlaFilePath", "Service/AzureAS/SalesManagement.xmla");
             dataStore.AddToDataStore("ASDatabase", "testdb");
 
-            response = await TestManager.ExecuteActionAsync("Microsoft-DeployAzureAnalysisServices", dataStore, "Microsoft-TwitterTemplate");
+            response = await TestManager.ExecuteActionAsync("Microsoft-DeployAzureAnalysisServices", dataStore, "Microsoft-CRMSalesManagement");
             Assert.IsTrue(response.IsSuccess);
 
-            response = await TestManager.ExecuteActionAsync("Microsoft-ValidateConnectionToAS", dataStore, "Microsoft-TwitterTemplate");
+            response = await TestManager.ExecuteActionAsync("Microsoft-ValidateConnectionToAS", dataStore, "Microsoft-CRMSalesManagement");
             Assert.IsTrue(response.IsSuccess);
 
-            response = await TestManager.ExecuteActionAsync("Microsoft-DeployAzureASModel", dataStore, "Microsoft-TwitterTemplate");
+            response = await TestManager.ExecuteActionAsync("Microsoft-DeployAzureASModel", dataStore, "Microsoft-CRMSalesManagement");
             Assert.IsTrue(response.IsSuccess);
 
         }
