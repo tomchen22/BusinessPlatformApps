@@ -10,7 +10,7 @@ Account Manager Reports
 6. [Revenue Pipeline] (#revenue-pipeline)
 7. [Closed Deals](#closed-deals)
 8. [Ongoing Engagement Analysis](#ongoing-engagement-analysis)
-9. [Customer] (#Customer)
+9. [Customer] (#customer)
 
 #The Account Manager Persona
 
