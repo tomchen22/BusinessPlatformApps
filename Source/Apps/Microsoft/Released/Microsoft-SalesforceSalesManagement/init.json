@@ -124,7 +124,8 @@
         "SqlGroup": "SolutionTemplate",
         "SqlSubGroup": "SSAS",
         "SqlEntryName": "FunctionName",
-        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
+        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
@@ -133,7 +134,7 @@
         "xmlaFilePath": "Service/AzureAS/SalesManagement.xmla",
         "SqlConnectionString": "$dsall(SqlConnectionString)[0]",
         "ASDatabase": "salesforce",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
@@ -143,21 +144,21 @@
         "FunctionName": "$save('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
         "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
         "sku": "Standard",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
         "name": "Microsoft-WaitForArmDeploymentStatus",
         "displayname": "Waiting for scheduler",
         "DeploymentName": "ASFunction",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
         "name": "Microsoft-DeployAzureFunctionConnectionStrings",
         "displayname": "Setting up scheduler",
         "DeploymentName": "ASFunction",
-        "skip": "$ds(ssasDisabled)",
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')",
         "AppSettingKeys": {
           "connStringAS": "$ds(ASConnectionString)",
           "connStringSql": "$dsall(SqlConnectionString)[0]",

@@ -16,10 +16,10 @@ namespace Microsoft.Deployment.Tests.Actions.AzureTests
         public async Task OlapTest()
         {
             // Deploy AS Model based of the following pramaters
-            var dataStore = new DataStore();
+            var dataStore = await TestHelpers.TestManager.GetDataStore(true);
 
-            dataStore.AddToDataStore("ASServerUrl", "asazure://westus.asazure.windows.net/ssastestserver2");
-            dataStore.AddToDataStore("ASAdmin", "");
+            dataStore.AddToDataStore("ASServerUrl", "asazure://westus.asazure.windows.net/motestdbsdasd");
+            dataStore.AddToDataStore("ASAdmin", "mohaali@microsoft.com");
             dataStore.AddToDataStore("ASAdminPassword", "3213");
 
             var response = await TestManager.ExecuteActionAsync("Microsoft-ValidateConnectionToAS", dataStore, "Microsoft-TwitterTemplate");
