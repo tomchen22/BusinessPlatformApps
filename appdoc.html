@@ -1,4 +1,4 @@
-﻿
+
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -38,7 +38,7 @@
     var githubApiUrl = githubApiUrlConst + getParameterByName('file');
     var pathToGithubSplit = getParameterByName('file').split('/');
     var pathToGithubJoined = pathToGithubSplit.splice(0,pathToGithubSplit.length-1).join("/");
-    var hardcodedPath = "https://raw.githubusercontent.com/Microsoft/BusinessPlatformApps/master/"
+    var hardcodedPath = "https://raw.githubusercontent.com/Microsoft/BusinessPlatformApps/dev/"
         
     $.ajax({
       url: githubApiUrl,
@@ -47,9 +47,9 @@
       {
         var encodedContent = response.data.content;
         var markdownText = Base64.decode(encodedContent);
-        markdownText = markdownText.split("![Image](").join("![Image](" + hardcodedPath  + pathToGithubJoined + "/")
+        //markdownText = markdownText.split("![Image](").join("![Image](" + hardcodedPath  + pathToGithubJoined + "/")
         var renderedHtml = marked(markdownText);
-
+        renderedHtml = renderedHtml.replace(/img src=\"/g, 'img src=\"' + hardcodedPath + pathToGithubJoined + "/");
         $(contentContainerId).html(renderedHtml);
       }
     });
