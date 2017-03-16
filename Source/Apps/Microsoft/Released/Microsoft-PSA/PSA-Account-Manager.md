@@ -6,11 +6,11 @@ Account Manager Reports
 2. [Report Pages](#report-pages)
 3. [Sales Funnel](#system-sales-funnel)
 4. [Actual Revenue](#actual-revenue)
-5. [Billed vs Unbilled Sales] (#billed-vs-unbilled-sales)
-6. [Revenue Pipeline] (#revenue-pipeline)
+5. [Billed vs Unbilled Sales](#billed-vs-unbilled-sales)
+6. [Revenue Pipeline](#revenue-pipeline)
 7. [Closed Deals](#closed-deals)
 8. [Ongoing Engagement Analysis](#ongoing-engagement-analysis)
-9. [Customer] (#customer)
+9. [Customer](#customer)
 
 #The Account Manager Persona
 
