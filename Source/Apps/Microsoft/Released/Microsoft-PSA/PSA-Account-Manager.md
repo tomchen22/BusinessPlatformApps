@@ -36,7 +36,7 @@ This report page displays which portion of revenue has been billed to the custom
 
 ![Image](Resources/media/image3.png)
 
-###Revenue Pipeline
+### Revenue Pipeline
 
 This report page gives an overview of the revenue structure for the winning quotes closed this quarter and gives insight into the portion of the revenue coming from products vs. services.
 
