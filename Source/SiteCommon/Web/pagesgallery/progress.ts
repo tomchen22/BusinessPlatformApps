@@ -28,7 +28,6 @@ export class ProgressViewModel extends ViewModelBase {
 
     constructor() {
         super();
-        this.showNext = false;
     }
 
     async OnLoaded() {

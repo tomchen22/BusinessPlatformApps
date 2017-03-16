@@ -16,8 +16,8 @@
           "Connect to Azure SQL and import data into Power BI"
         ],
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "subtitle": "Welcome to the brand and campaign management solution template.",
-        "templateName": "Brand and Campaign Management for Twitter"
+        "subtitle": "$translate(INIT_TWITTER_SUBTITLE)",
+        "templateName": "$translate(INIT_TWITTER_TEMPLATE_NAME)"
       },
       {
         "azureProviders": [
@@ -61,7 +61,6 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "ssasEnabled": "false",
         "skip": "$ds(azureSqlDisabled)"
       },
       {
@@ -209,7 +208,8 @@
         "SqlGroup": "SolutionTemplate",
         "SqlSubGroup": "SSAS",
         "SqlEntryName": "FunctionName",
-        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
+        "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
@@ -218,7 +218,7 @@
         "xmlaFilePath": "Service/SSAS/twitter.xmla",
         "SqlConnectionString": "$dsall(SqlConnectionString)[0]",
         "ASDatabase": "twitter",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
@@ -228,21 +228,21 @@
         "FunctionName": "$save('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
         "RepoUrl": "https://github.com/MohaaliMicrosoft/AnalysisServicesRefresh",
         "sku": "Standard",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
         "name": "Microsoft-WaitForArmDeploymentStatus",
         "displayname": "Waiting for scheduler",
         "DeploymentName": "ASFunction",
-        "skip": "$ds(ssasDisabled)"
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
 
       {
         "name": "Microsoft-DeployAzureFunctionConnectionStrings",
         "displayname": "Setting up scheduler",
         "DeploymentName": "ASFunction",
-        "skip": "$ds(ssasDisabled)",
+        "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')",
         "AppSettingKeys": {
           "connStringAS": "$ds(ASConnectionString)",
           "connStringSql": "$dsall(SqlConnectionString)[0]",

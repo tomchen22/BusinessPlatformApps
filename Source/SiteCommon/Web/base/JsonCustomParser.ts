@@ -1,20 +1,18 @@
-﻿import {DataStore, DataStoreType } from "../services/datastore";
-import {ActionResponse} from "../services/actionresponse";
-import {HttpService} from "../services/httpservice";
-import MainService from "../services/mainservice";
+﻿import {DataStore, DataStoreType } from '../services/datastore';
+import {ActionResponse} from '../services/actionresponse';
+import {HttpService} from '../services/httpservice';
+import MainService from '../services/mainservice';
 
 export class JsonCustomParser {
-
     public static MS: MainService;
 
-
-    public static async executeActions(actions: any[], obj: any, MS: MainService, thisRefrence: any): Promise<boolean> {
+    public static async executeActions(actions: any[], obj: any, MS: MainService, self: any): Promise<boolean> {
         for (let index in actions) {
             let actionToExecute: any = actions[index];
             let name: string = actionToExecute.name;
             if (name) {
                 var body = {};
-                this.loadVariables(body, actionToExecute, this.MS, thisRefrence);
+                this.loadVariables(body, actionToExecute, this.MS, self);
 
                 var response: ActionResponse = await this.MS.HttpService.executeAsync(name, body);
                 if (!response.IsSuccess) {
@@ -28,20 +26,20 @@ export class JsonCustomParser {
         return true;
     }
 
-    public static loadVariables(objToChange: any, obj: any, MS: MainService, thisRefrence: any) {
+    public static loadVariables(objToChange: any, obj: any, MS: MainService, self: any) {
         this.MS = MS;
         for (let propertyName in obj) {
             let val: string = obj[propertyName];
-            this.parseVariable(propertyName, val, objToChange, this.MS, thisRefrence);
+            this.parseVariable(propertyName, val, objToChange, this.MS, self);
 
             if (val && typeof (val) === 'object' && propertyName !== 'onNext' && propertyName !== 'onValidate') {
-                this.loadVariables(objToChange[propertyName], val, this.MS, thisRefrence);
+                this.loadVariables(objToChange[propertyName], val, this.MS, self);
             }
         }
     }
 
     // The code to go ahead and parse the Variable
-    public static parseVariable(key: string, value: string, obj: any, MS: MainService, thisRefrence: any) {
+    public static parseVariable(key: string, value: string, obj: any, MS: MainService, self: any) {
         let variable: Variable = this.getVariableType(value);
         let result: string = '';
         let command: string = '';
@@ -101,12 +99,12 @@ export class JsonCustomParser {
 
         variable.varType = VariableType.NotValid;
 
-        if (lowercaseValue[0] !== "$") {
+        if (lowercaseValue[0] !== '$') {
             variable.varType = VariableType.Static;
             variable.value = value;
         }
 
-        if (lowercaseValue.startsWith("$ds(") && lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith('$ds(') && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(4);
             value = value.trim();
             let index = value.indexOf(')');
@@ -120,7 +118,7 @@ export class JsonCustomParser {
             variable.value = dslookup;
         }
 
-        if (lowercaseValue.startsWith("$dsall(") && lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith('$dsall(') && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(7);
             value = value.trim();
             let index = value.indexOf(')');
@@ -135,31 +133,40 @@ export class JsonCustomParser {
             variable.varType = VariableType.DatasStoreGetAll;
         }
 
-        if (lowercaseValue.startsWith("$run(") && lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith('$run(') && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(5);
-            value = value.substring(0, value.lastIndexOf(")"));
+            value = value.substring(0, value.lastIndexOf(')'));
             value = value.trim();
-            value = value.replace('this.', 'thisRefrence.');
+            value = value.replace('this.', 'self.');
             variable.value = value;
             variable.varType = VariableType.Run;
         }
 
-        if (lowercaseValue.startsWith("$(") && lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith('$translate(') && lowercaseValue.indexOf(')') >= 0) {
+            value = value.substring(11);
+            value = value.substring(0, value.lastIndexOf(')'));
+            value = value.trim();
+            value = 'self.MS.Translate.' + value;
+            variable.value = value;
+            variable.varType = VariableType.Run;
+        }
+
+        if (lowercaseValue.startsWith('$(') && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(2);
-            value = value.substring(0, value.lastIndexOf(")"));
+            value = value.substring(0, value.lastIndexOf(')'));
             value = value.trim();
             value = this.extractVariable(value);
-            value = value.replace('this.', 'thisRefrence.');
+            value = value.replace('this.', 'self.');
             variable.value = value;
             variable.varType = VariableType.RunAndSave;
             variable.saveToDataStore = this.isPermenantEntryIntoDataStore(value);
         }
 
-        if (lowercaseValue.startsWith("$save(") && lowercaseValue.indexOf(')') >= 0) {
+        if (lowercaseValue.startsWith('$save(') && lowercaseValue.indexOf(')') >= 0) {
             value = value.substring(6);
-            value = value.substring(0, value.lastIndexOf(")"));
+            value = value.substring(0, value.lastIndexOf(')'));
             value = value.trim();
-            value = value.replace('this.', 'thisRefrence.');
+            value = value.replace('this.', 'self.');
             variable.value = value;
             variable.saveToDataStore = true;
             variable.varType = VariableType.RunAndSave;
