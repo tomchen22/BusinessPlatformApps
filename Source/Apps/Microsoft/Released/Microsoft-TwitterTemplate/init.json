@@ -61,7 +61,6 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "ssasEnabled": "false",
         "skip": "$ds(azureSqlDisabled)"
       },
       {
