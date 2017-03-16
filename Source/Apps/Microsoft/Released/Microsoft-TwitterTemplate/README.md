@@ -6,11 +6,11 @@ Brand & Campaign Management Solution Template Documentation
 2. [Architecture](#architecture)
 3. [System Requirements](#system-requirements)
 4. [How to Install](#how-to-install)
-5. [Architecture Deep Dive] (#architecture-deep-dive)
-6. [Model Schema] (#model-schema)
+5. [Architecture Deep Dive](#architecture-deep-dive)
+6. [Model Schema](#model-schema)
 7. [Reports Walkthrough](#report-walkthrough)
 8. [Customizations](#customizations)
-9. [Estimated Costs] (#estimated-costs)
+9. [Estimated Costs](#estimated-costs)
 
 
 
