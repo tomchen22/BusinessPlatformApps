@@ -22,40 +22,40 @@ The main responsibility of the account manager in a professional services compan
 
 This report page gives visual overview of the potential sales revenue by different stages (initial opportunity estimate, quoted amount, contracted amount).
 
-![Image](Resources/image1.png)
+![Image](Resources/Images/image1.png)
 
 ### Actual Revenue
 
 This report page gives an overview of current month revenue numbers and allows for comparison with the previous months.
 
-![Image](Resources/image2.png)
+![Image](Resources/Images/image2.png)
 
 ### Billed vs Unbilled Sales
 
 This report page displays which portion of revenue has been billed to the customer this month and how much is remaining to be billed.
 
-![Image](Resources/image3.png)
+![Image](Resources/Images/image3.png)
 
 ### Revenue Pipeline
 
 This report page gives an overview of the revenue structure for the winning quotes closed this quarter and gives insight into the portion of the revenue coming from products vs. services.
 
-![Image](Resources/image4.png)
+![Image](Resources/Images/image4.png)
 
 ### Closed Deals
 
 This report page gives an overview of closed deals and helps answer questions about the number of days it takes to close
 
-![Image](Resources/image5.png)
+![Image](Resources/Images/image5.png)
 
 ### Ongoing Engagement Analysis
 
 This report page shows details of ongoing customer engagements, how each contract is performing, and the actual and estimated revenue numbers from the deals.
 
-![Image](Resources/image6.png)
+![Image](Resources/Images/image6.png)
 
 ### Customer
 
 On this report page, the account manager can find a detailed overview of each customer. This page can help answer the questions about the active contracts and quotes for the customer along with which portion of sales has been billed and which one remains to be billed.
 
-![Image](Resources/image7.png)
+![Image](Resources/Images/image7.png)
