@@ -42,14 +42,20 @@ This report page gives an overview of the revenue structure for the winning quot
 
 ![Image](Resources/image4.png)
 
+### Closed Deals
+
+This report page gives an overview of closed deals and helps answer questions about the number of days it takes to close
+
+![Image](Resources/image5.png)
+
 ### Ongoing Engagement Analysis
 
 This report page shows details of ongoing customer engagements, how each contract is performing, and the actual and estimated revenue numbers from the deals.
 
-![Image](Resources/image5.png)
+![Image](Resources/image6.png)
 
 ### Customer
 
 On this report page, the account manager can find a detailed overview of each customer. This page can help answer the questions about the active contracts and quotes for the customer along with which portion of sales has been billed and which one remains to be billed.
 
-![Image](Resources/image6.png)
+![Image](Resources/image7.png)
