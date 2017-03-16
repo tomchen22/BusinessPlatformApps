@@ -44,10 +44,26 @@ feedback on which ones we should prioritize next.
 
 
 # Setting up your machine <a name="devbuild"></a>
--- Visual Studio 2015 Update 3 required
--- Node JS Tools
--- Set Node to the path variable
--- Install git for windows
+Prerequisites
+
+•	Visual Studio 2015 Update 3 or later
+•	Microsoft .NET Core 1.0.1 or later
+•	Git
+•	Node.js
+•	GitHub account
+
+Setup
+
+1.	Clone the BPST repository (Team Explorer → Connect)
+a.	This step might pop up with an authentication dialog; in case it does, open this page
+b.	Click “Generate New Token”
+c.	Check all the boxes and then click “Generate Token”
+d.	The Visual Studio dialog will probably have both a username and password field; paste the token inside the username field and leave the password field blank
+2.	Open the DeploymentAppService.sln (Accessible by clicking the button that looks like a House in Team Explorer)
+3.	Wait for the packages to finish restoring (the first time you open the solution this can take 1-2 minutes); “Dependencies” will look like this when it’s done:
+ 
+4.	Build the solution (be warned that if you Clean or Rebuild, it will try to grab the latest nuget packages for itself which will add 1-2 minutes)
+
 
 ## Project structure
 (Coming soon)
