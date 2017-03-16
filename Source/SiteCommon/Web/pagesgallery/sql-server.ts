@@ -46,10 +46,11 @@ export class SqlServer extends ViewModelBase {
 
     constructor() {
         super();
-        this.isValidated = false;
     }
 
     async OnLoaded() {
+        this.isValidated = false;
+
         if (this.showNewSqlOption) {
             let locationsResponse: ActionResponse = await this.MS.HttpService.executeAsync('Microsoft-GetLocations', {});
             if (locationsResponse.IsSuccess) {

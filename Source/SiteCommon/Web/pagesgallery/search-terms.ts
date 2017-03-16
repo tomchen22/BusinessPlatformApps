@@ -6,6 +6,9 @@ export class SearchTerms extends ViewModelBase {
 
     constructor() {
         super();
+    }
+
+    async OnLoaded() {
         this.isValidated = false;
     }
 

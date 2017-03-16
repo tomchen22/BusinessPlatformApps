@@ -16,8 +16,8 @@
           "Connect to Azure SQL and import data into Power BI"
         ],
         "name": "$SiteCommon$/pagesgallery/getting-started.html",
-        "subtitle": "Welcome to the brand and campaign management solution template.",
-        "templateName": "Brand and Campaign Management for Twitter"
+        "subtitle": "$translate(INIT_TWITTER_SUBTITLE)",
+        "templateName": "$translate(INIT_TWITTER_TEMPLATE_NAME)"
       },
       {
         "azureProviders": [
@@ -61,7 +61,6 @@
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
-        "ssasEnabled": "false",
         "skip": "$ds(azureSqlDisabled)"
       },
       {

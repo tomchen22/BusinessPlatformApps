@@ -8,8 +8,8 @@ export class Customize extends ViewModelBase {
     emails: string = '';
     emailRegex: RegExp;
     isEmailValidated: boolean = false;
-    pipelineFrequency: string = "Week";
-    pipelineInterval: number = 1;
+    pipelineFrequency: string = 'Week';
+    pipelineInterval: string = '1';
     recurrent: string = 'Never';
     showEmails: boolean = false;
     showCrmUrl: boolean = false;
@@ -28,7 +28,7 @@ export class Customize extends ViewModelBase {
             this.isValidated = true;
         }
 
-        if (this.sourceApplication === "Salesforce" && this.emails != '') {
+        if (this.sourceApplication === 'Salesforce' && this.emails != '') {
             this.isValidated = false;
             this.showValidation = false;
         }
@@ -45,7 +45,7 @@ export class Customize extends ViewModelBase {
                 if (!this.emailRegex.test(mails[mail])) {
                     this.isValidated = false;
                     this.showValidation = false;
-                    this.MS.ErrorService.message = "Validation failed. The email address " + mails[mail] + " is not valid.";
+                    this.MS.ErrorService.message = 'Validation failed. The email address ' + mails[mail] + ' is not valid.';
                     return false;
                 }
             }
@@ -59,27 +59,27 @@ export class Customize extends ViewModelBase {
 
     async NavigatingNext(): Promise<boolean> {
 
-        if (this.sourceApplication === "Salesforce") {
+        if (this.sourceApplication === 'Salesforce') {
             switch (this.recurrent) {
-                case "Every 15 minutes":
-                    this.pipelineFrequency = "Minute";
-                    this.pipelineInterval = 15;
+                case 'Every 15 minutes':
+                    this.pipelineFrequency = 'Minute';
+                    this.pipelineInterval = '15';
                     break;
-                case "Every 30 minutes":
-                    this.pipelineFrequency = "Minute";
-                    this.pipelineInterval = 30;
+                case 'Every 30 minutes':
+                    this.pipelineFrequency = 'Minute';
+                    this.pipelineInterval = '30';
                     break;
-                case "Hourly":
-                    this.pipelineFrequency = "Hour";
-                    this.pipelineInterval = 1;
+                case 'Hourly':
+                    this.pipelineFrequency = 'Hour';
+                    this.pipelineInterval = '1';
                     break;
-                case "Daily":
-                    this.pipelineFrequency = "Day";
-                    this.pipelineInterval = 1;
+                case 'Daily':
+                    this.pipelineFrequency = 'Day';
+                    this.pipelineInterval = '1';
                     break;
-                case "Never":
-                    this.pipelineFrequency = "Week";
-                    this.pipelineInterval = 1;
+                case 'Never':
+                    this.pipelineFrequency = 'Never';
+                    this.pipelineInterval = 'Never';
                     break;
                 default:
                     break;
@@ -89,21 +89,21 @@ export class Customize extends ViewModelBase {
             this.MS.DataStore.addToDataStore('pipelineStart', null, DataStoreType.Public);
             this.MS.DataStore.addToDataStore('pipelineEnd', null, DataStoreType.Public);
             this.MS.DataStore.addToDataStore('pipelineType', null, DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('postDeploymentPipelineFrequency', this.pipelineFrequency, DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('postDeploymentPipelineInterval', this.pipelineInterval.toString(), DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('postDeploymentPipelineFrequency', this.pipelineFrequency === 'Never' ? 'Week' : this.pipelineFrequency, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('postDeploymentPipelineInterval', this.pipelineInterval === 'Never' ? '1' : this.pipelineInterval, DataStoreType.Public);
 
-            if (this.recurrent == "Never") {
-                this.MS.DataStore.addToDataStore("historicalOnly", "true", DataStoreType.Public);
+            if (this.recurrent == 'Never') {
+                this.MS.DataStore.addToDataStore('historicalOnly', 'true', DataStoreType.Public);
             }
             else {
-                this.MS.DataStore.addToDataStore("historicalOnly", "false", DataStoreType.Public);
+                this.MS.DataStore.addToDataStore('historicalOnly', 'false', DataStoreType.Public);
             }
 
             this.MS.DataStore.addToDataStore('pipelineFrequency', 'Month', DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('pipelineInterval', 1, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('pipelineInterval', '1', DataStoreType.Public);
             this.MS.DataStore.addToDataStore('pipelineStart', '', DataStoreType.Public);
             this.MS.DataStore.addToDataStore('pipelineEnd', '', DataStoreType.Public);
-            this.MS.DataStore.addToDataStore('pipelineType', "PreDeployment", DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('pipelineType', 'PreDeployment', DataStoreType.Public);
 
             let url = this.MS.DataStore.getValue('SalesforceBaseUrl');
 
