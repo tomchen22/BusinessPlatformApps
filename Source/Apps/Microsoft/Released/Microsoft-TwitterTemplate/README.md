@@ -14,7 +14,7 @@ Brand & Campaign Management Solution Template Documentation
 
 
 
-###Introduction
+#Introduction
 
 The Twitter template spins up a complete brand/campaign solution. It stands up an end-to-end solution that pulls data from Twitter, enriches the data using machine learning and stores it in Azure SQL. Users can then use pre-built Power BI reports that leverage Microsoft research technology to start analyzing their Twitter data and augmenting it with additional data sources.
 
@@ -30,7 +30,7 @@ The template lets you do things like:
 
 The following document provides a walkthrough of the architecture, a deep dive into every component, comments on customizability as well as information on additional topics like pricing. For any questions not covered in this document, please contact the team at <PBISolnTemplates@microsoft.com>
 
-###Architecture
+#Architecture
 
 ![Image](Resources/media/image46.png)
 
@@ -46,7 +46,7 @@ The flow of the Twitter solution template is as follows:
 
 -   Power BI imports data into it from Azure SQL and renders pre-defined reports
 
-###System Requirements
+#System Requirements
 
 Setting up the template requires the following:
 
