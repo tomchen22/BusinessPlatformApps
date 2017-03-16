@@ -16,15 +16,16 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         private string baseURL = Constants.Slot3;
         private RemoteWebDriver driver;
-        //private string browser;
 
         [TestMethod]
         
-        public void Given_CorrectInformation_When_RunTwitter_TheSuccess()
+        public void Given_CorrectInformation_When_RunTwitter_ThenSuccess()
         {
             Given_CorrectCredentials_When_AzureAuth_Then_Success();
             HelperMethods.ClickNextButton();
             Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully();
+            HelperMethods.ClickNextButton();
+            HelperMethods.NoAnalysisServices();
             HelperMethods.ClickNextButton();
             Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
             Given_CorrectSearchTerms_When_Validating_Then_Success();
@@ -55,7 +56,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             string server = Credential.Instance.Sql.Server;
             string username = Credential.Instance.Sql.Username;
             string password = Credential.Instance.Sql.Password;
-            string database = Credential.Instance.Sql.Database;
+            string database = Credential.Instance.Sql.TwitterDatabase;
 
             //HelperMethods.OpenWebBrowserOnPage("source");
             HelperMethods.SqlPageExistingDatabase(server, username, password);
@@ -132,22 +133,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.ClickButton("Run");
 
             HelperMethods.CheckDeploymentStatus();
-        }
-
-        [TestMethod]
-        [Ignore]
-        public void TestAzurePageFlowCredentials()
-        {
-            var url = this.baseURL + "#/azure";
-            driver = new ChromeDriver();
-            driver.Manage().Window.Maximize();
-            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(30);
-            driver.Navigate().GoToUrl(url);
-            var elements = driver.FindElementByTagName("Button");
-            elements.Click();
-
-            //string username = "";
-            //string password = "";
         }
 
         [TestCleanup()]

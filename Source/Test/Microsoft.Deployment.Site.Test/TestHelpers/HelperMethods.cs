@@ -133,6 +133,19 @@ namespace Microsoft.Deployment.Site.Web.Tests
             ClickValidateButton();
         }
 
+        public static void NoAnalysisServices()
+        {
+            var button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+            while(button.Enabled!=true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+                button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+            }
+
+            button.SendKeys("No");
+        }
+
         public static void SelectSqlDatabase(string databaseName)
         {
             var database = driver.FindElementsByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']")
