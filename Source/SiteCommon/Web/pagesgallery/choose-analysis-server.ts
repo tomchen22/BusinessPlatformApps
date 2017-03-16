@@ -3,7 +3,7 @@ import { ViewModelBase } from '../services/viewmodelbase';
 
 export class Customize extends ViewModelBase {
     showDescription: boolean = false;
-    ssasEnabled: string = 'true';
+    ssasEnabled: string = 'false';
    
     async OnLoaded() {
         this.isValidated = true;

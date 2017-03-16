@@ -228,7 +228,7 @@
     SQL_SERVER_WINDOWS_DESCRIPTION: `Must be in <domain>\<username> or <machinename>\<username> format`,
     SSAS_INVALID_SERVER_NAME: `Server name must begin with a letter, be lowercase alphanumeric, and be between 3 and 63 characters in length.`,
     SSAS_SUBTITLE: `Would you like to use Azure Analysis Services? Azure Analysis Services scales beyond the Power BI 1GB compressed data limit and has better performance.`,
-    SSAS_TITLE: `Scale with Azure Analysis Services`,
+    SSAS_TITLE: `Scale with Azure Analysis Services (preview)`,
     TWITTER_CONNECT: 'Connect to Twitter',
     TWITTER_HANDLES_OPTIONAL: `Twitter Handles (optional):`,
     TWITTER_HANDLES_SUBTITLE: `We can enrich tweets with the tweet direction. If you would like to track whether a tweet was tweeted to or from a specific account, please explicitly list the Twitter Handles you are interested in.`,
