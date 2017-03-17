@@ -18,8 +18,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
         private RemoteWebDriver driver;
 
         [TestMethod]
-        
-        public void Given_CorrectInformation_When_RunTwitter_ThenSuccess()
+        public void Given_CorrectInformation_And_AS_When_RunTwitter_ThenSuccess()
         {
             Given_CorrectCredentials_When_AzureAuth_Then_Success();
             HelperMethods.ClickNextButton();
@@ -30,11 +29,42 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.ClickNextButton();
             Given_CorrectHandles_When_Validating_Then_Success();
             HelperMethods.ClickNextButton();
-            //HelperMethods.NoAnalysisServices();
             HelperMethods.NewAnalysisServices("twitteraas", Credential.Instance.ServiceAccount.Username, Credential.Instance.ServiceAccount.Password);
             HelperMethods.ClickButton("Next");
             HelperMethods.ClickButton("Run");
             HelperMethods.CheckDeploymentStatus();
+
+            HelperMethods.CleanSubscription(
+                Credential.Instance.ServiceAccount.Username,
+                Credential.Instance.ServiceAccount.Password,
+                Credential.Instance.ServiceAccount.TenantId,
+                Credential.Instance.ServiceAccount.ClientId,
+                Credential.Instance.ServiceAccount.SubscriptionId);
+        }
+
+        [TestMethod]
+        public void Given_CorrectInformation_And_No_AS_When_RunTwitterWithoutAS_ThenSuccess()
+        {
+            Given_CorrectCredentials_When_AzureAuth_Then_Success();
+            HelperMethods.ClickNextButton();
+            Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully();
+            HelperMethods.ClickNextButton();
+            Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
+            Given_CorrectSearchTerms_When_Validating_Then_Success();
+            HelperMethods.ClickNextButton();
+            Given_CorrectHandles_When_Validating_Then_Success();
+            HelperMethods.ClickNextButton();
+            HelperMethods.NoAnalysisServices();
+            HelperMethods.ClickButton("Next");
+            HelperMethods.ClickButton("Run");
+            HelperMethods.CheckDeploymentStatus();
+
+            HelperMethods.CleanSubscription(
+                Credential.Instance.ServiceAccount.Username,
+                Credential.Instance.ServiceAccount.Password,
+                Credential.Instance.ServiceAccount.TenantId,
+                Credential.Instance.ServiceAccount.ClientId,
+                Credential.Instance.ServiceAccount.SubscriptionId);
         }
 
         [TestMethod]

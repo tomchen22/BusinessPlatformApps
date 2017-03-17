@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using Hyak.Common;
+using Microsoft.Azure;
 using Microsoft.Azure.Management.Resources;
 using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Remote;
 
 namespace Microsoft.Deployment.Site.Web.Tests
@@ -18,6 +14,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     {
         public static string baseURL;
         public static RemoteWebDriver driver;
+        public static string resourceGroupName;
 
         public static void OpenWebBrowserOnPage(string page)
         {
@@ -90,6 +87,17 @@ namespace Microsoft.Deployment.Site.Web.Tests
                 azurePage = driver.FindElementsByClassName("st-text").FirstOrDefault(e => e.Text == "Azure Subscription:");
                 if (azurePage != null)
                 {
+                    var advanced = driver.FindElementByCssSelector("p[class='st-float st-text au-target']");
+                    advanced.Click();
+
+                    var resourceGroup = driver.FindElementsByCssSelector("input[class='st-input au-target']")
+                                        .First(e => e.GetAttribute("value.bind").Contains("selectedResourceGroup"));
+
+                    resourceGroupName = Guid.NewGuid().ToString().Replace("-","");
+
+                    resourceGroup.Clear();
+                    resourceGroup.SendKeys(resourceGroupName);
+
                     var option = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
 
                     if (option != null && option.Enabled == true)
@@ -229,7 +237,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
 
             int i = 0;
 
-            while (progressText == null && i < 10)
+            while (progressText == null && i < 30)
             {
                 progressText = driver.FindElementsByCssSelector("span[class='semiboldFont st-progress-text']")
                                      .FirstOrDefault(e => e.Text == "All done! You can now download your Power BI report and start exploring your data.");
@@ -241,6 +249,11 @@ namespace Microsoft.Deployment.Site.Web.Tests
                     Assert.Fail(error.Text);
                 }
 
+                if(!string.IsNullOrEmpty(progressText.Text))
+                {
+                    break;
+                }
+
                 i++;
                 Thread.Sleep(new TimeSpan(0, 0, 10));
             }
@@ -248,14 +261,18 @@ namespace Microsoft.Deployment.Site.Web.Tests
             Assert.IsTrue(progressText.Text == "All done! You can now download your Power BI report and start exploring your data.");
         }
 
-        public static void CleanSubscription(string username, string password, string tenantId, string objectId)
+        public static void CleanSubscription(string username, string password, string tenantId, string clientId, string subscriptionId)
         {
             var creds = new UserPasswordCredential(username, password);
 
-            var cxt = new AuthenticationContext($"https://login.windows.net/{tenantId}/oauth2/authorize");
+            var ctx = new AuthenticationContext($"https://login.windows.net/{tenantId}/oauth2/authorize");
 
-            var token = cxt.AcquireTokenAsync("https://management.azure.com/", objectId, creds).Result;
+            var token = ctx.AcquireTokenAsync("https://management.azure.com/", clientId, creds).Result;
 
+            SubscriptionCloudCredentials cloudSubCreds = new TokenCloudCredentials(subscriptionId, token.AccessToken);
+            ResourceManagementClient client = new ResourceManagementClient(cloudSubCreds);
+
+            client.ResourceGroups.Delete(resourceGroupName);
         }
     }
 }
