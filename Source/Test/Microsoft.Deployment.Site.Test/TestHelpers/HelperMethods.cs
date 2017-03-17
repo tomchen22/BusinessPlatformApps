@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Hyak.Common;
+using Microsoft.Azure.Management.Resources;
+using Microsoft.IdentityModel.Clients.ActiveDirectory;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -137,13 +140,66 @@ namespace Microsoft.Deployment.Site.Web.Tests
         {
             var button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
 
-            while(button.Enabled!=true)
+            while (button.Enabled != true)
             {
                 Thread.Sleep(new TimeSpan(0, 0, 1));
                 button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
             }
 
             button.SendKeys("No");
+        }
+
+        public static void NewAnalysisServices(string server, string username, string password)
+        {
+            var button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+            while (button.Enabled != true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+                button = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+            }
+
+            button.SendKeys("Yes");
+
+            ClickNextButton();
+
+            var newAas = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+            while (newAas.Enabled != true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+                newAas = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+            }
+
+            newAas.SendKeys("New");
+
+            var elements = driver.FindElementsByCssSelector("input[class='st-input au-target']");
+
+            var serverBox = elements.First(e => e.GetAttribute("value.bind").Contains("server"));
+            var usernameBox = elements.First(e => e.GetAttribute("value.bind").Contains("email"));
+            var passwordBox = elements.First(e => e.GetAttribute("value.bind").Contains("password"));
+
+            while (usernameBox.Enabled != true && passwordBox.Enabled != true && passwordBox.Enabled != true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+            }
+
+            passwordBox.SendKeys(password);
+            usernameBox.Clear();
+            usernameBox.SendKeys(username);
+            serverBox.SendKeys(server);
+
+            var aasSku = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+
+            while (aasSku.Enabled != true)
+            {
+                Thread.Sleep(new TimeSpan(0, 0, 1));
+                aasSku = driver.FindElementByCssSelector("select[class='btn btn-default dropdown-toggle st-input au-target']");
+            }
+
+            aasSku.SendKeys("Developer");
+
+            ClickValidateButton();
         }
 
         public static void SelectSqlDatabase(string databaseName)
@@ -190,6 +246,16 @@ namespace Microsoft.Deployment.Site.Web.Tests
             }
 
             Assert.IsTrue(progressText.Text == "All done! You can now download your Power BI report and start exploring your data.");
+        }
+
+        public static void CleanSubscription(string username, string password, string tenantId, string objectId)
+        {
+            var creds = new UserPasswordCredential(username, password);
+
+            var cxt = new AuthenticationContext($"https://login.windows.net/{tenantId}/oauth2/authorize");
+
+            var token = cxt.AcquireTokenAsync("https://management.azure.com/", objectId, creds).Result;
+
         }
     }
 }

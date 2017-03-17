@@ -17,7 +17,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
     [TestClass]
     public class SalesforceSalesManagementTests
     {
-        private string baseURL = Constants.Host;
+        private string baseURL = Constants.Slot3;
         private RemoteWebDriver driver;
 
         [TestMethod]
@@ -31,10 +31,12 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.ClickNextButton();
             HelperMethods.NoAnalysisServices();
             HelperMethods.ClickNextButton();
+            Thread.Sleep(new TimeSpan(0, 0, 3));
             HelperMethods.ClickNextButton();
             HelperMethods.ClickButton("Run");
 
             HelperMethods.CheckDeploymentStatus();
+
         }
 
 
@@ -58,8 +60,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
         [TestMethod]
         public void Given_CorrectSalesforceCredentials_When_Validate_Then_PageValidatesSuccesfully()
         {
-            //HelperMethods.OpenWebBrowserOnPage("salesforce");
-
             string username = Credential.Instance.Salesforce.Username;
             string password = Credential.Instance.Salesforce.Password;
             string token = Credential.Instance.Salesforce.Token;

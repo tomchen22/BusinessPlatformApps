@@ -25,12 +25,16 @@ namespace Microsoft.Deployment.Site.Web.Tests
             HelperMethods.ClickNextButton();
             Given_CorrectSqlCredentials_When_ExistingSqlSelected_Then_PageValidatesSuccessfully();
             HelperMethods.ClickNextButton();
-            HelperMethods.NoAnalysisServices();
-            HelperMethods.ClickNextButton();
             Given_CorrectTwitterCredentials_When_Authenticating_Then_Success();
             Given_CorrectSearchTerms_When_Validating_Then_Success();
             HelperMethods.ClickNextButton();
             Given_CorrectHandles_When_Validating_Then_Success();
+            HelperMethods.ClickNextButton();
+            //HelperMethods.NoAnalysisServices();
+            HelperMethods.NewAnalysisServices("twitteraas", Credential.Instance.ServiceAccount.Username, Credential.Instance.ServiceAccount.Password);
+            HelperMethods.ClickButton("Next");
+            HelperMethods.ClickButton("Run");
+            HelperMethods.CheckDeploymentStatus();
         }
 
         [TestMethod]
@@ -128,11 +132,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
             var validated = driver.FindElementByClassName("st-validated");
 
             Assert.IsTrue(validated.Text == "Successfully validated");
-
-            HelperMethods.ClickButton("Next");
-            HelperMethods.ClickButton("Run");
-
-            HelperMethods.CheckDeploymentStatus();
         }
 
         [TestCleanup()]
