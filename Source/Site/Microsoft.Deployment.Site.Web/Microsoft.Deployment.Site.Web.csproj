@@ -4,7 +4,7 @@
     <Description>This is the main web project which shows the wizard experience to the end user</Description>
     <Copyright>Microsoft Corp 2016</Copyright>
     <AssemblyTitle>Microsoft.Deployment.Site.Web</AssemblyTitle>
-    <TargetFramework>netcoreapp1.0</TargetFramework>
+    <TargetFrameworks>netcoreapp1.0;net452</TargetFrameworks>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Microsoft.Deployment.Site.Web</AssemblyName>
     <OutputType>Exe</OutputType>
