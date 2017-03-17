@@ -4,7 +4,7 @@
     <Description>This is the main web project which shows the wizard experience to the end user</Description>
     <Copyright>Microsoft Corp 2016</Copyright>
     <AssemblyTitle>Microsoft.Deployment.Site.Web</AssemblyTitle>
-    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <TargetFramework>netcoreapp1.0</TargetFramework>
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <AssemblyName>Microsoft.Deployment.Site.Web</AssemblyName>
     <OutputType>Exe</OutputType>
@@ -14,11 +14,15 @@
     <PackageTargetFallback>$(PackageTargetFallback);dotnet5.6;dnxcore50;portable-net45+win8</PackageTargetFallback>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
-    <PreBuildEvent>cd /d "$(ProjectDir)"
-call gulp.cmd Pre-Build</PreBuildEvent>
-    <PostBuildEvent>cd /d "$(ProjectDir)"
-call gulp.cmd Build
-call gulp.cmd Post-Build</PostBuildEvent>
+    <PreBuildEvent>
+      cd /d "$(ProjectDir)"
+      call gulp.cmd Pre-Build
+    </PreBuildEvent>
+    <PostBuildEvent>
+      cd /d "$(ProjectDir)"
+      call gulp.cmd Build
+      call gulp.cmd Post-Build
+    </PostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,8 +33,7 @@ call gulp.cmd Post-Build</PostBuildEvent>
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
-    <PackageReference Include="Microsoft.AspNetCore" Version="1.1.1" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="1.0.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="1.0.0">
       <PrivateAssets>All</PrivateAssets>
     </PackageReference>
