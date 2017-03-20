@@ -128,7 +128,6 @@ If you provide the base Dynamics 365 URL, hyperlinks are created for each opport
 <https://pbist.crm.dynamics.com>.
 
 Click “Next” to continue.
-
 ## Step 7a: Track Progress
 The next several steps actually provision the soluution template. 
 ![Track Prog](Resources/Images/TrackProgress.png)
@@ -170,7 +169,7 @@ Click “Next” to continue.
 ## Step 4b: Connect to Dynamics 365
 Provide your Dynamics 365 credentials to gain access to Dynamics 365.  The Dynamics 365 login URL normally does not need to be changed from the default <https://pbist.crm.dynamics.com>
 
-![ConnectCRM](Resources/Images/ConnecttoCRM.png)
+![ConnectCRM](Resources/Images/ConnectCRM.png)
 
  Validate your credentials and click ‘Next’.
 
