@@ -1068,9 +1068,6 @@ $file2table = [ordered]@{ "site.sql"                = "pbist_sccm.site_staging";
                          };
 ```
 
-
-
-
 ## Cost
 
 Estimated Azure SQL database sizes with number of devices managed by SCCM are following:
