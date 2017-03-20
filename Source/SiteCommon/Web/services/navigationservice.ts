@@ -4,13 +4,13 @@ import MainService from './mainservice';
 import { JsonCustomParser } from "../base/JsonCustomParser";
 
 export class NavigationService {
+    appName: string = '';
     currentViewModel: any = null;
     index: number = -1;
+    isCurrentlyNavigating: boolean = false;
     isOnline: boolean = true;
     MS: MainService;
     pages: any[] = [];
-    appName: string = '';
-    isCurrentlyNavigating: boolean = false;
 
     constructor(MainService) {
         this.MS = MainService;
