@@ -155,4 +155,10 @@ export class NavigationService {
     isFirstPage(): boolean {
         return this.getIndex() === 0;
     }
+
+    NavigateHome() {
+        this.index = 0;
+        this.pages[0].isActive = true;
+        this.NavigateToIndex();
+    }
 }

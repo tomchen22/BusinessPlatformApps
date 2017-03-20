@@ -83,6 +83,7 @@ export class ViewModelBase {
         } catch (e) {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
+            this.MS.DataStore.addToDataStore("HasNavigated", true, DataStoreType.Public);
         }
 
         setTimeout(() => {
