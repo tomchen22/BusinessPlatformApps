@@ -93,7 +93,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
                     var resourceGroup = driver.FindElementsByCssSelector("input[class='st-input au-target']")
                                         .First(e => e.GetAttribute("value.bind").Contains("selectedResourceGroup"));
 
-                    resourceGroupName = Guid.NewGuid().ToString().Replace("-","");
+                    resourceGroupName = Guid.NewGuid().ToString().Replace("-", "");
 
                     resourceGroup.Clear();
                     resourceGroup.SendKeys(resourceGroupName);
@@ -249,7 +249,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
                     Assert.Fail(error.Text);
                 }
 
-                if(!string.IsNullOrEmpty(progressText.Text))
+                if (progressText != null && !string.IsNullOrEmpty(progressText.Text))
                 {
                     break;
                 }
