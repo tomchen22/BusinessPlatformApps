@@ -1030,7 +1030,7 @@ is renamed as the destination table, and a new staging table is created.
 Once you set up the solution template you may want to modify your settings. In order to do this,
  you will the solution template configuration table. It should look something like this:
 
-![Image19](Resources/Images/image19.png)
+![Image19](Resources/Images/image19.PNG)
 
 If you want to change, for example, the data retention days from 120 days to 60 days, the SQL query will be following:
 
