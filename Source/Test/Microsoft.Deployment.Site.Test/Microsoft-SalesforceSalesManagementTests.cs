@@ -167,8 +167,6 @@ namespace Microsoft.Deployment.Site.Web.Tests
             this.driver = HelperMethods.driver;
         }
 
-        [Ignore]
-        [TestMethod]
         public void SalesforcePage(string username, string password, string token)
         {
             var usernameBox =
@@ -181,7 +179,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
             while(usernameBox == null && passwordBox == null && tokenBox == null)
                 
             {
-                Thread.Sleep(new TimeSpan(0, 0, 1));
+                Thread.Sleep(new TimeSpan(0, 0, 3));
                 usernameBox =
                   driver.FindElementsByTagName("Input").First(e => e.GetAttribute("placeholder") == "username");
                 passwordBox =
@@ -192,7 +190,7 @@ namespace Microsoft.Deployment.Site.Web.Tests
 
             while (usernameBox.Enabled != true && passwordBox.Enabled != true && tokenBox.Enabled != true)
             {
-                Thread.Sleep(new TimeSpan(0, 0, 1));
+                Thread.Sleep(new TimeSpan(0, 0, 3));
             }
 
             tokenBox.SendKeys(token);
