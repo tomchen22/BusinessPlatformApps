@@ -22,7 +22,7 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             var token = request.DataStore.GetJson("AzureToken");
-            string refreshToken = request.DataStore.GetJson("AzureToken")["refresh_token"].ToString();
+            string refreshToken = request.DataStore.GetJson("AzureToken", "refresh_token");
             string aadTenant = request.DataStore.GetValue("AADTenant");
 
             string tokenUrl = string.Format(Constants.AzureTokenUri, aadTenant);
@@ -64,9 +64,9 @@ namespace Microsoft.Deployment.Actions.AzureCustom.AzureToken
         public async Task<InterceptorStatus> CanInterceptAsync(IAction actionToExecute, ActionRequest request)
         {
             //TODO - fix to ensure it only works when token has expired
-            if (request.DataStore.GetValue("AzureToken") != null && request.DataStore.GetJson("AzureToken")["expires_on"] != null)
+            if (request.DataStore.GetValue("AzureToken") != null && request.DataStore.GetJson("AzureToken", "expires_on") != null)
             {
-               var expiryDateTime = UnixTimeStampToDateTime(request.DataStore.GetJson("AzureToken")["expires_on"].ToString());
+               var expiryDateTime = UnixTimeStampToDateTime(request.DataStore.GetJson("AzureToken", "expires_on"));
                 if ((expiryDateTime - DateTime.Now).TotalMinutes < 5)
                 {
                     return InterceptorStatus.Intercept;
