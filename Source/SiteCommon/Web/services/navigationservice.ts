@@ -159,6 +159,10 @@ export class NavigationService {
     NavigateHome() {
         this.index = 0;
         this.pages[0].isActive = true;
-        this.NavigateToIndex();
+        let body: any = {};
+        JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
+        setTimeout(() => {
+            this.NavigateToIndex();
+        }, 100);
     }
 }
