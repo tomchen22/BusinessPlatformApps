@@ -8,14 +8,14 @@ System.config({
   },
   bundles: {
     "app-build.js": [
-      "SiteCommon/Web/base/Dictionary.js",
-      "SiteCommon/Web/base/init-parser.js",
+      "SiteCommon/Web/classes/Dictionary.js",
+      "SiteCommon/Web/classes/init-parser.js",
+      "SiteCommon/Web/constants/en-us.js",
+      "SiteCommon/Web/constants/language.js",
       "SiteCommon/Web/constants/query-parameter.js",
       "SiteCommon/Web/enums/action-status.js",
       "SiteCommon/Web/enums/experience-type.js",
       "SiteCommon/Web/enums/variable-type.js",
-      "SiteCommon/Web/localization/en-us.js",
-      "SiteCommon/Web/localization/language.js",
       "SiteCommon/Web/models/action-request.js",
       "SiteCommon/Web/models/variable.js",
       "SiteCommon/Web/services/datastore.js",
