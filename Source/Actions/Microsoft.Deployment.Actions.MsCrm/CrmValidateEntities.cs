@@ -4,6 +4,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using Hyak.Common.Internals;
@@ -21,11 +22,11 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     {
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
-            string token = request.DataStore.GetJson("MsCrmToken")["access_token"].ToString();
+            string refreshToken = request.DataStore.GetJson("MsCrmToken")["refresh_token"].ToString();
             string organizationUrl = request.DataStore.GetValue("OrganizationUrl");
             string[] entities = request.DataStore.GetValue("Entities").Split(new[] { ',', ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
 
-            var crmToken = RetrieveCrmToken(request.DataStore.GetJson("MsCrmToken")["refresh_token"].ToString(), request.Info.WebsiteRootUrl, request.DataStore, organizationUrl);
+            var crmToken = RetrieveCrmOnlineToken(refreshToken, request.Info.WebsiteRootUrl, request.DataStore, organizationUrl);
 
             var proxy = new OrganizationWebProxyClient(new Uri($"{organizationUrl}XRMServices/2011/Organization.svc/web"), true)
             {
@@ -36,8 +37,19 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
 
             for (int i = 0; i < 3; i++)
             {
-                retryEntities = this.CheckAndUpdateEntities(retryEntities, proxy);
-
+                try
+                {
+                    retryEntities = this.CheckAndUpdateEntities(retryEntities, proxy);
+                }
+                catch (AggregateException e)
+                {
+                    string output = string.Empty;
+                    foreach (var ex in e.InnerExceptions)
+                    {
+                        output += ex.Message + " [" + ex.Data["entity"] + "]. ";
+                    }
+                    return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJObjectFromObject(e), e, "DefaultErrorCode", output);
+                }
                 if (retryEntities.Count() == 0)
                 {
                     break;
@@ -46,15 +58,64 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
 
             return new ActionResponse(ActionStatus.Success);
         }
+        
+        public List<string> CheckAndUpdateEntities(List<string> entities, OrganizationWebProxyClient proxy)
+        {
+            List<string> entitiesToRetry = new List<string>();
 
-        private JObject RetrieveCrmToken(string refreshToken, string websiteRootUrl, DataStore dataStore, string resourceUri)
+            Parallel.ForEach(entities, (entity) =>
+            {
+                try
+                {
+                    var checkRequest = new RetrieveEntityRequest()
+                    {
+                        LogicalName = entity,
+                        EntityFilters = EntityFilters.Entity
+                    };
+
+                    var checkResponse = new RetrieveEntityResponse();
+                    checkResponse = (RetrieveEntityResponse)proxy.Execute(checkRequest);
+
+                    if (checkResponse.EntityMetadata.ChangeTrackingEnabled != null &&
+                        !(bool)checkResponse.EntityMetadata.ChangeTrackingEnabled &&
+                        checkResponse.EntityMetadata.CanChangeTrackingBeEnabled.Value)
+                    {
+                        var updateRequest = new UpdateEntityRequest()
+                        {
+                            Entity = checkResponse.EntityMetadata
+                        };
+
+                        updateRequest.Entity.ChangeTrackingEnabled = true;
+
+                        try
+                        {
+                            var updateResponse = new UpdateEntityResponse();
+                            updateResponse = (UpdateEntityResponse)proxy.Execute(updateRequest);
+                        }
+                        catch
+                        {
+                            entitiesToRetry.Add(entity);
+                        }
+                    }
+                }
+                catch (FaultException e)
+                {
+                    e.Data.Add("entity", entity);
+                    throw;
+                }
+            });
+
+            return entitiesToRetry;
+        }
+
+        private JObject RetrieveCrmOnlineToken(string refreshToken, string websiteRootUrl, DataStore dataStore, string resourceUri)
         {
             string tokenUrl = string.Format(Constants.AzureTokenUri, dataStore.GetValue("AADTenant"));
 
             using (HttpClient httpClient = new HttpClient())
             {
-                // ms crm token
-                string token = GetTokenUri2(refreshToken, resourceUri, websiteRootUrl, Constants.MsCrmClientId);
+                // CRM Online token
+                string token = GetDynamicsResourceUri(refreshToken, resourceUri, websiteRootUrl, Constants.MsCrmClientId);
                 StringContent content = new StringContent(token);
                 content.Headers.ContentType = new MediaTypeHeaderValue("application/x-www-form-urlencoded");
                 string response = httpClient.PostAsync(new Uri(tokenUrl), content).Result.Content.AsString();
@@ -63,7 +124,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
             }
         }
 
-        private string GetTokenUri2(string code, string uri, string rootUrl, string clientId)
+        private string GetDynamicsResourceUri(string code, string uri, string rootUrl, string clientId)
         {
             return $"refresh_token={code}&" +
                    $"client_id={clientId}&" +
@@ -71,47 +132,6 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
                    $"resource={Uri.EscapeDataString(uri)}&" +
                    $"redirect_uri={Uri.EscapeDataString(rootUrl + Constants.WebsiteRedirectPath)}&" +
                    "grant_type=refresh_token";
-        }
-
-        public List<string> CheckAndUpdateEntities(List<string> entities, OrganizationWebProxyClient proxy)
-        {
-            List<string> entitiesToRetry = new List<string>();
-
-            Parallel.ForEach(entities, (entity) =>
-            {
-                var checkRequest = new RetrieveEntityRequest()
-                {
-                    LogicalName = entity,
-                    EntityFilters = EntityFilters.Entity
-                };
-
-                var checkResponse = new RetrieveEntityResponse();
-                checkResponse = (RetrieveEntityResponse)proxy.Execute(checkRequest);
-
-                if (checkResponse.EntityMetadata.ChangeTrackingEnabled != null &&
-                    !(bool)checkResponse.EntityMetadata.ChangeTrackingEnabled &&
-                    checkResponse.EntityMetadata.CanChangeTrackingBeEnabled.Value)
-                {
-                    var updateRequest = new UpdateEntityRequest()
-                    {
-                        Entity = checkResponse.EntityMetadata
-                    };
-
-                    updateRequest.Entity.ChangeTrackingEnabled = true;
-
-                    try
-                    {
-                        var updateResponse = new UpdateEntityResponse();
-                        updateResponse = (UpdateEntityResponse)proxy.Execute(updateRequest);
-                    }
-                    catch
-                    {
-                        entitiesToRetry.Add(entity);
-                    }
-                }
-            });
-
-            return entitiesToRetry;
         }
     }
 }
