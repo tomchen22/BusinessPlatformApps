@@ -4,13 +4,13 @@ import MainService from './mainservice';
 import { JsonCustomParser } from "../base/JsonCustomParser";
 
 export class NavigationService {
+    appName: string = '';
     currentViewModel: any = null;
     index: number = -1;
+    isCurrentlyNavigating: boolean = false;
     isOnline: boolean = true;
     MS: MainService;
     pages: any[] = [];
-    appName: string = '';
-    isCurrentlyNavigating: boolean = false;
 
     constructor(MainService) {
         this.MS = MainService;
@@ -154,5 +154,15 @@ export class NavigationService {
 
     isFirstPage(): boolean {
         return this.getIndex() === 0;
+    }
+
+    NavigateHome() {
+        this.index = 0;
+        this.pages[0].isActive = true;
+        let body: any = {};
+        JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
+        setTimeout(() => {
+            this.NavigateToIndex();
+        }, 100);
     }
 }

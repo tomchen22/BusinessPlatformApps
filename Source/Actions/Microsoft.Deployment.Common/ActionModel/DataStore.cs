@@ -147,12 +147,17 @@ namespace Microsoft.Deployment.Common.ActionModel
 
         public string GetValueAtIndex(string key, string index, DataStoreType dataStoreType = DataStoreType.Any)
         {
-            int i = 0;
+            string result = null;
             if (this.KeyExists(index))
             {
-                i = int.Parse(this.GetValue(index));
+                int i = int.Parse(this.GetValue(index));
+                IList<string> allValues = this.GetAllValues(key);
+                if (allValues.Count > i)
+                {
+                    result = this.GetAllValues(key)[i];
+                }
             }
-            return this.GetAllValues(key)[i];
+            return result;
         }
 
         public JToken GetJson(string key, DataStoreType dataStoreType = DataStoreType.Any)

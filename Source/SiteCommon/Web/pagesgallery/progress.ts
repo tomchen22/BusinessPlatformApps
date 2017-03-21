@@ -31,6 +31,11 @@ export class ProgressViewModel extends ViewModelBase {
     }
 
     async OnLoaded() {
+        if (this.MS.DataStore.getValue('HasNavigated') == null) {
+            this.MS.NavigationService.NavigateHome();
+            return;
+        }
+
         if (!this.MS.DeploymentService.isFinished) {
             this.hasPowerApp = this.hasPowerApp && this.MS.DataStore.getValue('SkipPowerApp') == null;
 
