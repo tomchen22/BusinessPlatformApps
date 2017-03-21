@@ -36,7 +36,7 @@ The flow of the Bing News solution template is as follows:
 
 -   Power BI imports data into it from Azure SQL and renders pre-defined reports
 
-#System Requirements
+### System Requirements
 
 Setting up the template requires the following:
 
@@ -48,7 +48,7 @@ Setting up the template requires the following:
 
 -   Twitter Account
 
-#How to Install
+### How to Install
 
 Before diving into the components of the solution, we will go through how to set things up. To get started with the solution, navigate to the [Bing News template page]( https://powerbi.microsoft.com/en-us/solution-templates/bing-news/) and click **Install Now**.
 
