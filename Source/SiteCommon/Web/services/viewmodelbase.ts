@@ -1,6 +1,6 @@
 ﻿import { activationStrategy } from 'aurelia-router';
 
-import { InitParser } from "../base/init-parser";
+import { InitParser } from "../classes/init-parser";
 
 import { ActionResponse } from "../models/action-response";
 

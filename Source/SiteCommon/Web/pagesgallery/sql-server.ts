@@ -1,4 +1,4 @@
-﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+﻿import { SqlServerValidationUtility } from '../classes/sql-server-validation-utility';
 
 import { ActionResponse } from '../models/action-response';
 import { AzureLocation } from '../models/azure-location';

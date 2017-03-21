@@ -1,7 +1,8 @@
-﻿import { Aurelia } from 'aurelia-framework';
+﻿import { InitParser } from "../classes/init-parser";
+
+import { Aurelia } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
 import MainService from './mainservice';
-import { InitParser } from "../base/init-parser";
 
 export class NavigationService {
     appName: string = '';

@@ -1,4 +1,4 @@
-﻿import { InitParser } from "../base/init-parser";
+﻿import { InitParser } from "../classes/init-parser";
 
 import { ActionStatus } from '../enums/action-status';
 import { ExperienceType } from '../enums/experience-type';
