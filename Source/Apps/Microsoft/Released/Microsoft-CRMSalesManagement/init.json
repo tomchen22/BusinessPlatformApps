@@ -73,6 +73,10 @@
         "name": "Microsoft-CrmCreateVaultSecret"
       },
       {
+        "displayname": "Removing Dynamics 365 Data Export Profile",
+        "name": "Microsoft-CrmValidateEntities"
+      },
+      {
         "displayname": "Cleaning Dynamics 365 Environment",
         "name": "Microsoft-CrmDeleteProfile"
       },
