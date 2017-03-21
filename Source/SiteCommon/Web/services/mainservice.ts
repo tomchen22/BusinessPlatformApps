@@ -3,6 +3,10 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { HttpClient } from 'aurelia-http-client';
 
+import { QueryParameter } from '../constants/query-parameter';
+
+import { ExperienceType } from '../enums/experience-type';
+
 import { DataStore } from './datastore';
 import { DeploymentService } from './deploymentservice';
 import { ErrorService } from './errorservice';
@@ -12,9 +16,6 @@ import { NavigationService } from './navigationservice';
 import { TranslateService } from './translate-service';
 import { UtilityService } from './utilityservice';
 import { ViewModelBase } from './viewmodelbase';
-
-import { ExperienceType } from '../base/ExperienceType';
-import { QueryParameter } from '../base/query-parameter';
 
 @inject(Router, HttpClient)
 export default class MainService {

@@ -1,8 +1,10 @@
 ﻿import MainService from './mainservice';
 
-import { ActionRequest } from './actionrequest';
-import { ActionResponse } from './actionresponse';
-import { ActionStatus } from './actionresponse';
+import { ActionStatus } from '../enums/action-status';
+
+import { ActionRequest } from '../models/action-request';
+import { ActionResponse } from '../models/action-response';
+
 import { HttpClient } from 'aurelia-http-client';
 
 export class HttpService {

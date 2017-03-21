@@ -1,6 +1,7 @@
-import { QueryParameter } from '../base/query-parameter';
+import { QueryParameter } from '../constants/query-parameter';
 
-import { ActionStatus } from '../services/actionresponse';
+import { ActionStatus } from '../enums/action-status';
+
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 
