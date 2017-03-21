@@ -51,3 +51,4 @@
 
 /Source/Site/Microsoft.Deployment.Site.Web/global.json
 *.user
+*js.map

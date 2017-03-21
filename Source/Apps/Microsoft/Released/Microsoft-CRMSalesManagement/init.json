@@ -13,8 +13,6 @@
         "SqlServerIndex": "0",
         "SqlConfigTable": "[smgt].[configuration]"
       },
-
-      // AS Set up
       {
         "name": "Microsoft-SetConfigValueInSql",
         "displayname": "Deploy DB Configuration",
@@ -26,7 +24,6 @@
         "SqlEntryValue": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-
       {
         "name": "Microsoft-DeployAzureASModel",
         "displayname": "Deploy AS Model",
@@ -35,7 +32,6 @@
         "ASDatabase": "d365",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-
       {
         "name": "Microsoft-DeployAzureFunction",
         "displayname": "Deploying scheduler",
@@ -45,14 +41,12 @@
         "sku": "Standard",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-
       {
         "name": "Microsoft-WaitForArmDeploymentStatus",
         "displayname": "Waiting for scheduler",
         "DeploymentName": "ASFunction",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-
       {
         "name": "Microsoft-DeployAzureFunctionConnectionStrings",
         "displayname": "Setting up scheduler",
@@ -66,8 +60,6 @@
           "functionName": "$run('asscheduler' + this.MS.DataStore.getValue('uniqueId'))"
         }
       },
-      // AS Finish set up
-
       {
         "displayname": "Configuring Azure Key Vault",
         "name": "Microsoft-CrmCreateVaultSecret"
@@ -167,9 +159,6 @@
         "subtitle": "Set up a connection to SQL so we can bring in your Dynamics 365 data.",
         "title": "Connect to your SQL Database"
       },
-
-      // Adding azure pages
-      // Adding azure pages
       {
         "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
         "displayname": "AAS",
@@ -182,8 +171,6 @@
         "displayname": "AAS Login",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
-      // Finish azure pages
-
       {
         "displayname": "Customize",
         "name": "$SiteCommon$/pagesgallery/customize.html",
@@ -213,9 +200,5 @@
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))"
       }
     ]
-  },
-  "Uninstall": {
-    "Pages": [],
-    "Actions": []
   }
 }
