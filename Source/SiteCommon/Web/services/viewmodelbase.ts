@@ -6,7 +6,7 @@ import { activationStrategy } from 'aurelia-router';
 
 export class ViewModelBase {
     isActivated: boolean = false;
-    isValidated: boolean = true;
+    isValidated: boolean = false;
     isAuthenticated: boolean = true;
 
     showValidation: boolean = false;
@@ -202,6 +202,6 @@ export class ViewModelBase {
 
     // Called when the view model is attached completely
     async OnLoaded() {
-        this.isValidated = true;
+        this.isValidated = false;
     }
 }
