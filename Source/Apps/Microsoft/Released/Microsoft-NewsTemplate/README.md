@@ -216,6 +216,54 @@ The final SQL step writes all of the matched search terms into SQL (the ones fou
 
 ![Image](Resources/media/image30.png)
 
+![Image](Resources/media/image36.png)
+
+### Logic App (LogicAppScheduler):
+
+Once the data is written into SQL, there are some enrichments that are done across the data (as opposed to on a document by document basis). These run on a schedule (reoccurrence every 3 hours but this can be changed inside the Logic App).
+
+![Image](Resources/media/image31.png)
+
+The first step following the trigger is a stored procedure called sp_clean_stage_tables. This empties out the staging tables that we are 
+going to use for storing the outputs of the machine learning enrichments. If there is any data left over in them after the last time the Logic App ran, we want those truncated.
+
+![Image](Resources/media/image32.png)
+
+The next two parallel steps call Azure Machine Learning web services (you can read more about Azure ML in the sections below).
+
+![Image](Resources/media/image33.png)
+
+The ‘Entity AzureML’ webservice extracts out all the people, location and organizational entities it finds in the articles. 
+
+The ‘Topic AzureML’ web service carries out topic clustering using a machine learning technique called Latent Dirichlet Allocation (LDA). This looks at the text of all the articles found and groups the documents together to form relevant topics. 
+
+The final Azure ML component is the ‘Topic Images’ web service. The aim of this module is to extract out the relevant image URLs that go with the topics found. These are used to augment the topic clustering visual found in the Power BI report.
+
+![Image](Resources/media/image34.png)
+
+The final two components of this Logic App are stored procedures. So far, all of the Azure ML web services have been writing data into the previously cleaned out staging tables. The mergedata stored procedure replicates the data from the staging tables to their corresponding production tables.
+
+The final stored procedure (create_topic_key_phrase) finds the keyword descriptors that correspond to the numerical values of the topic clusters (as LDA only returns the numerical equivalents). 
+
+![Image](Resources/media/image35.png)
+
+![Image](Resources/media/image37.png)
+
+![Image](Resources/media/image38.png)
+
+### Cognitive Services:
+
+We already showed how the Azure Cognitive Service for Textual Analytics as well as Bing News get used inside ‘LogicAppMainNews’. This section will touch on the configurations that can be done to the cognitive services inside the portal.
+
+Most importantly, a user is able to change the SKU they want to use for the Cognitive Service. As a default, we set the text analytics cognitive service to S1 (100K calls) which costs $150 per month. Depending on the anticipated traffic you can change the SKU to meet your needs (please remember the textual analytics cognitive service is used for both sentiment and key phrase extraction. This means that if e.g. you are processing 10K documents a month that translates to 20K calls to the textual analytics API).
+
+![Image](Resources/media/image39.PNG)
+
+The Bing News cognitive service is by default set to an S2 SKU (10K calls a month – one article = one call). This can be changed inside the portal just like in the textual analytics cognitive service case:
+
+![Image](Resources/media/image40.PNG)
+
+
 ### Estimated Costs
 
 Here is an estimate of the Azure costs (Logic Apps, Azure Functions, Azure SQL, Azure ML, Cognitive Services) based on the number of articles processed:
