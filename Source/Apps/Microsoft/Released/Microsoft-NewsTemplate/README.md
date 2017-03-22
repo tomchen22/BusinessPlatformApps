@@ -321,6 +321,7 @@ Here is an overview of the tables found in the Power BI (names correspond to the
 | Sentiment Scores  | Stores the sentiment of an article along with the binned sentiment score and categorical score                                                                                                                                                                                |
 | Topic Images       | Stores the topic ID and up to 4 image URLs that are found to be associated with the given topic                                                                                                                                                                                |
 | Topic Key Phrases| Stores the topic ID with the word version of the key phrases that are used in the reports instead of the numerical output of the LDA model                                                                                                                                                                                |
+
 Below is a breakdown of the columns found in every table:
 
 | ** Article ** |                                          |
