@@ -1,4 +1,5 @@
-﻿import { ActionResponse } from '../services/actionresponse';
+﻿import { ActionResponse } from '../models/action-response';
+
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 

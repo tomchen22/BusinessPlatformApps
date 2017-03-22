@@ -1,8 +1,10 @@
-﻿import { QueryParameter } from '../base/query-parameter';
+﻿import { QueryParameter } from '../constants/query-parameter';
+
+import { ActionResponse } from '../models/action-response';
+
+import { DataStoreType } from '../services/datastore';
 
 import { AzureLogin } from './azure-login';
-import { ActionResponse } from '../services/actionresponse';
-import { DataStoreType } from '../services/datastore';
 
 export class KeyVaultLogin extends AzureLogin {
     hasToken: boolean = false;

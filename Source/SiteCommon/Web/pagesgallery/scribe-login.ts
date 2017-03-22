@@ -1,6 +1,6 @@
-﻿import { ScribeOrganization } from '../classes/scribe-organization';
+﻿import { ActionResponse } from '../models/action-response';
+import { ScribeOrganization } from '../models/scribe-organization';
 
-import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 

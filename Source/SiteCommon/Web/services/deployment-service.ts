@@ -1,10 +1,12 @@
-﻿import MainService from './mainservice';
-import { ActionResponse } from './actionresponse';
-import { ActionStatus } from './actionresponse';
-import { DataStoreType } from "./datastore";
+﻿import { InitParser } from "../classes/init-parser";
 
-import { ExperienceType } from '../base/ExperienceType';
-import { JsonCustomParser } from "../base/JsonCustomParser";
+import { ActionStatus } from '../enums/action-status';
+import { ExperienceType } from '../enums/experience-type';
+
+import { ActionResponse } from '../models/action-response';
+
+import { DataStoreType } from "./datastore";
+import MainService from './main-service';
 
 export class DeploymentService {
     MS: MainService;
@@ -44,7 +46,7 @@ export class DeploymentService {
                 param = this.actions[i].AdditionalParameters;
             }
 
-            JsonCustomParser.loadVariables(param, param, this.MS, this);
+            InitParser.loadVariables(param, param, this.MS, this);
 
             // Skip action if requested to do so by variable
             if (param && param.skip && param.skip.toLowerCase() === 'true') {

@@ -1,7 +1,8 @@
-﻿import { Aurelia } from 'aurelia-framework';
+﻿import { InitParser } from "../classes/init-parser";
+
+import { Aurelia } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
-import MainService from './mainservice';
-import { JsonCustomParser } from "../base/JsonCustomParser";
+import MainService from './main-service';
 
 export class NavigationService {
     appName: string = '';
@@ -91,7 +92,7 @@ export class NavigationService {
         // If you skip the last page then we should throw an error - no check in place - to be added
         while (this.pages[this.index].Parameters.skip) {
             let body: any = {};
-            JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
+            InitParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
             if (body.skip && body.skip.toLowerCase() === "true") {
                 this.index = this.index + 1;
                 continue;
@@ -112,7 +113,7 @@ export class NavigationService {
         // If you skip the last page then we should throw an error - no check in place - to be added
         while (this.pages[this.index].Parameters.skip && this.index > 0) {
             let body: any = {};
-            JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
+            InitParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
             if (body.skip && body.skip.toLowerCase() === "true") {
                 this.index = this.index - 1;
                 continue;
@@ -160,7 +161,7 @@ export class NavigationService {
         this.index = 0;
         this.pages[0].isActive = true;
         let body: any = {};
-        JsonCustomParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
+        InitParser.loadVariables(body, this.pages[this.index].Parameters, this.MS, this);
         setTimeout(() => {
             this.NavigateToIndex();
         }, 100);
