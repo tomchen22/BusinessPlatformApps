@@ -327,6 +327,7 @@ Below is a breakdown of the columns found in every table:
 | ** Article ** |                                          |
 |--------------------------|------------------------------------------|
 | **Column Name**          | **Description**                          |
+| Id                 | Document Id (unique)     |
 | Abstract                 | Short snippet from the news article     |
 | Title                   | Title of the news article                              |
 | Source URL             | News article URL|
@@ -348,6 +349,49 @@ Below is a breakdown of the columns found in every table:
 | Ingested Hour Precision | Hour article was ingested |
 | Ingested Minute Precision | Minute article was ingested |
 | Count Entities | Number of entities found in article |
+
+
+| **Article Search Terms** |                                          |
+|--------------------------|------------------------------------------|
+| **Column Name**          | **Description**                          |
+| Document Id                 | Document Id (can be repeated)    |
+| Search Terms                   | The specific search term found inside a given document. Multiple search terms can be found in a single document                              |
+
+| **Article Topics** |                                      |
+|--------------------|--------------------------------------|
+| **Column Name**    | **Description**                      |
+| Document Id                 | Document Id (a document belongs to one topic)     |
+| Topic Id                 | Short snippet from the news article     |
+| Document Distance                   | Measure used to figure out how much of a match a document is to a topic cluster. The closer the number is to 1 the better the match.                              |
+| Topic Score             | |
+| Topic Key Phrase                  | Numerical representation of the keywords a topic is associated with               |
+| Image URL 1            | First image associated with topic |
+| Image URL  2                | Second image associated with topic                            |
+| Image URL  3                | Third image associated with topic                            |
+| Image URL  4                | Fourth image associated with topic                            |
+| Weight | |
+| Document Distance With Topic Image| The distance the image itself is from the topic cluster                            |
+
+| **Compressed Entities** |                                      |
+|--------------------|--------------------------------------|
+| **Column Name**    | **Description**                      |
+| Document Id           | Document Id (unique) |
+| Compressed Entities Json              | JSON object of all the entities found inside the article. For a more detailed breakdown of the Json object please look at the entities table which has a structured view of all the fields.            |
+
+| **Entities**    |                                                                                                                   |
+|-----------------------|-------------------------------------------------------------------------------------------------------------------|
+| **Column Name**       | **Description**                                                                                                   |
+| Document Id           | Document Id (not unique – a document can have multiple entities associated with it) |
+| Entity Type              | Categorical variable of the type of entity found. ORG refers to Organization, LOC to Location and PER to Person|
+| Entity Value              |The actual name of the entity that was found |
+| Offset           | |
+| Offset Document Percentage         | |
+| Length           | Entity character length |
+| Entity ID           | Merge of entity type with entity value (unique) |
+| Entity Class           | Font awesome icons (scalable vector icons) |
+
+| Entity Color           |Color (specified in hex) |
+|
 
 
 ### Estimated Costs
