@@ -1,4 +1,6 @@
-﻿import { DataStore, DataStoreType } from '../services/datastore';
+﻿import { DataStoreType } from '../enums/data-store-type';
+
+import { DataStore } from '../services/data-store';
 
 export class ActionRequest {
     public DataStore: DataStore;

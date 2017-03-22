@@ -1,10 +1,11 @@
 ﻿import { SqlServerValidationUtility } from '../classes/sql-server-validation-utility';
 
+import { DataStoreType } from '../enums/data-store-type';
+
 import { ActionResponse } from '../models/action-response';
 import { AzureLocation } from '../models/azure-location';
 
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../services/view-model-base';
 
 export class SqlServer extends ViewModelBase {
     subtitle: string = '';

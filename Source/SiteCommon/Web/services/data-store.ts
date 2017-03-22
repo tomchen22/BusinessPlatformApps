@@ -1,4 +1,8 @@
-﻿import { Dictionary } from '../classes/Dictionary'
+﻿import { Dictionary } from '../classes/dictionary'
+
+import { DataStoreType } from '../enums/data-store-type';
+
+import { DataStoreItem } from '../models/data-store-item';
 
 import { MainService } from './main-service';
 
@@ -308,16 +312,4 @@ export class DataStore {
 
         store.get(route).modify(key, value);
     }
-}
-
-export class DataStoreItem {
-    route: string;
-    key: string;
-    value: any;
-}
-
-export enum DataStoreType {
-    Public,
-    Private,
-    Any
 }

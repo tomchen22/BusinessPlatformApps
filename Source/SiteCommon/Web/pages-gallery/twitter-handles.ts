@@ -1,5 +1,6 @@
-﻿import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+﻿import { DataStoreType } from '../enums/data-store-type';
+
+import { ViewModelBase } from '../services/view-model-base';
 
 export class TwitterHandles extends ViewModelBase {
     accounts: string = '';

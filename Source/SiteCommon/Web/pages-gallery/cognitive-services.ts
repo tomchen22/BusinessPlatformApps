@@ -1,5 +1,6 @@
-import { DataStoreType } from "../services/datastore";
-import { ViewModelBase } from "../services/viewmodelbase";
+import { DataStoreType } from '../enums/data-store-type';
+
+import { ViewModelBase } from '../services/view-model-base';
 
 export class CognitiveService extends ViewModelBase {
     cognitiveServiceKey: string = '';
@@ -52,7 +53,7 @@ export class CognitiveService extends ViewModelBase {
 
         this.MS.DataStore.addToDataStore('CognitiveServiceKey', this.cognitiveServiceKey, DataStoreType.Private);
         this.MS.DataStore.addToDataStore('CognitiveServiceName', this.cognitiveServiceName, DataStoreType.Public);
-        this.MS.DataStore.addToDataStore('CognitiveSkuName', "S1", DataStoreType.Public);
+        this.MS.DataStore.addToDataStore('CognitiveSkuName', 'S1', DataStoreType.Public);
 
         return true;
     }
