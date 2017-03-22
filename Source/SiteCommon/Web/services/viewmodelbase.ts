@@ -1,8 +1,11 @@
-﻿import MainService from './mainservice';
-import { JsonCustomParser } from "../base/JsonCustomParser";
+﻿import { activationStrategy } from 'aurelia-router';
+
+import { InitParser } from "../classes/init-parser";
+
+import { ActionResponse } from "../models/action-response";
+
 import { DataStoreType } from "./datastore";
-import { ActionResponse } from "./actionresponse";
-import { activationStrategy } from 'aurelia-router';
+import MainService from './main-service';
 
 export class ViewModelBase {
     isActivated: boolean = false;
@@ -36,7 +39,7 @@ export class ViewModelBase {
         // Load the parameters from the additionalParamters section
         if (!this.parametersLoaded) {
             var parameters = this.MS.NavigationService.getCurrentSelectedPage().Parameters;
-            JsonCustomParser.loadVariables(this, parameters, this.MS, this);
+            InitParser.loadVariables(this, parameters, this.MS, this);
         }
 
         this.parametersLoaded = true;
@@ -55,7 +58,7 @@ export class ViewModelBase {
             let isNavigationSuccessful: boolean = await this.NavigatingNext();
             let isExtendedNavigationSuccessful: boolean = false;
             if (isNavigationSuccessful) {
-                 isExtendedNavigationSuccessful = await JsonCustomParser.executeActions(this.onNext, this, this.MS, this);
+                 isExtendedNavigationSuccessful = await InitParser.executeActions(this.onNext, this, this.MS, this);
             }
 
             this.navigationMessage = '';
@@ -190,7 +193,7 @@ export class ViewModelBase {
         this.isValidated = false;
         this.showValidation = false;
         this.MS.ErrorService.Clear();
-        this.isValidated = await JsonCustomParser.executeActions(this.onValidate, this, this.MS, this);
+        this.isValidated = await InitParser.executeActions(this.onValidate, this, this.MS, this);
         this.showValidation = true;
         return this.isValidated;
     }

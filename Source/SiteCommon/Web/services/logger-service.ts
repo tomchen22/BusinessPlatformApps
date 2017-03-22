@@ -1,4 +1,4 @@
-﻿import MainService from './mainservice';
+﻿import MainService from './main-service';
 
 export class LoggerService {
     MS: MainService;

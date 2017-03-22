@@ -1,5 +1,5 @@
-﻿import { Entry } from '../classes/entry';
-import { EntryRow } from '../classes/entry-row';
+﻿import { Entry } from '../models/entry';
+import { EntryRow } from '../models/entry-row';
 
 import { ViewModelBase } from '../services/viewmodelbase';
 

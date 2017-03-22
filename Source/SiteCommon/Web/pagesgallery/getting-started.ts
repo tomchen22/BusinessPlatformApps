@@ -1,5 +1,5 @@
-import { Registration } from '../classes/registration';
-import { Selection } from '../classes/selection';
+import { Registration } from '../models/registration';
+import { Selection } from '../models/selection';
 
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';

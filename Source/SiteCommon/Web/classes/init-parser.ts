@@ -1,9 +1,13 @@
-﻿import {DataStore, DataStoreType } from '../services/datastore';
-import {ActionResponse} from '../services/actionresponse';
-import {HttpService} from '../services/httpservice';
-import MainService from '../services/mainservice';
+﻿import { VariableType } from '../enums/variable-type';
 
-export class JsonCustomParser {
+import { ActionResponse } from '../models/action-response';
+import { Variable } from '../models/variable';
+
+import { DataStore, DataStoreType } from '../services/datastore';
+import { HttpService } from '../services/http-service';
+import MainService from '../services/main-service';
+
+export class InitParser {
     public static MS: MainService;
 
     public static async executeActions(actions: any[], obj: any, MS: MainService, self: any): Promise<boolean> {
@@ -29,7 +33,7 @@ export class JsonCustomParser {
     public static loadVariables(objToChange: any, obj: any, MS: MainService, self: any) {
         this.MS = MS;
         for (let propertyName in obj) {
-            let val: string = obj[propertyName];
+            let val: any = obj[propertyName];
             this.parseVariable(propertyName, val, objToChange, this.MS, self);
 
             if (val && typeof (val) === 'object' && propertyName !== 'onNext' && propertyName !== 'onValidate') {
@@ -39,7 +43,7 @@ export class JsonCustomParser {
     }
 
     // The code to go ahead and parse the Variable
-    public static parseVariable(key: string, value: string, obj: any, MS: MainService, self: any) {
+    public static parseVariable(key: string, value: any, obj: any, MS: MainService, self: any) {
         let variable: Variable = this.getVariableType(value);
         let result: string = '';
         let command: string = '';
@@ -86,7 +90,7 @@ export class JsonCustomParser {
         }
     }
 
-    private static getVariableType(value: string): Variable {
+    private static getVariableType(value: any): Variable {
         let variable: Variable = new Variable();
 
         if (!value) {
@@ -176,13 +180,12 @@ export class JsonCustomParser {
     }
 
     // old stuff
-    public static extractVariable(value: string): string {
+    public static extractVariable(value: any): string {
         let resultSplit = value.split(',');
         return resultSplit[0].trim();
     }
 
-    public static isPermenantEntryIntoDataStore(value: string): boolean {
-
+    public static isPermenantEntryIntoDataStore(value: any): boolean {
         let resultSplit = value.split(',');
 
         for (let index = 0; index < resultSplit.length; index++) {
@@ -200,20 +203,4 @@ export class JsonCustomParser {
 
         return false;
     }
-}
-
-enum VariableType {
-    DataStoreGetFirst,
-    DatasStoreGetAll,
-    Run,
-    RunAndSave,
-    Static,
-    NotValid
-}
-
-class Variable {
-    value: string = '';
-    secondArgument: string = '';
-    saveToDataStore: boolean = false;
-    varType: VariableType;
 }
