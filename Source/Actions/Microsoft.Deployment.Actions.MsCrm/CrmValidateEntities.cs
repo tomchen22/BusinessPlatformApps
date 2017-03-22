@@ -62,7 +62,7 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
                         string output = string.Empty;
                         foreach (var ex in (e as AggregateException).InnerExceptions)
                         {
-                            output += ex.Message + $"[{ex.Data["entity"]}].\\br";
+                            output += ex.Message + $"[{ex.Data["entity"]}]. ";
                         }
                         
                         return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJObjectFromObject(e), e, "DefaultErrorCode", output);
