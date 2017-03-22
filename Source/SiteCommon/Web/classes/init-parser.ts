@@ -1,11 +1,12 @@
-﻿import { VariableType } from '../enums/variable-type';
+﻿import { DataStoreType } from '../enums/data-store-type';
+import { VariableType } from '../enums/variable-type';
 
 import { ActionResponse } from '../models/action-response';
 import { Variable } from '../models/variable';
 
-import { DataStore, DataStoreType } from '../services/datastore';
+import { DataStore } from '../services/data-store';
 import { HttpService } from '../services/http-service';
-import MainService from '../services/main-service';
+import { MainService } from '../services/main-service';
 
 export class InitParser {
     public static MS: MainService;
