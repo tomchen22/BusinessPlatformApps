@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Hyak.Common.Internals;
 using Microsoft.Deployment.Common.ActionModel;
+using Microsoft.Deployment.Common.Controller;
 using Microsoft.Deployment.Common.Helpers;
 using Microsoft.Xrm.Sdk.Messages;
 using Microsoft.Xrm.Sdk.Metadata;
@@ -20,6 +21,8 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
     [Export(typeof(IAction))]
     class CrmValidateEntities : BaseAction
     {
+        private int maxRetries = 3;
+
         public override async Task<ActionResponse> ExecuteActionAsync(ActionRequest request)
         {
             string refreshToken = request.DataStore.GetJson("MsCrmToken")["refresh_token"].ToString();
@@ -33,24 +36,42 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
                 HeaderToken = crmToken["access_token"].ToString()
             };
 
-            List<string> retryEntities = entities.ToList();
-
-            for (int i = 0; i < 3; i++)
+            Dictionary<string, bool> entitiesToReprocess = new Dictionary<string, bool>();
+            
+            for (int i = 0; i < maxRetries; i++)
             {
                 try
                 {
-                    retryEntities = this.CheckAndUpdateEntities(retryEntities, proxy);
-                }
-                catch (AggregateException e)
-                {
-                    string output = string.Empty;
-                    foreach (var ex in e.InnerExceptions)
+                    Parallel.ForEach(entities, (entity) =>
                     {
-                        output += ex.Message + " [" + ex.Data["entity"] + "]. ";
-                    }
-                    return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJObjectFromObject(e), e, "DefaultErrorCode", output);
+                        try
+                        {
+                            entitiesToReprocess.Add(entity, this.CheckAndUpdateEntity(entity, proxy, request.Logger));
+                        }
+                        catch (Exception e)
+                        {
+                            e.Data.Add("entity", entity);
+                            throw;
+                        }
+                    });
                 }
-                if (retryEntities.Count() == 0)
+                catch(Exception e)
+                {
+                    if (e.GetType() == typeof(AggregateException))
+                    {
+                        string output = string.Empty;
+                        foreach (var ex in (e as AggregateException).InnerExceptions)
+                        {
+                            output += ex.Message + $"[{ex.Data["entity"]}].\\br";
+                        }
+                        
+                        return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJObjectFromObject(e), e, "DefaultErrorCode", output);
+                    }
+                    else
+                        return new ActionResponse(ActionStatus.Failure, JsonUtility.GetJObjectFromObject(e), e, "DefaultErrorCode", e.Message);
+                }
+
+                if (!entitiesToReprocess.Values.Contains(false))
                 {
                     break;
                 }
@@ -58,54 +79,41 @@ namespace Microsoft.Deployment.Common.Actions.MsCrm
 
             return new ActionResponse(ActionStatus.Success);
         }
-        
-        public List<string> CheckAndUpdateEntities(List<string> entities, OrganizationWebProxyClient proxy)
+
+        public bool CheckAndUpdateEntity(string entity, OrganizationWebProxyClient proxy, Logger logger)
         {
-            List<string> entitiesToRetry = new List<string>();
-
-            Parallel.ForEach(entities, (entity) =>
+            var checkRequest = new RetrieveEntityRequest()
             {
-                try
+                LogicalName = entity,
+                EntityFilters = EntityFilters.Entity
+            };
+
+            var checkResponse = new RetrieveEntityResponse();
+            checkResponse = (RetrieveEntityResponse)proxy.Execute(checkRequest);
+
+            if (checkResponse.EntityMetadata.ChangeTrackingEnabled != null &&
+                !(bool)checkResponse.EntityMetadata.ChangeTrackingEnabled &&
+                checkResponse.EntityMetadata.CanChangeTrackingBeEnabled.Value)
+            {
+                var updateRequest = new UpdateEntityRequest()
                 {
-                    var checkRequest = new RetrieveEntityRequest()
-                    {
-                        LogicalName = entity,
-                        EntityFilters = EntityFilters.Entity
-                    };
+                    Entity = checkResponse.EntityMetadata
+                };
 
-                    var checkResponse = new RetrieveEntityResponse();
-                    checkResponse = (RetrieveEntityResponse)proxy.Execute(checkRequest);
+                updateRequest.Entity.ChangeTrackingEnabled = true;
+                var updateResponse = new UpdateEntityResponse();
+                updateResponse = (UpdateEntityResponse)proxy.Execute(updateRequest);
 
-                    if (checkResponse.EntityMetadata.ChangeTrackingEnabled != null &&
-                        !(bool)checkResponse.EntityMetadata.ChangeTrackingEnabled &&
-                        checkResponse.EntityMetadata.CanChangeTrackingBeEnabled.Value)
-                    {
-                        var updateRequest = new UpdateEntityRequest()
-                        {
-                            Entity = checkResponse.EntityMetadata
-                        };
+                return true;
+            }
 
-                        updateRequest.Entity.ChangeTrackingEnabled = true;
+            if (checkResponse.EntityMetadata.ChangeTrackingEnabled != null &&
+                (bool)checkResponse.EntityMetadata.ChangeTrackingEnabled)
+            {
+                return true;
+            }
 
-                        try
-                        {
-                            var updateResponse = new UpdateEntityResponse();
-                            updateResponse = (UpdateEntityResponse)proxy.Execute(updateRequest);
-                        }
-                        catch
-                        {
-                            entitiesToRetry.Add(entity);
-                        }
-                    }
-                }
-                catch (FaultException e)
-                {
-                    e.Data.Add("entity", entity);
-                    throw;
-                }
-            });
-
-            return entitiesToRetry;
+            return false;
         }
 
         private JObject RetrieveCrmOnlineToken(string refreshToken, string websiteRootUrl, DataStore dataStore, string resourceUri)
