@@ -6,7 +6,7 @@ import { ExperienceType } from '../enums/experience-type';
 import { ActionResponse } from '../models/action-response';
 
 import { DataStoreType } from "./datastore";
-import MainService from './mainservice';
+import MainService from './main-service';
 
 export class DeploymentService {
     MS: MainService;

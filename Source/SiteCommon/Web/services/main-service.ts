@@ -8,13 +8,13 @@ import { QueryParameter } from '../constants/query-parameter';
 import { ExperienceType } from '../enums/experience-type';
 
 import { DataStore } from './datastore';
-import { DeploymentService } from './deploymentservice';
-import { ErrorService } from './errorservice';
-import { HttpService } from './httpservice';
-import { LoggerService } from './loggerservice';
-import { NavigationService } from './navigationservice';
+import { DeploymentService } from './deployment-service';
+import { ErrorService } from './error-service';
+import { HttpService } from './http-service';
+import { LoggerService } from './logger-service';
+import { NavigationService } from './navigation-service';
 import { TranslateService } from './translate-service';
-import { UtilityService } from './utilityservice';
+import { UtilityService } from './utility-service';
 import { ViewModelBase } from './viewmodelbase';
 
 @inject(Router, HttpClient)

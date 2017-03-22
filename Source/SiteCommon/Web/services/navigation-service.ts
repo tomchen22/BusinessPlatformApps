@@ -2,7 +2,7 @@
 
 import { Aurelia } from 'aurelia-framework';
 import { inject } from 'aurelia-framework';
-import MainService from './mainservice';
+import MainService from './main-service';
 
 export class NavigationService {
     appName: string = '';
