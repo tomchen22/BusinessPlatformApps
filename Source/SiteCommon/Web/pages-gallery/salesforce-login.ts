@@ -1,7 +1,8 @@
-﻿import { ActionResponse } from '../models/action-response';
+﻿import { DataStoreType } from '../enums/data-store-type';
 
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ActionResponse } from '../models/action-response';
+
+import { ViewModelBase } from '../services/view-model-base';
 
 export class Salesforce extends ViewModelBase {
     salesforceUsername: string = '';

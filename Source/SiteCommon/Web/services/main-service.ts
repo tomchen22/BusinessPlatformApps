@@ -7,7 +7,7 @@ import { QueryParameter } from '../constants/query-parameter';
 
 import { ExperienceType } from '../enums/experience-type';
 
-import { DataStore } from './datastore';
+import { DataStore } from './data-store';
 import { DeploymentService } from './deployment-service';
 import { ErrorService } from './error-service';
 import { HttpService } from './http-service';
@@ -15,10 +15,10 @@ import { LoggerService } from './logger-service';
 import { NavigationService } from './navigation-service';
 import { TranslateService } from './translate-service';
 import { UtilityService } from './utility-service';
-import { ViewModelBase } from './viewmodelbase';
+import { ViewModelBase } from './view-model-base';
 
 @inject(Router, HttpClient)
-export default class MainService {
+export class MainService {
     appName: string;
     experienceType: ExperienceType;
     DataStore: DataStore;

@@ -1,11 +1,12 @@
 ﻿import { activationStrategy } from 'aurelia-router';
 
-import { InitParser } from "../classes/init-parser";
+import { InitParser } from '../classes/init-parser';
 
-import { ActionResponse } from "../models/action-response";
+import { DataStoreType } from '../enums/data-store-type';
 
-import { DataStoreType } from "./datastore";
-import MainService from './main-service';
+import { ActionResponse } from '../models/action-response';
+
+import { MainService } from './main-service';
 
 export class ViewModelBase {
     isActivated: boolean = false;
@@ -86,7 +87,7 @@ export class ViewModelBase {
         } catch (e) {
         } finally {
             this.MS.NavigationService.isCurrentlyNavigating = false;
-            this.MS.DataStore.addToDataStore("HasNavigated", true, DataStoreType.Public);
+            this.MS.DataStore.addToDataStore('HasNavigated', true, DataStoreType.Public);
         }
 
         setTimeout(() => {

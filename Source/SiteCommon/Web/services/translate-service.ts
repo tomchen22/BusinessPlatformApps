@@ -1,7 +1,7 @@
 ﻿import { EN_US } from '../constants/en-us';
 import { Language } from '../constants/language';
 
-import MainService from './main-service';
+import { MainService } from './main-service';
 
 export class TranslateService {
     language: any = null;

@@ -1,8 +1,8 @@
 ﻿import { QueryParameter } from '../constants/query-parameter';
 
-import { ActionResponse } from '../models/action-response';
+import { DataStoreType } from '../enums/data-store-type';
 
-import { DataStoreType } from '../services/datastore';
+import { ActionResponse } from '../models/action-response';
 
 import { AzureLogin } from './azure-login';
 

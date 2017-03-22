@@ -107,7 +107,7 @@
           "Data pulled from Dynamics 365 into an Azure SQL Database using the Dynamics 365 Export Service",
           "Connect to Azure SQL and import data into Power BI"
         ],
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "name": "$SiteCommon$/pages-gallery/getting-started.html",
         "selection": {
           "choice": "Dynamics 365 Online",
           "choiceDownload": "Dynamics 365 On Premise",
@@ -135,7 +135,7 @@
       {
         "displayname": "Dynamics 365 Login",
         "entities": "account,lead,opportunity,opportunityproduct,product,systemuser,systemusermanagermap,territory",
-        "name": "$SiteCommon$/pagesgallery/mscrm-login.html",
+        "name": "$SiteCommon$/pages-gallery/mscrm-login.html",
         "oauthType": "mscrm",
         "pricingCost": "$run('By clicking next and deploying the template, you authorize Microsoft to create Azure resources on your subscription and bill based on their respective pricing rates. The approximate cost for the Azure SQL Database and Azure Key Vault required is $75 per month. These costs are estimates only and subject to change. The Azure premium tier Azure SQL Database is recommended during the initial data export and can be moved to a less expensive service tier after this step is completed.')",
         "pricingCalculatorUrl": "https://azure.microsoft.com/en-us/pricing/calculator/",
@@ -143,11 +143,11 @@
       },
       {
         "displayname": "Login to the Key Vault",
-        "name": "$SiteCommon$/pagesgallery/keyvault-login.html",
+        "name": "$SiteCommon$/pages-gallery/keyvault-login.html",
         "oauthType": "keyvault"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "name": "$SiteCommon$/pages-gallery/sql-server.html",
         "displayname": "Target",
         "isAzureSql": true,
         "newSqlDatabase": "$(this.MS.UtilityService.GetUniqueId(10))",
@@ -160,20 +160,20 @@
         "title": "Connect to your SQL Database"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+        "name": "$SiteCommon$/pages-gallery/choose-analysis-server.html",
         "displayname": "AAS",
         "showDescription": true,
         "skip": "$dsall(azureSqlDisabled)[0]"
       },
 
       {
-        "name": "$SiteCommon$/pagesgallery/ssas.html",
+        "name": "$SiteCommon$/pages-gallery/ssas.html",
         "displayname": "AAS Login",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
       {
         "displayname": "Customize",
-        "name": "$SiteCommon$/pagesgallery/customize.html",
+        "name": "$SiteCommon$/pages-gallery/customize.html",
         "showCrmUrl": true,
         "isValidated": true,
         "showValidation": false,
@@ -181,7 +181,7 @@
       },
       {
         "displayname": "Summary",
-        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "name": "$SiteCommon$/pages-gallery/summary.html",
         "values": {
           "Organization URL": "$(this.MS.DataStore.getValue('OrganizationUrl'))",
           "Target Server": "$(this.MS.DataStore.getValue('Server'))",
@@ -191,7 +191,7 @@
       },
       {
         "displayname": "Progress",
-        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "name": "$SiteCommon$/pages-gallery/progress.html",
         "filename": "$save('SalesManagementReport.pbix')",
         "showCounts": true,
         "finishedActionName": "Microsoft-CrmGetProfileStatus",

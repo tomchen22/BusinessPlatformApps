@@ -1,9 +1,9 @@
 import { QueryParameter } from '../constants/query-parameter';
 
 import { ActionStatus } from '../enums/action-status';
+import { DataStoreType } from '../enums/data-store-type';
 
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../services/view-model-base';
 
 export class Twitter extends ViewModelBase {
     authToken: any = {};

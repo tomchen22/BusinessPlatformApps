@@ -1,7 +1,7 @@
 ﻿import { Entry } from '../models/entry';
 import { EntryRow } from '../models/entry-row';
 
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../services/view-model-base';
 
 export class SummaryViewModel extends ViewModelBase {
     summaryRows:EntryRow[];

@@ -1,4 +1,4 @@
-﻿import { ViewModelBase } from '../services/viewmodelbase';
+﻿import { ViewModelBase } from '../services/view-model-base';
 
 export class Uninstall extends ViewModelBase {
     architectureDiagram: string = '';

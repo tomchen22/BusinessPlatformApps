@@ -1,5 +1,6 @@
 ﻿import { bindable } from 'aurelia-framework';
 
-export class navbuttons {
+export class NavBar {
+    @bindable router = null;
     @bindable viewmodel = null;
 }

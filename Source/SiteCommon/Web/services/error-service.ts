@@ -1,4 +1,4 @@
-﻿import MainService from './main-service';
+﻿import { MainService } from './main-service';
 
 export class ErrorService {
     MS: MainService;

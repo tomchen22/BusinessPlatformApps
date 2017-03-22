@@ -1,9 +1,9 @@
 ﻿import { QueryParameter } from '../constants/query-parameter';
 
+import { DataStoreType } from '../enums/data-store-type';
+
 import { ActionResponse } from '../models/action-response';
 import { MsCrmOrganization } from '../models/ms-crm-organization';
-
-import { DataStoreType } from '../services/datastore';
 
 import { AzureLogin } from './azure-login';
 

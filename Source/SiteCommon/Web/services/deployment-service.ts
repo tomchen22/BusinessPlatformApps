@@ -1,12 +1,12 @@
-﻿import { InitParser } from "../classes/init-parser";
+﻿import { InitParser } from '../classes/init-parser';
 
 import { ActionStatus } from '../enums/action-status';
+import { DataStoreType } from '../enums/data-store-type';
 import { ExperienceType } from '../enums/experience-type';
 
 import { ActionResponse } from '../models/action-response';
 
-import { DataStoreType } from "./datastore";
-import MainService from './main-service';
+import { MainService } from './main-service';
 
 export class DeploymentService {
     MS: MainService;

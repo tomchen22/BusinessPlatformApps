@@ -1,8 +1,9 @@
-﻿import { ActionResponse } from '../models/action-response';
+﻿import { DataStoreType } from '../enums/data-store-type';
+
+import { ActionResponse } from '../models/action-response';
 import { ScribeOrganization } from '../models/scribe-organization';
 
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../services/view-model-base';
 
 export class ScribeLogin extends ViewModelBase {
     scribeUsername: string = '';

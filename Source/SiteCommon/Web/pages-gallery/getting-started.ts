@@ -1,8 +1,9 @@
+import { DataStoreType } from '../enums/data-store-type';
+
 import { Registration } from '../models/registration';
 import { Selection } from '../models/selection';
 
-import { DataStoreType } from '../services/datastore';
-import { ViewModelBase } from '../services/viewmodelbase';
+import { ViewModelBase } from '../services/view-model-base';
 
 export class Gettingstarted extends ViewModelBase {
     architectureDiagram: string = '';
