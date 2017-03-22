@@ -263,26 +263,26 @@ The Bing News cognitive service is by default set to an S2 SKU (10K calls a mont
 
 ![Image](Resources/media/image40.png)
 
-![Image](Resources/media/image41.PNG)
+![Image](Resources/media/image41.png)
 
 ### Azure Function: 
 This documentation has already covered the purpose of each Azure Function at a high level in the Logic App section. By default, you cannot edit the functions as they are deployed via continuous integration to GitHub (if you try to edit the function you will see a 
 Ready only message at the top):
 
-![Image](Resources/media/image42.PNG)
+![Image](Resources/media/image42.png)
 
 In order to edit the functions you will need to navigate to Function app settings and then click on ‘Configure Continuous Integration’. 
 
-![Image](Resources/media/image43.PNG)
+![Image](Resources/media/image43.png)
 You can now disconnect the function from source control and edit the functions freely. **Please do not Sync the function from GitHub after deployment. There is a dll used by the Article Extractor function that is not available on GitHub. If you sync manually you will lose access to this dll and will have to set up the solution from scratch again**.
 
-![Image](Resources/media/image44.PNG)
+![Image](Resources/media/image44.png)
 
 You can view the GitHub we sync our functions from over [here]( https://github.com/juluczni/AzureFunctionsNewsTemplate).
 
-![Image](Resources/media/image45.PNG)
-![Image](Resources/media/image46.PNG)
-![Image](Resources/media/image47.PNG)
+![Image](Resources/media/image45.png)
+![Image](Resources/media/image46.png)
+![Image](Resources/media/image47.png)
 
 ### Azure ML Web Services
 The function of the Azure Machine Learning web services we spin up have been described in the ‘LogicAppScheduler’ section. 
@@ -291,20 +291,20 @@ Unfortunately, there isn’t much configuration that can be done with the Azure 
 
 [Approach needs to be verified and documentation updated]
 
-![Image](Resources/media/image48.PNG)
+![Image](Resources/media/image48.png)
 
 ### Azure ML Commitment Plan
 
 or the Azure ML components, we spin up an S1 commitment plan. This allows us to have a total of 25 hours of compute a month, up to 10 web services and 100K transactions a month for $100. 
 
-![Image](Resources/media/image49.PNG)
+![Image](Resources/media/image49.png)
 
-![Image](Resources/media/image50.PNG)
+![Image](Resources/media/image50.png)
 
 ### Connectors
 You will notice there are a number of steps with a chain icon. These are API connections that are used inside the Logic App to authenticate and connect to various services like SQL, Cognitive Services and Azure ML. These services store your credentials securely and can be updated if your credentials/keys ever change.
 For example, editing my SQL API connection looks like this:
-![Image](Resources/media/image51.PNG)
+![Image](Resources/media/image51.png)
 
 ### Model Schema
 
