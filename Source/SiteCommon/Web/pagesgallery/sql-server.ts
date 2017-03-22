@@ -1,8 +1,8 @@
-﻿import { SqlServerValidationUtility } from '../base/sql-server-validation-utility';
+﻿import { SqlServerValidationUtility } from '../classes/sql-server-validation-utility';
 
-import { AzureLocation } from '../classes/azure-location';
+import { ActionResponse } from '../models/action-response';
+import { AzureLocation } from '../models/azure-location';
 
-import { ActionResponse } from '../services/actionresponse';
 import { DataStoreType } from '../services/datastore';
 import { ViewModelBase } from '../services/viewmodelbase';
 

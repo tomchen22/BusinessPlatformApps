@@ -1,13 +1,13 @@
-﻿import { DataStore, DataStoreType } from './datastore';
+﻿import { DataStore, DataStoreType } from '../services/datastore';
 
 export class ActionRequest {
-    public DataStore:DataStore;
+    public DataStore: DataStore;
 
-    constructor(parameters:any, datastore:DataStore) {
+    constructor(parameters: any, datastore: DataStore) {
         this.DataStore = datastore;
 
         // Read the parameters and ensure the datastore is set up correctly
-        // We may need to clone the datastore but for now we wont
+        // We may need to clone the datastore but for now we won't
 
         // Delete the RequestParameters from the old request
         this.DataStore.PrivateDataStore.remove('RequestParameters');

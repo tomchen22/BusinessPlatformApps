@@ -1,10 +1,11 @@
-﻿import { QueryParameter } from '../base/query-parameter';
+﻿import { QueryParameter } from '../constants/query-parameter';
 
-import { MsCrmOrganization } from '../classes/ms-crm-organization';
+import { ActionResponse } from '../models/action-response';
+import { MsCrmOrganization } from '../models/ms-crm-organization';
+
+import { DataStoreType } from '../services/datastore';
 
 import { AzureLogin } from './azure-login';
-import { ActionResponse } from '../services/actionresponse';
-import { DataStoreType } from '../services/datastore';
 
 export class MsCrmLogin extends AzureLogin {
     entities: string = '';
