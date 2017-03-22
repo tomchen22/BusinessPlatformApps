@@ -263,6 +263,66 @@ The Bing News cognitive service is by default set to an S2 SKU (10K calls a mont
 
 ![Image](Resources/media/image40.png)
 
+![Image](Resources/media/image41.PNG)
+
+### Azure Function: 
+This documentation has already covered the purpose of each Azure Function at a high level in the Logic App section. By default, you cannot edit the functions as they are deployed via continuous integration to GitHub (if you try to edit the function you will see a 
+Ready only message at the top):
+
+![Image](Resources/media/image42.PNG)
+
+In order to edit the functions you will need to navigate to Function app settings and then click on ‘Configure Continuous Integration’. 
+
+![Image](Resources/media/image43.PNG)
+You can now disconnect the function from source control and edit the functions freely. **Please do not Sync the function from GitHub after deployment. There is a dll used by the Article Extractor function that is not available on GitHub. If you sync manually you will lose access to this dll and will have to set up the solution from scratch again**.
+
+![Image](Resources/media/image44.PNG)
+
+You can view the GitHub we sync our functions from over [here]( https://github.com/juluczni/AzureFunctionsNewsTemplate).
+
+![Image](Resources/media/image45.PNG)
+![Image](Resources/media/image46.PNG)
+![Image](Resources/media/image47.PNG)
+
+### Azure ML Web Services
+The function of the Azure Machine Learning web services we spin up have been described in the ‘LogicAppScheduler’ section. 
+
+Unfortunately, there isn’t much configuration that can be done with the Azure ML steps as it is only the web services that are deployed and not the actual experiments. The reason behind this is deploying the raw experiments would severely slow down the provisioning process. If you would like to edit the Azure ML experiments you can do so by:
+
+[Approach needs to be verified and documentation updated]
+
+![Image](Resources/media/image48.PNG)
+
+### Azure ML Commitment Plan
+
+or the Azure ML components, we spin up an S1 commitment plan. This allows us to have a total of 25 hours of compute a month, up to 10 web services and 100K transactions a month for $100. 
+
+![Image](Resources/media/image49.PNG)
+
+![Image](Resources/media/image50.PNG)
+
+### Connectors
+You will notice there are a number of steps with a chain icon. These are API connections that are used inside the Logic App to authenticate and connect to various services like SQL, Cognitive Services and Azure ML. These services store your credentials securely and can be updated if your credentials/keys ever change.
+For example, editing my SQL API connection looks like this:
+![Image](Resources/media/image51.PNG)
+
+### Model Schema
+
+Here is an overview of the tables found in the Power BI (names correspond to the Power BI tables not the underlying SQL tables or views):
+
+| **Table Name**       | **Description **                                                                                                                                                                                                                                              |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Article | Stores all the metadata about the article (snippet, source URL, news category, image URL, published time etc.)                                                                                                                                                                                  |
+| Article Search Terms | Stores the search term and corresponding document ID. There can be multiple search terms found in one document                                                                                                                                                                                  |
+| Article Topics | Stores the topic ID each document is associated with as well as a numerical representation of the key phrases found.                                                                                                                                                                                 |
+| Compressed Entities        | Document ID and an JSON object of the entities found. The document strippet custom visual uses the JSON to visualize the entities that appear in an article hence the JSON structure. The JSON stores the entity value, entity type as well as a CSS color and class.                                                                                                                                                                                |
+| Entities | Stores the same information as the Compressed Entities table but in a structured format vs. JSON. |
+| Key Phrases  | Stores the key phrases found with the corresponding document ID. A key phrase can belong to many documents and a document can belong to many key phrases)                                                                                                                                                                      |
+| Sentiment Scores  | Stores the sentiment of an article along with the binned sentiment score and categorical score|
+
+| Topic Images       | Stores the topic ID and up to 4 image URLs that are found to be associated with the given topic|
+
+| Topic Key Phrases| Stores the topic ID with the word version of the key phrases that are used in the reports instead of the numerical output of the LDA model|
 
 ### Estimated Costs
 
