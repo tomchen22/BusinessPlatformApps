@@ -321,6 +321,33 @@ Here is an overview of the tables found in the Power BI (names correspond to the
 | Sentiment Scores  | Stores the sentiment of an article along with the binned sentiment score and categorical score                                                                                                                                                                                |
 | Topic Images       | Stores the topic ID and up to 4 image URLs that are found to be associated with the given topic                                                                                                                                                                                |
 | Topic Key Phrases| Stores the topic ID with the word version of the key phrases that are used in the reports instead of the numerical output of the LDA model                                                                                                                                                                                |
+Below is a breakdown of the columns found in every table:
+
+| ** Article ** |                                          |
+|--------------------------|------------------------------------------|
+| **Column Name**          | **Description**                          |
+| Abstract                 | Short snippet from the news article     |
+| Title                   | Title of the news article                              |
+| Source URL             | News article URL|
+| Source Domain                  | News publisher URL               |
+| Category            | Category of news article |
+| Image URL                   | URL of image from news article                              |
+| Image Width| Width of image in pixels|
+| Image Height                  |Height of image in pixels               |
+| Sentiment score            | Sentiment of article (from 0 – 1) |
+| PublishedTimestamp| Timestamp when article was published |
+| Published Month Precision| Month article was published in                           |
+| Published Week Precision | Week article was published in                           |
+| Published Day Precision | Day article was published on                           |
+| Published Hour Precision | Hour article was published in                            |
+| Published Minute Precision | Minute article was published |
+| Ingested Month Precision| Month article was ingested |
+| Ingested Week Precision | Week article was ingested |
+| Ingested Day Precision | Day article was ingested |
+| Ingested Hour Precision | Hour article was ingested |
+| Ingested Minute Precision | Minute article was ingested |
+| Count Entities | Number of entities found in article |
+
 
 ### Estimated Costs
 
