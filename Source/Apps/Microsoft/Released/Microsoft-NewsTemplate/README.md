@@ -389,7 +389,6 @@ Below is a breakdown of the columns found in every table:
 | Length           | Entity character length |
 | Entity ID           | Merge of entity type with entity value (unique) |
 | Entity Class           | Font awesome icons (scalable vector icons) |
-
 | Entity Color           |Color (specified in hex) |
 |
 
