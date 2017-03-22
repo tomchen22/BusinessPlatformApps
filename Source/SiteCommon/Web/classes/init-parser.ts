@@ -53,32 +53,29 @@ export class InitParser {
             variable.secondArgument = '';
         }
 
-        switch (variable.varType) {
+        switch (variable.type) {
             case VariableType.DataStoreGetFirst:
-                {
-                    command = 'this.MS.DataStore.getJson("' + variable.value + '")' + variable.secondArgument;
-                };
+                command = 'this.MS.DataStore.getJson("' + variable.value + '")' + variable.secondArgument;
                 break;
-            case VariableType.DatasStoreGetAll:
-                {
-                    command = 'this.MS.DataStore.getAllJson("' + variable.value + '")' + variable.secondArgument;
-                };
+            case VariableType.DataStoreGetAll:
+                command = 'this.MS.DataStore.getAllJson("' + variable.value + '")' + variable.secondArgument;
                 break;
             case VariableType.Run:
-                {
-                    command = variable.value;
-                };
+                command = variable.value;
                 break;
             case VariableType.RunAndSave:
-                {
-                    command = variable.value;
-                }
+                command = variable.value;
+                break;
+            case VariableType.RunAndSaveOld:
+                command = variable.value;
+                break;
+            case VariableType.RunAndTranslate:
+                command = variable.value;
                 break;
             case VariableType.Static:
-                {
-                    command = '';
-                    result = variable.value;
-                }
+                command = '';
+                result = variable.value;
+                break;
         }
 
         if (command) {
@@ -95,89 +92,67 @@ export class InitParser {
         let variable: Variable = new Variable();
 
         if (!value) {
-            variable.varType = VariableType.Static;
+            variable.type = VariableType.Static;
             variable.value = value;
             return variable;
         }
 
-        let lowercaseValue: string = value.toString().toLowerCase();
+        let ciValue: string = value.toString().toLowerCase();
 
-        variable.varType = VariableType.NotValid;
+        variable.type = VariableType.NotValid;
 
-        if (lowercaseValue[0] !== '$') {
-            variable.varType = VariableType.Static;
+        if (ciValue[0] !== '$') {
+            variable.type = VariableType.Static;
             variable.value = value;
-        }
-
-        if (lowercaseValue.startsWith('$ds(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(4);
-            value = value.trim();
-            let index = value.indexOf(')');
-            let dslookup = value.substring(0, index);
-            if (value.length >= index + 1) {
-                let dslookupSecondArg = value.substring(index + 1);
-                variable.secondArgument = dslookupSecondArg;
-            }
-
-            variable.varType = VariableType.DataStoreGetFirst;
-            variable.value = dslookup;
-        }
-
-        if (lowercaseValue.startsWith('$dsall(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(7);
-            value = value.trim();
-            let index = value.indexOf(')');
-            let dslookup = value.substring(0, index);
-
-            if (value.length >= index + 1) {
-                let dslookupSecondArg = value.substring(index + 1);
-                variable.secondArgument = dslookupSecondArg;
-            }
-
-            variable.value = dslookup;
-            variable.varType = VariableType.DatasStoreGetAll;
-        }
-
-        if (lowercaseValue.startsWith('$run(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(5);
-            value = value.substring(0, value.lastIndexOf(')'));
-            value = value.trim();
-            value = value.replace('this.', 'self.');
-            variable.value = value;
-            variable.varType = VariableType.Run;
-        }
-
-        if (lowercaseValue.startsWith('$translate(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(11);
-            value = value.substring(0, value.lastIndexOf(')'));
-            value = value.trim();
-            value = 'self.MS.Translate.' + value;
-            variable.value = value;
-            variable.varType = VariableType.Run;
-        }
-
-        if (lowercaseValue.startsWith('$(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(2);
-            value = value.substring(0, value.lastIndexOf(')'));
-            value = value.trim();
-            value = this.extractVariable(value);
-            value = value.replace('this.', 'self.');
-            variable.value = value;
-            variable.varType = VariableType.RunAndSave;
-            variable.saveToDataStore = this.isPermenantEntryIntoDataStore(value);
-        }
-
-        if (lowercaseValue.startsWith('$save(') && lowercaseValue.indexOf(')') >= 0) {
-            value = value.substring(6);
-            value = value.substring(0, value.lastIndexOf(')'));
-            value = value.trim();
-            value = value.replace('this.', 'self.');
-            variable.value = value;
-            variable.saveToDataStore = true;
-            variable.varType = VariableType.RunAndSave;
+        } else if (/^\$ds\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.DataStoreGetFirst, '$ds(');
+        } else if (/^\$dsall\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.DataStoreGetAll, '$dsall(');
+        } else if (/^\$run\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.Run, '$run(');
+        } else if (/^\$translate\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.RunAndTranslate, '$translate(');
+        } else if (/^\$\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.RunAndSaveOld, '$(');
+        } else if (/^\$save\(.*\)/.test(ciValue)) {
+            this.processInitValue(value, variable, VariableType.RunAndSave, '$save(');
         }
 
         return variable;
+    }
+
+    private static processInitValue(value: any, variable: Variable, type: VariableType, wrapper: string): void {
+        value = value.substring(wrapper.length).trim();
+        let index = value.lastIndexOf(')');
+        let dsValue = value.substring(0, index);
+
+        if (value.length >= index + 1) {
+            let dsValue2 = value.substring(index + 1);
+            variable.secondArgument = dsValue2;
+        }
+
+        if (type === VariableType.RunAndSaveOld) {
+            dsValue = this.extractVariable(dsValue);
+        }
+
+        switch (type) {
+            case VariableType.Run:
+                dsValue = dsValue.replace('this.', 'self.');
+                break;
+            case VariableType.RunAndSave:
+                dsValue = dsValue.replace('this.', 'self.');
+                break;
+            case VariableType.RunAndSaveOld:
+                dsValue = dsValue.replace('this.', 'self.');
+                variable.saveToDataStore = this.isPermanentEntryIntoDataStore(dsValue);
+                break;
+            case VariableType.RunAndTranslate:
+                dsValue = 'self.MS.Translate.' + dsValue;
+                break;
+        }
+
+        variable.type = type;
+        variable.value = dsValue;
     }
 
     // old stuff
@@ -186,7 +161,7 @@ export class InitParser {
         return resultSplit[0].trim();
     }
 
-    public static isPermenantEntryIntoDataStore(value: any): boolean {
+    public static isPermanentEntryIntoDataStore(value: any): boolean {
         let resultSplit = value.split(',');
 
         for (let index = 0; index < resultSplit.length; index++) {

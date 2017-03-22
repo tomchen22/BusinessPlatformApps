@@ -1,8 +1,10 @@
 ﻿export enum VariableType {
     DataStoreGetFirst,
-    DatasStoreGetAll,
+    DataStoreGetAll,
     Run,
     RunAndSave,
+    RunAndSaveOld,
+    RunAndTranslate,
     Static,
     NotValid
 }
