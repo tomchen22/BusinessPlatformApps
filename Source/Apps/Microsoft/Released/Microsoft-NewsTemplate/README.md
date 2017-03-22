@@ -257,11 +257,11 @@ We already showed how the Azure Cognitive Service for Textual Analytics as well 
 
 Most importantly, a user is able to change the SKU they want to use for the Cognitive Service. As a default, we set the text analytics cognitive service to S1 (100K calls) which costs $150 per month. Depending on the anticipated traffic you can change the SKU to meet your needs (please remember the textual analytics cognitive service is used for both sentiment and key phrase extraction. This means that if e.g. you are processing 10K documents a month that translates to 20K calls to the textual analytics API).
 
-![Image](Resources/media/image39.PNG)
+![Image](Resources/media/image39.png)
 
 The Bing News cognitive service is by default set to an S2 SKU (10K calls a month – one article = one call). This can be changed inside the portal just like in the textual analytics cognitive service case:
 
-![Image](Resources/media/image40.PNG)
+![Image](Resources/media/image40.png)
 
 
 ### Estimated Costs
