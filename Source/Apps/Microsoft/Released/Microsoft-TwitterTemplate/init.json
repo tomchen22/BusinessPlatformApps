@@ -5,10 +5,10 @@
         "architectureDiagram": "dist/Apps/Microsoft/Released/Microsoft-TwitterTemplate/Web/twitterArchitectureDiagram.png",
         "displayname": "Getting Started",
         "list1": [
-          "Azure Subscription",
-          "Power BI Desktop (latest version)",
-          "Power BI Pro (to share the template with your organization)",
-          "Twitter Account"
+          "$translate(INIT_GETTING_STARTED_AZURE_SUBSCRIPTION)",
+          "$translate(INIT_GETTING_STARTED_PBI_DESKTOP)",
+          "$translate(INIT_GETTING_STARTED_PBI_PRO)",
+          "$translate(INIT_GETTING_STARTED_TWITTER)"
         ],
         "list2": [
           "Full cloud solution with minimum set up and maintenance considerations",

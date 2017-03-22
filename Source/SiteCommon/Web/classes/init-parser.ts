@@ -95,6 +95,14 @@ export class InitParser {
             variable.type = VariableType.Static;
             variable.value = value;
             return variable;
+        } else if (value && value.length > 0) {
+            for (let i = 0; i < value.length; i++) {
+                if (/^\$translate\(.*\)/.test(value[i])) {
+                    let variableList: Variable = new Variable();
+                    this.processInitValue(value[i], variableList, VariableType.RunAndTranslateList, '$translate(');
+                    value[i] = eval(variableList.value);
+                }
+            }
         }
 
         let ciValue: string = value.toString().toLowerCase();
@@ -148,6 +156,9 @@ export class InitParser {
                 break;
             case VariableType.RunAndTranslate:
                 dsValue = 'self.MS.Translate.' + dsValue;
+                break;
+            case VariableType.RunAndTranslateList:
+                dsValue = 'this.MS.Translate.' + dsValue;
                 break;
         }
 

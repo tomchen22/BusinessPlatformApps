@@ -5,6 +5,7 @@
     RunAndSave,
     RunAndSaveOld,
     RunAndTranslate,
+    RunAndTranslateList,
     Static,
     NotValid
 }
