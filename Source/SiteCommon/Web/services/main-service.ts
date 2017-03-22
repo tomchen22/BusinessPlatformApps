@@ -18,7 +18,7 @@ import { UtilityService } from './utility-service';
 import { ViewModelBase } from './viewmodelbase';
 
 @inject(Router, HttpClient)
-export default class MainService {
+export class MainService {
     appName: string;
     experienceType: ExperienceType;
     DataStore: DataStore;

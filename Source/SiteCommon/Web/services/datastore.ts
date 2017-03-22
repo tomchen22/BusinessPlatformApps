@@ -1,6 +1,6 @@
-﻿import MainService from './main-service';
+﻿import { Dictionary } from '../classes/Dictionary'
 
-import { Dictionary } from '../classes/Dictionary'
+import { MainService } from './main-service';
 
 export class DataStore {
     PublicDataStore: Dictionary<Dictionary<any>>;

@@ -5,7 +5,7 @@ import { InitParser } from "../classes/init-parser";
 import { ActionResponse } from "../models/action-response";
 
 import { DataStoreType } from "./datastore";
-import MainService from './main-service';
+import { MainService } from './main-service';
 
 export class ViewModelBase {
     isActivated: boolean = false;

@@ -5,7 +5,7 @@ import { Variable } from '../models/variable';
 
 import { DataStore, DataStoreType } from '../services/datastore';
 import { HttpService } from '../services/http-service';
-import MainService from '../services/main-service';
+import { MainService } from '../services/main-service';
 
 export class InitParser {
     public static MS: MainService;
