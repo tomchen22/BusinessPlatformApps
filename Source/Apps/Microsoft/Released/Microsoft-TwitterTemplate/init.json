@@ -15,7 +15,7 @@
           "Real time data pulled from Twitter & enriched using machine learning",
           "Connect to Azure SQL and import data into Power BI"
         ],
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "name": "$SiteCommon$/pages-gallery/getting-started.html",
         "subtitle": "$translate(INIT_TWITTER_SUBTITLE)",
         "templateName": "$translate(INIT_TWITTER_TEMPLATE_NAME)"
       },
@@ -27,7 +27,7 @@
           "Microsoft.PowerApps"
         ],
         "displayname": "Login",
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "name": "$SiteCommon$/pages-gallery/azure-login.html",
         "pricingCalculatorUrl": "$translate(INIT_TWITTER_PRICING_CALCULATOR_URL)",
         "pricingCost": "$translate(INIT_TWITTER_PRICING_COST)",
         "pricingUrl": "$translate(INIT_TWITTER_PRICING_URL)"
@@ -35,7 +35,7 @@
       {
         "displayname": "Source",
         "isAzureSql": true,
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "name": "$SiteCommon$/pages-gallery/sql-server.html",
         "newSqlDatabase": "twitterDB",
         "showAzureSql": false,
         "showNewSqlOption": "true",
@@ -45,30 +45,30 @@
       },
       {
         "displayname": "Twitter",
-        "name": "$SiteCommon$/pagesgallery/twitter.html"
+        "name": "$SiteCommon$/pages-gallery/twitter.html"
       },
       {
         "displayname": "Search Terms",
-        "name": "$SiteCommon$/pagesgallery/search-terms.html"
+        "name": "$SiteCommon$/pages-gallery/search-terms.html"
       },
       {
         "displayname": "Twitter Handles",
-        "name": "$SiteCommon$/pagesgallery/twitter-handles.html"
+        "name": "$SiteCommon$/pages-gallery/twitter-handles.html"
       },
       {
         "displayname": "AAS",
-        "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+        "name": "$SiteCommon$/pages-gallery/choose-analysis-server.html",
         "showDescription": true,
         "skip": "$ds(azureSqlDisabled)"
       },
       {
         "displayname": "AAS Login",
-        "name": "$SiteCommon$/pagesgallery/ssas.html",
+        "name": "$SiteCommon$/pages-gallery/ssas.html",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
       {
         "displayname": "Summary",
-        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "name": "$SiteCommon$/pages-gallery/summary.html",
         "values": {
           "Target Server": "$(this.MS.DataStore.getValue('Server'))",
           "Target Database": "$(this.MS.DataStore.getValue('Database'))",
@@ -85,7 +85,7 @@
         "LogicAppHostingPlan": "$save(this.uniqueId)",
         "LogicAppName": "$save(this.uniqueId)",
         "LogicAppNameHistorical": "$save(this.uniqueId)",
-        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "name": "$SiteCommon$/pages-gallery/progress.html",
         "powerAppFileName": "TwitterTemplate.msapp",
         "SiteName": "$save(this.uniqueIdFunction)",
         "uniqueId": "$save(this.MS.UtilityService.GetUniqueId(10))",

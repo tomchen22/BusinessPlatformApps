@@ -16,26 +16,26 @@
           "Data pulled from Salesforce into an Azure SQL Database using Azure Data Factory",
           "Connect to Azure SQL and import data into Power BI"
         ],
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "name": "$SiteCommon$/pages-gallery/getting-started.html",
         "subtitle": "$translate(INIT_SALESFORCE_SUBTITLE)",
         "templateName": "$translate(INIT_SALESFORCE_TITLE)"
       },
       {
         "displayname": "Azure",
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "name": "$SiteCommon$/pages-gallery/azure-login.html",
         "pricingCalculatorUrl": "$translate(INIT_SALESFORCE_PRICING_CALCULATOR_URL)",
         "pricingCost": "$translate(INIT_SALESFORCE_PRICING_COST)",
         "pricingUrl": "$translate(INIT_SALESFORCE_PRICING_URL)"
       },
       {
         "displayname": "Salesforce",
-        "name": "$SiteCommon$/pagesgallery/salesforce-login.html",
+        "name": "$SiteCommon$/pages-gallery/salesforce-login.html",
         "salesforceObjects": "Opportunity,Account,Lead,Product2,OpportunityLineItem,OpportunityStage,User,UserRole"
       },
       {
         "displayname": "Target",
         "isAzureSql": true,
-        "name": "$SiteCommon$/pagesgallery/sql-server.html",
+        "name": "$SiteCommon$/pages-gallery/sql-server.html",
         "newSqlDatabase": "SalesforceDB",
         "showAzureSql": false,
         "showGovAzure": true,
@@ -46,25 +46,25 @@
       },
       {
         "displayname": "AAS",
-        "name": "$SiteCommon$/pagesgallery/choose-analysis-server.html",
+        "name": "$SiteCommon$/pages-gallery/choose-analysis-server.html",
         "showDescription": true,
         "skip": "$dsall(azureSqlDisabled)[0]"
       },
       {
         "displayname": "AAS Login",
-        "name": "$SiteCommon$/pagesgallery/ssas.html",
+        "name": "$SiteCommon$/pages-gallery/ssas.html",
         "skip": "$run(this.MS.DataStore.getAllValues('azureSqlDisabled')[0] === 'true' || this.MS.DataStore.getValue('ssasDisabled') === 'true' ? 'true': 'false')"
       },
       {
         "displayname": "Customize",
-        "name": "$SiteCommon$/pagesgallery/customize.html",
+        "name": "$SiteCommon$/pages-gallery/customize.html",
         "showEmails": true,
         "showRecurrenceOptions": true,
         "sourceApplication": "Salesforce"
       },
       {
         "displayname": "Summary",
-        "name": "$SiteCommon$/pagesgallery/summary.html",
+        "name": "$SiteCommon$/pages-gallery/summary.html",
         "values": {
           "Subscription": "$(this.MS.DataStore.getJson(\"SelectedSubscription\").SubscriptionId)",
           "ResourceGroup": "$(this.MS.DataStore.getValue(\"SelectedResourceGroup\"))",
@@ -78,7 +78,7 @@
         }
       },
       {
-        "name": "$SiteCommon$/pagesgallery/progress.html",
+        "name": "$SiteCommon$/pages-gallery/progress.html",
         "displayname": "Progress",
         "finishedActionName": "Microsoft-ADFSliceStatus",
         "targetSchema": "dbo",
@@ -197,11 +197,11 @@
   "Uninstall": {
     "Pages": [
       {
-        "name": "$SiteCommon$/pagesgallery/getting-started.html",
+        "name": "$SiteCommon$/pages-gallery/getting-started.html",
         "displayname": "Uninstall Start"
       },
       {
-        "name": "$SiteCommon$/pagesgallery/azure-login.html",
+        "name": "$SiteCommon$/pages-gallery/azure-login.html",
         "displayname": " Uninstall Login"
       }
     ],
