@@ -318,11 +318,11 @@ Here is an overview of the tables found in the Power BI (names correspond to the
 | Compressed Entities        | Document ID and an JSON object of the entities found. The document strippet custom visual uses the JSON to visualize the entities that appear in an article hence the JSON structure. The JSON stores the entity value, entity type as well as a CSS color and class.                                                                                                                                                                                |
 | Entities | Stores the same information as the Compressed Entities table but in a structured format vs. JSON. |
 | Key Phrases  | Stores the key phrases found with the corresponding document ID. A key phrase can belong to many documents and a document can belong to many key phrases)                                                                                                                                                                      |
-| Sentiment Scores  | Stores the sentiment of an article along with the binned sentiment score and categorical score|
+| Sentiment Scores  | Stores the sentiment of an article along with the binned sentiment score and categorical score                                                                                                                                                                                |
 
-| Topic Images       | Stores the topic ID and up to 4 image URLs that are found to be associated with the given topic|
+| Topic Images       | Stores the topic ID and up to 4 image URLs that are found to be associated with the given topic                                                                                                                                                                                |
 
-| Topic Key Phrases| Stores the topic ID with the word version of the key phrases that are used in the reports instead of the numerical output of the LDA model|
+| Topic Key Phrases| Stores the topic ID with the word version of the key phrases that are used in the reports instead of the numerical output of the LDA model                                                                                                                                                                                |
 
 ### Estimated Costs
 
